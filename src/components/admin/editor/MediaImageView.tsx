@@ -53,7 +53,7 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
         <button
           type="button"
           onClick={() => editable && setPick(true)}
-          className="dz-media__placeholder focus-ring flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-dz-primary-300 bg-dz-primary-50/40 px-4 py-8 text-sm text-dz-primary-500 transition-colors hover:border-dz-primary-400 hover:bg-dz-primary-50 dark:border-dz-night-border dark:bg-white/2 dark:text-dz-night-muted"
+          className="dz-media__placeholder focus-ring flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-dz-a-primary-300 bg-dz-a-primary-50/40 px-4 py-8 text-sm text-dz-a-primary-500 transition-colors hover:border-dz-a-primary-400 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-white/2 dark:text-dz-a-night-muted"
         >
           <ImagePlus className="size-6" />
           انتخاب تصویر از کتابخانه‌ی رسانه
@@ -71,12 +71,12 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
                 onClick={() => setPick(true)}
                 title="تعویض تصویر"
                 aria-label="تعویض تصویر"
-                className="focus-ring inline-flex items-center gap-1 rounded-lg border border-dz-primary-200 px-2 py-1 text-xs text-dz-primary-700 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-fg dark:hover:bg-white/5"
+                className="focus-ring inline-flex items-center gap-1 rounded-lg border border-dz-a-primary-200 px-2 py-1 text-xs text-dz-a-primary-700 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-fg dark:hover:bg-white/5"
               >
                 <Replace className="size-3.5" /> تعویض
               </button>
             )}
-            <span className="mx-0.5 h-5 w-px bg-dz-primary-100 dark:bg-dz-night-border" aria-hidden />
+            <span className="mx-0.5 h-5 w-px bg-dz-a-primary-100 dark:bg-dz-a-night-border" aria-hidden />
             {ALIGNS.map(({ key, label, Icon }) => (
               <button
                 key={key}
@@ -87,14 +87,14 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
                 aria-pressed={align === key}
                 className={`focus-ring inline-flex size-7 items-center justify-center rounded-lg transition-colors ${
                   align === key
-                    ? "bg-dz-primary-100 text-dz-primary-800 dark:bg-dz-primary-500/25 dark:text-dz-night-fg"
-                    : "text-dz-primary-600 hover:bg-dz-primary-50 dark:text-dz-night-muted dark:hover:bg-white/5"
+                    ? "bg-dz-a-primary-100 text-dz-a-primary-800 dark:bg-dz-a-primary-500/25 dark:text-dz-a-night-fg"
+                    : "text-dz-a-primary-600 hover:bg-dz-a-primary-50 dark:text-dz-a-night-muted dark:hover:bg-white/5"
                 }`}
               >
                 <Icon className="size-3.5" />
               </button>
             ))}
-            <span className="mx-0.5 h-5 w-px bg-dz-primary-100 dark:bg-dz-night-border" aria-hidden />
+            <span className="mx-0.5 h-5 w-px bg-dz-a-primary-100 dark:bg-dz-a-night-border" aria-hidden />
             <button
               type="button"
               onClick={setLink}
@@ -103,8 +103,8 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
               aria-pressed={Boolean(href)}
               className={`focus-ring inline-flex size-7 items-center justify-center rounded-lg transition-colors ${
                 href
-                  ? "bg-dz-primary-100 text-dz-primary-800 dark:bg-dz-primary-500/25 dark:text-dz-night-fg"
-                  : "text-dz-primary-600 hover:bg-dz-primary-50 dark:text-dz-night-muted dark:hover:bg-white/5"
+                  ? "bg-dz-a-primary-100 text-dz-a-primary-800 dark:bg-dz-a-primary-500/25 dark:text-dz-a-night-fg"
+                  : "text-dz-a-primary-600 hover:bg-dz-a-primary-50 dark:text-dz-a-night-muted dark:hover:bg-white/5"
               }`}
             >
               <LinkIcon className="size-3.5" />
@@ -115,7 +115,7 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
                 onClick={() => updateAttributes({ href: null })}
                 title="حذف پیوند"
                 aria-label="حذف پیوند"
-                className="focus-ring inline-flex size-7 items-center justify-center rounded-lg text-dz-primary-600 hover:bg-dz-primary-50 dark:text-dz-night-muted dark:hover:bg-white/5"
+                className="focus-ring inline-flex size-7 items-center justify-center rounded-lg text-dz-a-primary-600 hover:bg-dz-a-primary-50 dark:text-dz-a-night-muted dark:hover:bg-white/5"
               >
                 <Unlink className="size-3.5" />
               </button>
@@ -125,7 +125,7 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
               onClick={deleteNode}
               title="حذف تصویر"
               aria-label="حذف تصویر"
-              className="focus-ring ms-auto inline-flex size-7 items-center justify-center rounded-lg text-dz-error/80 hover:bg-dz-error/10 dark:text-dz-error-300"
+              className="focus-ring ms-auto inline-flex size-7 items-center justify-center rounded-lg text-dz-a-error/80 hover:bg-dz-a-error/10 dark:text-dz-a-error-300"
             >
               <Trash2 className="size-3.5" />
             </button>
@@ -137,14 +137,14 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
                 onChange={(e) => updateAttributes({ alt: e.target.value })}
                 placeholder="متن جایگزین (alt)"
                 aria-label="متن جایگزین تصویر"
-                className="rounded-lg border border-dz-primary-200 bg-white px-2 py-1 text-xs text-dz-primary-900 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
+                className="rounded-lg border border-dz-a-primary-200 bg-white px-2 py-1 text-xs text-dz-a-primary-900 outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
               />
               <input
                 value={caption}
                 onChange={(e) => updateAttributes({ caption: e.target.value })}
                 placeholder="کپشن (اختیاری)"
                 aria-label="کپشن تصویر"
-                className="rounded-lg border border-dz-primary-200 bg-white px-2 py-1 text-xs text-dz-primary-900 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
+                className="rounded-lg border border-dz-a-primary-200 bg-white px-2 py-1 text-xs text-dz-a-primary-900 outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
               />
             </div>
           )}

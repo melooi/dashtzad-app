@@ -3,9 +3,21 @@
 // can be imported from any client or server module and keeps the two surfaces
 // speaking one language.
 
-import type { ConversationStatus, ChatSenderRole } from "@/generated/prisma/enums";
+import type {
+  ConversationStatus,
+  ChatSenderRole,
+  ConversationSentiment,
+  ConversationAiPriority,
+  CustomerTier,
+} from "@/generated/prisma/enums";
 
-export type { ConversationStatus, ChatSenderRole };
+export type {
+  ConversationStatus,
+  ChatSenderRole,
+  ConversationSentiment,
+  ConversationAiPriority,
+  CustomerTier,
+};
 
 export type ChatQuickAction = { label: string; icon: string };
 export type ChatFallbackLink = { label: string; href: string; icon: string };
@@ -16,6 +28,14 @@ export type Department = { id: string; name: string; color: string | null };
 export type OperatorPresence = { id: string; name: string; online: boolean };
 
 export type PreChatMode = "off" | "optional" | "required";
+
+export type AiNextAction = {
+  icon: string;
+  label: string;
+  type: "tracking" | "order" | "invoice" | "replace" | "pricelist" | "custom";
+  detail: string;
+  template: string;
+};
 
 /** The slice of chatSettings the public storefront widget is allowed to see. */
 export type ChatPublicConfig = {
@@ -77,11 +97,19 @@ export type AdminConversationListItem = {
   isGuest: boolean;
   lastMessagePreview: string | null;
   lastMessageAt: string; // ISO
+  lastSenderRole: ChatSenderRole | null;
   unreadForAdmin: number;
   assignedToName: string | null;
   departmentId: string | null;
   departmentName: string | null;
   rating: number | null;
+  // AI fields
+  sentiment: ConversationSentiment | null;
+  aiPriority: ConversationAiPriority | null;
+  topicLabel: string | null;
+  aiAnalyzedAt: string | null;
+  // Customer tier
+  customerTier: CustomerTier | null;
 };
 
 export type AdminMessageView = MessageView & { authorName: string | null; isInternalNote: boolean };
@@ -91,6 +119,14 @@ export type AdminOrderSummary = {
   code: string;
   status: string;
   totalRial: number;
+  itemCount: number;
+  createdAt: string;
+};
+
+export type CustomerNoteView = {
+  id: string;
+  body: string;
+  authorName: string;
   createdAt: string;
 };
 
@@ -114,6 +150,31 @@ export type AdminConversationDetail = {
   createdAt: string;
   orders: AdminOrderSummary[];
   messages: AdminMessageView[];
+  // Customer profile extras
+  userCreatedAt: string | null;
+  userCity: string | null;
+  totalOrderCount: number;
+  totalPurchaseRial: number;
+  lastOrderAt: string | null;
+  customerNotes: CustomerNoteView[];
+  // AI fields
+  sentiment: ConversationSentiment | null;
+  aiPriority: ConversationAiPriority | null;
+  topicLabel: string | null;
+  aiSummary: string | null;
+  aiNextAction: AiNextAction | null;
+  aiAnalyzedAt: string | null;
+  visitorTypingAt: string | null;
+  // Customer info
+  customerTier: CustomerTier | null;
+};
+
+// ---- operator stats ----
+
+export type OperatorStats = {
+  todayTotal: number;
+  todayResolved: number;
+  avgResponseMinutes: number | null;
 };
 
 // ---- status vocabulary (single source of truth) ----
@@ -133,4 +194,31 @@ export const STATUS_BADGE_TONE: Record<ConversationStatus, "green" | "blue" | "a
   OPEN: "green",
   PENDING: "amber",
   RESOLVED: "gray",
+};
+
+export const SENTIMENT_LABEL: Record<ConversationSentiment, string> = {
+  ANGRY: "عصبانی",
+  UPSET: "ناراحت",
+  NEUTRAL: "خنثی",
+  HAPPY: "راضی",
+};
+
+export const SENTIMENT_EMOJI: Record<ConversationSentiment, string> = {
+  ANGRY: "😠",
+  UPSET: "😟",
+  NEUTRAL: "😐",
+  HAPPY: "😊",
+};
+
+export const PRIORITY_LABEL: Record<ConversationAiPriority, string> = {
+  HIGH: "فوری",
+  MEDIUM: "متوسط",
+  LOW: "عادی",
+};
+
+export const CUSTOMER_TIER_LABEL: Record<CustomerTier, string> = {
+  NEW_CUSTOMER: "جدید",
+  REGULAR: "عادی",
+  LOYAL: "وفادار",
+  WHOLESALE: "عمده",
 };

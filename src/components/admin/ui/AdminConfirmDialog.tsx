@@ -51,7 +51,7 @@ export function AdminConfirmDialog({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-dz-primary-900/50 dark:bg-black/70 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-dz-a-primary-900/50 dark:bg-black/70 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
@@ -59,12 +59,12 @@ export function AdminConfirmDialog({
       onClick={() => !loading && onCancel()}
     >
       <div
-        className="w-full max-w-sm rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card p-6 shadow-2xl"
+        className="w-full max-w-sm rounded-2xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card p-6 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 id={titleId} className="font-heading text-lg font-bold text-dz-primary-800 dark:text-dz-night-fg">{title}</h3>
+        <h3 id={titleId} className="font-heading text-lg font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">{title}</h3>
         {description && (
-          <p id={descId} className="mt-2 text-sm leading-6 text-dz-primary-500 dark:text-dz-night-muted">{description}</p>
+          <p id={descId} className="mt-2 text-sm leading-6 text-dz-a-primary-500 dark:text-dz-a-night-muted">{description}</p>
         )}
         <div className="mt-6 flex items-center justify-end gap-2">
           <button
@@ -72,7 +72,7 @@ export function AdminConfirmDialog({
             type="button"
             onClick={onCancel}
             disabled={loading}
-            className="focus-ring rounded-xl border border-dz-primary-200 dark:border-dz-night-border px-4 py-2 text-sm text-dz-primary-700 dark:text-dz-night-fg transition-colors hover:bg-dz-primary-50 dark:hover:bg-white/5 disabled:opacity-60"
+            className="focus-ring rounded-xl border border-dz-a-primary-200 dark:border-dz-a-night-border px-4 py-2 text-sm text-dz-a-primary-700 dark:text-dz-a-night-fg transition-colors hover:bg-dz-a-primary-50 dark:hover:bg-white/5 disabled:opacity-60"
           >
             {cancelLabel}
           </button>
@@ -81,7 +81,7 @@ export function AdminConfirmDialog({
             onClick={onConfirm}
             disabled={loading}
             className={`focus-ring inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-white shadow-xs transition-colors disabled:opacity-60 ${
-              danger ? "bg-dz-error hover:bg-dz-error/90" : "bg-dz-primary-600 hover:bg-dz-primary-700"
+              danger ? "bg-dz-a-error hover:bg-dz-a-error/90" : "bg-dz-a-primary-600 hover:bg-dz-a-primary-700"
             }`}
           >
             {loading && <Loader2 className="size-4 animate-spin" />}

@@ -23,7 +23,7 @@ function OperatorPicker({
   onToggle: (id: string) => void;
 }) {
   if (operators.length === 0) {
-    return <p className="text-xs text-dz-primary-400 dark:text-dz-night-faint">اپراتوری یافت نشد.</p>;
+    return <p className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">اپراتوری یافت نشد.</p>;
   }
   return (
     <div className="flex flex-wrap gap-2">
@@ -36,8 +36,8 @@ function OperatorPicker({
             onClick={() => onToggle(o.id)}
             className={`focus-ring inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
               on
-                ? "border-dz-primary-600 bg-dz-primary-600 text-white"
-                : "border-dz-primary-200 text-dz-primary-600 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-muted dark:hover:bg-white/5"
+                ? "border-dz-a-primary-600 bg-dz-a-primary-600 text-white"
+                : "border-dz-a-primary-200 text-dz-a-primary-600 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-muted dark:hover:bg-white/5"
             }`}
           >
             <Users className="size-3.5" aria-hidden />
@@ -82,45 +82,45 @@ function DepartmentCard({
     });
 
   return (
-    <div className="rounded-2xl border border-dz-primary-100 bg-white p-4 shadow-xs dark:border-dz-night-border dark:bg-dz-night-card">
+    <div className="rounded-2xl border border-dz-a-primary-100 bg-white p-4 shadow-xs dark:border-dz-a-night-border dark:bg-dz-a-night-card">
       <div className="flex flex-wrap items-center gap-3">
         <span className="size-3 shrink-0 rounded-full" style={{ backgroundColor: color }} aria-hidden />
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="min-w-40 flex-1 rounded-xl border border-dz-primary-200 bg-white px-3 py-2 text-sm text-dz-primary-800 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
+          className="min-w-40 flex-1 rounded-xl border border-dz-a-primary-200 bg-white px-3 py-2 text-sm text-dz-a-primary-800 outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
           aria-label="نام دپارتمان"
         />
         <input
           type="color"
           value={/^#[0-9a-fA-F]{6}$/.test(color) ? color : "#4a6340"}
           onChange={(e) => setColor(e.target.value)}
-          className="h-9 w-10 shrink-0 cursor-pointer rounded-lg border border-dz-primary-200 dark:border-dz-night-border"
+          className="h-9 w-10 shrink-0 cursor-pointer rounded-lg border border-dz-a-primary-200 dark:border-dz-a-night-border"
           aria-label="رنگ"
         />
-        <label className="inline-flex cursor-pointer items-center gap-2 text-xs text-dz-primary-600 dark:text-dz-night-muted">
-          <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="size-4 accent-dz-primary-600" />
+        <label className="inline-flex cursor-pointer items-center gap-2 text-xs text-dz-a-primary-600 dark:text-dz-a-night-muted">
+          <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="size-4 accent-dz-a-primary-600" />
           فعال
         </label>
-        <span className="inline-flex items-center gap-1 text-xs text-dz-primary-400 dark:text-dz-night-faint">
+        <span className="inline-flex items-center gap-1 text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
           <MessagesSquare className="size-3.5" aria-hidden />
           {toPersianNumbers(dept.conversationCount)}
         </span>
       </div>
 
       <div className="mt-3">
-        <p className="mb-1.5 text-xs font-medium text-dz-primary-500 dark:text-dz-night-muted">اپراتورهای این دپارتمان</p>
+        <p className="mb-1.5 text-xs font-medium text-dz-a-primary-500 dark:text-dz-a-night-muted">اپراتورهای این دپارتمان</p>
         <OperatorPicker operators={operators} selected={ops} onToggle={toggleOp} />
       </div>
 
-      {error && <p className="mt-2 text-xs text-dz-error dark:text-dz-error-300">{error}</p>}
+      {error && <p className="mt-2 text-xs text-dz-a-error dark:text-dz-a-error-300">{error}</p>}
 
       <div className="mt-3 flex items-center justify-end gap-2">
         <button
           type="button"
           onClick={remove}
           disabled={pending}
-          className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-error/30 px-3 py-1.5 text-xs font-medium text-dz-error transition-colors hover:bg-dz-error/10 dark:text-dz-error-300"
+          className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-a-error/30 px-3 py-1.5 text-xs font-medium text-dz-a-error transition-colors hover:bg-dz-a-error/10 dark:text-dz-a-error-300"
         >
           <Trash2 className="size-3.5" aria-hidden />
           حذف
@@ -129,7 +129,7 @@ function DepartmentCard({
           type="button"
           onClick={save}
           disabled={pending}
-          className="focus-ring inline-flex items-center gap-1.5 rounded-xl bg-dz-primary-600 px-4 py-1.5 text-xs font-medium text-white transition-colors hover:bg-dz-primary-700 disabled:bg-dz-primary-300 dark:disabled:bg-dz-primary-800"
+          className="focus-ring inline-flex items-center gap-1.5 rounded-xl bg-dz-a-primary-600 px-4 py-1.5 text-xs font-medium text-white transition-colors hover:bg-dz-a-primary-700 disabled:bg-dz-a-primary-300 dark:disabled:bg-dz-a-primary-800"
         >
           {pending ? <Loader2 className="size-3.5 animate-spin" aria-hidden /> : <Save className="size-3.5" aria-hidden />}
           ذخیره
@@ -175,8 +175,8 @@ export function DepartmentsManager({
   return (
     <div className="flex flex-col gap-4">
       {/* new department */}
-      <div className="rounded-2xl border border-dashed border-dz-primary-200 bg-dz-primary-50/40 p-4 dark:border-dz-night-border dark:bg-white/5">
-        <p className="mb-2.5 flex items-center gap-2 text-sm font-bold text-dz-primary-800 dark:text-dz-night-fg">
+      <div className="rounded-2xl border border-dashed border-dz-a-primary-200 bg-dz-a-primary-50/40 p-4 dark:border-dz-a-night-border dark:bg-white/5">
+        <p className="mb-2.5 flex items-center gap-2 text-sm font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
           <Plus className="size-4" aria-hidden />
           دپارتمان جدید
         </p>
@@ -185,35 +185,35 @@ export function DepartmentsManager({
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="نام دپارتمان (مثلاً فروش، پشتیبانی فنی)"
-            className="min-w-48 flex-1 rounded-xl border border-dz-primary-200 bg-white px-3 py-2 text-sm text-dz-primary-800 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg dark:placeholder:text-dz-night-faint"
+            className="min-w-48 flex-1 rounded-xl border border-dz-a-primary-200 bg-white px-3 py-2 text-sm text-dz-a-primary-800 outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg dark:placeholder:text-dz-a-night-faint"
           />
           <input
             type="color"
             value={color}
             onChange={(e) => setColor(e.target.value)}
-            className="h-9 w-10 shrink-0 cursor-pointer rounded-lg border border-dz-primary-200 dark:border-dz-night-border"
+            className="h-9 w-10 shrink-0 cursor-pointer rounded-lg border border-dz-a-primary-200 dark:border-dz-a-night-border"
             aria-label="رنگ"
           />
           <button
             type="button"
             onClick={add}
             disabled={pending}
-            className="focus-ring inline-flex items-center gap-1.5 rounded-xl bg-dz-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-dz-primary-700 disabled:bg-dz-primary-300 dark:disabled:bg-dz-primary-800"
+            className="focus-ring inline-flex items-center gap-1.5 rounded-xl bg-dz-a-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-dz-a-primary-700 disabled:bg-dz-a-primary-300 dark:disabled:bg-dz-a-primary-800"
           >
             {pending ? <Loader2 className="size-4 animate-spin" aria-hidden /> : <Plus className="size-4" aria-hidden />}
             افزودن
           </button>
         </div>
         <div className="mt-3">
-          <p className="mb-1.5 text-xs font-medium text-dz-primary-500 dark:text-dz-night-muted">اپراتورها</p>
+          <p className="mb-1.5 text-xs font-medium text-dz-a-primary-500 dark:text-dz-a-night-muted">اپراتورها</p>
           <OperatorPicker operators={operators} selected={ops} onToggle={toggleOp} />
         </div>
-        {error && <p className="mt-2 text-xs text-dz-error dark:text-dz-error-300">{error}</p>}
+        {error && <p className="mt-2 text-xs text-dz-a-error dark:text-dz-a-error-300">{error}</p>}
       </div>
 
       {/* existing */}
       {departments.length === 0 ? (
-        <p className="rounded-2xl border border-dz-primary-100 bg-white p-6 text-center text-sm text-dz-primary-400 dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-night-muted">
+        <p className="rounded-2xl border border-dz-a-primary-100 bg-white p-6 text-center text-sm text-dz-a-primary-400 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-muted">
           هنوز دپارتمانی تعریف نشده است.
         </p>
       ) : (

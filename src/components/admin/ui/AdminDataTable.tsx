@@ -40,14 +40,14 @@ export function AdminDataTable<T>({
   const allChecked = selectable && rows.length > 0 && rows.every((r) => selectedIds?.has(getRowId(r)));
 
   if (rows.length === 0 && empty) {
-    return <div className="rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card">{empty}</div>;
+    return <div className="rounded-2xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card">{empty}</div>;
   }
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card shadow-xs">
+    <div className="overflow-x-auto rounded-2xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card shadow-xs">
       <table className="w-full border-collapse text-sm" style={{ minWidth }}>
         <thead>
-          <tr className="border-b border-dz-primary-100 dark:border-dz-night-border bg-dz-primary-50/60 dark:bg-white/5 text-xs font-medium text-dz-primary-500 dark:text-dz-night-muted">
+          <tr className="border-b border-dz-a-primary-100 dark:border-dz-a-night-border bg-dz-a-primary-50/60 dark:bg-white/5 text-xs font-medium text-dz-a-primary-500 dark:text-dz-a-night-muted">
             {selectable && (
               <th className="w-10 px-3 py-3.5 text-center">
                 <input
@@ -55,7 +55,7 @@ export function AdminDataTable<T>({
                   aria-label="انتخاب همه"
                   checked={allChecked}
                   onChange={(e) => onToggleAll?.(e.target.checked)}
-                  className="size-4 cursor-pointer accent-dz-primary-600"
+                  className="size-4 cursor-pointer accent-dz-a-primary-600"
                 />
               </th>
             )}
@@ -76,8 +76,8 @@ export function AdminDataTable<T>({
             return (
               <tr
                 key={id}
-                className={`border-b border-dz-primary-50 dark:border-dz-night-border transition-colors last:border-0 hover:bg-dz-primary-50/40 dark:hover:bg-white/5 ${
-                  checked ? "bg-dz-primary-50/60 dark:bg-white/5" : ""
+                className={`border-b border-dz-a-primary-50 dark:border-dz-a-night-border transition-colors last:border-0 hover:bg-dz-a-primary-50/40 dark:hover:bg-white/5 ${
+                  checked ? "bg-dz-a-primary-50/60 dark:bg-white/5" : ""
                 }`}
               >
                 {selectable && (
@@ -87,14 +87,14 @@ export function AdminDataTable<T>({
                       aria-label="انتخاب ردیف"
                       checked={checked}
                       onChange={() => onToggleRow?.(id)}
-                      className="size-4 cursor-pointer accent-dz-primary-600"
+                      className="size-4 cursor-pointer accent-dz-a-primary-600"
                     />
                   </td>
                 )}
                 {columns.map((col) => (
                   <td
                     key={col.key}
-                    className={`px-3 py-3.5 align-middle text-dz-primary-800 dark:text-dz-night-fg ${ALIGN[col.align ?? "start"]} ${col.className ?? ""}`}
+                    className={`px-3 py-3.5 align-middle text-dz-a-primary-800 dark:text-dz-a-night-fg ${ALIGN[col.align ?? "start"]} ${col.className ?? ""}`}
                   >
                     {col.render(row)}
                   </td>

@@ -9,14 +9,14 @@ type Status = "good" | "review" | "incomplete" | "manual";
 
 function Check({ status, children }: { status: Status; children: ReactNode }) {
   const map = {
-    good: { Icon: CheckCircle2, cls: "text-dz-success dark:text-dz-success-300" },
-    review: { Icon: AlertTriangle, cls: "text-dz-warning dark:text-dz-warning-300" },
-    incomplete: { Icon: XCircle, cls: "text-dz-error dark:text-dz-error-300" },
-    manual: { Icon: Circle, cls: "text-dz-primary-300 dark:text-dz-night-faint" },
+    good: { Icon: CheckCircle2, cls: "text-dz-a-success dark:text-dz-a-success-300" },
+    review: { Icon: AlertTriangle, cls: "text-dz-a-warning dark:text-dz-a-warning-300" },
+    incomplete: { Icon: XCircle, cls: "text-dz-a-error dark:text-dz-a-error-300" },
+    manual: { Icon: Circle, cls: "text-dz-a-primary-300 dark:text-dz-a-night-faint" },
   }[status];
   const { Icon, cls } = map;
   return (
-    <li className="flex items-start gap-2.5 border-b border-dz-primary-50 dark:border-dz-night-border py-2.5 text-sm text-dz-primary-700 dark:text-dz-night-fg last:border-0">
+    <li className="flex items-start gap-2.5 border-b border-dz-a-primary-50 dark:border-dz-a-night-border py-2.5 text-sm text-dz-a-primary-700 dark:text-dz-a-night-fg last:border-0">
       <Icon className={`mt-0.5 size-4 shrink-0 ${cls}`} />
       <span>{children}</span>
     </li>

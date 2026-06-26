@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/auth/guards";
-import { AdminPageHeader } from "@/components/admin/ui/AdminPageHeader";
 import { AdminChatWorkspace } from "@/components/admin/chat/AdminChatWorkspace";
-import { ChatHeaderActions } from "@/components/admin/chat/ChatHeaderActions";
+import { ChatPageTabs } from "@/components/admin/chat/ChatPageTabs";
 import {
   listAdminConversations,
   getOperatorPresence,
@@ -35,17 +34,8 @@ export default async function AdminChatConversationPage({
   const cannedReplies = settings.cannedReplies.filter((c) => c.body.trim());
 
   return (
-    <div className="flex flex-col gap-5">
-      <AdminPageHeader
-        title="چت و پشتیبانی"
-        description="گفت‌وگوی زنده با مشتریان فروشگاه."
-        breadcrumbs={[
-          { label: "پنل مدیریت", href: "/admin/dashboard" },
-          { label: "چت و پشتیبانی", href: "/admin/chat" },
-          { label: active.displayName },
-        ]}
-        actions={<ChatHeaderActions />}
-      />
+    <div className="-mt-5 sm:-mt-7 -mx-4 sm:-mx-6">
+      <ChatPageTabs activeTab="conversations" />
       <AdminChatWorkspace
         conversations={conversations}
         active={active}
@@ -56,6 +46,7 @@ export default async function AdminChatConversationPage({
         soundEnabled={settings.soundEnabled}
         selfOnline={selfOnline}
         currentUserId={user.id}
+        withTabs
       />
     </div>
   );

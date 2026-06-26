@@ -60,7 +60,7 @@ export default async function EditFaqGroupPage({ params }: { params: Promise<{ i
       </div>
 
       <div>
-        <h2 className="mb-4 font-heading text-lg font-bold text-dz-primary-800 dark:text-dz-night-fg">سوال‌های این گروه</h2>
+        <h2 className="mb-4 font-heading text-lg font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">سوال‌های این گروه</h2>
         <FaqItemsManager groupId={group.id} items={items} />
       </div>
 

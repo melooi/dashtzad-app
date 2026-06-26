@@ -57,21 +57,21 @@ export default async function AdminOrderDetailPage({
         <OrderAdminControls orderId={order.id} status={order.status} trackingCode={order.trackingCode} />
 
         {/* customer */}
-        <div className="flex items-center gap-3 rounded-2xl border border-dz-primary-100 bg-white p-4 dark:border-dz-night-border dark:bg-dz-night-card">
-          <span className="grid size-10 place-items-center rounded-xl bg-dz-primary-100 text-dz-primary-700 dark:bg-dz-primary-400/15 dark:text-dz-primary-300">
+        <div className="flex items-center gap-3 rounded-2xl border border-dz-a-primary-100 bg-white p-4 dark:border-dz-a-night-border dark:bg-dz-a-night-card">
+          <span className="grid size-10 place-items-center rounded-xl bg-dz-a-primary-100 text-dz-a-primary-700 dark:bg-dz-a-primary-400/15 dark:text-dz-a-primary-300">
             <User className="size-5" />
           </span>
           <div>
-            <div className="font-bold text-dz-primary-800 dark:text-dz-night-fg">
+            <div className="font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
               {meta.user.name ?? "—"}
             </div>
-            <div dir="ltr" className="text-right text-sm text-dz-primary-400">
+            <div dir="ltr" className="text-right text-sm text-dz-a-primary-400">
               {toPersianNumbers(meta.user.phoneNumber)}
             </div>
           </div>
           <Link
             href={`/admin/customers/${meta.userId}`}
-            className="ms-auto rounded-xl border border-dz-primary-200 px-4 py-2 text-sm font-medium text-dz-primary-700 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-fg"
+            className="ms-auto rounded-xl border border-dz-a-primary-200 px-4 py-2 text-sm font-medium text-dz-a-primary-700 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-fg"
           >
             پروفایل مشتری
           </Link>
@@ -79,36 +79,36 @@ export default async function AdminOrderDetailPage({
 
         <div className="grid gap-5 lg:grid-cols-[1fr_20rem]">
           {/* items + totals */}
-          <div className="rounded-2xl border border-dz-primary-100 bg-white p-5 dark:border-dz-night-border dark:bg-dz-night-card">
-            <h2 className="mb-3 font-bold text-dz-primary-800 dark:text-dz-night-fg">اقلام</h2>
-            <ul className="divide-y divide-dz-primary-50 dark:divide-dz-night-line">
+          <div className="rounded-2xl border border-dz-a-primary-100 bg-white p-5 dark:border-dz-a-night-border dark:bg-dz-a-night-card">
+            <h2 className="mb-3 font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">اقلام</h2>
+            <ul className="divide-y divide-dz-a-primary-50 dark:divide-dz-a-night-line">
               {order.lines.map((l, i) => (
                 <li key={i} className="flex items-center justify-between gap-3 py-2.5 text-sm">
-                  <div className="text-dz-primary-800 dark:text-dz-night-fg">
+                  <div className="text-dz-a-primary-800 dark:text-dz-a-night-fg">
                     {l.title}
-                    {l.variantLabel && <span className="text-dz-primary-400"> · {l.variantLabel}</span>}
-                    <span className="text-dz-primary-400"> × {toPersianNumbers(l.quantity)}</span>
+                    {l.variantLabel && <span className="text-dz-a-primary-400"> · {l.variantLabel}</span>}
+                    <span className="text-dz-a-primary-400"> × {toPersianNumbers(l.quantity)}</span>
                   </div>
                   <Toman rial={l.lineTotalRial} />
                 </li>
               ))}
             </ul>
-            <div className="mt-3 space-y-1.5 border-t border-dz-primary-100 pt-3 text-sm dark:border-dz-night-border">
-              <div className="flex justify-between text-dz-primary-500 dark:text-dz-night-muted">
+            <div className="mt-3 space-y-1.5 border-t border-dz-a-primary-100 pt-3 text-sm dark:border-dz-a-night-border">
+              <div className="flex justify-between text-dz-a-primary-500 dark:text-dz-a-night-muted">
                 <span>جمع کالاها</span>
                 <Toman rial={order.subtotalRial} />
               </div>
               {order.discountRial > 0 && (
-                <div className="flex justify-between text-dz-primary-500 dark:text-dz-night-muted">
+                <div className="flex justify-between text-dz-a-primary-500 dark:text-dz-a-night-muted">
                   <span>تخفیف</span>
                   <span>− <Toman rial={order.discountRial} /></span>
                 </div>
               )}
-              <div className="flex justify-between text-dz-primary-500 dark:text-dz-night-muted">
+              <div className="flex justify-between text-dz-a-primary-500 dark:text-dz-a-night-muted">
                 <span>ارسال</span>
                 {order.shippingRial > 0 ? <Toman rial={order.shippingRial} /> : <span>رایگان</span>}
               </div>
-              <div className="flex justify-between border-t border-dz-primary-100 pt-1.5 font-bold text-dz-primary-800 dark:border-dz-night-border dark:text-dz-night-fg">
+              <div className="flex justify-between border-t border-dz-a-primary-100 pt-1.5 font-bold text-dz-a-primary-800 dark:border-dz-a-night-border dark:text-dz-a-night-fg">
                 <span>مبلغ کل</span>
                 <Toman rial={order.totalRial} />
               </div>
@@ -117,11 +117,11 @@ export default async function AdminOrderDetailPage({
 
           {/* address + payment + history */}
           <div className="flex flex-col gap-5">
-            <div className="rounded-2xl border border-dz-primary-100 bg-white p-5 text-sm dark:border-dz-night-border dark:bg-dz-night-card">
-              <h2 className="mb-2 font-bold text-dz-primary-800 dark:text-dz-night-fg">آدرس تحویل</h2>
+            <div className="rounded-2xl border border-dz-a-primary-100 bg-white p-5 text-sm dark:border-dz-a-night-border dark:bg-dz-a-night-card">
+              <h2 className="mb-2 font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">آدرس تحویل</h2>
               {order.address ? (
-                <div className="space-y-1 text-dz-primary-600 dark:text-dz-night-muted">
-                  <p className="font-medium text-dz-primary-800 dark:text-dz-night-fg">
+                <div className="space-y-1 text-dz-a-primary-600 dark:text-dz-a-night-muted">
+                  <p className="font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">
                     {order.address.receiverName}
                   </p>
                   <p className="leading-7">
@@ -130,14 +130,14 @@ export default async function AdminOrderDetailPage({
                   <p className="text-xs">کد پستی: {toPersianNumbers(order.address.postalCode)}</p>
                 </div>
               ) : (
-                <p className="text-dz-primary-400">ثبت نشده</p>
+                <p className="text-dz-a-primary-400">ثبت نشده</p>
               )}
             </div>
 
-            <div className="rounded-2xl border border-dz-primary-100 bg-white p-5 text-sm dark:border-dz-night-border dark:bg-dz-night-card">
-              <h2 className="mb-2 font-bold text-dz-primary-800 dark:text-dz-night-fg">پرداخت</h2>
+            <div className="rounded-2xl border border-dz-a-primary-100 bg-white p-5 text-sm dark:border-dz-a-night-border dark:bg-dz-a-night-card">
+              <h2 className="mb-2 font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">پرداخت</h2>
               {order.payment ? (
-                <div className="space-y-1 text-dz-primary-600 dark:text-dz-night-muted">
+                <div className="space-y-1 text-dz-a-primary-600 dark:text-dz-a-night-muted">
                   <p>درگاه: {order.payment.provider}</p>
                   <p>
                     وضعیت:{" "}
@@ -149,7 +149,7 @@ export default async function AdminOrderDetailPage({
                   </p>
                 </div>
               ) : (
-                <p className="text-dz-primary-400">ثبت نشده</p>
+                <p className="text-dz-a-primary-400">ثبت نشده</p>
               )}
             </div>
           </div>

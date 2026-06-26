@@ -83,17 +83,17 @@ export function MediaUploader({
           compact ? "px-4 py-6" : "px-6 py-10"
         } ${
           dragging
-            ? "border-dz-primary-500 bg-dz-primary-50 dark:border-dz-primary-400 dark:bg-white/5"
-            : "border-dz-primary-200 bg-white hover:border-dz-primary-300 hover:bg-dz-primary-50/50 dark:border-dz-night-border dark:bg-dz-night-card dark:hover:border-dz-primary-500/50 dark:hover:bg-white/5"
+            ? "border-dz-a-primary-500 bg-dz-a-primary-50 dark:border-dz-a-primary-400 dark:bg-white/5"
+            : "border-dz-a-primary-200 bg-white hover:border-dz-a-primary-300 hover:bg-dz-a-primary-50/50 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:hover:border-dz-a-primary-500/50 dark:hover:bg-white/5"
         }`}
       >
-        <span className="flex size-11 items-center justify-center rounded-xl bg-dz-primary-50 text-dz-primary-500 ring-1 ring-dz-primary-100 dark:bg-white/5 dark:text-dz-primary-300 dark:ring-dz-night-border">
+        <span className="flex size-11 items-center justify-center rounded-xl bg-dz-a-primary-50 text-dz-a-primary-500 ring-1 ring-dz-a-primary-100 dark:bg-white/5 dark:text-dz-a-primary-300 dark:ring-dz-a-night-border">
           <UploadCloud className="size-5" />
         </span>
-        <span className="text-sm font-medium text-dz-primary-800 dark:text-dz-night-fg">
+        <span className="text-sm font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">
           فایل را اینجا رها کنید یا برای انتخاب کلیک کنید
         </span>
-        <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">
+        <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
           JPG، PNG، WEBP، GIF — حداکثر {formatBytes(MAX_UPLOAD_BYTES)}
         </span>
         <input
@@ -115,23 +115,23 @@ export function MediaUploader({
           {items.map((it) => (
             <li
               key={it.key}
-              className="flex items-center gap-2 rounded-xl border border-dz-primary-100 bg-white px-3 py-2 text-sm dark:border-dz-night-border dark:bg-dz-night-card"
+              className="flex items-center gap-2 rounded-xl border border-dz-a-primary-100 bg-white px-3 py-2 text-sm dark:border-dz-a-night-border dark:bg-dz-a-night-card"
             >
-              {it.status === "uploading" && <Loader2 className="size-4 shrink-0 animate-spin text-dz-primary-500" />}
-              {it.status === "done" && <CheckCircle2 className="size-4 shrink-0 text-dz-success dark:text-dz-success-300" />}
-              {it.status === "error" && <AlertCircle className="size-4 shrink-0 text-dz-error dark:text-dz-error-300" />}
-              <span className="flex-1 truncate text-dz-primary-700 dark:text-dz-night-fg" dir="ltr">
+              {it.status === "uploading" && <Loader2 className="size-4 shrink-0 animate-spin text-dz-a-primary-500" />}
+              {it.status === "done" && <CheckCircle2 className="size-4 shrink-0 text-dz-a-success dark:text-dz-a-success-300" />}
+              {it.status === "error" && <AlertCircle className="size-4 shrink-0 text-dz-a-error dark:text-dz-a-error-300" />}
+              <span className="flex-1 truncate text-dz-a-primary-700 dark:text-dz-a-night-fg" dir="ltr">
                 {it.name}
               </span>
               {it.status === "error" && (
-                <span className="text-xs text-dz-error dark:text-dz-error-300">{it.error}</span>
+                <span className="text-xs text-dz-a-error dark:text-dz-a-error-300">{it.error}</span>
               )}
               {it.status !== "uploading" && (
                 <button
                   type="button"
                   onClick={() => setItems((l) => l.filter((x) => x.key !== it.key))}
                   aria-label="بستن"
-                  className="focus-ring rounded p-0.5 text-dz-primary-400 hover:text-dz-primary-700 dark:text-dz-night-faint dark:hover:text-dz-night-fg"
+                  className="focus-ring rounded p-0.5 text-dz-a-primary-400 hover:text-dz-a-primary-700 dark:text-dz-a-night-faint dark:hover:text-dz-a-night-fg"
                 >
                   <X className="size-3.5" />
                 </button>

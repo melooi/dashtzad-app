@@ -17,10 +17,10 @@ type AutoSource = { title: string; description: string; path: string; image?: st
 type Defaults = { titleTemplate: string; canonicalBase: string; defaultOgImageUrl?: string };
 
 function quality(len: number, min: number, max: number) {
-  if (len === 0) return { label: "خالی", pill: "bg-dz-primary-50 dark:bg-white/5 text-dz-primary-400 dark:text-dz-night-faint", bar: "bg-dz-primary-200 dark:bg-dz-night-border", pct: 0 };
-  if (len < min) return { label: "کوتاه", pill: "bg-dz-warning/10 text-dz-warning dark:text-dz-warning-300", bar: "bg-dz-warning", pct: Math.min(100, (len / max) * 100) };
-  if (len > max) return { label: "طولانی", pill: "bg-dz-error/10 text-dz-error dark:text-dz-error-300", bar: "bg-dz-error", pct: 100 };
-  return { label: "عالی", pill: "bg-dz-success/10 text-dz-success dark:text-dz-success-300", bar: "bg-dz-success", pct: Math.min(100, (len / max) * 100) };
+  if (len === 0) return { label: "خالی", pill: "bg-dz-a-primary-50 dark:bg-white/5 text-dz-a-primary-400 dark:text-dz-a-night-faint", bar: "bg-dz-a-primary-200 dark:bg-dz-a-night-border", pct: 0 };
+  if (len < min) return { label: "کوتاه", pill: "bg-dz-a-warning/10 text-dz-a-warning dark:text-dz-a-warning-300", bar: "bg-dz-a-warning", pct: Math.min(100, (len / max) * 100) };
+  if (len > max) return { label: "طولانی", pill: "bg-dz-a-error/10 text-dz-a-error dark:text-dz-a-error-300", bar: "bg-dz-a-error", pct: 100 };
+  return { label: "عالی", pill: "bg-dz-a-success/10 text-dz-a-success dark:text-dz-a-success-300", bar: "bg-dz-a-success", pct: Math.min(100, (len / max) * 100) };
 }
 
 function Meter({ value, min, max, label }: { value: string; min: number; max: number; label: string }) {
@@ -28,13 +28,13 @@ function Meter({ value, min, max, label }: { value: string; min: number; max: nu
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center justify-between text-[11px]">
-        <span className="text-dz-primary-500 dark:text-dz-night-muted">{label}</span>
+        <span className="text-dz-a-primary-500 dark:text-dz-a-night-muted">{label}</span>
         <span className="flex items-center gap-1.5">
-          <span className="text-dz-primary-400 dark:text-dz-night-faint">{toPersianNumbers(value.length)}/{toPersianNumbers(max)}</span>
+          <span className="text-dz-a-primary-400 dark:text-dz-a-night-faint">{toPersianNumbers(value.length)}/{toPersianNumbers(max)}</span>
           <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-medium ${q.pill}`}>{q.label}</span>
         </span>
       </div>
-      <div className="h-1 overflow-hidden rounded-full bg-dz-primary-50 dark:bg-white/5">
+      <div className="h-1 overflow-hidden rounded-full bg-dz-a-primary-50 dark:bg-white/5">
         <div className={`h-full rounded-full ${q.bar}`} style={{ width: `${q.pct}%` }} />
       </div>
     </div>
@@ -112,26 +112,26 @@ export function SeoPanel({
     });
   };
 
-  const labelCls = "mb-1.5 block text-sm font-medium text-dz-primary-800 dark:text-dz-night-fg";
-  const hintCls = "mt-1 block text-xs text-dz-primary-400 dark:text-dz-night-faint";
+  const labelCls = "mb-1.5 block text-sm font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg";
+  const hintCls = "mt-1 block text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint";
 
   return (
-    <section className="rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card p-5 shadow-xs sm:p-6">
-      <div className="mb-5 flex items-start justify-between gap-3 border-b border-dz-primary-50 dark:border-dz-night-line pb-3.5">
+    <section className="rounded-2xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card p-5 shadow-xs sm:p-6">
+      <div className="mb-5 flex items-start justify-between gap-3 border-b border-dz-a-primary-50 dark:border-dz-a-night-line pb-3.5">
         <div>
-          <h2 className="flex items-center gap-2 font-heading text-base font-bold text-dz-primary-800 dark:text-dz-night-fg">
-            <span className="h-4 w-1 rounded-full bg-dz-primary-300 dark:bg-dz-primary-500" aria-hidden />
+          <h2 className="flex items-center gap-2 font-heading text-base font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
+            <span className="h-4 w-1 rounded-full bg-dz-a-primary-300 dark:bg-dz-a-primary-500" aria-hidden />
             دستیار سئو
           </h2>
-          <p className="mt-1.5 ps-3 text-xs leading-5 text-dz-primary-400 dark:text-dz-night-faint">
+          <p className="mt-1.5 ps-3 text-xs leading-5 text-dz-a-primary-400 dark:text-dz-a-night-faint">
             خالی بگذارید تا از محتوای صفحه به‌صورت خودکار ساخته شود. این تنظیمات فقط همین صفحه را تغییر می‌دهد.
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
-          <button type="button" onClick={autofill} className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-dz-primary-200 dark:border-dz-night-border px-2.5 py-1.5 text-xs text-dz-primary-600 dark:text-dz-primary-300 transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5">
+          <button type="button" onClick={autofill} className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-dz-a-primary-200 dark:border-dz-a-night-border px-2.5 py-1.5 text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300 transition-colors hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 hover:bg-dz-a-primary-50 dark:hover:bg-white/5">
             <Wand2 className="size-3.5" /> تولید خودکار
           </button>
-          <button type="button" onClick={reset} disabled={pending} className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-dz-primary-200 dark:border-dz-night-border px-2.5 py-1.5 text-xs text-dz-primary-500 dark:text-dz-night-muted transition-colors hover:bg-dz-primary-50 dark:hover:bg-white/5 disabled:opacity-50">
+          <button type="button" onClick={reset} disabled={pending} className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-dz-a-primary-200 dark:border-dz-a-night-border px-2.5 py-1.5 text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted transition-colors hover:bg-dz-a-primary-50 dark:hover:bg-white/5 disabled:opacity-50">
             <RotateCcw className="size-3.5" /> بازنشانی
           </button>
         </div>
@@ -141,9 +141,9 @@ export function SeoPanel({
       {success && <div className="mb-4"><AdminSuccessNotice message={success} onDismiss={() => setSuccess(null)} /></div>}
 
       {/* Google preview */}
-      <div dir="ltr" className="mb-5 rounded-xl border border-dz-primary-100 dark:border-dz-night-border bg-dz-primary-50/30 dark:bg-white p-4 text-left">
+      <div dir="ltr" className="mb-5 rounded-xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-dz-a-primary-50/30 dark:bg-white p-4 text-left">
         <div className="flex items-center gap-2">
-          <span className="flex size-6 items-center justify-center rounded-full bg-dz-primary-600 text-[10px] font-bold text-white">د</span>
+          <span className="flex size-6 items-center justify-center rounded-full bg-dz-a-primary-600 text-[10px] font-bold text-white">د</span>
           <div className="leading-tight">
             <div className="text-xs text-[#202124]">دشت‌زاد</div>
             <div className="text-[11px] text-[#5f6368]">{host} ›</div>
@@ -213,18 +213,18 @@ export function SeoPanel({
 
         {/* Robots */}
         <div className="sm:col-span-2 flex flex-wrap gap-2">
-          <button type="button" onClick={() => set({ noindex: !v.noindex })} aria-pressed={Boolean(v.noindex)} className={`focus-ring inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition-colors ${v.noindex ? "border-dz-warning/40 bg-dz-warning/10 text-dz-warning dark:text-dz-warning-300" : "border-dz-primary-200 dark:border-dz-night-border text-dz-primary-600 dark:text-dz-primary-300 hover:bg-dz-primary-50 dark:hover:bg-white/5"}`}>
+          <button type="button" onClick={() => set({ noindex: !v.noindex })} aria-pressed={Boolean(v.noindex)} className={`focus-ring inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition-colors ${v.noindex ? "border-dz-a-warning/40 bg-dz-a-warning/10 text-dz-a-warning dark:text-dz-a-warning-300" : "border-dz-a-primary-200 dark:border-dz-a-night-border text-dz-a-primary-600 dark:text-dz-a-primary-300 hover:bg-dz-a-primary-50 dark:hover:bg-white/5"}`}>
             {v.noindex ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
             {v.noindex ? "ایندکس نشود (noindex)" : "ایندکس شود"}
           </button>
-          <button type="button" onClick={() => set({ nofollow: !v.nofollow })} aria-pressed={Boolean(v.nofollow)} className={`focus-ring inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition-colors ${v.nofollow ? "border-dz-warning/40 bg-dz-warning/10 text-dz-warning dark:text-dz-warning-300" : "border-dz-primary-200 dark:border-dz-night-border text-dz-primary-600 dark:text-dz-primary-300 hover:bg-dz-primary-50 dark:hover:bg-white/5"}`}>
+          <button type="button" onClick={() => set({ nofollow: !v.nofollow })} aria-pressed={Boolean(v.nofollow)} className={`focus-ring inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition-colors ${v.nofollow ? "border-dz-a-warning/40 bg-dz-a-warning/10 text-dz-a-warning dark:text-dz-a-warning-300" : "border-dz-a-primary-200 dark:border-dz-a-night-border text-dz-a-primary-600 dark:text-dz-a-primary-300 hover:bg-dz-a-primary-50 dark:hover:bg-white/5"}`}>
             {v.nofollow ? "لینک‌ها دنبال نشوند (nofollow)" : "دنبال‌کردن لینک‌ها"}
           </button>
         </div>
       </div>
 
-      <div className="mt-5 flex items-center justify-end border-t border-dz-primary-50 dark:border-dz-night-line pt-4">
-        <button type="button" onClick={save} disabled={pending} className="focus-ring inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-primary-700 active:bg-dz-primary-800 disabled:bg-dz-primary-300 dark:disabled:bg-dz-primary-800">
+      <div className="mt-5 flex items-center justify-end border-t border-dz-a-primary-50 dark:border-dz-a-night-line pt-4">
+        <button type="button" onClick={save} disabled={pending} className="focus-ring inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-a-primary-700 active:bg-dz-a-primary-800 disabled:bg-dz-a-primary-300 dark:disabled:bg-dz-a-primary-800">
           {pending ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
           {pending ? "در حال ذخیره…" : "ذخیره‌ی سئو"}
         </button>

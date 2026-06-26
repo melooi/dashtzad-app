@@ -70,23 +70,23 @@ export function AdminDangerZone({
   };
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-dz-error/25 bg-dz-error/5 dark:bg-dz-error/10">
+    <section className="overflow-hidden rounded-2xl border border-dz-a-error/25 bg-dz-a-error/5 dark:bg-dz-a-error/10">
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
         aria-expanded={expanded}
         className="focus-ring flex w-full items-center gap-2 px-5 py-3.5 text-start"
       >
-        <AlertTriangle className="size-4 shrink-0 text-dz-error dark:text-dz-error-300" />
-        <span className="font-heading text-sm font-bold text-dz-error dark:text-dz-error-300">{title}</span>
+        <AlertTriangle className="size-4 shrink-0 text-dz-a-error dark:text-dz-a-error-300" />
+        <span className="font-heading text-sm font-bold text-dz-a-error dark:text-dz-a-error-300">{title}</span>
         <ChevronDown
-          className={`ms-auto size-4 text-dz-error/70 transition-transform dark:text-dz-error-300/70 ${expanded ? "rotate-180" : ""}`}
+          className={`ms-auto size-4 text-dz-a-error/70 transition-transform dark:text-dz-a-error-300/70 ${expanded ? "rotate-180" : ""}`}
         />
       </button>
 
       {expanded && (
-        <div className="border-t border-dz-error/20 px-5 pb-5 pt-4">
-          <p className="mb-4 text-xs leading-5 text-dz-primary-500 dark:text-dz-night-muted">{description}</p>
+        <div className="border-t border-dz-a-error/20 px-5 pb-5 pt-4">
+          <p className="mb-4 text-xs leading-5 text-dz-a-primary-500 dark:text-dz-a-night-muted">{description}</p>
           {error && (
             <div className="mb-4">
               <AdminFormError message={error} />
@@ -98,7 +98,7 @@ export function AdminDangerZone({
                 type="button"
                 onClick={handleUnpublish}
                 disabled={pending}
-                className="focus-ring inline-flex items-center gap-2 rounded-xl border border-dz-warning/40 bg-white px-4 py-2.5 text-sm font-medium text-dz-warning transition-colors hover:bg-dz-warning/10 disabled:opacity-50 dark:bg-dz-night-card dark:text-dz-warning-300"
+                className="focus-ring inline-flex items-center gap-2 rounded-xl border border-dz-a-warning/40 bg-white px-4 py-2.5 text-sm font-medium text-dz-a-warning transition-colors hover:bg-dz-a-warning/10 disabled:opacity-50 dark:bg-dz-a-night-card dark:text-dz-a-warning-300"
               >
                 <EyeOff className="size-4" />
                 {unpublishLabel}
@@ -108,7 +108,7 @@ export function AdminDangerZone({
               type="button"
               onClick={() => setOpen(true)}
               disabled={pending}
-              className="focus-ring inline-flex items-center gap-2 rounded-xl border border-dz-error/40 bg-white px-4 py-2.5 text-sm font-medium text-dz-error transition-colors hover:bg-dz-error/10 disabled:opacity-50 dark:bg-dz-night-card dark:text-dz-error-300"
+              className="focus-ring inline-flex items-center gap-2 rounded-xl border border-dz-a-error/40 bg-white px-4 py-2.5 text-sm font-medium text-dz-a-error transition-colors hover:bg-dz-a-error/10 disabled:opacity-50 dark:bg-dz-a-night-card dark:text-dz-a-error-300"
             >
               <Trash2 className="size-4" />
               {buttonLabel}

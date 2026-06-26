@@ -227,7 +227,7 @@ export function CategoryForm({
       )}
 
       {dependency && mode === "edit" && (
-        <p className="text-center text-xs text-dz-primary-400 dark:text-dz-night-faint">
+        <p className="text-center text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
           وابستگی‌ها — زیرمجموعه: {toPersianNumbers(dependency.children)} · محصول:{" "}
           {toPersianNumbers(dependency.products)} · نوشته: {toPersianNumbers(dependency.posts)}
         </p>

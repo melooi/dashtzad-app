@@ -76,7 +76,7 @@ export function MediaLibraryPage({ initialAssets }: { initialAssets: MediaAssetD
         title="رسانه‌ها"
         description="کتابخانه‌ی تصاویر فروشگاه — یک‌بار آپلود، استفاده در همه‌جای پنل."
         actions={
-          <div className="flex items-center gap-3 text-xs text-dz-primary-500 dark:text-dz-night-muted">
+          <div className="flex items-center gap-3 text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">
             <span className="inline-flex items-center gap-1.5">
               <ImageIcon className="size-3.5" /> {assets.length.toLocaleString("fa-IR")} فایل
             </span>
@@ -88,7 +88,7 @@ export function MediaLibraryPage({ initialAssets }: { initialAssets: MediaAssetD
       />
 
       {/* Dev-storage notice */}
-      <div className="mb-5 rounded-xl border border-dz-warning/30 bg-dz-warning/5 px-4 py-2.5 text-xs leading-5 text-dz-warning dark:text-dz-warning-300 dark:bg-dz-warning/10">
+      <div className="mb-5 rounded-xl border border-dz-a-warning/30 bg-dz-a-warning/5 px-4 py-2.5 text-xs leading-5 text-dz-a-warning dark:text-dz-a-warning-300 dark:bg-dz-a-warning/10">
         فایل‌ها روی فضای ذخیره‌سازی محلی (پوشه‌ی <code dir="ltr" className="font-mono">public/uploads</code>) ذخیره می‌شوند. این حالت فقط برای توسعه و میزبانی شخصی است؛ برای استقرار روی Vercel باید بعداً به Vercel Blob یا S3 منتقل شود.
       </div>
 
@@ -125,11 +125,11 @@ export function MediaLibraryPage({ initialAssets }: { initialAssets: MediaAssetD
       {selected && (
         <>
           <div
-            className="fixed inset-0 z-40 bg-dz-primary-900/40 backdrop-blur-sm dark:bg-black/60"
+            className="fixed inset-0 z-40 bg-dz-a-primary-900/40 backdrop-blur-sm dark:bg-black/60"
             onClick={() => setSelectedId(null)}
             aria-hidden
           />
-          <div className="fixed inset-y-0 inset-e-0 z-50 w-full max-w-sm border-s border-dz-primary-100 bg-white shadow-2xl dark:border-dz-night-border dark:bg-dz-night-card">
+          <div className="fixed inset-y-0 inset-e-0 z-50 w-full max-w-sm border-s border-dz-a-primary-100 bg-white shadow-2xl dark:border-dz-a-night-border dark:bg-dz-a-night-card">
             <MediaDetailsPanel
               asset={selected}
               onClose={() => setSelectedId(null)}

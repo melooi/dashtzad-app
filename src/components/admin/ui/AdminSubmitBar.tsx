@@ -50,7 +50,15 @@ export function AdminSubmitBar({
   const isDirty = dirty === true;
   const isSaved = dirty === false;
 
-  const dotClass = hasErrors ? "bg-dz-error" : isDirty ? "bg-dz-warning" : isSaved ? "bg-dz-success" : "bg-dz-primary-200";
+  const dotClass = hasErrors ? "bg-dz-a-error" : isDirty ? "bg-dz-a-warning" : isSaved ? "bg-dz-a-success" : "bg-dz-a-primary-200";
+  // Colored top edge mirrors the state at a glance, even peripherally.
+  const edgeClass = hasErrors
+    ? "border-t-dz-a-error/60"
+    : isDirty
+      ? "border-t-dz-a-warning/60"
+      : isSaved
+        ? "border-t-dz-a-success/50"
+        : "border-t-dz-a-primary-100 dark:border-t-dz-a-night-border";
   const statusText = hasErrors
     ? `${toPersianNumbers(errorCount)} خطا مانع ذخیره شده است.`
     : isDirty
@@ -59,11 +67,11 @@ export function AdminSubmitBar({
         ? "همه‌ی تغییرات ذخیره شده است."
         : "";
   const statusColor = hasErrors
-    ? "text-dz-error dark:text-dz-error-300"
-    : "text-dz-primary-400 dark:text-dz-night-faint";
+    ? "text-dz-a-error dark:text-dz-a-error-300"
+    : "text-dz-a-primary-400 dark:text-dz-a-night-faint";
 
   return (
-    <div className="sticky bottom-0 z-10 -mx-1 mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white/95 dark:bg-dz-night-elevated/85 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-white/80 supports-[backdrop-filter]:dark:bg-dz-night-elevated/85">
+    <div className={`sticky bottom-0 z-10 -mx-1 mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 rounded-2xl border border-t-2 border-dz-a-primary-100 dark:border-dz-a-night-border bg-white/95 dark:bg-dz-a-night-elevated/85 px-4 py-3 backdrop-blur transition-colors supports-[backdrop-filter]:bg-white/80 supports-[backdrop-filter]:dark:bg-dz-a-night-elevated/85 ${edgeClass}`}>
       <div className="flex items-center gap-3">
         <span className={`flex items-center gap-2 text-xs ${statusColor}`}>
           <span className={`size-1.5 rounded-full ${dotClass}`} aria-hidden />
@@ -73,7 +81,7 @@ export function AdminSubmitBar({
           <button
             type="button"
             onClick={goToFirstError}
-            className="focus-ring inline-flex items-center gap-1 rounded-lg border border-dz-error/40 px-2.5 py-1 text-xs font-medium text-dz-error transition-colors hover:bg-dz-error/10 dark:text-dz-error-300"
+            className="focus-ring inline-flex items-center gap-1 rounded-lg border border-dz-a-error/40 px-2.5 py-1 text-xs font-medium text-dz-a-error transition-colors hover:bg-dz-a-error/10 dark:text-dz-a-error-300"
           >
             <AlertCircle className="size-3.5" />
             رفتن به اولین خطا
@@ -84,7 +92,7 @@ export function AdminSubmitBar({
         {cancelHref ? (
           <Link
             href={cancelHref}
-            className="focus-ring rounded-xl border border-dz-primary-200 dark:border-dz-night-border px-4 py-2.5 text-sm text-dz-primary-700 dark:text-dz-night-fg transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5"
+            className="focus-ring rounded-xl border border-dz-a-primary-200 dark:border-dz-a-night-border px-4 py-2.5 text-sm text-dz-a-primary-700 dark:text-dz-a-night-fg transition-colors hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 hover:bg-dz-a-primary-50 dark:hover:bg-white/5"
           >
             {cancelLabel}
           </Link>
@@ -93,7 +101,7 @@ export function AdminSubmitBar({
             type="button"
             onClick={onCancel}
             disabled={submitting}
-            className="focus-ring rounded-xl border border-dz-primary-200 dark:border-dz-night-border px-4 py-2.5 text-sm text-dz-primary-700 dark:text-dz-night-fg transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
+            className="focus-ring rounded-xl border border-dz-a-primary-200 dark:border-dz-a-night-border px-4 py-2.5 text-sm text-dz-a-primary-700 dark:text-dz-a-night-fg transition-colors hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 hover:bg-dz-a-primary-50 dark:hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {cancelLabel}
           </button>
@@ -101,7 +109,7 @@ export function AdminSubmitBar({
         <button
           type="submit"
           disabled={submitting || (isSaved && !hasErrors)}
-          className="focus-ring inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-primary-700 active:bg-dz-primary-800 disabled:cursor-not-allowed disabled:bg-dz-primary-300 dark:disabled:bg-dz-primary-800"
+          className="focus-ring inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-a-primary-700 active:bg-dz-a-primary-800 disabled:cursor-not-allowed disabled:bg-dz-a-primary-300 dark:disabled:bg-dz-a-primary-800"
         >
           {submitting ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
           {submitting ? "در حال ذخیره…" : saveLabel}

@@ -22,6 +22,7 @@ model User {
   nationalId            String?
   chatLastSeenAt        DateTime?
   chatOnline            Boolean                  @default(false)
+  customerTier          CustomerTier             @default(NEW_CUSTOMER)
   accounts              Account[]
   addresses             Address[]
   cart                  Cart?
@@ -750,6 +751,14 @@ model Conversation {
   ratedAt            DateTime?
   rating             Int?
   ratingComment      String?
+  sentiment          ConversationSentiment?
+  aiPriority         ConversationAiPriority?
+  topicLabel         String?
+  aiSummary          String?
+  aiNextAction       Json?
+  aiAnalyzedAt       DateTime?
+  visitorTypingAt    DateTime?
+  lastSenderRole     ChatSenderRole?
   messages           ChatMessage[]
   assignedTo         User?              @relation("AssignedConversations", fields: [assignedToId], references: [id])
   department         Department?        @relation(fields: [departmentId], references: [id])
@@ -1576,4 +1585,91 @@ enum AiFindingStatus {
   IN_PROGRESS
   RESOLVED
   DISMISSED
+}
+
+enum ConversationSentiment {
+  ANGRY
+  UPSET
+  NEUTRAL
+  HAPPY
+}
+
+enum ConversationAiPriority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum CustomerTier {
+  NEW_CUSTOMER
+  REGULAR
+  LOYAL
+  WHOLESALE
+}
+
+// ── AI Memory ──────────────────────────────────────────────────────────────
+
+/// Long-term per-user memory extracted from conversations.
+model AiUserMemory {
+  id         String   @id @default(uuid())
+  customerId String?  @unique
+  sessionId  String?  @unique
+  facts      Json     @default("[]") // string[] of extracted facts
+  summary    String?  @db.Text
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("ai_user_memories")
+}
+
+/// Global cache of frequently asked topics + pre-generated answers.
+model AiFrequentTopic {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  topic     String
+  answer    String?  @db.Text
+  hitCount  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([hitCount])
+  @@map("ai_frequent_topics")
+}
+
+// ── SMS ────────────────────────────────────────────────────────────────────
+
+/// SMS template definitions (free-text or provider pattern/OTP).
+model SmsTemplate {
+  id          String   @id @default(uuid())
+  name        String
+  provider    String   // "kavenegar" | "rahpayam"
+  type        String   @default("free") // "free" | "pattern"
+  body        String?  @db.Text         // free-text body (kavenegar)
+  patternName String?                   // template name for kavenegar verify/lookup
+  templateId  String?                   // numeric template ID for rahpayam
+  category    String   @default("general") // "general" | "cart" | "product" | "notification"
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  logs        SmsLog[]
+
+  @@map("sms_templates")
+}
+
+/// Log of every SMS sent from the admin panel or automation.
+model SmsLog {
+  id             String       @id @default(uuid())
+  provider       String
+  to             String
+  body           String?      @db.Text
+  status         String       @default("pending") // "pending" | "sent" | "failed"
+  error          String?
+  conversationId String?
+  templateId     String?
+  template       SmsTemplate? @relation(fields: [templateId], references: [id])
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
+  @@index([createdAt])
+  @@map("sms_logs")
 }

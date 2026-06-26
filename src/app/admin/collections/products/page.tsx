@@ -86,7 +86,7 @@ export default async function ProductsListPage({
 
   const hasActiveFilters = Boolean(q || activeParam !== undefined || categoryParam);
   const addButton = (
-    <Link href={`${productsCollection.route}/new`} className="inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700">
+    <Link href={`${productsCollection.route}/new`} className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
       <Plus className="size-4" />
       افزودن محصول
     </Link>
@@ -100,11 +100,11 @@ export default async function ProductsListPage({
         breadcrumbs={[{ label: "پنل مدیریت", href: "/admin/dashboard" }, { label: productsCollection.label }]}
         actions={
           <div className="flex items-center gap-2">
-            <Link href={`${productsCollection.route}/quick-add`} className="inline-flex items-center gap-2 rounded-xl border border-dz-primary-300 dark:border-dz-night-border px-4 py-2.5 text-sm font-medium text-dz-primary-700 dark:text-dz-night-fg hover:bg-dz-primary-50 dark:hover:bg-white/5">
+            <Link href={`${productsCollection.route}/quick-add`} className="inline-flex items-center gap-2 rounded-xl border border-dz-a-primary-300 dark:border-dz-a-night-border px-4 py-2.5 text-sm font-medium text-dz-a-primary-700 dark:text-dz-a-night-fg hover:bg-dz-a-primary-50 dark:hover:bg-white/5">
               <Zap className="size-4" />
               افزودن سریع
             </Link>
-            <Link href={`${productsCollection.route}/new`} className="inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700">
+            <Link href={`${productsCollection.route}/new`} className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
               <Plus className="size-4" />
               افزودن محصول
             </Link>
@@ -139,7 +139,7 @@ export default async function ProductsListPage({
             basePath={productsCollection.route}
             query={{ q: q || undefined, active: sp.active, category: categoryParam, sort: sort === "updated" ? undefined : sort }}
           />
-          <p className="mt-2 text-xs text-dz-primary-400 dark:text-dz-night-faint">{toPersianNumbers(total)} محصول</p>
+          <p className="mt-2 text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{toPersianNumbers(total)} محصول</p>
         </>
       )}
     </div>

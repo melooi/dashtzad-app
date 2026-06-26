@@ -210,7 +210,7 @@ export function ProductForm({
           {mode === "edit" && productId ? (
             <ProductImageManager productId={productId} initialImages={initialImages} />
           ) : (
-            <p className="rounded-xl border border-dashed border-dz-primary-200 p-5 text-center text-sm text-dz-primary-400 dark:border-dz-night-border dark:text-dz-night-faint">
+            <p className="rounded-xl border border-dashed border-dz-a-primary-200 p-5 text-center text-sm text-dz-a-primary-400 dark:border-dz-a-night-border dark:text-dz-a-night-faint">
               ابتدا محصول را ذخیره کنید تا بتوانید تصاویر اضافه کنید.
             </p>
           )}
@@ -238,7 +238,7 @@ export function ProductForm({
             existingVariants={variantData.existingVariants}
           />
         ) : (
-          <p className="rounded-xl border border-dashed border-dz-primary-200 p-5 text-center text-sm text-dz-primary-400 dark:border-dz-night-border dark:text-dz-night-faint">
+          <p className="rounded-xl border border-dashed border-dz-a-primary-200 p-5 text-center text-sm text-dz-a-primary-400 dark:border-dz-a-night-border dark:text-dz-a-night-faint">
             ابتدا محصول را ذخیره کنید، سپس مدل‌های فروش (وزن و بسته‌بندی) را تعریف کنید.
           </p>
         )}
@@ -260,7 +260,7 @@ export function ProductForm({
           />
         ) : (
           <AdminFormSection title="سئو">
-            <p className="rounded-xl border border-dashed border-dz-primary-200 p-5 text-center text-sm text-dz-primary-400 dark:border-dz-night-border dark:text-dz-night-faint">
+            <p className="rounded-xl border border-dashed border-dz-a-primary-200 p-5 text-center text-sm text-dz-a-primary-400 dark:border-dz-a-night-border dark:text-dz-a-night-faint">
               ابتدا محصول را ذخیره کنید تا پنل سئو (عنوان، توضیحات متا، پیش‌نمایش گوگل) فعال شود.
             </p>
           </AdminFormSection>

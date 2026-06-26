@@ -1,26 +1,101 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Search, Inbox, MessageSquare } from "lucide-react";
-import { ChatTime } from "./ChatTime";
+import { MessageSquare } from "lucide-react";
 import { ChatConversationDetail } from "./ChatConversationDetail";
 import { OperatorPresenceToggle } from "./OperatorPresenceToggle";
+import { ChatTime } from "./ChatTime";
 import { AdminStatusBadge } from "@/components/admin/ui/AdminStatusBadge";
-import { playChime } from "@/lib/chat/sound";
+import type {
+  AdminConversationListItem,
+  AdminConversationDetail,
+  Department,
+  OperatorPresence,
+  CannedReply,
+  OperatorStats,
+  ConversationSentiment,
+  ConversationAiPriority,
+  CustomerTier,
+} from "@/lib/chat/types";
 import {
-  CONVERSATION_STATUSES,
   STATUS_LABEL,
   STATUS_BADGE_TONE,
-  type AdminConversationListItem,
-  type AdminConversationDetail,
-  type ConversationStatus,
-  type Department,
-  type OperatorPresence,
-  type CannedReply,
+  SENTIMENT_LABEL,
+  SENTIMENT_EMOJI,
+  PRIORITY_LABEL,
+  CUSTOMER_TIER_LABEL,
 } from "@/lib/chat/types";
 
-type Filter = ConversationStatus | "ALL";
+// ---- wait timer ----
+
+function useWaitSecs(lastMessageAt: string, lastSenderRole: string | null): number {
+  const [secs, setSecs] = useState(0);
+  useEffect(() => {
+    if (lastSenderRole !== "VISITOR") { setSecs(0); return; }
+    const calc = () => Math.floor((Date.now() - new Date(lastMessageAt).getTime()) / 1000);
+    setSecs(calc());
+    const id = setInterval(() => setSecs(calc()), 30_000);
+    return () => clearInterval(id);
+  }, [lastMessageAt, lastSenderRole]);
+  return secs;
+}
+
+function WaitTimer({ lastMessageAt, lastSenderRole }: { lastMessageAt: string; lastSenderRole: string | null }) {
+  const secs = useWaitSecs(lastMessageAt, lastSenderRole);
+  if (lastSenderRole !== "VISITOR") return null;
+  const mins = Math.floor(secs / 60);
+  // color tier: green→lime→yellow→orange→red→urgent-red (every 10 min)
+  const tier =
+    mins >= 60 ? "t6" :
+    mins >= 50 ? "t5" :
+    mins >= 40 ? "t4" :
+    mins >= 30 ? "t3" :
+    mins >= 20 ? "t2" :
+    mins >= 10 ? "t1" : "t0";
+  const timeStr = new Date(lastMessageAt).toLocaleTimeString("fa-IR", { hour: "2-digit", minute: "2-digit" });
+  return (
+    <span className={`chat-wait-timer ${tier}`}>
+      <span className="chat-wait-dot" />
+      بی‌پاسخ از {timeStr}
+    </span>
+  );
+}
+
+// ---- mini chips ----
+
+function SentimentChip({ s }: { s: ConversationSentiment | null }) {
+  if (!s) return null;
+  return (
+    <span className={`chat-sentiment-chip ${s.toLowerCase()}`}>
+      {SENTIMENT_EMOJI[s]} {SENTIMENT_LABEL[s]}
+    </span>
+  );
+}
+
+function PriorityDot({ p }: { p: ConversationAiPriority | null }) {
+  if (!p) return null;
+  return <span className={`chat-priority-dot ${p.toLowerCase()}`} title={PRIORITY_LABEL[p]} />;
+}
+
+function TierChip({ tier }: { tier: CustomerTier | null }) {
+  if (!tier || tier === "NEW_CUSTOMER") return null;
+  return <span className={`chat-tier-chip ${tier.toLowerCase()}`}>{CUSTOMER_TIER_LABEL[tier]}</span>;
+}
+
+// ---- smart sort ----
+
+function smartScore(c: AdminConversationListItem): number {
+  if (c.status === "RESOLVED") return -10000;
+  let score = new Date(c.lastMessageAt).getTime() / 1000;
+  if (c.aiPriority === "HIGH") score += 86400 * 3;
+  else if (c.aiPriority === "MEDIUM") score += 86400;
+  if (c.unreadForAdmin > 0) score += 86400 * 2;
+  if (c.lastSenderRole === "VISITOR") score += 3600;
+  return score;
+}
+
+// ---- workspace ----
 
 export function AdminChatWorkspace({
   conversations,
@@ -32,6 +107,8 @@ export function AdminChatWorkspace({
   soundEnabled,
   selfOnline,
   currentUserId,
+  operatorStats,
+  withTabs,
 }: {
   conversations: AdminConversationListItem[];
   active: AdminConversationDetail | null;
@@ -42,180 +119,115 @@ export function AdminChatWorkspace({
   soundEnabled: boolean;
   selfOnline: boolean;
   currentUserId: string;
+  operatorStats?: OperatorStats;
+  withTabs?: boolean;
 }) {
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<Filter>("ALL");
-  const [dept, setDept] = useState<string>("");
+  const [filter, setFilter] = useState<"ALL" | "NEW" | "OPEN" | "PENDING" | "RESOLVED">("ALL");
+  const [dept, setDept] = useState("");
+  const prevUnread = useRef(0);
+  const chimeRef = useRef<HTMLAudioElement | null>(null);
 
-  // Sound when the total admin-unread count rises (a new visitor message arrived).
-  const totalUnread = conversations.reduce((s, c) => s + c.unreadForAdmin, 0);
-  const prevUnread = useRef(totalUnread);
+  const totalUnread = useMemo(() => conversations.reduce((s, c) => s + c.unreadForAdmin, 0), [conversations]);
   useEffect(() => {
-    if (soundEnabled && totalUnread > prevUnread.current) playChime();
+    if (soundEnabled && totalUnread > prevUnread.current) {
+      chimeRef.current?.play().catch(() => {});
+    }
     prevUnread.current = totalUnread;
   }, [totalUnread, soundEnabled]);
 
-  const counts = useMemo(() => {
-    const c: Record<Filter, number> = { ALL: conversations.length, NEW: 0, OPEN: 0, PENDING: 0, RESOLVED: 0 };
-    for (const conv of conversations) c[conv.status] += 1;
-    return c;
-  }, [conversations]);
+  const counts = useMemo(() => ({
+    ALL: conversations.length,
+    NEW: conversations.filter((c) => c.status === "NEW").length,
+    OPEN: conversations.filter((c) => c.status === "OPEN").length,
+    PENDING: conversations.filter((c) => c.status === "PENDING").length,
+    RESOLVED: conversations.filter((c) => c.status === "RESOLVED").length,
+  }), [conversations]);
 
   const filtered = useMemo(() => {
-    const q = query.trim();
-    return conversations.filter((conv) => {
-      if (filter !== "ALL" && conv.status !== filter) return false;
-      if (dept && conv.departmentId !== dept) return false;
-      if (!q) return true;
-      const hay = `${conv.displayName} ${conv.phone ?? ""} ${conv.subject ?? ""} ${conv.lastMessagePreview ?? ""}`;
-      return hay.includes(q);
+    const list = conversations.filter((c) => {
+      if (filter !== "ALL" && c.status !== filter) return false;
+      if (dept && c.departmentId !== dept) return false;
+      if (query) {
+        const q = query.toLowerCase();
+        return (
+          c.displayName.toLowerCase().includes(q) ||
+          (c.phone?.includes(q) ?? false) ||
+          (c.subject?.toLowerCase().includes(q) ?? false) ||
+          (c.lastMessagePreview?.toLowerCase().includes(q) ?? false) ||
+          (c.topicLabel?.toLowerCase().includes(q) ?? false)
+        );
+      }
+      return true;
     });
-  }, [conversations, query, filter, dept]);
-
-  const activeId = active?.id ?? null;
+    return [...list].sort((a, b) => smartScore(b) - smartScore(a));
+  }, [conversations, filter, dept, query]);
 
   return (
-    <div className="flex h-[calc(100svh-12rem)] min-h-[34rem] flex-col overflow-hidden rounded-2xl border border-dz-primary-100 bg-white lg:grid lg:grid-cols-[21rem_1fr] dark:border-dz-night-border dark:bg-dz-night-card">
-      {/* ===== list pane ===== */}
-      <div
-        className={`min-h-0 flex-col border-dz-primary-100 lg:flex lg:border-e dark:border-dz-night-border ${
-          active ? "hidden" : "flex"
-        }`}
-      >
-        <div className="border-b border-dz-primary-100 p-3 dark:border-dz-night-border">
-          {/* presence + departments link */}
-          <div className="mb-2.5 flex items-center justify-between gap-2">
-            <OperatorPresenceToggle initialOnline={selfOnline} />
-            <Link
-              href="/admin/chat/departments"
-              className="focus-ring text-xs font-medium text-dz-primary-500 underline-offset-2 hover:text-dz-primary-700 hover:underline dark:text-dz-night-muted"
-            >
-              دپارتمان‌ها
-            </Link>
-          </div>
+    <div className={`chat-workspace${active ? " has-active" : ""}${withTabs ? " with-tabs" : ""}`}>
+      <audio ref={chimeRef} src="/sounds/chime.mp3" preload="none" />
 
-          <div className="flex items-center gap-2 rounded-xl border border-dz-primary-200 bg-dz-canvas px-3 py-2 focus-within:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated">
-            <Search className="size-4 shrink-0 text-dz-primary-300 dark:text-dz-night-faint" aria-hidden />
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="جستجوی نام، شماره یا متن…"
-              aria-label="جستجوی گفت‌وگو"
-              className="w-full border-0 bg-transparent text-sm text-dz-primary-800 outline-none placeholder:text-dz-primary-300 dark:text-dz-night-fg dark:placeholder:text-dz-night-faint"
-            />
-          </div>
+      {/* list pane */}
+      <aside className="chat-list-pane">
+        {/* header row */}
+        <div className="flex items-center gap-1 px-3 py-2 border-b border-(--color-dz-a-border)">
+          <OperatorPresenceToggle initialOnline={selfOnline} />
+        </div>
 
-          {/* status filter */}
-          <div className="mt-2.5 flex flex-wrap gap-1.5">
-            {(["ALL", ...CONVERSATION_STATUSES] as Filter[]).map((f) => {
-              const isActive = filter === f;
-              return (
-                <button
-                  key={f}
-                  type="button"
-                  onClick={() => setFilter(f)}
-                  className={`focus-ring inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
-                    isActive
-                      ? "border-dz-primary-600 bg-dz-primary-600 text-white"
-                      : "border-dz-primary-200 text-dz-primary-600 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-muted dark:hover:bg-white/5"
-                  }`}
-                >
-                  {f === "ALL" ? "همه" : STATUS_LABEL[f]}
-                  <span className={isActive ? "text-white/80" : "text-dz-primary-400 dark:text-dz-night-faint"}>
-                    {counts[f]}
-                  </span>
-                </button>
-              );
-            })}
+        {/* operator stats */}
+        {operatorStats && (
+          <div className="chat-op-stats">
+            <div className="chat-op-stat">
+              <span className="chat-op-stat-value">{operatorStats.todayTotal}</span>
+              <span className="chat-op-stat-label">امروز</span>
+            </div>
+            <div className="chat-op-stat">
+              <span className="chat-op-stat-value">{operatorStats.todayResolved}</span>
+              <span className="chat-op-stat-label">حل‌شده</span>
+            </div>
+            <div className="flex-1" />
+            <span className="text-[0.6875rem] text-(--color-dz-a-text-muted)">{filtered.length} مکالمه</span>
           </div>
+        )}
 
-          {/* department filter */}
+        {/* search + filters */}
+        <div className="chat-list-controls">
+          <input className="chat-search" placeholder="جستجو…" value={query}
+            onChange={(e) => setQuery(e.target.value)} dir="rtl" />
+          <div className="chat-filter-pills">
+            {(["ALL", "NEW", "OPEN", "PENDING", "RESOLVED"] as const).map((s) => (
+              <button key={s} onClick={() => setFilter(s)}
+                className={`chat-filter-pill${filter === s ? " active" : ""}`}>
+                {s === "ALL" ? "همه" : STATUS_LABEL[s]}
+                <span className="count">{counts[s]}</span>
+              </button>
+            ))}
+          </div>
           {departments.length > 0 && (
-            <select
-              value={dept}
-              onChange={(e) => setDept(e.target.value)}
-              aria-label="فیلتر دپارتمان"
-              className="mt-2 w-full rounded-xl border border-dz-primary-200 bg-dz-canvas px-2.5 py-1.5 text-xs text-dz-primary-700 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
-            >
-              <option value="">همه‌ی دپارتمان‌ها</option>
+            <select className="chat-search text-sm" value={dept} onChange={(e) => setDept(e.target.value)}>
+              <option value="">همه دپارتمان‌ها</option>
               {departments.map((d) => (
-                <option key={d.id} value={d.id}>
-                  {d.name}
-                </option>
+                <option key={d.id} value={d.id}>{d.name}</option>
               ))}
             </select>
           )}
         </div>
 
         {/* list */}
-        <div className="min-h-0 flex-1 overflow-y-auto">
-          {filtered.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center gap-2 p-8 text-center">
-              <Inbox className="size-9 text-dz-primary-200 dark:text-dz-night-faint" aria-hidden />
-              <p className="text-sm text-dz-primary-400 dark:text-dz-night-muted">
-                {conversations.length === 0 ? "هنوز گفت‌وگویی ثبت نشده است." : "موردی با این فیلتر یافت نشد."}
-              </p>
-            </div>
-          ) : (
-            <ul>
-              {filtered.map((conv) => {
-                const isSelected = conv.id === activeId;
-                return (
-                  <li key={conv.id}>
-                    <Link
-                      href={`/admin/chat/${conv.id}`}
-                      aria-current={isSelected ? "true" : undefined}
-                      className={`focus-ring flex gap-3 border-b border-dz-primary-50 px-3 py-3 transition-colors dark:border-dz-night-line ${
-                        isSelected
-                          ? "bg-dz-primary-50 dark:bg-white/5"
-                          : "hover:bg-dz-primary-50/50 dark:hover:bg-white/[0.03]"
-                      }`}
-                    >
-                      <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-dz-primary-100 font-heading text-sm font-bold text-dz-primary-700 dark:bg-white/5 dark:text-dz-night-fg">
-                        {conv.displayName.slice(0, 1)}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="truncate text-sm font-bold text-dz-primary-800 dark:text-dz-night-fg">
-                            {conv.displayName}
-                          </span>
-                          <span className="shrink-0 text-[0.66rem] text-dz-primary-300 dark:text-dz-night-faint">
-                            <ChatTime iso={conv.lastMessageAt} />
-                          </span>
-                        </div>
-                        <p className="mt-0.5 truncate text-xs text-dz-primary-400 dark:text-dz-night-muted">
-                          {conv.lastMessagePreview ?? "—"}
-                        </p>
-                        <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-                          <AdminStatusBadge tone={STATUS_BADGE_TONE[conv.status]}>
-                            {STATUS_LABEL[conv.status]}
-                          </AdminStatusBadge>
-                          {conv.departmentName && (
-                            <span className="rounded-full bg-dz-primary-50 px-1.5 py-0.5 text-[0.62rem] font-medium text-dz-primary-500 dark:bg-white/5 dark:text-dz-night-muted">
-                              {conv.departmentName}
-                            </span>
-                          )}
-                          {conv.isGuest && (
-                            <span className="text-[0.62rem] text-dz-primary-300 dark:text-dz-night-faint">مهمان</span>
-                          )}
-                        </div>
-                      </div>
-                      {conv.unreadForAdmin > 0 && (
-                        <span className="mt-1 inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-dz-primary-600 px-1.5 text-[0.66rem] font-bold text-white">
-                          {conv.unreadForAdmin}
-                        </span>
-                      )}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+        <ul className="chat-conv-list">
+          {filtered.length === 0 && (
+            <li className="py-10 text-center text-sm text-(--color-dz-a-text-muted)">
+              مکالمه‌ای یافت نشد
+            </li>
           )}
-        </div>
-      </div>
+          {filtered.map((c) => (
+            <ConvItem key={c.id} conv={c} isActive={active?.id === c.id} />
+          ))}
+        </ul>
+      </aside>
 
-      {/* ===== detail pane ===== */}
-      <div className={`min-h-0 flex-1 flex-col lg:flex ${active ? "flex" : "hidden lg:flex"}`}>
+      {/* thread pane */}
+      <main className="chat-thread-pane">
         {active ? (
           <ChatConversationDetail
             conversation={active}
@@ -226,19 +238,52 @@ export function AdminChatWorkspace({
             currentUserId={currentUserId}
           />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center">
-            <span className="grid size-16 place-items-center rounded-2xl bg-dz-primary-50 text-dz-primary-300 dark:bg-white/5 dark:text-dz-night-faint">
-              <MessageSquare className="size-8" aria-hidden />
-            </span>
-            <p className="font-heading text-base font-bold text-dz-primary-700 dark:text-dz-night-fg">
-              گفت‌وگویی را انتخاب کنید
-            </p>
-            <p className="max-w-xs text-sm text-dz-primary-400 dark:text-dz-night-muted">
-              برای دیدن پیام‌ها و پاسخ‌دادن، یک گفت‌وگو را از فهرست سمت راست انتخاب کنید.
-            </p>
+          <div className="flex flex-col items-center justify-center h-full gap-3 text-(--color-dz-a-text-muted)">
+            <MessageSquare size={44} strokeWidth={1.2} />
+            <p className="text-sm">یک مکالمه را انتخاب کنید</p>
           </div>
         )}
-      </div>
+      </main>
     </div>
+  );
+}
+
+// ---- conv list item ----
+
+function ConvItem({ conv, isActive }: { conv: AdminConversationListItem; isActive: boolean }) {
+  return (
+    <li>
+      <Link href={`/admin/chat/${conv.id}`}
+        className={`chat-conv-item${isActive ? " active" : ""}${conv.unreadForAdmin > 0 ? " has-unread" : ""}`}>
+        {/* row 1 */}
+        <div className="chat-conv-row1">
+          <div className="chat-conv-avatar">{conv.displayName.charAt(0) || "?"}</div>
+          <span className="chat-conv-name">{conv.displayName}</span>
+          <span className="chat-conv-time"><ChatTime iso={conv.lastMessageAt} /></span>
+          {conv.unreadForAdmin > 0 && (
+            <span className="chat-unread-badge">{conv.unreadForAdmin}</span>
+          )}
+        </div>
+        {/* row 2: timer when visitor is waiting, preview when operator replied */}
+        <div className="chat-conv-row2">
+          {conv.lastSenderRole === "VISITOR" ? (
+            <WaitTimer lastMessageAt={conv.lastMessageAt} lastSenderRole={conv.lastSenderRole} />
+          ) : (
+            <span className="chat-conv-preview">{conv.lastMessagePreview ?? "…"}</span>
+          )}
+        </div>
+        {/* row 3 */}
+        <div className="chat-conv-row3">
+          <PriorityDot p={conv.aiPriority} />
+          <AdminStatusBadge tone={STATUS_BADGE_TONE[conv.status]}>{STATUS_LABEL[conv.status]}</AdminStatusBadge>
+          <SentimentChip s={conv.sentiment} />
+          <TierChip tier={conv.customerTier} />
+          {conv.topicLabel && <span className="chat-topic-label">{conv.topicLabel}</span>}
+          {conv.departmentName && !conv.topicLabel && (
+            <span className="chat-topic-label">{conv.departmentName}</span>
+          )}
+        </div>
+      </Link>
+    </li>
   );
 }

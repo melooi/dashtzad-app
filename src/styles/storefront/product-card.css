@@ -1,0 +1,844 @@
+/* ============================================================
+   STOREFRONT PRODUCT CARD (FRONT-CP1.2)
+   Faithful port of design-export product-card.css, scoped to the
+   `store-*` palette. Premium Iranian food-commerce: packaged goods
+   shown contained on white, warm surfaces, calm elevation.
+   Class prefix `store-card`. Used only by product storefront.
+   ============================================================ */
+.store-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-store-surface);
+  border: 0.0625rem solid var(--color-store-border);
+  border-radius: var(--radius-store-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-store-card);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1),
+    box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1),
+    border-color 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+.store-card:hover {
+  transform: translateY(-0.4rem);
+  border-color: var(--color-store-primary);
+  box-shadow: var(--shadow-store-card-hover);
+}
+/* Accessible focus rings for everything interactive inside a card. */
+.store-card a:focus-visible,
+.store-card button:focus-visible,
+.store-focus:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-store-bg),
+    0 0 0 4px color-mix(in srgb, var(--color-store-primary) 55%, transparent);
+  border-radius: var(--radius-store-sm);
+}
+
+/* ---- media ---- */
+.store-card__media-wrap { position: relative; }
+.store-card__media {
+  position: relative;
+  display: block;
+  block-size: 15.5rem;
+  padding: 0.75rem;
+  background: var(--color-store-surface);
+  overflow: hidden;
+  cursor: pointer;
+}
+.store-card__media img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  transition: transform 0.35s ease;
+}
+.store-card:hover .store-card__media img { transform: scale(1.05); }
+.store-card__placeholder {
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 1.1rem,
+    color-mix(in srgb, var(--color-store-text-faint), transparent 94%) 1.1rem 2.2rem
+  );
+}
+
+/* ---- favorite (client-only / local) ---- */
+.store-card__fav {
+  position: absolute;
+  inset-block-start: 0.8rem;
+  inset-inline-end: 0.8rem;
+  z-index: 3;
+  inline-size: 2.4rem;
+  block-size: 2.4rem;
+  border-radius: var(--radius-store-pill);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--color-store-text-faint);
+  border: 0.09375rem solid var(--color-store-border);
+  background: color-mix(in srgb, var(--color-store-surface), transparent 8%);
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.store-card__fav:hover { color: var(--color-store-clay); border-color: var(--color-store-clay); }
+.store-card__fav.is-fav {
+  color: var(--color-store-text-inverse);
+  border-color: var(--color-store-clay);
+  background: var(--color-store-clay);
+}
+/* pop = scale-bounce when adding to wishlist */
+.store-card__fav.is-pop { animation: storeFavPop 0.42s cubic-bezier(0.18, 0.9, 0.32, 1.4); }
+/* burst = ring that expands and fades */
+.store-card__fav-burst {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-store-pill);
+  pointer-events: none;
+}
+.store-card__fav.is-pop .store-card__fav-burst {
+  animation: storeFavBurst 0.5s ease-out forwards;
+}
+@keyframes storeFavPop {
+  0%   { transform: scale(1); }
+  28%  { transform: scale(0.82); }
+  55%  { transform: scale(1.22); }
+  78%  { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+@keyframes storeFavBurst {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-store-clay), transparent 40%); opacity: 0.9; }
+  100% { box-shadow: 0 0 0 1.4rem color-mix(in srgb, var(--color-store-clay), transparent 100%); opacity: 0; }
+}
+
+/* ---- top flag badge ---- */
+.store-card__flag {
+  position: absolute;
+  inset-block-start: 0.8rem;
+  inset-inline-start: 0.8rem;
+  z-index: 2;
+}
+.store-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-weight: 700;
+  font-size: 0.75rem;
+  border-radius: var(--radius-store-pill);
+  padding: 0.3rem 0.7rem;
+  box-shadow: var(--shadow-store-card);
+}
+.store-card__badge--bestseller { background: color-mix(in srgb, var(--color-store-clay-soft), transparent 12%); color: var(--color-store-clay-deep); }
+.store-card__badge--discount   { background: color-mix(in srgb, var(--color-store-amber-soft), transparent 12%); color: var(--color-store-gold-deep); }
+.store-card__badge--special    { background: color-mix(in srgb, var(--color-store-primary-soft), transparent 12%); color: var(--color-store-primary-hover); }
+.store-card__badge--new        { background: color-mix(in srgb, var(--color-store-primary-soft), transparent 12%); color: var(--color-store-new); }
+.store-card__badge--gift       { background: color-mix(in srgb, var(--color-store-gift), transparent 86%); color: var(--color-store-gift); }
+
+/* ---- category label (on image) ---- */
+.store-card__cat {
+  position: absolute;
+  inset-block-end: 0.8rem;
+  inset-inline-start: 0.8rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--color-store-primary);
+  text-shadow: 0 0.06rem 0.18rem color-mix(in srgb, var(--color-store-surface), transparent 4%);
+}
+.store-card__cat--green { color: var(--color-store-primary); }
+.store-card__cat--clay { color: var(--color-store-clay); }
+.store-card__cat--gold { color: var(--color-store-gold-deep); }
+
+/* ---- flash-sale timer (شگفت‌انگیز) — bottom-inline-end of media ---- */
+.store-card__timer {
+  position: absolute;
+  inset-block-end: 0.8rem;
+  inset-inline-end: 0.8rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-weight: 700;
+  font-size: 0.69rem;
+  color: var(--color-store-text-inverse);
+  background: color-mix(in srgb, var(--color-store-clay), transparent 6%);
+  border-radius: var(--radius-store-pill);
+  padding: 0.26rem 0.53rem;
+  box-shadow: var(--shadow-store-card);
+}
+.store-card__timer svg { animation: storeBolt 1.4s ease-in-out infinite; }
+.store-card__timer b { font-variant-numeric: tabular-nums; letter-spacing: 0.03em; }
+@keyframes storeBolt { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+
+/* ---- out of stock ---- */
+.store-card--oos .store-card__media { filter: grayscale(0.92) opacity(0.6); }
+.store-card--oos:hover { transform: none; border-color: var(--color-store-border); box-shadow: var(--shadow-store-card); }
+.store-card--oos:hover .store-card__media img { transform: none; }
+.store-card__oos { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; z-index: 2; }
+.store-card__oos-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--color-store-text-inverse);
+  background: color-mix(in srgb, var(--color-store-text), transparent 10%);
+  border-radius: var(--radius-store-pill);
+  padding: 0.4rem 0.9rem;
+  box-shadow: var(--shadow-store-popover);
+}
+
+/* ---- body ---- */
+.store-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem 1rem;
+  flex: 1 1 auto;
+}
+.store-card__title-link { text-decoration: none; color: inherit; }
+.store-card__title-link:hover .store-card__title { color: var(--color-store-primary); }
+.store-card__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.45;
+  margin: 0;
+  color: var(--color-store-text);
+  transition: color 0.15s ease;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-block-size: 2.8em;
+}
+
+/* ---- meta rows ---- */
+.store-card__meta { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; min-block-size: 1.4rem; }
+.store-card__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-store-text-muted);
+  margin-inline-start: auto;
+}
+.store-card__rating svg { color: var(--color-store-gold); }
+.store-card__rating-count { color: var(--color-store-text-faint); }
+.store-card__weight {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-store-text-faint);
+}
+.store-card__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 0.7rem;
+  border-radius: var(--radius-store-pill);
+  padding: 0.22rem 0.6rem;
+}
+.store-card__chip--stock { color: var(--color-store-clay-deep); background: var(--color-store-clay-soft); margin-inline-start: auto; }
+
+/* ---- foot: price + action ---- */
+.store-card__foot {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-block-start: auto;
+  padding-block-start: 0.75rem;
+  border-block-start: 0.0625rem solid var(--color-store-border);
+}
+.store-card__price { display: flex; flex-direction: column; min-inline-size: 0; }
+.store-card__price-was {
+  font-size: 0.78rem;
+  color: var(--color-store-clay);
+  text-decoration: line-through;
+  text-decoration-color: var(--color-store-clay);
+  font-variant-numeric: tabular-nums;
+}
+.store-card__price-now {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-store-text);
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25em;
+}
+.store-card__price-na { font-weight: 700; font-size: 0.9rem; color: var(--color-store-text-faint); }
+
+/* toman icon — mask of toman.svg, takes currentColor */
+.store-toman {
+  display: inline-block;
+  inline-size: 0.9em;
+  block-size: 0.78em;
+  vertical-align: -0.02em;
+  flex: 0 0 auto;
+  background-color: currentColor;
+  -webkit-mask: url("/icons/toman.svg") center / contain no-repeat;
+  mask: url("/icons/toman.svg") center / contain no-repeat;
+}
+
+/* ---- actions ---- */
+.store-card__add {
+  inline-size: 2.9rem;
+  block-size: 2.9rem;
+  flex: none;
+  border: 0;
+  cursor: pointer;
+  border-radius: var(--radius-store-md);
+  background: var(--color-store-primary);
+  color: var(--color-store-text-inverse);
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  box-shadow: 0 0.375rem 1rem color-mix(in srgb, var(--color-store-primary), transparent 74%);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.store-card__add:hover { background: var(--color-store-primary-hover); }
+.store-card__add:active { transform: scale(0.94); }
+.store-card__add--cart {
+  inline-size: auto;
+  padding-inline: 1.1rem;
+  gap: 0.45em;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.store-card__view {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  block-size: 2.9rem;
+  padding-inline: 1.1rem;
+  border-radius: var(--radius-store-md);
+  background: var(--color-store-surface);
+  color: var(--color-store-primary-hover);
+  border: 0.09375rem solid var(--color-store-primary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.store-card__view:hover { background: var(--color-store-primary); color: var(--color-store-text-inverse); }
+.store-card__contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  block-size: 2.9rem;
+  padding-inline: 1.1rem;
+  border-radius: var(--radius-store-md);
+  background: color-mix(in srgb, var(--color-store-info), transparent 88%);
+  color: var(--color-store-info);
+  border: 0.09375rem solid color-mix(in srgb, var(--color-store-info), transparent 55%);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.store-card__contact:hover { background: var(--color-store-info); color: var(--color-store-text-inverse); }
+
+/* notify bell — OOS products that can come back in stock */
+.store-card__notify {
+  inline-size: 2.9rem;
+  block-size: 2.9rem;
+  flex: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 1.05rem;
+  border-radius: var(--radius-store-md);
+  background: var(--color-store-surface);
+  color: var(--color-store-clay);
+  border: 0.09375rem solid var(--color-store-clay);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.store-card__notify:hover { background: var(--color-store-clay); color: var(--color-store-text-inverse); }
+
+/* installment chip */
+.store-card__chip--installment {
+  color: var(--color-store-primary-hover);
+  background: color-mix(in srgb, var(--color-store-primary-soft), transparent 38%);
+}
+
+/* ---- notify full-card overlay (position: absolute; inset: 0 روی store-card) ---- */
+.store-card__npop {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.1rem;
+  background: color-mix(in srgb, var(--color-store-surface), transparent 2%);
+  animation: storeNpopIn 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+@keyframes storeNpopIn {
+  0%   { opacity: 0; transform: translateY(-0.5rem) scale(0.97); }
+  100% { opacity: 1; transform: none; }
+}
+/* close X — top-inline-end of the overlay */
+.store-card__npop-x {
+  position: absolute;
+  inset-block-start: 0.8rem;
+  inset-inline-end: 0.8rem;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border-radius: var(--radius-store-pill);
+  border: 0.0625rem solid var(--color-store-border);
+  background: var(--color-store-surface);
+  color: var(--color-store-text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.store-card__npop-x:hover { border-color: var(--color-store-clay); color: var(--color-store-clay); }
+/* centered content block */
+.store-card__npop-in {
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  text-align: center;
+  align-items: center;
+}
+.store-card__npop-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: none;
+  color: var(--color-store-clay);
+}
+.store-card__npop-h {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--color-store-text);
+  margin: 0;
+}
+.store-card__npop-in p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-store-text-muted);
+  line-height: 1.8;
+}
+.store-card__npop-desc {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-store-text-muted);
+  line-height: 1.8;
+}
+.store-card__npop-input {
+  inline-size: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-store-md);
+  border: 0.09375rem solid var(--color-store-border);
+  font-family: inherit;
+  font-size: 0.95rem;
+  text-align: center;
+  box-sizing: border-box;
+  background: var(--color-store-surface);
+  color: var(--color-store-text);
+  transition: border-color 0.15s ease;
+}
+.store-card__npop-input:focus {
+  outline: none;
+  border-color: var(--color-store-primary);
+}
+.store-card__npop-go {
+  inline-size: 100%;
+  padding: 0.75rem;
+  border-radius: var(--radius-store-md);
+  background: var(--color-store-primary);
+  color: var(--color-store-text-inverse);
+  border: 0;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  box-shadow: 0 0.375rem 1rem color-mix(in srgb, var(--color-store-primary), transparent 74%);
+}
+.store-card__npop-go:hover { background: var(--color-store-primary-hover); }
+.store-card__npop-go:disabled { opacity: 0.6; cursor: not-allowed; }
+/* done state — icon turns primary green */
+.store-card__npop--done .store-card__npop-icon { color: var(--color-store-primary); }
+
+/* ============================================================
+   Variant add flow — weight → packaging selector + qty stepper
+   Faithful port of design-export .dz-product-card__wsel / __qty.
+   ============================================================ */
+/* quantity stepper (replaces the + button after adding) */
+.store-card__qty {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  block-size: 2.9rem;
+  background: var(--color-store-primary-soft);
+  border: 0.0625rem solid var(--color-store-primary);
+  border-radius: var(--radius-store-md);
+  box-shadow: 0 0.375rem 1rem color-mix(in srgb, var(--color-store-primary), transparent 80%);
+  animation: storeQtyIn 0.34s cubic-bezier(0.2, 0.9, 0.3, 1.35);
+}
+.store-card__qty-btn {
+  inline-size: 2.4rem;
+  block-size: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--color-store-primary-hover);
+  cursor: pointer;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.store-card__qty-btn:hover { background: color-mix(in srgb, var(--color-store-primary), transparent 82%); }
+.store-card__qty-btn.is-danger { color: var(--color-store-text-inverse); background: var(--color-store-clay); }
+.store-card__qty-n {
+  min-inline-size: 1.9rem;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--color-store-primary-hover);
+  font-variant-numeric: tabular-nums;
+}
+@keyframes storeQtyIn {
+  0%   { transform: scale(0.55); opacity: 0; }
+  60%  { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* weight/packaging selector — full-card overlay */
+.store-card__wsel {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  padding: 1.25rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.9rem;
+  background: color-mix(in srgb, var(--color-store-surface), transparent 2%);
+  animation: storeWselIn 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+@keyframes storeWselIn {
+  0%   { opacity: 0; transform: translateY(-0.5rem) scale(0.97); }
+  100% { opacity: 1; transform: none; }
+}
+.store-card__wstep { display: flex; flex-direction: column; gap: 0.6rem; }
+.store-card__wsel-h {
+  font-size: 0.72rem;
+  color: var(--color-store-text-faint);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.store-card__wback {
+  border: 0;
+  background: transparent;
+  color: var(--color-store-text-faint);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+.store-card__wback:hover { color: var(--color-store-primary-hover); }
+.store-card__wopts { display: flex; flex-direction: column; gap: 0.4rem; }
+.store-card__wopt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  inline-size: 100%;
+  padding: 0.55rem 0.7rem;
+  text-align: start;
+  border-radius: var(--radius-store-sm);
+  border: 0.09375rem solid var(--color-store-border);
+  background: var(--color-store-surface);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--color-store-text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.store-card__wopt:hover { border-color: var(--color-store-primary); }
+.store-card__wopt:disabled { opacity: 0.45; cursor: not-allowed; }
+.store-card__wradio {
+  inline-size: 1.1rem;
+  block-size: 1.1rem;
+  border-radius: var(--radius-store-pill);
+  border: 0.125rem solid var(--color-store-border-strong);
+  flex: none;
+  position: relative;
+  transition: border-color 0.15s ease;
+}
+.store-card__wopt.is-sel { border-color: var(--color-store-primary); background: color-mix(in srgb, var(--color-store-primary-soft), transparent 35%); }
+.store-card__wopt.is-sel .store-card__wradio { border-color: var(--color-store-primary); }
+.store-card__wopt.is-sel .store-card__wradio::after {
+  content: "";
+  position: absolute;
+  inset: 0.18rem;
+  border-radius: var(--radius-store-pill);
+  background: var(--color-store-primary);
+}
+.store-card__wopt-price {
+  margin-inline-start: auto;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--color-store-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+.store-card__wopt.is-sel .store-card__wopt-price { color: var(--color-store-primary-hover); }
+.store-card__wprice {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-store-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+.store-card__wprice b {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--color-store-text);
+  font-variant-numeric: tabular-nums;
+}
+.store-card__wnext {
+  inline-size: 100%;
+  padding: 0.7rem;
+  border-radius: var(--radius-store-sm);
+  background: var(--color-store-primary);
+  color: var(--color-store-text-inverse);
+  border: 0;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: background 0.15s ease;
+}
+.store-card__wnext:hover { background: var(--color-store-primary-hover); }
+.store-card__wnext:disabled { opacity: 0.6; cursor: not-allowed; }
+.store-card__wview {
+  inline-size: 100%;
+  margin-block-start: 0.4rem;
+  padding: 0.7rem;
+  border-radius: var(--radius-store-sm);
+  background: var(--color-store-surface);
+  color: var(--color-store-primary-hover);
+  border: 0.09375rem solid var(--color-store-primary);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.store-card__wview:hover { background: var(--color-store-primary); color: var(--color-store-text-inverse); }
+
+/* ============================================================
+   Card variants
+   ============================================================ */
+/* compact — denser grid card */
+.store-card--compact .store-card__media { block-size: 12rem; }
+.store-card--compact .store-card__body { padding: 0.7rem 0.8rem 0.85rem; gap: 0.4rem; }
+.store-card--compact .store-card__title { font-size: 0.9rem; min-block-size: 2.6em; }
+.store-card--compact .store-card__price-now { font-size: 1.1rem; }
+
+/* mini — tiny strip / sidebar card */
+.store-card--mini .store-card__media { block-size: 9rem; padding: 0.6rem; }
+.store-card--mini .store-card__body { padding: 0.6rem 0.7rem 0.75rem; gap: 0.35rem; }
+.store-card--mini .store-card__title { font-size: 0.8rem; min-block-size: 0; -webkit-line-clamp: 1; line-clamp: 1; }
+.store-card--mini .store-card__foot { padding-block-start: 0.5rem; }
+.store-card--mini .store-card__price-now { font-size: 1rem; }
+
+/* featured — large premium highlight card */
+.store-card--featured { border-radius: 1.75rem; }
+.store-card--featured .store-card__media { block-size: 20rem; padding: 1.1rem; }
+.store-card--featured .store-card__body { padding: 1.1rem 1.25rem 1.25rem; gap: 0.6rem; }
+.store-card--featured .store-card__title { font-size: 1.15rem; }
+.store-card--featured .store-card__price-now { font-size: 1.45rem; }
+
+/* list — horizontal row */
+.store-card--list { flex-direction: row; height: auto; }
+.store-card--list .store-card__media-wrap { flex: 0 0 auto; }
+.store-card--list .store-card__media { inline-size: 9rem; block-size: 9rem; padding: 0.6rem; }
+.store-card--list .store-card__body { padding: 0.85rem 1rem; }
+.store-card--list .store-card__title { min-block-size: 0; }
+.store-card--list:hover { transform: none; box-shadow: var(--shadow-store-card-hover); }
+
+@media (max-width: 30rem) {
+  .store-card__media { block-size: 13rem; }
+  .store-card__title { font-size: 0.9rem; }
+  .store-card__price-now { font-size: 1.1rem; }
+}
+
+/* ---- skeleton loading card ---- */
+.store-card-sk {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-store-surface);
+  border: 0.0625rem solid var(--color-store-border);
+  border-radius: var(--radius-store-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-store-card);
+}
+.store-card-sk__body {
+  padding: 0.85rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.store-card-sk__img { block-size: 15.5rem; border-radius: 0; }
+.dz-sk {
+  background: linear-gradient(
+    90deg,
+    var(--color-store-border) 25%,
+    var(--color-store-surface-soft) 37%,
+    var(--color-store-border) 63%
+  );
+  background-size: 400% 100%;
+  animation: dzSkStore 2.4s ease-in-out infinite;
+  border-radius: var(--radius-store-sm);
+}
+@keyframes dzSkStore {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================================
+   STOREFRONT UI SYSTEM (FRONT-UIUX-SYSTEM-CP1)
+   Shared button/eyebrow/section utilities so public pages stop
+   improvising. Store palette only; admin dz-* untouched.
+   ============================================================ */
+.store-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-store-md);
+  padding-inline: 1.25rem;
+  min-block-size: 2.875rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, opacity 0.18s ease;
+  text-decoration: none;
+}
+.store-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-store-bg),
+    0 0 0 4px color-mix(in srgb, var(--color-store-primary) 55%, transparent);
+}
+.store-btn:disabled,
+.store-btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.store-btn-primary {
+  background: var(--color-store-primary);
+  color: var(--color-store-text-inverse);
+  box-shadow: 0 0.375rem 1rem color-mix(in srgb, var(--color-store-primary), transparent 78%);
+}
+.store-btn-primary:hover { background: var(--color-store-primary-hover); }
+.store-btn-secondary {
+  background: var(--color-store-surface);
+  color: var(--color-store-text-muted);
+  border: 0.0625rem solid var(--color-store-border);
+}
+.store-btn-secondary:hover {
+  border-color: var(--color-store-primary);
+  color: var(--color-store-primary-hover);
+}
+.store-btn-soft {
+  background: var(--color-store-primary-soft);
+  color: var(--color-store-primary-hover);
+}
+.store-btn-soft:hover { background: color-mix(in srgb, var(--color-store-primary-soft), var(--color-store-primary) 14%); }
+
+/* Eyebrow chip (hero kicker) */
+.store-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  inline-size: fit-content;
+  border-radius: var(--radius-store-pill);
+  border: 0.0625rem solid var(--color-store-border);
+  background: color-mix(in srgb, var(--color-store-surface), transparent 30%);
+  padding: 0.375rem 0.875rem;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  color: var(--color-store-primary-hover);
+}
+
+/* Section heading: olive bar + Kalameh title */
+.store-section-bar {
+  display: inline-block;
+  block-size: 1.75rem;
+  inline-size: 0.375rem;
+  border-radius: var(--radius-store-pill);
+  background: var(--color-store-primary);
+}
+
+/* Filter/category pill chip (shared by PLP + blog). `.is-on` = active. */
+.store-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: var(--radius-store-pill);
+  border: 0.0625rem solid var(--color-store-border);
+  background: var(--color-store-surface);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-store-text-muted);
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.store-chip:hover {
+  border-color: var(--color-store-primary);
+  color: var(--color-store-primary-hover);
+}
+.store-chip.is-on {
+  border-color: var(--color-store-primary);
+  background: var(--color-store-primary);
+  color: var(--color-store-text-inverse);
+}
+.store-chip:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-store-bg),
+    0 0 0 4px color-mix(in srgb, var(--color-store-primary) 55%, transparent);
+}

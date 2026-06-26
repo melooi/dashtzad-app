@@ -126,34 +126,34 @@ export function MenuItemsManager({ menuId, items }: { menuId: string; items: Men
   const renderRow = (r: MenuItemRow, i: number, count: number, nested: boolean) => (
     <div
       key={r.id}
-      className={`flex items-center justify-between gap-2 rounded-xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card p-3 ${nested ? "me-6" : ""}`}
+      className={`flex items-center justify-between gap-2 rounded-xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card p-3 ${nested ? "me-6" : ""}`}
     >
       <div className="flex min-w-0 items-center gap-2">
-        {nested && <CornerDownLeft className="size-3.5 shrink-0 text-dz-primary-300 dark:text-dz-night-faint" />}
+        {nested && <CornerDownLeft className="size-3.5 shrink-0 text-dz-a-primary-300 dark:text-dz-a-night-faint" />}
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-medium text-dz-primary-800 dark:text-dz-night-fg">{r.label}</span>
+            <span className="font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">{r.label}</span>
             <AdminStatusBadge tone={r.isActive ? "green" : "gray"}>{r.isActive ? "فعال" : "غیرفعال"}</AdminStatusBadge>
             {r.badge && <AdminStatusBadge tone="amber">{r.badge}</AdminStatusBadge>}
-            {!r.desktopVisible && <span className="text-[10px] text-dz-primary-400 dark:text-dz-night-faint">بدون دسکتاپ</span>}
-            {!r.mobileVisible && <span className="text-[10px] text-dz-primary-400 dark:text-dz-night-faint">بدون موبایل</span>}
+            {!r.desktopVisible && <span className="text-[10px] text-dz-a-primary-400 dark:text-dz-a-night-faint">بدون دسکتاپ</span>}
+            {!r.mobileVisible && <span className="text-[10px] text-dz-a-primary-400 dark:text-dz-a-night-faint">بدون موبایل</span>}
           </div>
-          <span dir="ltr" className="block truncate text-xs text-dz-primary-400 dark:text-dz-night-faint">
+          <span dir="ltr" className="block truncate text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
             {r.href} · {LINK_TYPE_LABELS[r.linkType] ?? r.linkType}
           </span>
         </div>
       </div>
       <div className="flex shrink-0 items-center gap-1">
-        <button type="button" onClick={() => move(r.id, "up")} disabled={i === 0 || pending} title="بالا" className="rounded-lg p-1.5 text-dz-primary-500 dark:text-dz-night-muted hover:bg-dz-primary-50 dark:hover:bg-white/5 disabled:opacity-30">
+        <button type="button" onClick={() => move(r.id, "up")} disabled={i === 0 || pending} title="بالا" className="rounded-lg p-1.5 text-dz-a-primary-500 dark:text-dz-a-night-muted hover:bg-dz-a-primary-50 dark:hover:bg-white/5 disabled:opacity-30">
           <ChevronUp className="size-4" />
         </button>
-        <button type="button" onClick={() => move(r.id, "down")} disabled={i === count - 1 || pending} title="پایین" className="rounded-lg p-1.5 text-dz-primary-500 dark:text-dz-night-muted hover:bg-dz-primary-50 dark:hover:bg-white/5 disabled:opacity-30">
+        <button type="button" onClick={() => move(r.id, "down")} disabled={i === count - 1 || pending} title="پایین" className="rounded-lg p-1.5 text-dz-a-primary-500 dark:text-dz-a-night-muted hover:bg-dz-a-primary-50 dark:hover:bg-white/5 disabled:opacity-30">
           <ChevronDown className="size-4" />
         </button>
-        <button type="button" onClick={() => startEdit(r)} title="ویرایش" className="rounded-lg p-1.5 text-dz-primary-500 dark:text-dz-night-muted hover:bg-dz-primary-50 dark:hover:bg-white/5 hover:text-dz-primary-700 dark:hover:text-dz-night-fg">
+        <button type="button" onClick={() => startEdit(r)} title="ویرایش" className="rounded-lg p-1.5 text-dz-a-primary-500 dark:text-dz-a-night-muted hover:bg-dz-a-primary-50 dark:hover:bg-white/5 hover:text-dz-a-primary-700 dark:hover:text-dz-a-night-fg">
           <Pencil className="size-4" />
         </button>
-        <button type="button" onClick={() => setConfirmId(r.id)} title="حذف" className="rounded-lg p-1.5 text-dz-error/70 dark:text-dz-error-300 hover:bg-dz-error/10 hover:text-dz-error dark:hover:text-dz-error-300">
+        <button type="button" onClick={() => setConfirmId(r.id)} title="حذف" className="rounded-lg p-1.5 text-dz-a-error/70 dark:text-dz-a-error-300 hover:bg-dz-a-error/10 hover:text-dz-a-error dark:hover:text-dz-a-error-300">
           <Trash2 className="size-4" />
         </button>
       </div>
@@ -162,13 +162,13 @@ export function MenuItemsManager({ menuId, items }: { menuId: string; items: Men
 
   return (
     <div className="grid gap-5 lg:grid-cols-[360px_1fr]">
-      <div className="rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card p-5">
+      <div className="rounded-2xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card p-5">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-heading text-base font-bold text-dz-primary-800 dark:text-dz-night-fg">
+          <h2 className="font-heading text-base font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
             {editingId ? "ویرایش مورد" : "افزودن مورد"}
           </h2>
           {editingId && (
-            <button type="button" onClick={startNew} className="flex items-center gap-1 text-xs text-dz-primary-500 dark:text-dz-night-muted hover:text-dz-primary-700 dark:hover:text-dz-night-fg">
+            <button type="button" onClick={startNew} className="flex items-center gap-1 text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted hover:text-dz-a-primary-700 dark:hover:text-dz-a-night-fg">
               <Plus className="size-3.5" /> جدید
             </button>
           )}
@@ -189,7 +189,7 @@ export function MenuItemsManager({ menuId, items }: { menuId: string; items: Men
             <AdminCheckboxField name="mobileVisible" label="نمایش در موبایل" />
           </div>
           <AdminCheckboxField name="isActive" label="فعال" />
-          <button type="submit" disabled={pending} className="mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700 disabled:bg-dz-primary-300 dark:disabled:bg-dz-primary-800">
+          <button type="submit" disabled={pending} className="mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700 disabled:bg-dz-a-primary-300 dark:disabled:bg-dz-a-primary-800">
             {pending ? "در حال ذخیره…" : editingId ? "ذخیره" : "افزودن"}
           </button>
         </AdminFormShell>
@@ -197,7 +197,7 @@ export function MenuItemsManager({ menuId, items }: { menuId: string; items: Men
 
       <div className="flex flex-col gap-2">
         {tree.length === 0 && (
-          <p className="rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card p-8 text-center text-sm text-dz-primary-400 dark:text-dz-night-faint">
+          <p className="rounded-2xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card p-8 text-center text-sm text-dz-a-primary-400 dark:text-dz-a-night-faint">
             هنوز موردی در این منو نیست.
           </p>
         )}

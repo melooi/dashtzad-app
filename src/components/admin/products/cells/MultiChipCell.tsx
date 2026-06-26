@@ -77,21 +77,21 @@ export function MultiChipCell({
             onChange([]);
           }
         }}
-        className="flex min-h-[30px] w-full flex-wrap items-center gap-1 rounded-md border border-dz-primary-200 px-1.5 py-1 text-start outline-none transition-colors hover:border-dz-primary-300 focus:relative focus:z-20 focus:border-dz-primary-500 focus:ring-2 focus:ring-dz-primary-500/30 dark:border-dz-night-border dark:hover:border-dz-primary-500/50 dark:focus:border-dz-primary-400 dark:focus:ring-dz-primary-400/30"
+        className="flex min-h-[30px] w-full flex-wrap items-center gap-1 rounded-md border border-dz-a-primary-200 px-1.5 py-1 text-start outline-none transition-colors hover:border-dz-a-primary-300 focus:relative focus:z-20 focus:border-dz-a-primary-500 focus:ring-2 focus:ring-dz-a-primary-500/30 dark:border-dz-a-night-border dark:hover:border-dz-a-primary-500/50 dark:focus:border-dz-a-primary-400 dark:focus:ring-dz-a-primary-400/30"
       >
-        {selectedChips.length === 0 && <span className="px-1 text-xs text-dz-primary-400 dark:text-dz-night-faint">{placeholder}</span>}
+        {selectedChips.length === 0 && <span className="px-1 text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{placeholder}</span>}
         {selectedChips.slice(0, maxChips).map((o) => (
-          <span key={o.id} className="rounded-md bg-dz-primary-100 px-1.5 py-0.5 text-[11px] font-medium text-dz-primary-700 ring-1 ring-dz-primary-200/70 dark:bg-dz-primary-400/15 dark:text-dz-primary-200 dark:ring-dz-primary-400/25">
+          <span key={o.id} className="rounded-md bg-dz-a-primary-100 px-1.5 py-0.5 text-[11px] font-medium text-dz-a-primary-700 ring-1 ring-dz-a-primary-200/70 dark:bg-dz-a-primary-400/15 dark:text-dz-a-primary-200 dark:ring-dz-a-primary-400/25">
             {o.chip}
           </span>
         ))}
         {selectedChips.length > maxChips && (
-          <span className="text-[11px] text-dz-primary-400 dark:text-dz-night-faint">+{selectedChips.length - maxChips}</span>
+          <span className="text-[11px] text-dz-a-primary-400 dark:text-dz-a-night-faint">+{selectedChips.length - maxChips}</span>
         )}
       </button>
 
       {open && (
-        <div className="absolute top-full right-0 z-30 mt-1 w-60 rounded-xl border border-dz-primary-100 bg-white p-1.5 shadow-card ring-1 ring-dz-primary-50 dark:border-dz-night-border dark:bg-dz-night-elevated dark:ring-dz-night-border">
+        <div className="absolute top-full right-0 z-30 mt-1 w-60 rounded-xl border border-dz-a-primary-100 bg-white p-1.5 shadow-card ring-1 ring-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:ring-dz-a-night-border">
           {popoverHeader}
           <input
             autoFocus
@@ -104,7 +104,7 @@ export function MultiChipCell({
               }
             }}
             placeholder="جستجو…"
-            className="mb-1.5 w-full rounded-md border border-dz-primary-200 px-2 py-1 text-xs outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night dark:text-dz-night-fg dark:placeholder:text-dz-night-faint dark:focus:border-dz-primary-400"
+            className="mb-1.5 w-full rounded-md border border-dz-a-primary-200 px-2 py-1 text-xs outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night dark:text-dz-a-night-fg dark:placeholder:text-dz-a-night-faint dark:focus:border-dz-a-primary-400"
           />
           <div className="max-h-44 overflow-y-auto">
             {filtered.map((o) => {
@@ -114,25 +114,25 @@ export function MultiChipCell({
                   key={o.id}
                   type="button"
                   onClick={() => toggle(o.id)}
-                  className={`flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 text-start text-xs transition-colors hover:bg-dz-primary-50 dark:hover:bg-white/5 ${
-                    on ? "bg-dz-primary-50/70 font-medium text-dz-primary-700 dark:bg-white/5 dark:text-dz-primary-200" : "text-dz-primary-800 dark:text-dz-night-fg"
+                  className={`flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 text-start text-xs transition-colors hover:bg-dz-a-primary-50 dark:hover:bg-white/5 ${
+                    on ? "bg-dz-a-primary-50/70 font-medium text-dz-a-primary-700 dark:bg-white/5 dark:text-dz-a-primary-200" : "text-dz-a-primary-800 dark:text-dz-a-night-fg"
                   }`}
                 >
                   <span className="truncate">
                     {o.label}
-                    {o.sub && <span className="mr-1 text-dz-primary-400 dark:text-dz-night-faint">— {o.sub}</span>}
+                    {o.sub && <span className="mr-1 text-dz-a-primary-400 dark:text-dz-a-night-faint">— {o.sub}</span>}
                   </span>
-                  {on && <Check className="size-3.5 shrink-0 text-dz-primary-600 dark:text-dz-primary-300" />}
+                  {on && <Check className="size-3.5 shrink-0 text-dz-a-primary-600 dark:text-dz-a-primary-300" />}
                 </button>
               );
             })}
-            {filtered.length === 0 && <p className="px-2 py-2 text-xs text-dz-primary-400 dark:text-dz-night-faint">موردی نیست</p>}
+            {filtered.length === 0 && <p className="px-2 py-2 text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">موردی نیست</p>}
           </div>
           {selectedIds.length > 0 && (
             <button
               type="button"
               onClick={() => onChange([])}
-              className="mt-1 flex w-full items-center justify-center gap-1 rounded-md py-1 text-[11px] text-dz-primary-400 hover:bg-dz-primary-50 hover:text-dz-error dark:text-dz-night-faint dark:hover:bg-white/5 dark:hover:text-dz-error-300"
+              className="mt-1 flex w-full items-center justify-center gap-1 rounded-md py-1 text-[11px] text-dz-a-primary-400 hover:bg-dz-a-primary-50 hover:text-dz-a-error dark:text-dz-a-night-faint dark:hover:bg-white/5 dark:hover:text-dz-a-error-300"
             >
               <X className="size-3" /> پاک کردن
             </button>

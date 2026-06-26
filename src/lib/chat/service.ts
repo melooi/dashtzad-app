@@ -16,11 +16,15 @@ import type {
   AdminConversationDetail,
   Department,
   OperatorPresence,
+  OperatorStats,
+  AiNextAction,
 } from "@/lib/chat/types";
+import type { ConversationAnalysis } from "./ai";
 
 const PREVIEW_MAX = 120;
 const BODY_MAX = 4000;
-const PRESENCE_TTL_MS = 120_000; // operator counts as online if seen within 2m
+const PRESENCE_TTL_MS = 120_000; // 2 min
+const TYPING_TTL_MS = 5_000;     // 5 sec
 
 type AttachmentInput = { url: string; name: string; mime: string; size: number } | null | undefined;
 
@@ -29,7 +33,6 @@ function preview(body: string): string {
   return t.length > PREVIEW_MAX ? `${t.slice(0, PREVIEW_MAX - 1)}…` : t;
 }
 
-/** Trim + hard-cap a message body. Returns "" for whitespace-only input. */
 export function cleanBody(body: string): string {
   return (body ?? "").trim().slice(0, BODY_MAX);
 }
@@ -61,7 +64,7 @@ async function countOnlineOperators(): Promise<number> {
   });
 }
 
-// ---- public config (storefront-safe subset) ----
+// ---- public config ----
 
 export async function getChatPublicConfig(): Promise<ChatPublicConfig> {
   const s = await getChatSettings();
@@ -85,7 +88,6 @@ export async function getChatPublicConfig(): Promise<ChatPublicConfig> {
     }
   }
 
-  // Effective availability = admin master switch AND at least one operator present.
   const operatorsOnline = s.operatorsOnline && (await countOnlineOperators()) > 0;
 
   return {
@@ -137,7 +139,6 @@ function toConversationView(c: Conversation & { messages: ChatMessage[] }): Conv
     operatorName: null,
     seenByOperator: c.unreadForAdmin === 0,
     rating: c.rating ?? null,
-    // Internal notes are operator-only — never shown to the visitor.
     messages: c.messages.filter((m) => !m.isInternalNote).map(toMessageView),
   };
 }
@@ -165,6 +166,7 @@ export async function createVisitorConversation(input: {
       guestPhone: user ? null : input.guestPhone?.trim() || null,
       lastMessageAt: now,
       lastMessagePreview: previewFor(body, input.attachment),
+      lastSenderRole: "VISITOR",
       unreadForAdmin: 1,
       messages: {
         create: { senderRole: "VISITOR", body, authorId: user?.id ?? null, ...attachmentData(input.attachment) },
@@ -194,8 +196,10 @@ export async function appendVisitorMessage(
       data: {
         lastMessageAt: new Date(),
         lastMessagePreview: previewFor(clean, attachment),
+        lastSenderRole: "VISITOR",
         unreadForAdmin: { increment: 1 },
         status: conv.status === "RESOLVED" ? "OPEN" : conv.status,
+        visitorTypingAt: null,
       },
     }),
   ]);
@@ -232,6 +236,14 @@ export async function rateConversation(
   return getConversationByToken(token);
 }
 
+/** Called by visitor while typing — sets a heartbeat so admin can show indicator. */
+export async function setVisitorTyping(token: string): Promise<void> {
+  await prisma.conversation.updateMany({
+    where: { publicToken: token },
+    data: { visitorTypingAt: new Date() },
+  });
+}
+
 // ---- admin / operator side ----
 
 export async function listAdminConversations(
@@ -246,7 +258,7 @@ export async function listAdminConversations(
     orderBy: { lastMessageAt: "desc" },
     take: 200,
     include: {
-      user: { select: { name: true, phoneNumber: true } },
+      user: { select: { name: true, phoneNumber: true, customerTier: true } },
       assignedTo: { select: { name: true } },
       department: { select: { name: true } },
     },
@@ -261,11 +273,17 @@ export async function listAdminConversations(
     isGuest: !c.userId,
     lastMessagePreview: c.lastMessagePreview,
     lastMessageAt: c.lastMessageAt.toISOString(),
+    lastSenderRole: c.lastSenderRole ?? null,
     unreadForAdmin: c.unreadForAdmin,
     assignedToName: c.assignedTo?.name?.trim() || null,
     departmentId: c.departmentId,
     departmentName: c.department?.name ?? null,
     rating: c.rating ?? null,
+    sentiment: c.sentiment ?? null,
+    aiPriority: c.aiPriority ?? null,
+    topicLabel: c.topicLabel ?? null,
+    aiAnalyzedAt: c.aiAnalyzedAt?.toISOString() ?? null,
+    customerTier: c.user?.customerTier ?? null,
   }));
 }
 
@@ -273,7 +291,7 @@ export async function getAdminConversation(id: string): Promise<AdminConversatio
   const c = await prisma.conversation.findUnique({
     where: { id },
     include: {
-      user: { select: { id: true, name: true, phoneNumber: true } },
+      user: { select: { id: true, name: true, phoneNumber: true, customerTier: true, createdAt: true } },
       assignedTo: { select: { name: true } },
       department: { select: { name: true } },
       messages: { orderBy: { createdAt: "asc" }, include: { author: { select: { name: true } } } },
@@ -281,14 +299,39 @@ export async function getAdminConversation(id: string): Promise<AdminConversatio
   });
   if (!c) return null;
 
-  const orders = c.userId
-    ? await prisma.order.findMany({
-        where: { userId: c.userId },
-        orderBy: { createdAt: "desc" },
-        take: 5,
-        select: { id: true, orderNumber: true, status: true, total_rial: true, createdAt: true },
-      })
-    : [];
+  const uid = c.userId;
+
+  // Parallel: orders, order stats, default address, customer notes
+  const [orders, orderStats, defaultAddress, customerNotes] = await Promise.all([
+    uid
+      ? prisma.order.findMany({
+          where: { userId: uid },
+          orderBy: { createdAt: "desc" },
+          take: 5,
+          select: {
+            id: true, orderNumber: true, status: true, total_rial: true, createdAt: true,
+            _count: { select: { items: true } },
+          },
+        })
+      : Promise.resolve([]),
+    uid
+      ? prisma.order.aggregate({ where: { userId: uid }, _count: { id: true }, _sum: { total_rial: true }, _max: { createdAt: true } })
+      : Promise.resolve(null),
+    uid
+      ? prisma.address.findFirst({ where: { userId: uid, isDefault: true }, select: { city: true } })
+      : Promise.resolve(null),
+    uid
+      ? prisma.customerNote.findMany({
+          where: { userId: uid },
+          orderBy: { createdAt: "desc" },
+          take: 10,
+          select: { id: true, body: true, createdAt: true, author: { select: { name: true } } },
+        })
+      : Promise.resolve([]),
+  ]);
+
+  const typingTtl = new Date(Date.now() - TYPING_TTL_MS);
+  const isVisitorTyping = c.visitorTypingAt && c.visitorTypingAt >= typingTtl;
 
   return {
     id: c.id,
@@ -308,11 +351,32 @@ export async function getAdminConversation(id: string): Promise<AdminConversatio
     ratingComment: c.ratingComment ?? null,
     seenByVisitor: c.unreadForVisitor === 0,
     createdAt: c.createdAt.toISOString(),
+    sentiment: c.sentiment ?? null,
+    aiPriority: c.aiPriority ?? null,
+    topicLabel: c.topicLabel ?? null,
+    aiSummary: c.aiSummary ?? null,
+    aiNextAction: (c.aiNextAction as AiNextAction | null) ?? null,
+    aiAnalyzedAt: c.aiAnalyzedAt?.toISOString() ?? null,
+    visitorTypingAt: isVisitorTyping ? c.visitorTypingAt!.toISOString() : null,
+    customerTier: c.user?.customerTier ?? null,
+    // Customer profile extras
+    userCreatedAt: c.user?.createdAt?.toISOString() ?? null,
+    userCity: defaultAddress?.city ?? null,
+    totalOrderCount: orderStats?._count.id ?? 0,
+    totalPurchaseRial: orderStats?._sum.total_rial ?? 0,
+    lastOrderAt: orderStats?._max.createdAt?.toISOString() ?? null,
+    customerNotes: customerNotes.map((n) => ({
+      id: n.id,
+      body: n.body,
+      authorName: n.author.name?.trim() || "اپراتور",
+      createdAt: n.createdAt.toISOString(),
+    })),
     orders: orders.map((o) => ({
       id: o.id,
       code: o.orderNumber,
       status: o.status,
       totalRial: o.total_rial,
+      itemCount: o._count.items,
       createdAt: o.createdAt.toISOString(),
     })),
     messages: c.messages.map((m) => ({
@@ -327,6 +391,23 @@ export async function getAdminConversation(id: string): Promise<AdminConversatio
         : null,
     })),
   };
+}
+
+export async function updateConversationAi(
+  conversationId: string,
+  analysis: ConversationAnalysis,
+): Promise<void> {
+  await prisma.conversation.update({
+    where: { id: conversationId },
+    data: {
+      sentiment: analysis.sentiment,
+      aiPriority: analysis.priority,
+      topicLabel: analysis.topicLabel,
+      aiSummary: analysis.summary,
+      aiNextAction: analysis.nextAction ?? undefined,
+      aiAnalyzedAt: new Date(),
+    },
+  });
 }
 
 export async function appendOperatorMessage(
@@ -358,10 +439,10 @@ export async function appendOperatorMessage(
         lastMessagePreview: isNote
           ? `📝 ${previewFor(clean, opts?.attachment)}`
           : previewFor(clean, opts?.attachment),
-        // Internal notes don't notify the visitor or advance the conversation.
         ...(isNote
           ? {}
           : {
+              lastSenderRole: "OPERATOR",
               unreadForVisitor: { increment: 1 },
               unreadForAdmin: 0,
               status: conv.status === "NEW" ? "OPEN" : conv.status,
@@ -418,6 +499,23 @@ export async function listOperators(): Promise<{ id: string; name: string }[]> {
     orderBy: { name: "asc" },
   });
   return admins.map((a) => ({ id: a.id, name: a.name?.trim() || "اپراتور" }));
+}
+
+/** Today's stats for the current operator. */
+export async function getOperatorStats(operatorId: string): Promise<OperatorStats> {
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+
+  const [todayTotal, todayResolved] = await Promise.all([
+    prisma.conversation.count({
+      where: { assignedToId: operatorId, updatedAt: { gte: todayStart } },
+    }),
+    prisma.conversation.count({
+      where: { assignedToId: operatorId, status: "RESOLVED", resolvedAt: { gte: todayStart } },
+    }),
+  ]);
+
+  return { todayTotal, todayResolved, avgResponseMinutes: null };
 }
 
 // ---- presence ----

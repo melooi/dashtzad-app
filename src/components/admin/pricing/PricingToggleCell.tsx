@@ -56,10 +56,10 @@ export function PricingToggleCell({
   };
 
   const onTone = tone === "warning"
-    ? "border-dz-warning/40 bg-dz-warning/10 text-dz-warning dark:bg-dz-warning/15 dark:text-dz-warning-300"
-    : "border-dz-primary-300 bg-dz-primary-50 text-dz-primary-700 dark:border-dz-primary-400/30 dark:bg-dz-primary-400/15 dark:text-dz-primary-300";
+    ? "border-dz-a-warning/40 bg-dz-a-warning/10 text-dz-a-warning dark:bg-dz-a-warning/15 dark:text-dz-a-warning-300"
+    : "border-dz-a-primary-300 bg-dz-a-primary-50 text-dz-a-primary-700 dark:border-dz-a-primary-400/30 dark:bg-dz-a-primary-400/15 dark:text-dz-a-primary-300";
   const offTone =
-    "border-dz-primary-200 text-dz-primary-400 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-muted dark:hover:bg-white/5";
+    "border-dz-a-primary-200 text-dz-a-primary-400 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-muted dark:hover:bg-white/5";
 
   const Icon = active ? OnIcon : OffIcon;
 
@@ -72,7 +72,7 @@ export function PricingToggleCell({
         title={error ?? title}
         aria-pressed={active}
         className={`focus-ring inline-flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] transition-colors ${
-          error ? "border-dz-error/60 text-dz-error" : active ? onTone : offTone
+          error ? "border-dz-a-error/60 text-dz-a-error" : active ? onTone : offTone
         }`}
       >
         {saving ? <Loader2 className="size-3 animate-spin" /> : <Icon className="size-3" />}

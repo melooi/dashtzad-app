@@ -23,10 +23,12 @@ export type AdminReviewRow = {
   createdAtISO: string;
 };
 
-export async function listAdminReviews(status?: ReviewStatus): Promise<AdminReviewRow[]> {
+export async function listAdminReviews(opts?: { status?: ReviewStatus; newestFirst?: boolean }): Promise<AdminReviewRow[]> {
   const rows = await prisma.productReview.findMany({
-    where: status ? { status } : undefined,
-    orderBy: [{ status: "asc" }, { createdAt: "desc" }],
+    where: opts?.status ? { status: opts.status } : undefined,
+    orderBy: opts?.newestFirst
+      ? [{ createdAt: "desc" }]
+      : [{ status: "asc" }, { createdAt: "desc" }],
     take: 200,
     include: { product: thumb, user: { select: { name: true } } },
   });
@@ -48,6 +50,24 @@ export async function setReviewStatus(id: string, status: ReviewStatus): Promise
   await prisma.productReview.update({ where: { id }, data: { status } });
 }
 
+export async function updateReview(
+  id: string,
+  data: { title?: string | null; text?: string; rating?: number },
+): Promise<void> {
+  const update: Record<string, unknown> = {};
+  if (data.title !== undefined) update.title = data.title?.trim() || null;
+  if (data.text !== undefined) {
+    const t = data.text.trim();
+    if (!t) throw new Error("متن دیدگاه نمی‌تواند خالی باشد.");
+    update.text = t;
+  }
+  if (data.rating !== undefined) {
+    if (data.rating < 1 || data.rating > 5) throw new Error("امتیاز باید بین ۱ تا ۵ باشد.");
+    update.rating = data.rating;
+  }
+  await prisma.productReview.update({ where: { id }, data: update });
+}
+
 export type AdminQuestionRow = {
   id: string;
   productSlug: string;
@@ -59,10 +79,12 @@ export type AdminQuestionRow = {
   createdAtISO: string;
 };
 
-export async function listAdminQuestions(status?: QuestionStatus): Promise<AdminQuestionRow[]> {
+export async function listAdminQuestions(opts?: { status?: QuestionStatus; newestFirst?: boolean }): Promise<AdminQuestionRow[]> {
   const rows = await prisma.productQuestion.findMany({
-    where: status ? { status } : undefined,
-    orderBy: [{ status: "asc" }, { createdAt: "desc" }],
+    where: opts?.status ? { status: opts.status } : undefined,
+    orderBy: opts?.newestFirst
+      ? [{ createdAt: "desc" }]
+      : [{ status: "asc" }, { createdAt: "desc" }],
     take: 200,
     include: { product: thumb, user: { select: { name: true } } },
   });
@@ -76,6 +98,12 @@ export async function listAdminQuestions(status?: QuestionStatus): Promise<Admin
     status: q.status,
     createdAtISO: q.createdAt.toISOString(),
   }));
+}
+
+export async function updateQuestion(id: string, question: string): Promise<void> {
+  const text = question.trim();
+  if (!text) throw new Error("متن پرسش نمی‌تواند خالی باشد.");
+  await prisma.productQuestion.update({ where: { id }, data: { question: text } });
 }
 
 export async function answerQuestion(id: string, answer: string, adminId: string): Promise<void> {

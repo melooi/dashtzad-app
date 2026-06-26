@@ -33,12 +33,12 @@ export default async function SeoSitemapPage() {
       <SeoSection title="مسیرهای حذف‌شده" description="این مسیرها هرگز در سایت‌مپ قرار نمی‌گیرند.">
         <div className="flex flex-wrap gap-2">
           {EXCLUDED.map((p) => (
-            <span key={p} dir="ltr" className="rounded-lg border border-dz-primary-100 dark:border-dz-night-border bg-dz-primary-50/50 dark:bg-white/5 px-2.5 py-1 font-mono text-xs text-dz-primary-600 dark:text-dz-primary-300">
+            <span key={p} dir="ltr" className="rounded-lg border border-dz-a-primary-100 dark:border-dz-a-night-border bg-dz-a-primary-50/50 dark:bg-white/5 px-2.5 py-1 font-mono text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300">
               {p}
             </span>
           ))}
         </div>
-        <p className="mt-3 text-xs text-dz-primary-400 dark:text-dz-night-faint">همچنین: محصولات/دسته‌های غیرفعال و نوشته‌های پیش‌نویس حذف می‌شوند.</p>
+        <p className="mt-3 text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">همچنین: محصولات/دسته‌های غیرفعال و نوشته‌های پیش‌نویس حذف می‌شوند.</p>
       </SeoSection>
 
       <SeoNote>

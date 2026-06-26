@@ -72,8 +72,8 @@ function ToolbarButton({
       aria-pressed={active}
       className={`focus-ring inline-flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
         active
-          ? "bg-dz-primary-100 text-dz-primary-800 dark:bg-dz-primary-500/25 dark:text-dz-night-fg"
-          : "text-dz-primary-600 hover:bg-dz-primary-50 dark:text-dz-night-muted dark:hover:bg-white/5 dark:hover:text-dz-night-fg"
+          ? "bg-dz-a-primary-100 text-dz-a-primary-800 dark:bg-dz-a-primary-500/25 dark:text-dz-a-night-fg"
+          : "text-dz-a-primary-600 hover:bg-dz-a-primary-50 dark:text-dz-a-night-muted dark:hover:bg-white/5 dark:hover:text-dz-a-night-fg"
       }`}
     >
       {children}
@@ -82,7 +82,7 @@ function ToolbarButton({
 }
 
 function Divider() {
-  return <span className="mx-0.5 h-6 w-px shrink-0 self-center bg-dz-primary-100 dark:bg-dz-night-border" aria-hidden />;
+  return <span className="mx-0.5 h-6 w-px shrink-0 self-center bg-dz-a-primary-100 dark:bg-dz-a-night-border" aria-hidden />;
 }
 
 /** Toolbar dropdown (popover) — keeps the bar uncluttered. */
@@ -119,8 +119,8 @@ function ToolbarMenu({
         title={label}
         className={`focus-ring inline-flex h-8 shrink-0 items-center gap-1 rounded-lg px-2 text-xs font-medium transition-colors ${
           highlight
-            ? "bg-dz-primary-600 text-white hover:bg-dz-primary-700"
-            : "text-dz-primary-700 hover:bg-dz-primary-50 dark:text-dz-night-fg dark:hover:bg-white/5"
+            ? "bg-dz-a-primary-600 text-white hover:bg-dz-a-primary-700"
+            : "text-dz-a-primary-700 hover:bg-dz-a-primary-50 dark:text-dz-a-night-fg dark:hover:bg-white/5"
         }`}
       >
         {icon}
@@ -131,7 +131,7 @@ function ToolbarMenu({
         <div
           role="menu"
           onClick={() => setOpen(false)}
-          className="absolute start-0 z-50 mt-1 max-h-[60vh] w-56 overflow-auto rounded-xl border border-dz-primary-100 bg-white p-1 shadow-lg dark:border-dz-night-border dark:bg-dz-night-card"
+          className="absolute start-0 z-50 mt-1 max-h-[60vh] w-56 overflow-auto rounded-xl border border-dz-a-primary-100 bg-white p-1 shadow-lg dark:border-dz-a-night-border dark:bg-dz-a-night-card"
         >
           {children}
         </div>
@@ -162,11 +162,11 @@ function MenuItem({
       aria-pressed={active}
       className={`focus-ring flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-start text-xs transition-colors ${
         active
-          ? "bg-dz-primary-100 text-dz-primary-800 dark:bg-dz-primary-500/25 dark:text-dz-night-fg"
-          : "text-dz-primary-700 hover:bg-dz-primary-50 dark:text-dz-night-fg dark:hover:bg-white/5"
+          ? "bg-dz-a-primary-100 text-dz-a-primary-800 dark:bg-dz-a-primary-500/25 dark:text-dz-a-night-fg"
+          : "text-dz-a-primary-700 hover:bg-dz-a-primary-50 dark:text-dz-a-night-fg dark:hover:bg-white/5"
       }`}
     >
-      <span className="shrink-0 text-dz-primary-500 dark:text-dz-night-muted">{icon}</span>
+      <span className="shrink-0 text-dz-a-primary-500 dark:text-dz-a-night-muted">{icon}</span>
       <span className="flex-1">{label}</span>
     </button>
   );
@@ -174,7 +174,7 @@ function MenuItem({
 
 function MenuHeading({ children }: { children: ReactNode }) {
   return (
-    <p className="px-2.5 pb-1 pt-1.5 text-[10px] font-bold uppercase tracking-wide text-dz-primary-400 dark:text-dz-night-faint">
+    <p className="px-2.5 pb-1 pt-1.5 text-[10px] font-bold uppercase tracking-wide text-dz-a-primary-400 dark:text-dz-a-night-faint">
       {children}
     </p>
   );
@@ -418,7 +418,7 @@ export function RichTextToolbar({ editor, articleType }: { editor: Editor; artic
         onChange={(e) => applyBlock(e.target.value)}
         title="قالب بلوک"
         aria-label="قالب بلوک متن"
-        className="focus-ring h-8 shrink-0 rounded-lg border border-dz-primary-200 bg-white px-2 text-xs font-medium text-dz-primary-700 outline-none transition-colors hover:border-dz-primary-300 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
+        className="focus-ring h-8 shrink-0 rounded-lg border border-dz-a-primary-200 bg-white px-2 text-xs font-medium text-dz-a-primary-700 outline-none transition-colors hover:border-dz-a-primary-300 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
       >
         <option value="paragraph">پاراگراف</option>
         <option value="h1">تیتر ۱</option>

@@ -120,16 +120,16 @@ export default async function PricingPage({
           return (
             <div
               key={s.label}
-              className="flex items-center gap-3 rounded-2xl border border-dz-primary-100 bg-white p-4 dark:border-dz-night-border dark:bg-dz-night-card"
+              className="flex items-center gap-3 rounded-2xl border border-dz-a-primary-100 bg-white p-4 dark:border-dz-a-night-border dark:bg-dz-a-night-card"
             >
-              <div className="flex size-10 items-center justify-center rounded-xl bg-dz-primary-50 text-dz-primary-600 dark:bg-white/5 dark:text-dz-primary-300">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-dz-a-primary-50 text-dz-a-primary-600 dark:bg-white/5 dark:text-dz-a-primary-300">
                 <Icon className="size-5" />
               </div>
               <div>
-                <div className="font-heading text-xl font-bold text-dz-primary-800 dark:text-dz-night-fg">
+                <div className="font-heading text-xl font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
                   {toPersianNumbers(s.value)}
                 </div>
-                <div className="text-xs text-dz-primary-500 dark:text-dz-night-muted">{s.label}</div>
+                <div className="text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">{s.label}</div>
               </div>
             </div>
           );
@@ -137,8 +137,8 @@ export default async function PricingPage({
       </div>
 
       <div className="mb-2 flex items-baseline justify-between gap-3">
-        <h2 className="font-heading text-base font-bold text-dz-primary-800 dark:text-dz-night-fg">قیمت محصولات</h2>
-        <p className="text-xs text-dz-primary-400 dark:text-dz-night-faint">
+        <h2 className="font-heading text-base font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">قیمت محصولات</h2>
+        <p className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
           روی سلول کلیک کنید؛ Enter ذخیره، Esc لغو، Tab سلول بعدی.
         </p>
       </div>
@@ -152,16 +152,16 @@ export default async function PricingPage({
         />
       )}
 
-      <h2 className="mt-8 mb-2 font-heading text-base font-bold text-dz-primary-800 dark:text-dz-night-fg">
+      <h2 className="mt-8 mb-2 font-heading text-base font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
         هزینه‌ی بسته‌بندی‌ها
       </h2>
       <PackagingCostTable rows={packagingRows} />
 
-      <p className="mt-6 rounded-xl border border-dz-primary-100 bg-dz-primary-50/40 p-4 text-xs leading-6 text-dz-primary-500 dark:border-dz-night-border dark:bg-white/5 dark:text-dz-night-muted">
-        قیمت‌ها به <span className="font-medium text-dz-primary-700 dark:text-dz-night-fg">تومان</span> وارد می‌شوند و در دیتابیس به
+      <p className="mt-6 rounded-xl border border-dz-a-primary-100 bg-dz-a-primary-50/40 p-4 text-xs leading-6 text-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-white/5 dark:text-dz-a-night-muted">
+        قیمت‌ها به <span className="font-medium text-dz-a-primary-700 dark:text-dz-a-night-fg">تومان</span> وارد می‌شوند و در دیتابیس به
         ریال ذخیره می‌شوند. تغییر قیمت پایه یا هزینه‌ی بسته‌بندی، قیمت مدل‌های فروشِ
-        <span className="font-medium text-dz-primary-700 dark:text-dz-night-fg"> قفل‌نشده</span> را به‌صورت خودکار بازمحاسبه
-        می‌کند؛ قیمت‌های <span className="font-medium text-dz-warning dark:text-dz-warning-300">قفل‌شده (دستی)</span> دست‌نخورده می‌مانند.
+        <span className="font-medium text-dz-a-primary-700 dark:text-dz-a-night-fg"> قفل‌نشده</span> را به‌صورت خودکار بازمحاسبه
+        می‌کند؛ قیمت‌های <span className="font-medium text-dz-a-warning dark:text-dz-a-warning-300">قفل‌شده (دستی)</span> دست‌نخورده می‌مانند.
       </p>
     </div>
   );

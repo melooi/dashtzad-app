@@ -89,16 +89,16 @@ export function WeightsManager({ presets, categories }: { presets: WeightRow[]; 
   };
 
   const columns: TableColumn<WeightRow>[] = [
-    { key: "title", header: "عنوان", render: (r) => <span className="font-medium text-dz-primary-800 dark:text-dz-night-fg">{r.title}</span> },
-    { key: "gram", header: "گرم", align: "center", render: (r) => <span dir="ltr" className="text-dz-primary-700 dark:text-dz-night-fg">{toPersianNumbers(r.gramValue)}</span> },
+    { key: "title", header: "عنوان", render: (r) => <span className="font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">{r.title}</span> },
+    { key: "gram", header: "گرم", align: "center", render: (r) => <span dir="ltr" className="text-dz-a-primary-700 dark:text-dz-a-night-fg">{toPersianNumbers(r.gramValue)}</span> },
     {
       key: "compat",
       header: "سازگار با دسته‌ها",
       render: (r) =>
         r.compatibility.length ? (
-          <span className="text-xs text-dz-primary-600 dark:text-dz-primary-300">{r.compatibility.map((id) => titleById.get(id) ?? "؟").join("، ")}</span>
+          <span className="text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300">{r.compatibility.map((id) => titleById.get(id) ?? "؟").join("، ")}</span>
         ) : (
-          <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">همه‌ی دسته‌ها</span>
+          <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">همه‌ی دسته‌ها</span>
         ),
     },
     { key: "active", header: "وضعیت", align: "center", render: (r) => <AdminStatusBadge tone={r.isActive ? "green" : "gray"}>{r.isActive ? "فعال" : "غیرفعال"}</AdminStatusBadge> },
@@ -108,10 +108,10 @@ export function WeightsManager({ presets, categories }: { presets: WeightRow[]; 
       align: "end",
       render: (r) => (
         <div className="flex items-center justify-end gap-1">
-          <button type="button" onClick={() => startEdit(r)} title="ویرایش" aria-label={`ویرایش ${r.title}`} className="focus-ring rounded-lg p-1.5 text-dz-primary-500 dark:text-dz-night-muted transition-colors hover:bg-dz-primary-50 dark:hover:bg-white/5 hover:text-dz-primary-700 dark:hover:text-dz-night-fg">
+          <button type="button" onClick={() => startEdit(r)} title="ویرایش" aria-label={`ویرایش ${r.title}`} className="focus-ring rounded-lg p-1.5 text-dz-a-primary-500 dark:text-dz-a-night-muted transition-colors hover:bg-dz-a-primary-50 dark:hover:bg-white/5 hover:text-dz-a-primary-700 dark:hover:text-dz-a-night-fg">
             <Pencil className="size-4" />
           </button>
-          <button type="button" onClick={() => setConfirmId(r.id)} title="حذف" aria-label={`حذف ${r.title}`} className="focus-ring rounded-lg p-1.5 text-dz-error/70 dark:text-dz-error-300 transition-colors hover:bg-dz-error/10 hover:text-dz-error dark:hover:text-dz-error-300">
+          <button type="button" onClick={() => setConfirmId(r.id)} title="حذف" aria-label={`حذف ${r.title}`} className="focus-ring rounded-lg p-1.5 text-dz-a-error/70 dark:text-dz-a-error-300 transition-colors hover:bg-dz-a-error/10 hover:text-dz-a-error dark:hover:text-dz-a-error-300">
             <Trash2 className="size-4" />
           </button>
         </div>
@@ -121,14 +121,14 @@ export function WeightsManager({ presets, categories }: { presets: WeightRow[]; 
 
   return (
     <div className="grid gap-5 lg:grid-cols-[340px_1fr]">
-      <div className="h-fit rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card p-5 shadow-xs lg:sticky lg:top-4">
+      <div className="h-fit rounded-2xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card p-5 shadow-xs lg:sticky lg:top-4">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="flex items-center gap-2 font-heading text-base font-bold text-dz-primary-800 dark:text-dz-night-fg">
-            <span className="h-4 w-1 rounded-full bg-dz-primary-300 dark:bg-dz-primary-500" aria-hidden />
+          <h2 className="flex items-center gap-2 font-heading text-base font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
+            <span className="h-4 w-1 rounded-full bg-dz-a-primary-300 dark:bg-dz-a-primary-500" aria-hidden />
             {editingId ? "ویرایش وزن" : "افزودن وزن"}
           </h2>
           {editingId && (
-            <button type="button" onClick={startNew} className="focus-ring flex items-center gap-1 rounded-lg px-1.5 py-1 text-xs text-dz-primary-500 dark:text-dz-night-muted hover:text-dz-primary-700 dark:hover:text-dz-night-fg">
+            <button type="button" onClick={startNew} className="focus-ring flex items-center gap-1 rounded-lg px-1.5 py-1 text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted hover:text-dz-a-primary-700 dark:hover:text-dz-a-night-fg">
               <Plus className="size-3.5" /> جدید
             </button>
           )}
@@ -139,19 +139,19 @@ export function WeightsManager({ presets, categories }: { presets: WeightRow[]; 
           <AdminTextField name="title" label="عنوان" required placeholder="۵۰۰ گرم" />
           <AdminTextField name="gramValue" label="وزن (گرم)" required dir="ltr" inputMode="decimal" hint="مثلاً 0.5 یا 500" />
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-dz-primary-800 dark:text-dz-night-fg">سازگار با دسته‌ها</label>
+            <label className="text-sm font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">سازگار با دسته‌ها</label>
             <MultiChipCell options={categoryOptions} selectedIds={compatIds} onChange={setCompatIds} placeholder="همه‌ی دسته‌ها (سراسری)" dataCell="wcompat" ariaLabel="سازگار با دسته‌ها" />
-            <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">خالی = برای همه‌ی دسته‌ها قابل استفاده.</span>
+            <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">خالی = برای همه‌ی دسته‌ها قابل استفاده.</span>
           </div>
           <AdminTextField name="sortOrder" label="ترتیب" dir="ltr" inputMode="numeric" />
           <AdminCheckboxField name="isActive" label="فعال" />
-          <button type="submit" disabled={pending} className="focus-ring mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-primary-700 active:bg-dz-primary-800 disabled:bg-dz-primary-300 dark:disabled:bg-dz-primary-800">
+          <button type="submit" disabled={pending} className="focus-ring mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-a-primary-700 active:bg-dz-a-primary-800 disabled:bg-dz-a-primary-300 dark:disabled:bg-dz-a-primary-800">
             {pending ? "در حال ذخیره…" : editingId ? "ذخیره" : "افزودن"}
           </button>
         </AdminFormShell>
       </div>
 
-      <AdminDataTable columns={columns} rows={presets} getRowId={(r) => r.id} empty={<div className="flex flex-col items-center gap-2 p-10 text-center"><div className="flex size-11 items-center justify-center rounded-xl bg-dz-primary-50 dark:bg-white/5 text-dz-primary-400 dark:text-dz-night-faint ring-1 ring-dz-primary-100 dark:ring-dz-night-border"><Plus className="size-5" /></div><p className="text-sm text-dz-primary-500 dark:text-dz-night-muted">هنوز وزنی تعریف نشده. از فرم کنار، اولین وزن را اضافه کنید.</p></div>} />
+      <AdminDataTable columns={columns} rows={presets} getRowId={(r) => r.id} empty={<div className="flex flex-col items-center gap-2 p-10 text-center"><div className="flex size-11 items-center justify-center rounded-xl bg-dz-a-primary-50 dark:bg-white/5 text-dz-a-primary-400 dark:text-dz-a-night-faint ring-1 ring-dz-a-primary-100 dark:ring-dz-a-night-border"><Plus className="size-5" /></div><p className="text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">هنوز وزنی تعریف نشده. از فرم کنار، اولین وزن را اضافه کنید.</p></div>} />
 
       <AdminConfirmDialog
         open={confirmId !== null}

@@ -5,8 +5,8 @@ import { Check, Plus } from "lucide-react";
 import { adjustCreditAction, addNoteAction } from "@/app/admin/customers/[id]/actions";
 
 const input =
-  "w-full rounded-xl border border-dz-primary-200 bg-white px-3 py-2.5 text-sm text-dz-primary-900 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg";
-const btn = "rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700 disabled:opacity-60";
+  "w-full rounded-xl border border-dz-a-primary-200 bg-white px-3 py-2.5 text-sm text-dz-a-primary-900 outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg";
+const btn = "rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700 disabled:opacity-60";
 
 const CREDIT_TYPES = [
   { value: "GIFT", label: "هدیه" },
@@ -60,7 +60,7 @@ export function CreditAdjustForm({ userId }: { userId: string }) {
         ثبت اعتبار
       </button>
       {msg && (
-        <p className="inline-flex items-center gap-1.5 text-sm text-dz-success">
+        <p className="inline-flex items-center gap-1.5 text-sm text-dz-a-success">
           <Check className="size-4" /> {msg}
         </p>
       )}
@@ -102,7 +102,7 @@ export function CustomerNoteForm({ userId }: { userId: string }) {
         <Plus className="size-4" /> افزودن یادداشت
       </button>
       {msg && (
-        <p className="inline-flex items-center gap-1.5 text-sm text-dz-success">
+        <p className="inline-flex items-center gap-1.5 text-sm text-dz-a-success">
           <Check className="size-4" /> {msg}
         </p>
       )}

@@ -157,12 +157,12 @@ export function ArticleForm({
       <AdminSuccessNotice message={success} onDismiss={() => setSuccess(null)} />
 
       {/* preview */}
-      <div className="overflow-hidden rounded-2xl border border-dz-primary-100 bg-white shadow-xs dark:border-dz-night-border dark:bg-dz-night-card">
-        <div className="relative flex min-h-[150px] items-center justify-center bg-dz-primary-50 dark:bg-white/5">
+      <div className="overflow-hidden rounded-2xl border border-dz-a-primary-100 bg-white shadow-xs dark:border-dz-a-night-border dark:bg-dz-a-night-card">
+        <div className="relative flex min-h-[150px] items-center justify-center bg-dz-a-primary-50 dark:bg-white/5">
           {cover ? (
             <img src={String(cover)} alt={String(title ?? "")} className="h-40 w-full object-cover" />
           ) : (
-            <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">پیش‌نمایش تصویر شاخص</span>
+            <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">پیش‌نمایش تصویر شاخص</span>
           )}
           <span
             className="absolute end-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-bold text-white"
@@ -172,9 +172,9 @@ export function ArticleForm({
           </span>
         </div>
         <div className="p-4">
-          <h3 className="font-heading text-lg font-bold text-dz-primary-800 dark:text-dz-night-fg">{String(title) || "عنوان مقاله"}</h3>
-          {subtitle && <p className="mt-1 text-sm text-dz-primary-500 dark:text-dz-night-muted">{String(subtitle)}</p>}
-          {brief && <p className="mt-2 line-clamp-2 text-xs text-dz-primary-400 dark:text-dz-night-faint">{String(brief)}</p>}
+          <h3 className="font-heading text-lg font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">{String(title) || "عنوان مقاله"}</h3>
+          {subtitle && <p className="mt-1 text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">{String(subtitle)}</p>}
+          {brief && <p className="mt-2 line-clamp-2 text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{String(brief)}</p>}
         </div>
       </div>
 
@@ -203,12 +203,12 @@ export function ArticleForm({
                   className={`focus-ring flex flex-col items-start gap-1 rounded-xl border p-3 text-start transition-colors ${
                     active
                       ? "border-transparent text-white shadow-xs"
-                      : "border-dz-primary-200 bg-white text-dz-primary-700 hover:bg-dz-primary-50 dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-night-fg dark:hover:bg-white/5"
+                      : "border-dz-a-primary-200 bg-white text-dz-a-primary-700 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-fg dark:hover:bg-white/5"
                   }`}
                   style={active ? { background: t.accent } : undefined}
                 >
                   <span className="text-sm font-bold">{t.label}</span>
-                  <span className={`text-[11px] leading-4 ${active ? "text-white/85" : "text-dz-primary-400 dark:text-dz-night-faint"}`}>
+                  <span className={`text-[11px] leading-4 ${active ? "text-white/85" : "text-dz-a-primary-400 dark:text-dz-a-night-faint"}`}>
                     {t.description}
                   </span>
                 </button>
@@ -216,7 +216,7 @@ export function ArticleForm({
             })}
           </div>
           {(identity.requiresDisclaimer || identity.requiresSources) && (
-            <div className="flex items-start gap-2 rounded-xl border border-dz-warning/30 bg-dz-warning/10 p-3 text-xs text-dz-warning dark:border-dz-warning-300/30 dark:text-dz-warning-300">
+            <div className="flex items-start gap-2 rounded-xl border border-dz-a-warning/30 bg-dz-a-warning/10 p-3 text-xs text-dz-a-warning dark:border-dz-a-warning-300/30 dark:text-dz-a-warning-300">
               <ShieldAlert className="mt-0.5 size-4 shrink-0" />
               <span>
                 این نوع مقاله حساس است: سلب مسئولیت {identity.requiresSources ? "و منبع معتبر " : ""}الزامی است. بدون منبع
@@ -300,7 +300,7 @@ export function ArticleForm({
                   type="button"
                   onClick={estimate}
                   title="تخمین خودکار از متن"
-                  className="focus-ring inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-dz-primary-200 px-3 text-xs text-dz-primary-600 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-primary-300 dark:hover:bg-white/5"
+                  className="focus-ring inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-dz-a-primary-200 px-3 text-xs text-dz-a-primary-600 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-primary-300 dark:hover:bg-white/5"
                 >
                   <Sparkles className="size-4" /> تخمین
                 </button>

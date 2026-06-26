@@ -206,13 +206,13 @@ export function CouponForm({
           title={sectionTitle("preview")}
           description="یک ماشین‌حساب داخلی برای بررسی رفتار کوپن. هیچ سفارش واقعی ساخته نمی‌شود."
         >
-          <div className="flex flex-col gap-2 rounded-xl border border-dz-primary-100 dark:border-dz-night-border bg-dz-primary-50/40 dark:bg-white/5 p-3.5">
-            <div className="flex items-center gap-2 text-sm text-dz-primary-700 dark:text-dz-night-fg">
-              <Calculator className="size-4 text-dz-primary-500 dark:text-dz-night-muted" />
+          <div className="flex flex-col gap-2 rounded-xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-dz-a-primary-50/40 dark:bg-white/5 p-3.5">
+            <div className="flex items-center gap-2 text-sm text-dz-a-primary-700 dark:text-dz-a-night-fg">
+              <Calculator className="size-4 text-dz-a-primary-500 dark:text-dz-a-night-muted" />
               <span>خلاصه‌ی قانون:</span>
               <span className="font-medium">{ruleSummary}</span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-dz-primary-500 dark:text-dz-night-muted">
+            <div className="flex items-center gap-2 text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">
               <span>وضعیت فعلی:</span>
               <AdminStatusBadge tone={status.tone}>{status.label}</AdminStatusBadge>
             </div>
@@ -225,53 +225,53 @@ export function CouponForm({
               value={sampleToman}
               onChange={(e) => setSampleToman(e.target.value)}
               placeholder="مثلاً: ۱۰۰۰۰۰۰"
-              className="w-full rounded-xl border border-dz-primary-200 dark:border-dz-night-border bg-white dark:bg-dz-night-elevated px-3.5 py-2.5 text-sm text-dz-primary-900 dark:text-dz-night-fg shadow-xs outline-none transition-colors placeholder:text-dz-primary-300 dark:placeholder:text-dz-night-faint hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 focus:border-dz-primary-500 focus:ring-3 focus:ring-dz-primary-500/15"
+              className="w-full rounded-xl border border-dz-a-primary-200 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-elevated px-3.5 py-2.5 text-sm text-dz-a-primary-900 dark:text-dz-a-night-fg shadow-xs outline-none transition-colors placeholder:text-dz-a-primary-300 dark:placeholder:text-dz-a-night-faint hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 focus:border-dz-a-primary-500 focus:ring-3 focus:ring-dz-a-primary-500/15"
             />
           </AdminField>
 
           <div
             className={`flex flex-col gap-2 rounded-xl border p-3.5 text-sm ${
               preview.valid
-                ? "border-dz-success/30 bg-dz-success/5 dark:bg-dz-success/10"
-                : "border-dz-warning/30 bg-dz-warning/5 dark:bg-dz-warning/10"
+                ? "border-dz-a-success/30 bg-dz-a-success/5 dark:bg-dz-a-success/10"
+                : "border-dz-a-warning/30 bg-dz-a-warning/5 dark:bg-dz-a-warning/10"
             }`}
           >
             <div className="flex items-center gap-2 font-medium">
               {preview.valid ? (
-                <CircleCheck className="size-4 text-dz-success" />
+                <CircleCheck className="size-4 text-dz-a-success" />
               ) : (
-                <CircleAlert className="size-4 text-dz-warning" />
+                <CircleAlert className="size-4 text-dz-a-warning" />
               )}
-              <span className={preview.valid ? "text-dz-success" : "text-dz-warning"}>
+              <span className={preview.valid ? "text-dz-a-success" : "text-dz-a-warning"}>
                 {preview.valid ? "کوپن برای این مبلغ معتبر است." : preview.reason}
               </span>
             </div>
 
             {showAmounts && preview.valid && (
-              <dl className="mt-1 grid grid-cols-1 gap-1.5 text-xs text-dz-primary-700 dark:text-dz-night-fg @sm:grid-cols-3">
+              <dl className="mt-1 grid grid-cols-1 gap-1.5 text-xs text-dz-a-primary-700 dark:text-dz-a-night-fg @sm:grid-cols-3">
                 <div className="flex items-center justify-between gap-2 rounded-lg bg-white/60 dark:bg-black/10 px-2.5 py-1.5">
-                  <dt className="text-dz-primary-500 dark:text-dz-night-muted">مبلغ تخفیف</dt>
+                  <dt className="text-dz-a-primary-500 dark:text-dz-a-night-muted">مبلغ تخفیف</dt>
                   <dd dir="ltr" className="font-medium">{formatToman(preview.discount_rial)} تومان</dd>
                 </div>
                 <div className="flex items-center justify-between gap-2 rounded-lg bg-white/60 dark:bg-black/10 px-2.5 py-1.5">
-                  <dt className="text-dz-primary-500 dark:text-dz-night-muted">مبلغ نهایی</dt>
+                  <dt className="text-dz-a-primary-500 dark:text-dz-a-night-muted">مبلغ نهایی</dt>
                   <dd dir="ltr" className="font-medium">{formatToman(preview.final_rial)} تومان</dd>
                 </div>
                 <div className="flex items-center justify-between gap-2 rounded-lg bg-white/60 dark:bg-black/10 px-2.5 py-1.5">
-                  <dt className="text-dz-primary-500 dark:text-dz-night-muted">سقف اعمال شد؟</dt>
+                  <dt className="text-dz-a-primary-500 dark:text-dz-a-night-muted">سقف اعمال شد؟</dt>
                   <dd className="font-medium">{preview.capped ? "بله" : "خیر"}</dd>
                 </div>
               </dl>
             )}
             {!showAmounts && (
-              <p className="text-xs text-dz-primary-400 dark:text-dz-night-faint">
+              <p className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
                 برای دیدن مبلغ تخفیف، یک مبلغ نمونه وارد کنید.
               </p>
             )}
           </div>
 
           {percentNeedsCap && (
-            <div className="flex items-start gap-2 rounded-xl border border-dz-warning/30 bg-dz-warning/5 dark:bg-dz-warning/10 p-3 text-xs text-dz-warning">
+            <div className="flex items-start gap-2 rounded-xl border border-dz-a-warning/30 bg-dz-a-warning/5 dark:bg-dz-a-warning/10 p-3 text-xs text-dz-a-warning">
               <TriangleAlert className="mt-0.5 size-4 shrink-0" />
               <span>برای کوپن درصدی توصیه می‌شود یک «سقف تخفیف» تعیین کنید تا تخفیف از حد معینی بیشتر نشود.</span>
             </div>
@@ -301,7 +301,7 @@ export function CouponForm({
       )}
 
       {mode === "edit" && typeof usageCount === "number" && (
-        <p className="text-center text-xs text-dz-primary-400 dark:text-dz-night-faint">
+        <p className="text-center text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
           تعداد دفعات استفاده‌شده تاکنون: {toPersianNumbers(usageCount)}
         </p>
       )}

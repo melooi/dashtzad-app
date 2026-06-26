@@ -96,11 +96,11 @@ export default async function RecipeRatingsPage({
       header: "دستور",
       render: (r) =>
         r.postSlug ? (
-          <Link href={`/blog/${r.postSlug}`} target="_blank" className="inline-flex items-center gap-1 text-xs font-medium text-dz-primary-700 hover:underline dark:text-dz-primary-300">
+          <Link href={`/blog/${r.postSlug}`} target="_blank" className="inline-flex items-center gap-1 text-xs font-medium text-dz-a-primary-700 hover:underline dark:text-dz-a-primary-300">
             {r.postTitle} <ExternalLink className="size-3" />
           </Link>
         ) : (
-          <span className="text-xs text-dz-primary-500">{r.postTitle}</span>
+          <span className="text-xs text-dz-a-primary-500">{r.postTitle}</span>
         ),
     },
     {
@@ -108,8 +108,8 @@ export default async function RecipeRatingsPage({
       header: "امتیاز",
       align: "center",
       render: (r) => (
-        <span className="inline-flex items-center gap-1 font-bold text-dz-primary-800 dark:text-dz-night-fg">
-          <Star className="size-3.5 fill-dz-warning text-dz-warning" /> {toPersianNumbers(r.value)}
+        <span className="inline-flex items-center gap-1 font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
+          <Star className="size-3.5 fill-dz-a-warning text-dz-a-warning" /> {toPersianNumbers(r.value)}
         </span>
       ),
     },
@@ -118,8 +118,8 @@ export default async function RecipeRatingsPage({
       header: "فرستنده",
       render: (r) => (
         <div className="flex flex-col">
-          <span className="text-sm font-medium text-dz-primary-800 dark:text-dz-night-fg">{r.identity}</span>
-          {r.phone && <span dir="ltr" className="text-[11px] text-dz-primary-500 dark:text-dz-night-muted">{r.phone}</span>}
+          <span className="text-sm font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">{r.identity}</span>
+          {r.phone && <span dir="ltr" className="text-[11px] text-dz-a-primary-500 dark:text-dz-a-night-muted">{r.phone}</span>}
         </div>
       ),
     },
@@ -137,14 +137,14 @@ export default async function RecipeRatingsPage({
           {r.reasons.length > 0 && (
             <div className="mb-1 flex flex-wrap gap-1">
               {r.reasons.map((k) => (
-                <span key={k} className="rounded-full bg-dz-primary-50 px-2 py-0.5 text-[11px] text-dz-primary-600 dark:bg-white/5 dark:text-dz-night-muted">
+                <span key={k} className="rounded-full bg-dz-a-primary-50 px-2 py-0.5 text-[11px] text-dz-a-primary-600 dark:bg-white/5 dark:text-dz-a-night-muted">
                   {ratingReasonLabel(k)}
                 </span>
               ))}
             </div>
           )}
-          {r.feedbackText && <p className="whitespace-pre-wrap text-xs leading-6 text-dz-primary-600 dark:text-dz-night-muted">{r.feedbackText}</p>}
-          {r.reasons.length === 0 && !r.feedbackText && <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">—</span>}
+          {r.feedbackText && <p className="whitespace-pre-wrap text-xs leading-6 text-dz-a-primary-600 dark:text-dz-a-night-muted">{r.feedbackText}</p>}
+          {r.reasons.length === 0 && !r.feedbackText && <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">—</span>}
         </div>
       ),
     },
@@ -154,7 +154,7 @@ export default async function RecipeRatingsPage({
       align: "center",
       render: (r) => <AdminStatusBadge tone={STATUS_TONE[r.status] ?? "gray"}>{STATUS_LABEL[r.status] ?? r.status}</AdminStatusBadge>,
     },
-    { key: "date", header: "تاریخ", render: (r) => <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">{formatJalali(r.createdAt)}</span> },
+    { key: "date", header: "تاریخ", render: (r) => <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{formatJalali(r.createdAt)}</span> },
     {
       key: "actions",
       header: "",
@@ -166,7 +166,7 @@ export default async function RecipeRatingsPage({
               <input type="hidden" name="kind" value={r.kind} />
               <input type="hidden" name="id" value={r.id} />
               <input type="hidden" name="status" value="APPROVED" />
-              <button type="submit" title="تأیید (در میانگین عمومی اعمال می‌شود)" className="inline-flex rounded-lg p-1.5 text-dz-success hover:bg-dz-success/10">
+              <button type="submit" title="تأیید (در میانگین عمومی اعمال می‌شود)" className="inline-flex rounded-lg p-1.5 text-dz-a-success hover:bg-dz-a-success/10">
                 <Check className="size-4" />
               </button>
             </form>
@@ -176,7 +176,7 @@ export default async function RecipeRatingsPage({
               <input type="hidden" name="kind" value={r.kind} />
               <input type="hidden" name="id" value={r.id} />
               <input type="hidden" name="status" value="REJECTED" />
-              <button type="submit" title="رد کردن" className="inline-flex rounded-lg p-1.5 text-dz-primary-400 hover:bg-dz-primary-50 hover:text-dz-primary-700 dark:hover:bg-white/5">
+              <button type="submit" title="رد کردن" className="inline-flex rounded-lg p-1.5 text-dz-a-primary-400 hover:bg-dz-a-primary-50 hover:text-dz-a-primary-700 dark:hover:bg-white/5">
                 <X className="size-4" />
               </button>
             </form>
@@ -184,7 +184,7 @@ export default async function RecipeRatingsPage({
           <form action={deleteRating}>
             <input type="hidden" name="kind" value={r.kind} />
             <input type="hidden" name="id" value={r.id} />
-            <button type="submit" title="حذف" className="inline-flex rounded-lg p-1.5 text-dz-error/70 hover:bg-dz-error/10 hover:text-dz-error">
+            <button type="submit" title="حذف" className="inline-flex rounded-lg p-1.5 text-dz-a-error/70 hover:bg-dz-a-error/10 hover:text-dz-a-error">
               <Trash2 className="size-4" />
             </button>
           </form>
@@ -220,7 +220,7 @@ export default async function RecipeRatingsPage({
         columns={columns}
         rows={rows}
         getRowId={(r) => `${r.kind}:${r.id}`}
-        empty={<p className="p-10 text-center text-sm text-dz-primary-400 dark:text-dz-night-faint">هنوز امتیازی ثبت نشده.</p>}
+        empty={<p className="p-10 text-center text-sm text-dz-a-primary-400 dark:text-dz-a-night-faint">هنوز امتیازی ثبت نشده.</p>}
       />
     </div>
   );

@@ -5,10 +5,10 @@ import { PDP_SCRIPT } from "./script";
 
 /**
  * Renders the data-driven PDP markup (built server-side from real product data)
- * and runs the design's interaction script after mount. CSS is loaded
- * route-locally via React 19 <link> tags from /public/dz-design, with the
- * design reset + tokens scoped to `.dz-pdp-page` so the site header/footer stay
- * untouched. Real gallery images are handed to the script via window.__PDP_GALLERY.
+ * and runs the design's interaction script after mount. CSS is bundled via
+ * globals.css (src/styles/storefront/pdp-tokens|dz-product-card|single-product|pdp-scope),
+ * scoped to `.dz-pdp-page` so the site header/footer stay untouched.
+ * Real gallery images are handed to the script via window.__PDP_GALLERY.
  */
 export function SingleProductDesign({
   markup,
@@ -32,13 +32,6 @@ export function SingleProductDesign({
   }, [gallery]);
 
   return (
-    <>
-      <link rel="stylesheet" href="/dz-design/fonts/remixicon/remixicon.css" />
-      <link rel="stylesheet" href="/dz-design/css/app.css" />
-      <link rel="stylesheet" href="/dz-design/css/components/product/product-card.css" />
-      <link rel="stylesheet" href="/dz-design/css/components/product/single-product.css" />
-      <link rel="stylesheet" href="/dz-design/css/pdp-scope.css" />
-      <div className="dz-pdp-page" dangerouslySetInnerHTML={{ __html: markup }} />
-    </>
+    <div className="dz-pdp-page" dangerouslySetInnerHTML={{ __html: markup }} />
   );
 }

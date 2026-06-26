@@ -32,17 +32,17 @@ export default async function RedirectsListPage() {
   }));
 
   const columns: TableColumn<Row>[] = [
-    { key: "source", header: "مبدأ", render: (r) => <span dir="ltr" className="font-mono text-dz-primary-800 dark:text-dz-night-fg">{r.source}</span> },
-    { key: "destination", header: "مقصد", render: (r) => <span dir="ltr" className="font-mono text-dz-primary-600 dark:text-dz-primary-300">{r.destination}</span> },
+    { key: "source", header: "مبدأ", render: (r) => <span dir="ltr" className="font-mono text-dz-a-primary-800 dark:text-dz-a-night-fg">{r.source}</span> },
+    { key: "destination", header: "مقصد", render: (r) => <span dir="ltr" className="font-mono text-dz-a-primary-600 dark:text-dz-a-primary-300">{r.destination}</span> },
     { key: "statusCode", header: "کد", align: "center", render: (r) => <span dir="ltr">{r.statusCode}</span> },
     { key: "active", header: "وضعیت", align: "center", render: (r) => <AdminStatusBadge tone={r.isActive ? "green" : "gray"}>{r.isActive ? "فعال" : "غیرفعال"}</AdminStatusBadge> },
-    { key: "updatedAt", header: "ویرایش", render: (r) => <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">{r.updatedAtLabel}</span> },
+    { key: "updatedAt", header: "ویرایش", render: (r) => <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{r.updatedAtLabel}</span> },
     {
       key: "actions",
       header: "",
       align: "end",
       render: (r) => (
-        <Link href={`/admin/collections/redirects/${r.id}`} className="inline-flex rounded-lg p-1.5 text-dz-primary-500 dark:text-dz-night-muted hover:bg-dz-primary-50 dark:hover:bg-white/5 hover:text-dz-primary-700 dark:hover:text-dz-night-fg" title="ویرایش">
+        <Link href={`/admin/collections/redirects/${r.id}`} className="inline-flex rounded-lg p-1.5 text-dz-a-primary-500 dark:text-dz-a-night-muted hover:bg-dz-a-primary-50 dark:hover:bg-white/5 hover:text-dz-a-primary-700 dark:hover:text-dz-a-night-fg" title="ویرایش">
           <Pencil className="size-4" />
         </Link>
       ),
@@ -56,7 +56,7 @@ export default async function RedirectsListPage() {
         description="مدیریت تغییر مسیر URLها (۳۰۱/۳۰۲). اعمالِ زنده در فرانت‌اند (middleware) در گام بعدی فعال می‌شود."
         breadcrumbs={[{ label: "پنل مدیریت", href: "/admin/dashboard" }, { label: "ریدایرکت‌ها" }]}
         actions={
-          <Link href="/admin/collections/redirects/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700">
+          <Link href="/admin/collections/redirects/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
             <Plus className="size-4" /> افزودن ریدایرکت
           </Link>
         }
@@ -72,7 +72,7 @@ export default async function RedirectsListPage() {
             title="هنوز ریدایرکتی ثبت نشده است"
             description="تغییر مسیر URLها (۳۰۱/۳۰۲) را برای حفظ سئو هنگام تغییر آدرس‌ها تعریف کنید."
             action={
-              <Link href="/admin/collections/redirects/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700">
+              <Link href="/admin/collections/redirects/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
                 <Plus className="size-4" /> افزودن ریدایرکت
               </Link>
             }

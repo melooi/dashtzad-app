@@ -81,10 +81,10 @@ export default async function ArticlesListPage({
   }));
 
   const columns: TableColumn<Row>[] = [
-    { key: "title", header: "عنوان", render: (r) => <span className="font-medium text-dz-primary-800 dark:text-dz-night-fg">{r.title}</span> },
-    { key: "type", header: "نوع مقاله", render: (r) => <span className="text-xs text-dz-primary-600 dark:text-dz-primary-300">{r.typeLabel}</span> },
-    { key: "category", header: "دسته", render: (r) => <span className="text-xs text-dz-primary-500 dark:text-dz-night-muted">{r.categoryTitle}</span> },
-    { key: "author", header: "نویسنده", render: (r) => <span className="text-xs text-dz-primary-500 dark:text-dz-night-muted">{r.authorName}</span> },
+    { key: "title", header: "عنوان", render: (r) => <span className="font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">{r.title}</span> },
+    { key: "type", header: "نوع مقاله", render: (r) => <span className="text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300">{r.typeLabel}</span> },
+    { key: "category", header: "دسته", render: (r) => <span className="text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">{r.categoryTitle}</span> },
+    { key: "author", header: "نویسنده", render: (r) => <span className="text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">{r.authorName}</span> },
     {
       key: "status",
       header: "وضعیت",
@@ -93,13 +93,13 @@ export default async function ArticlesListPage({
         <AdminStatusBadge tone={r.status === "PUBLISHED" ? "green" : "gray"}>{ARTICLE_STATUS_LABELS[r.status] ?? r.status}</AdminStatusBadge>
       ),
     },
-    { key: "date", header: "تاریخ", render: (r) => <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">{r.dateLabel}</span> },
+    { key: "date", header: "تاریخ", render: (r) => <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{r.dateLabel}</span> },
     {
       key: "actions",
       header: "",
       align: "end",
       render: (r) => (
-        <Link href={`/admin/content/articles/${r.id}`} className="inline-flex rounded-lg p-1.5 text-dz-primary-500 hover:bg-dz-primary-50 hover:text-dz-primary-700 dark:text-dz-night-muted dark:hover:bg-white/5 dark:hover:text-dz-night-fg" title="ویرایش">
+        <Link href={`/admin/content/articles/${r.id}`} className="inline-flex rounded-lg p-1.5 text-dz-a-primary-500 hover:bg-dz-a-primary-50 hover:text-dz-a-primary-700 dark:text-dz-a-night-muted dark:hover:bg-white/5 dark:hover:text-dz-a-night-fg" title="ویرایش">
           <Pencil className="size-4" />
         </Link>
       ),
@@ -113,7 +113,7 @@ export default async function ArticlesListPage({
         description="مجله‌ی دشت‌زاد — مقاله‌ها بر اساس نوع، دسته و وضعیت."
         breadcrumbs={[{ label: "پنل مدیریت", href: "/admin/dashboard" }, { label: "مقاله‌های مجله" }]}
         actions={
-          <Link href="/admin/content/articles/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700">
+          <Link href="/admin/content/articles/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
             <Plus className="size-4" /> مقاله‌ی جدید
           </Link>
         }
@@ -139,7 +139,7 @@ export default async function ArticlesListPage({
             title="هنوز مقاله‌ای ثبت نشده است"
             description="اولین مقاله‌ی مجله را بنویسید؛ می‌توانید نوع مقاله، دسته و وضعیت انتشار را مشخص کنید."
             action={
-              <Link href="/admin/content/articles/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700">
+              <Link href="/admin/content/articles/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
                 <Plus className="size-4" /> مقاله‌ی جدید
               </Link>
             }

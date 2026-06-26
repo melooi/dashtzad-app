@@ -5,7 +5,7 @@ import { MEDIA_USAGE_LABELS } from "@/lib/media/shared";
 export function MediaUsageBadge({ usage }: { usage: MediaUsage | null }) {
   if (!usage) return null;
   return (
-    <span className="inline-flex items-center rounded-md bg-dz-primary-50 px-2 py-0.5 text-[11px] font-medium text-dz-primary-600 ring-1 ring-dz-primary-100 dark:bg-white/5 dark:text-dz-primary-300 dark:ring-dz-night-border">
+    <span className="inline-flex items-center rounded-md bg-dz-a-primary-50 px-2 py-0.5 text-[11px] font-medium text-dz-a-primary-600 ring-1 ring-dz-a-primary-100 dark:bg-white/5 dark:text-dz-a-primary-300 dark:ring-dz-a-night-border">
       {MEDIA_USAGE_LABELS[usage]}
     </span>
   );

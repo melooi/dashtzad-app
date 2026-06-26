@@ -18,12 +18,12 @@ export function AdminChatLauncher({ openCount, label }: { openCount: number; lab
     <Link
       href="/admin/chat"
       aria-label={label}
-      className="focus-ring group fixed bottom-6 start-6 z-30 inline-flex items-center gap-3 rounded-full bg-dz-primary-600 py-2 ps-2 pe-5 text-white shadow-[0_0.75rem_2rem_rgba(20,22,14,0.28)] transition-all duration-300 hover:bg-dz-primary-700 hover:shadow-[0_1rem_2.5rem_rgba(20,22,14,0.34)] active:scale-[0.98]"
+      className="focus-ring group fixed bottom-6 start-6 z-30 inline-flex items-center gap-3 rounded-full bg-dz-a-primary-600 py-2 ps-2 pe-5 text-white shadow-[0_0.75rem_2rem_rgba(20,22,14,0.28)] transition-all duration-300 hover:bg-dz-a-primary-700 hover:shadow-[0_1rem_2.5rem_rgba(20,22,14,0.34)] active:scale-[0.98]"
     >
       <span className="relative grid size-10 place-items-center rounded-full bg-white/15">
         <Headset className="size-5" aria-hidden />
         {openCount > 0 && (
-          <span className="absolute -end-1 -top-1 grid size-5 place-items-center rounded-full border-2 border-dz-primary-600 bg-dz-warning text-[0.62rem] font-bold text-dz-primary-900">
+          <span className="absolute -end-1 -top-1 grid size-5 place-items-center rounded-full border-2 border-dz-a-primary-600 bg-dz-a-warning text-[0.62rem] font-bold text-dz-a-primary-900">
             {toPersianNumbers(openCount)}
           </span>
         )}

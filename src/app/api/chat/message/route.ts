@@ -60,6 +60,7 @@ export async function POST(req: Request) {
     conversationId,
     userText: parsed.data.message,
     actor: caller.actor,
+    sessionId: caller.session.id,
     available: config.available,
     unavailableMessage: config.unavailableMessage,
     enabledToolCategories: config.toolCategories,

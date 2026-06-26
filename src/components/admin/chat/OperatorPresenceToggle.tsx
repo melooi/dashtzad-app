@@ -36,11 +36,11 @@ export function OperatorPresenceToggle({ initialOnline }: { initialOnline: boole
       title={online ? "آنلاین — برای قطع کلیک کنید" : "آفلاین — برای آنلاین‌شدن کلیک کنید"}
       className={`focus-ring inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-medium transition-colors ${
         online
-          ? "border-dz-success/40 bg-dz-success/10 text-dz-success dark:text-dz-success-300"
-          : "border-dz-primary-200 text-dz-primary-500 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-muted dark:hover:bg-white/5"
+          ? "border-dz-a-success/40 bg-dz-a-success/10 text-dz-a-success dark:text-dz-a-success-300"
+          : "border-dz-a-primary-200 text-dz-a-primary-500 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-muted dark:hover:bg-white/5"
       }`}
     >
-      <span className={`size-2 rounded-full ${online ? "bg-dz-success" : "bg-dz-primary-300 dark:bg-dz-night-faint"}`} aria-hidden />
+      <span className={`size-2 rounded-full ${online ? "bg-dz-a-success" : "bg-dz-a-primary-300 dark:bg-dz-a-night-faint"}`} aria-hidden />
       {online ? "آنلاین" : "آفلاین"}
     </button>
   );

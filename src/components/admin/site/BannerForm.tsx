@@ -79,19 +79,19 @@ export function BannerForm({
       <AdminSuccessNotice message={success} onDismiss={() => setSuccess(null)} />
 
       {/* Preview card */}
-      <div className="overflow-hidden rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card">
-        <div className="relative flex min-h-[140px] items-center justify-center bg-dz-primary-50 dark:bg-white/5">
+      <div className="overflow-hidden rounded-2xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card">
+        <div className="relative flex min-h-[140px] items-center justify-center bg-dz-a-primary-50 dark:bg-white/5">
           {image ? (
             <img src={String(image)} alt={String(title ?? "")} className="h-36 w-full object-cover" />
           ) : (
-            <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">پیش‌نمایش بنر</span>
+            <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">پیش‌نمایش بنر</span>
           )}
         </div>
         <div className="p-4">
-          <h3 className="font-heading text-base font-bold text-dz-primary-800 dark:text-dz-night-fg">{String(title) || "عنوان بنر"}</h3>
-          {subtitle && <p className="mt-1 text-sm text-dz-primary-500 dark:text-dz-night-muted">{String(subtitle)}</p>}
+          <h3 className="font-heading text-base font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">{String(title) || "عنوان بنر"}</h3>
+          {subtitle && <p className="mt-1 text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">{String(subtitle)}</p>}
           {linkLabel && (
-            <span className="mt-2 inline-block rounded-lg bg-dz-primary-600 px-3 py-1 text-xs text-white">{String(linkLabel)}</span>
+            <span className="mt-2 inline-block rounded-lg bg-dz-a-primary-600 px-3 py-1 text-xs text-white">{String(linkLabel)}</span>
           )}
         </div>
       </div>

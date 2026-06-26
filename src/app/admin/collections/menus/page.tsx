@@ -39,18 +39,18 @@ export default async function MenusListPage() {
   }));
 
   const columns: TableColumn<Row>[] = [
-    { key: "title", header: "عنوان", render: (r) => <span className="font-medium text-dz-primary-800 dark:text-dz-night-fg">{r.title}</span> },
-    { key: "slug", header: "نامک", render: (r) => <span dir="ltr" className="font-mono text-xs text-dz-primary-500 dark:text-dz-night-muted">{r.slug}</span> },
-    { key: "location", header: "جایگاه", render: (r) => <span className="text-xs text-dz-primary-600 dark:text-dz-primary-300">{r.locationLabel}</span> },
+    { key: "title", header: "عنوان", render: (r) => <span className="font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">{r.title}</span> },
+    { key: "slug", header: "نامک", render: (r) => <span dir="ltr" className="font-mono text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">{r.slug}</span> },
+    { key: "location", header: "جایگاه", render: (r) => <span className="text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300">{r.locationLabel}</span> },
     { key: "count", header: "تعداد", align: "center", render: (r) => <span>{toPersianNumbers(r.itemCount)}</span> },
     { key: "active", header: "وضعیت", align: "center", render: (r) => <AdminStatusBadge tone={r.isActive ? "green" : "gray"}>{r.isActive ? "فعال" : "غیرفعال"}</AdminStatusBadge> },
-    { key: "updatedAt", header: "ویرایش", render: (r) => <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">{r.updatedAtLabel}</span> },
+    { key: "updatedAt", header: "ویرایش", render: (r) => <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{r.updatedAtLabel}</span> },
     {
       key: "actions",
       header: "",
       align: "end",
       render: (r) => (
-        <Link href={`/admin/collections/menus/${r.id}`} className="inline-flex rounded-lg p-1.5 text-dz-primary-500 dark:text-dz-night-muted hover:bg-dz-primary-50 dark:hover:bg-white/5 hover:text-dz-primary-700 dark:hover:text-dz-night-fg" title="مدیریت">
+        <Link href={`/admin/collections/menus/${r.id}`} className="inline-flex rounded-lg p-1.5 text-dz-a-primary-500 dark:text-dz-a-night-muted hover:bg-dz-a-primary-50 dark:hover:bg-white/5 hover:text-dz-a-primary-700 dark:hover:text-dz-a-night-fg" title="مدیریت">
           <Pencil className="size-4" />
         </Link>
       ),
@@ -64,7 +64,7 @@ export default async function MenusListPage() {
         description="منوهای هدر، فوتر و موبایل و موارد داخل آن‌ها."
         breadcrumbs={[{ label: "پنل مدیریت", href: "/admin/dashboard" }, { label: "منوها" }]}
         actions={
-          <Link href="/admin/collections/menus/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700">
+          <Link href="/admin/collections/menus/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
             <Plus className="size-4" /> افزودن منو
           </Link>
         }
@@ -80,7 +80,7 @@ export default async function MenusListPage() {
             title="هنوز منویی ثبت نشده است"
             description="منوهای هدر، فوتر و موبایل را بسازید و آیتم‌های داخل آن‌ها را مدیریت کنید."
             action={
-              <Link href="/admin/collections/menus/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700">
+              <Link href="/admin/collections/menus/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
                 <Plus className="size-4" /> افزودن منو
               </Link>
             }

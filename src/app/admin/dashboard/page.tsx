@@ -38,18 +38,18 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <div className="mb-7 border-b border-dz-primary-100 dark:border-dz-night-border pb-5">
-        <p className="font-heading text-xs text-dz-primary-400 dark:text-dz-night-faint">پنل مدیریت دشت‌زاد</p>
-        <h1 className="mt-1 font-heading text-2xl font-bold text-dz-primary-800 dark:text-dz-night-fg">
+      <div className="mb-7 border-b border-dz-a-primary-100 dark:border-dz-a-night-border pb-5">
+        <p className="font-heading text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">پنل مدیریت دشت‌زاد</p>
+        <h1 className="mt-1 font-heading text-2xl font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
           خوش آمدید
         </h1>
-        <p className="mt-1.5 text-sm text-dz-primary-500 dark:text-dz-night-muted">
+        <p className="mt-1.5 text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">
           نمای کلی فروشگاه و محتوای سایت. از این‌جا به بخش‌های پرکاربرد دسترسی دارید.
         </p>
       </div>
 
       <section className="mb-7">
-        <h2 className="mb-3 text-xs font-bold text-dz-primary-400 dark:text-dz-night-faint">نیازمند اقدام</h2>
+        <h2 className="mb-3 text-xs font-bold text-dz-a-primary-400 dark:text-dz-a-night-faint">نیازمند اقدام</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <DashboardCard label="سفارش‌های آمادهٔ ارسال" value={ordersToFulfill} icon={ShoppingCart} href="/admin/collections/orders" highlight />
           <DashboardCard label="پیام‌های بی‌پاسخ تماس" value={newContactMessages} icon={Inbox} href="/admin/collections/contact-messages" highlight />
@@ -60,7 +60,7 @@ export default async function DashboardPage() {
       </section>
 
       <section className="mb-7">
-        <h2 className="mb-3 text-xs font-bold text-dz-primary-400 dark:text-dz-night-faint">فروشگاه و محتوا</h2>
+        <h2 className="mb-3 text-xs font-bold text-dz-a-primary-400 dark:text-dz-a-night-faint">فروشگاه و محتوا</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <DashboardCard label="محصولات" value={products} icon={Package} href="/admin/collections/products" />
           <DashboardCard label="دسته‌بندی‌ها" value={categories} icon={FolderTree} href="/admin/collections/categories" />
@@ -71,7 +71,7 @@ export default async function DashboardPage() {
       </section>
 
       <section>
-        <h2 className="mb-3 text-xs font-bold text-dz-primary-400 dark:text-dz-night-faint">در انتظار رسیدگی</h2>
+        <h2 className="mb-3 text-xs font-bold text-dz-a-primary-400 dark:text-dz-a-night-faint">در انتظار رسیدگی</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <DashboardCard label="گفت‌وگوهای جدید چت" value={newChats} icon={Headset} href="/admin/chat" highlight />
           <DashboardCard label="نظرات در انتظار" value={pendingComments} icon={MessageSquare} href="/admin/collections/comments" highlight />

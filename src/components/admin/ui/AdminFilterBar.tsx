@@ -48,7 +48,7 @@ export function AdminFilterBar({
   };
 
   const selectClass =
-    "focus-ring cursor-pointer rounded-xl border border-dz-primary-200 dark:border-dz-night-border bg-white dark:bg-dz-night-elevated px-3 py-2.5 text-sm text-dz-primary-800 dark:text-dz-night-fg shadow-xs outline-none transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 focus:border-dz-primary-500";
+    "focus-ring cursor-pointer rounded-xl border border-dz-a-primary-200 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-elevated px-3 py-2.5 text-sm text-dz-a-primary-800 dark:text-dz-a-night-fg shadow-xs outline-none transition-colors hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 focus:border-dz-a-primary-500";
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -87,7 +87,7 @@ export function AdminFilterBar({
         <button
           type="button"
           onClick={clearAll}
-          className="focus-ring flex items-center gap-1.5 rounded-xl border border-dz-primary-200 dark:border-dz-night-border px-3 py-2.5 text-sm text-dz-primary-600 dark:text-dz-primary-300 transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5"
+          className="focus-ring flex items-center gap-1.5 rounded-xl border border-dz-a-primary-200 dark:border-dz-a-night-border px-3 py-2.5 text-sm text-dz-a-primary-600 dark:text-dz-a-primary-300 transition-colors hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 hover:bg-dz-a-primary-50 dark:hover:bg-white/5"
         >
           <FilterX className="size-4" />
           پاک کردن فیلترها

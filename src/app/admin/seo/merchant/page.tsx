@@ -51,7 +51,7 @@ export default async function SeoMerchantPage() {
 
       <SeoSection title="نمونه آیتم‌های فید" description="نمونه‌ای از محصولات فعالِ واقعی که در فید قرار می‌گیرند.">
         {samples.length === 0 ? (
-          <p className="text-sm text-dz-primary-400 dark:text-dz-night-faint">محصول فعالی برای فید موجود نیست.</p>
+          <p className="text-sm text-dz-a-primary-400 dark:text-dz-a-night-faint">محصول فعالی برای فید موجود نیست.</p>
         ) : (
           <ul className="flex flex-col">
             {samples.map((p, i) => (
@@ -61,8 +61,8 @@ export default async function SeoMerchantPage() {
                 value={
                   <span className="flex items-center gap-2 text-xs">
                     <span>{toPersianNumbers(Math.round(p.price_rial / 10))} تومان</span>
-                    {p._count.variants > 0 && <span className="text-dz-primary-400 dark:text-dz-night-faint">· {toPersianNumbers(p._count.variants)} واریانت</span>}
-                    {p.images.length === 0 && <span className="text-dz-error dark:text-dz-error-300">· بدون تصویر</span>}
+                    {p._count.variants > 0 && <span className="text-dz-a-primary-400 dark:text-dz-a-night-faint">· {toPersianNumbers(p._count.variants)} واریانت</span>}
+                    {p.images.length === 0 && <span className="text-dz-a-error dark:text-dz-a-error-300">· بدون تصویر</span>}
                   </span>
                 }
               />
@@ -72,7 +72,7 @@ export default async function SeoMerchantPage() {
       </SeoSection>
 
       <SeoSection title="چک‌لیست اتصال دستی Merchant Center">
-        <ul className="flex list-disc flex-col gap-1.5 ps-5 text-sm text-dz-primary-700 dark:text-dz-night-fg marker:text-dz-primary-300 dark:marker:text-dz-night-faint">
+        <ul className="flex list-disc flex-col gap-1.5 ps-5 text-sm text-dz-a-primary-700 dark:text-dz-a-night-fg marker:text-dz-a-primary-300 dark:marker:text-dz-a-night-faint">
           <li>افزودن فید با URL بالا در Google Merchant Center (پس از دیپلوی و تأیید دامنه).</li>
           <li>بررسی واحد قیمت = IRR و مطابقتِ قیمت با صفحه‌ی محصول.</li>
           <li>برندهای بدون GTIN: تأیید پذیرشِ identifier_exists=no.</li>

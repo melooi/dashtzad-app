@@ -10,7 +10,7 @@ import {
 export const runtime = "nodejs";
 
 /** Get one AI conversation with its message history (caller-scoped). */
-export async function GET(req: Request, ctx: RouteContext<"/api/chat/conversations/[id]">) {
+export async function GET(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
   const caller = await resolveCaller(req);
   const conv = await getAiConversationWithMessages(id);

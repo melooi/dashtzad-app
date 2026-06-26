@@ -51,15 +51,15 @@ export default async function CommentsPage({
             href={`/admin/collections/comments?tab=${t.id}`}
             className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
               tab === t.id
-                ? "bg-dz-primary-600 text-white"
-                : "border border-dz-primary-200 text-dz-primary-700 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-fg dark:hover:bg-white/5"
+                ? "bg-dz-a-primary-600 text-white"
+                : "border border-dz-a-primary-200 text-dz-a-primary-700 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-fg dark:hover:bg-white/5"
             }`}
           >
             {t.label}
             {t.id === "PENDING" && pending > 0 && (
               <span
                 className={`rounded-full px-1.5 text-xs ${
-                  tab === "PENDING" ? "bg-white/20" : "bg-dz-warning/15 text-dz-warning"
+                  tab === "PENDING" ? "bg-white/20" : "bg-dz-a-warning/15 text-dz-a-warning"
                 }`}
               >
                 {toPersianNumbers(pending)}

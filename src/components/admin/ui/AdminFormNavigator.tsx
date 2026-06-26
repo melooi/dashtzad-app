@@ -58,8 +58,8 @@ export function AdminFormNavigator({
 
   return (
     <nav className="sticky top-24 hidden lg:block" aria-label={title}>
-      <p className="mb-2 px-3 text-xs font-bold text-dz-primary-500 dark:text-dz-night-muted">{title}</p>
-      <ul className="flex flex-col gap-0.5 border-s border-dz-primary-100 dark:border-dz-night-border">
+      <p className="mb-2 px-3 text-xs font-bold text-dz-a-primary-500 dark:text-dz-a-night-muted">{title}</p>
+      <ul className="flex flex-col gap-0.5 border-s border-dz-a-primary-100 dark:border-dz-a-night-border">
         {items.map((it) => {
           const active = activeId === it.id;
           const danger = it.tone === "danger";
@@ -72,12 +72,12 @@ export function AdminFormNavigator({
                 className={`-ms-px block border-s-2 px-3 py-1.5 text-sm transition-colors ${
                   active
                     ? danger
-                      ? "border-dz-error text-dz-error dark:text-dz-error-300"
-                      : "border-dz-primary-500 font-medium text-dz-primary-800 dark:border-dz-primary-400 dark:text-dz-night-fg"
+                      ? "border-dz-a-error text-dz-a-error dark:text-dz-a-error-300"
+                      : "border-dz-a-primary-500 font-medium text-dz-a-primary-800 dark:border-dz-a-primary-400 dark:text-dz-a-night-fg"
                     : `border-transparent ${
                         danger
-                          ? "text-dz-error/70 hover:text-dz-error dark:text-dz-error-300/70"
-                          : "text-dz-primary-500 hover:text-dz-primary-800 dark:text-dz-night-muted dark:hover:text-dz-night-fg"
+                          ? "text-dz-a-error/70 hover:text-dz-a-error dark:text-dz-a-error-300/70"
+                          : "text-dz-a-primary-500 hover:text-dz-a-primary-800 dark:text-dz-a-night-muted dark:hover:text-dz-a-night-fg"
                       }`
                 }`}
               >

@@ -39,7 +39,7 @@ export function MultiSelectField({
   const remove = (v: string) => setSel(selected.filter((x) => x !== v));
 
   if (options.length === 0) {
-    return <p className="rounded-xl border border-dashed border-dz-primary-200 bg-dz-primary-50/30 p-4 text-xs text-dz-primary-400 dark:border-dz-night-border dark:bg-white/2 dark:text-dz-night-faint">{emptyText}</p>;
+    return <p className="rounded-xl border border-dashed border-dz-a-primary-200 bg-dz-a-primary-50/30 p-4 text-xs text-dz-a-primary-400 dark:border-dz-a-night-border dark:bg-white/2 dark:text-dz-a-night-faint">{emptyText}</p>;
   }
 
   return (
@@ -48,9 +48,9 @@ export function MultiSelectField({
       {selected.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {selected.map((v) => (
-            <span key={v} className="inline-flex items-center gap-1 rounded-lg bg-dz-primary-100 px-2 py-1 text-xs text-dz-primary-800 dark:bg-dz-primary-500/25 dark:text-dz-night-fg">
+            <span key={v} className="inline-flex items-center gap-1 rounded-lg bg-dz-a-primary-100 px-2 py-1 text-xs text-dz-a-primary-800 dark:bg-dz-a-primary-500/25 dark:text-dz-a-night-fg">
               {byValue.get(v)?.label ?? v}
-              <button type="button" onClick={() => remove(v)} aria-label="حذف" className="focus-ring rounded text-dz-primary-500 hover:text-dz-error dark:text-dz-night-muted">
+              <button type="button" onClick={() => remove(v)} aria-label="حذف" className="focus-ring rounded text-dz-a-primary-500 hover:text-dz-a-error dark:text-dz-a-night-muted">
                 <X className="size-3.5" />
               </button>
             </span>
@@ -60,29 +60,29 @@ export function MultiSelectField({
 
       {/* search + list */}
       <div className="relative">
-        <Search className="pointer-events-none absolute end-3 top-1/2 size-4 -translate-y-1/2 text-dz-primary-300 dark:text-dz-night-faint" />
+        <Search className="pointer-events-none absolute end-3 top-1/2 size-4 -translate-y-1/2 text-dz-a-primary-300 dark:text-dz-a-night-faint" />
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={searchPlaceholder}
-          className="w-full rounded-xl border border-dz-primary-200 bg-white py-2 ps-3 pe-9 text-sm text-dz-primary-900 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
+          className="w-full rounded-xl border border-dz-a-primary-200 bg-white py-2 ps-3 pe-9 text-sm text-dz-a-primary-900 outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
         />
       </div>
-      <div className="max-h-44 overflow-auto rounded-xl border border-dz-primary-100 dark:border-dz-night-border">
+      <div className="max-h-44 overflow-auto rounded-xl border border-dz-a-primary-100 dark:border-dz-a-night-border">
         {filtered.length === 0 ? (
-          <p className="p-3 text-center text-xs text-dz-primary-400 dark:text-dz-night-faint">موردی یافت نشد.</p>
+          <p className="p-3 text-center text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">موردی یافت نشد.</p>
         ) : (
-          <ul className="divide-y divide-dz-primary-50 dark:divide-dz-night-line">
+          <ul className="divide-y divide-dz-a-primary-50 dark:divide-dz-a-night-line">
             {filtered.map((o) => (
               <li key={o.value}>
                 <button
                   type="button"
                   onClick={() => add(o.value)}
-                  className="focus-ring flex w-full items-center gap-2 px-3 py-2 text-start text-sm text-dz-primary-700 transition-colors hover:bg-dz-primary-50 dark:text-dz-night-fg dark:hover:bg-white/5"
+                  className="focus-ring flex w-full items-center gap-2 px-3 py-2 text-start text-sm text-dz-a-primary-700 transition-colors hover:bg-dz-a-primary-50 dark:text-dz-a-night-fg dark:hover:bg-white/5"
                 >
-                  <Check className="size-3.5 shrink-0 text-dz-primary-300 dark:text-dz-night-faint" />
+                  <Check className="size-3.5 shrink-0 text-dz-a-primary-300 dark:text-dz-a-night-faint" />
                   <span className="flex-1">{o.label}</span>
-                  {o.hint && <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">{o.hint}</span>}
+                  {o.hint && <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{o.hint}</span>}
                 </button>
               </li>
             ))}

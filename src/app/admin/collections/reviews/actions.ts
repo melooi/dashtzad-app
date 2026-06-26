@@ -6,6 +6,8 @@ import {
   answerQuestion,
   setQuestionStatus,
   setReviewStatus,
+  updateQuestion,
+  updateReview,
 } from "@/lib/admin/product-feedback";
 import type { QuestionStatus, ReviewStatus } from "@/generated/prisma/enums";
 
@@ -13,6 +15,31 @@ export type ActionResult = { ok: true } | { ok: false; error: string };
 
 const REVIEW_STATUSES: ReviewStatus[] = ["PENDING", "APPROVED", "REJECTED"];
 const QUESTION_STATUSES: QuestionStatus[] = ["PENDING", "ANSWERED", "REJECTED"];
+
+export async function updateReviewAction(
+  id: string,
+  data: { title?: string | null; text?: string; rating?: number },
+): Promise<ActionResult> {
+  await requireAdmin();
+  try {
+    await updateReview(id, data);
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "خطا در ویرایش دیدگاه." };
+  }
+  revalidatePath("/admin/collections/reviews");
+  return { ok: true };
+}
+
+export async function updateQuestionAction(id: string, question: string): Promise<ActionResult> {
+  await requireAdmin();
+  try {
+    await updateQuestion(id, question);
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "خطا در ویرایش پرسش." };
+  }
+  revalidatePath("/admin/collections/reviews");
+  return { ok: true };
+}
 
 export async function setReviewStatusAction(id: string, status: string): Promise<ActionResult> {
   await requireAdmin();

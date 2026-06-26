@@ -1,0 +1,106 @@
+/* =============================================================================
+ * Dashtzad Design System — STARTER compiled output (app.css)
+ * Hand-authored so the theme renders before the Tailwind build runs.
+ * `npm run build` regenerates this from input.css (Tailwind v4) and overwrites it.
+ * Tokens are exposed as :root vars here so var(--token) works in the browser.
+ * Fonts: IRANYekanX (body, loaded globally) + Kalameh (display).
+ * ========================================================================== */
+/* Tokens scoped to .dz-pdp-page so the design's dz- palette never collides with
+   the app's own dz- admin tokens defined in globals.css (@theme). */
+.dz-pdp-page {
+  --color-dz-bg:#fdfcf9; --color-dz-surface:#ffffff; --color-dz-surface-soft:#f5f5f4; --color-dz-surface-raised:#ffffff;
+  --color-dz-paper:#ffffff; --color-dz-surface-warm:#fafaf9;
+  --color-dz-text:#292524; --color-dz-text-muted:#57534e; --color-dz-text-faint:#78716c; --color-dz-text-inverse:#ffffff;
+  --color-dz-text-soft:#57534e;
+  --color-dz-border:#e7e5e4; --color-dz-border-strong:#d6d3d1; --color-dz-border-soft:#ece3d4;
+  --color-dz-primary:#15803d; --color-dz-primary-hover:#166534; --color-dz-primary-soft:#dcfce7;
+  --color-dz-primary-deep:#14532d; --color-dz-primary-deepest:#0c3a1f; --color-dz-primary-tint:#f0fdf4;
+  --color-dz-secondary:#7a5538; --color-dz-accent:#b45309;
+  --color-dz-success:#166534; --color-dz-warning:#b45309; --color-dz-danger:#c2410c; --color-dz-info:#3f6478;
+  --color-dz-clay:#c2410c; --color-dz-clay-soft:#ffedd5; --color-dz-clay-deep:#9a3412;
+  --color-dz-gold:#f59e0b; --color-dz-gold-deep:#b45309; --color-dz-honey:#fbbf24; --color-dz-amber-soft:#fef3c7;
+  --color-dz-cream:#f5efe0; --color-dz-paper-warm:#fdfcf9;
+  --color-dz-primary-900:#0e3d22; --color-dz-primary-950:#082916;
+  --color-dz-gold-bright:#f0c252; --color-dz-amber-bright:#f0a52e; --color-dz-clay-bright:#ef7a3d;
+  --color-dz-umber-deep:#5a2310; --color-dz-umber-900:#45190a; --color-dz-umber-950:#2e0f05;
+  --color-dz-sale:#a64235; --color-dz-bestseller:#b88a44; --color-dz-new:#2f6b4f; --color-dz-special:#7a5538; --color-dz-gift:#8a5b86;
+  --color-dz-disabled:#b9afa3; --color-dz-overlay:rgba(47,38,31,0.58);
+  --color-dz-ink:#1c1917; --color-dz-channel-whatsapp:#25d366; --color-dz-channel-telegram:#229ed9;
+
+  /* Glass / translucent surfaces (Liquid Glass — bottom nav + chat panel). Raw rgba mirrored from input.css @theme. */
+  --color-dz-glass-bar:rgba(255,255,255,0.5); --color-dz-glass-sheet:rgba(250,249,247,0.9);
+  --color-dz-glass-panel:rgba(255,255,255,0.8); --color-dz-glass-panel-soft:rgba(255,255,255,0.7);
+  --color-dz-glass-chip:rgba(255,255,255,0.78); --color-dz-glass-field:rgba(255,255,255,0.85);
+  --color-dz-glass-input:rgba(255,255,255,0.6); --color-dz-glass-edge:rgba(255,255,255,0.7);
+  --color-dz-glass-edge-faint:rgba(255,255,255,0.6); --color-dz-glass-edge-soft:rgba(255,255,255,0.55);
+  --color-dz-glass-highlight:rgba(255,255,255,0.45); --color-dz-glass-highlight-soft:rgba(255,255,255,0.8);
+  --color-dz-glass-highlight-full:rgba(255,255,255,1); --color-dz-glass-inner:rgba(255,255,255,0.25);
+  --color-dz-glass-clear:rgba(255,255,255,0);
+  --color-dz-handle:rgba(60,60,67,0.28); --color-dz-line-glass:rgba(60,60,67,0.12);
+  --color-dz-shadow-ink-faint:rgba(28,25,23,0.05); --color-dz-shadow-ink-soft:rgba(28,25,23,0.16);
+  --color-dz-shadow-ink-strong:rgba(28,25,23,0.24);
+
+  --font-dz-primary:"IRANYekanX",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-dz-display:"Kalameh","IRANYekanX",system-ui,sans-serif;
+
+  --spacing-dz-0:0rem; --spacing-dz-1:0.25rem; --spacing-dz-2:0.5rem; --spacing-dz-3:0.75rem; --spacing-dz-4:1rem;
+  --spacing-dz-5:1.25rem; --spacing-dz-6:1.5rem; --spacing-dz-8:2rem; --spacing-dz-10:2.5rem; --spacing-dz-12:3rem;
+  --spacing-dz-16:4rem; --spacing-dz-20:5rem;
+
+  --radius-dz-xs:0.375rem; --radius-dz-sm:0.5rem; --radius-dz-md:0.75rem; --radius-dz-lg:1rem; --radius-dz-xl:1.5rem;
+  --radius-dz-card:1.5rem; --radius-dz-modal:1.75rem; --radius-dz-pill:999rem; --radius-dz:1rem;
+
+  --border-dz-hairline:0.0625rem; --border-dz-thin:0.0625rem; --border-dz-medium:0.125rem;
+
+  --shadow-dz-xs:0 0.125rem 0.5rem rgba(47,38,31,0.06);
+  --shadow-dz-sm:0 0.25rem 0.75rem rgba(47,38,31,0.07);
+  --shadow-dz-card:0 0.75rem 2rem rgba(47,38,31,0.08);
+  --shadow-dz-card-hover:0 1rem 2.75rem rgba(47,38,31,0.12);
+  --shadow-dz-popover:0 1rem 3rem rgba(47,38,31,0.14);
+  --shadow-dz-lg:0 1.25rem 3.25rem rgba(47,38,31,0.16);
+  --shadow-dz-modal:0 1.5rem 4rem rgba(47,38,31,0.22);
+
+  --text-dz-display:3rem; --text-dz-h1:2.25rem; --text-dz-h2:1.75rem; --text-dz-h3:1.375rem;
+  --text-dz-body:1rem; --text-dz-body-sm:0.875rem; --text-dz-caption:0.75rem; --text-dz-price:1.125rem; --text-dz-button:0.9375rem;
+  --leading-dz-tight:1.35; --leading-dz-normal:1.8; --leading-dz-relaxed:2;
+
+  --size-dz-touch-target-min:3rem; --size-dz-header-height:5rem;
+
+  --container-dz-sm:40rem; --container-dz-md:56rem; --container-dz-lg:72rem; --container-dz-xl:90rem; --container-dz-wide:96rem;
+
+  --duration-dz-fast:120ms; --duration-dz-normal:200ms; --duration-dz-slow:320ms; --duration-dz-base:200ms;
+  --ease-dz-standard:cubic-bezier(0.2,0,0,1); --ease-dz-emphasized:cubic-bezier(0.2,0,0,1);
+
+  --size-dz-icon:1.25em; --size-dz-icon-sm:1em; --size-dz-icon-lg:1.5em; --space-dz-inline-em:0.5em; --space-dz-gap-em:0.4em;
+  --z-dz-header:40; --z-dz-dropdown:50; --z-dz-sticky-cta:60; --z-dz-drawer:70; --z-dz-modal:80; --z-dz-toast:90;
+}
+
+/* ---- Reset (theme owns everything; nothing leaks from the browser) ---- */
+/* Scoped to .dz-pdp-page so the design reset/base never leaks to the site header/footer. */
+.dz-pdp-page *,.dz-pdp-page *::before,.dz-pdp-page *::after { box-sizing:border-box; margin:0; padding:0; }
+.dz-pdp-page { font-family:var(--font-dz-primary); color:var(--color-dz-text); background-color:var(--color-dz-surface-warm); direction:rtl; -webkit-text-size-adjust:100%; text-size-adjust:100%; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; line-height:1.7; font-size:var(--text-dz-body); text-rendering:optimizeLegibility; }
+.dz-pdp-page h1,.dz-pdp-page h2,.dz-pdp-page h3,.dz-pdp-page h4,.dz-pdp-page h5,.dz-pdp-page h6 { font-size:inherit; font-weight:inherit; }
+.dz-pdp-page h1,.dz-pdp-page h2,.dz-pdp-page h3 { font-family:var(--font-dz-display); line-height:var(--leading-dz-tight); }
+.dz-pdp-page p,.dz-pdp-page figure,.dz-pdp-page blockquote,.dz-pdp-page dl,.dz-pdp-page dd { margin:0; }
+.dz-pdp-page ul,.dz-pdp-page ol { list-style:none; }
+.dz-pdp-page a { color:inherit; text-decoration:none; }
+.dz-pdp-page a:hover { color:var(--color-dz-primary-hover); }
+.dz-pdp-page img,.dz-pdp-page svg,.dz-pdp-page video,.dz-pdp-page canvas,.dz-pdp-page audio,.dz-pdp-page iframe,.dz-pdp-page embed,.dz-pdp-page object { display:block; max-width:100%; }
+.dz-pdp-page img,.dz-pdp-page video { height:auto; }
+.dz-pdp-page button,.dz-pdp-page input,.dz-pdp-page select,.dz-pdp-page textarea,.dz-pdp-page optgroup { font:inherit; color:inherit; background:none; border:0; margin:0; }
+.dz-pdp-page button,.dz-pdp-page [role="button"],.dz-pdp-page label[for],.dz-pdp-page summary { cursor:pointer; }
+.dz-pdp-page button { -webkit-appearance:none; appearance:none; }
+.dz-pdp-page table { border-collapse:collapse; border-spacing:0; }
+.dz-pdp-page :where(input,textarea)::placeholder { color:var(--color-dz-text-faint); opacity:1; }
+.dz-pdp-page hr { border:0; border-top:var(--border-dz-hairline) solid var(--color-dz-border); }
+.dz-pdp-page :focus-visible { outline:var(--border-dz-medium) solid var(--color-dz-primary); outline-offset:var(--spacing-dz-1); }
+.dz-pdp-page [hidden] { display:none !important; }
+
+.dz-button { display:inline-flex; align-items:center; justify-content:center; gap:var(--space-dz-gap-em); min-height:var(--size-dz-touch-target-min); padding-inline:var(--spacing-dz-5); padding-block:var(--spacing-dz-2); border:0; border-radius:var(--radius-dz-pill); background-color:var(--color-dz-primary); color:var(--color-dz-text-inverse); font-family:var(--font-dz-primary); font-size:var(--text-dz-button); font-weight:600; cursor:pointer; transition:background-color var(--duration-dz-normal) var(--ease-dz-standard); }
+.dz-button:hover { background-color:var(--color-dz-primary-hover); }
+.dz-button--soft { background-color:var(--color-dz-primary-soft); color:var(--color-dz-primary-hover); }
+.dz-button:disabled,.dz-button.is-disabled { background-color:var(--color-dz-disabled); cursor:not-allowed; }
+
+.dz-badge { display:inline-flex; align-items:center; gap:var(--space-dz-gap-em); padding-inline:var(--spacing-dz-3); padding-block:var(--spacing-dz-1); border-radius:var(--radius-dz-pill); font-size:var(--text-dz-caption); color:var(--color-dz-text-inverse); line-height:var(--leading-dz-tight); }
+.dz-badge--sale{background-color:var(--color-dz-sale);} .dz-badge--bestseller{background-color:var(--color-dz-bestseller);} .dz-badge--new{background-color:var(--color-dz-new);} .dz-badge--special{background-color:var(--color-dz-special);} .dz-badge--gift{background-color:var(--color-dz-gift);}
+.dz-icon{font-size:var(--size-dz-icon);line-height:1;display:inline-flex;} .dz-icon--sm{font-size:var(--size-dz-icon-sm);} .dz-icon--lg{font-size:var(--size-dz-icon-lg);}

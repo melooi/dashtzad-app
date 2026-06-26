@@ -33,16 +33,16 @@ export function AdminTablePagination({
   const baseClass =
     "focus-ring rounded-lg border p-2 transition-colors";
   const activeClass =
-    "border-dz-primary-200 dark:border-dz-night-border text-dz-primary-700 dark:text-dz-night-fg hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5";
+    "border-dz-a-primary-200 dark:border-dz-a-night-border text-dz-a-primary-700 dark:text-dz-a-night-fg hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 hover:bg-dz-a-primary-50 dark:hover:bg-white/5";
   const disabledClass =
-    "border-dz-primary-100 dark:border-dz-night-border text-dz-primary-300 dark:text-dz-night-faint cursor-not-allowed select-none";
+    "border-dz-a-primary-100 dark:border-dz-a-night-border text-dz-a-primary-300 dark:text-dz-a-night-faint cursor-not-allowed select-none";
 
   const prevDisabled = page <= 1;
   const nextDisabled = page >= totalPages;
 
   return (
     <div className="mt-4 flex flex-col items-center justify-between gap-3 sm:flex-row">
-      <p className="text-xs text-dz-primary-500 dark:text-dz-night-muted">
+      <p className="text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">
         نمایش {toPersianNumbers(from)} تا {toPersianNumbers(to)} از {toPersianNumbers(total)}
       </p>
       <div className="flex items-center gap-2">
@@ -56,7 +56,7 @@ export function AdminTablePagination({
           </Link>
         )}
 
-        <span className="rounded-lg bg-dz-primary-50 dark:bg-white/5 px-3 py-1.5 text-xs text-dz-primary-600 dark:text-dz-primary-300">
+        <span className="rounded-lg bg-dz-a-primary-50 dark:bg-white/5 px-3 py-1.5 text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300">
           صفحه {toPersianNumbers(page)} از {toPersianNumbers(totalPages)}
         </span>
 

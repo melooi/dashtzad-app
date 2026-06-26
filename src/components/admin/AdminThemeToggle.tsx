@@ -63,7 +63,7 @@ export function AdminThemeToggle() {
     <div
       role="group"
       aria-label="حالت نمایش"
-      className="flex items-center gap-0.5 rounded-xl border border-dz-primary-200 bg-dz-primary-50/50 p-0.5 dark:border-dz-night-border dark:bg-dz-night-elevated"
+      className="flex items-center gap-0.5 rounded-xl border border-dz-a-primary-200 bg-dz-a-primary-50/50 p-0.5 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated"
     >
       {OPTIONS.map(({ mode: m, Icon }) => {
         // Before mount we don't know the stored value — render nothing as active
@@ -79,8 +79,8 @@ export function AdminThemeToggle() {
             title={THEME_LABELS[m]}
             className={`focus-ring flex size-8 items-center justify-center rounded-lg transition-colors ${
               active
-                ? "bg-white text-dz-primary-700 shadow-xs dark:bg-dz-primary-600 dark:text-white"
-                : "text-dz-primary-400 hover:text-dz-primary-700 dark:text-dz-night-faint dark:hover:text-dz-night-fg"
+                ? "bg-white text-dz-a-primary-700 shadow-xs dark:bg-dz-a-primary-600 dark:text-white"
+                : "text-dz-a-primary-400 hover:text-dz-a-primary-700 dark:text-dz-a-night-faint dark:hover:text-dz-a-night-fg"
             }`}
           >
             <Icon className="size-4" />

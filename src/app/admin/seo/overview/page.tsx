@@ -27,7 +27,7 @@ export default async function SeoOverviewPage() {
   const o = await getSeoOverview();
 
   const action =
-    "focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-primary-200 dark:border-dz-night-border bg-white dark:bg-dz-night-card px-3 py-2 text-sm text-dz-primary-700 dark:text-dz-night-fg shadow-xs transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5";
+    "focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-a-primary-200 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card px-3 py-2 text-sm text-dz-a-primary-700 dark:text-dz-a-night-fg shadow-xs transition-colors hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 hover:bg-dz-a-primary-50 dark:hover:bg-white/5";
 
   return (
     <div className="flex flex-col gap-6">
@@ -53,7 +53,7 @@ export default async function SeoOverviewPage() {
 
       {(o.warnings.canonicalMissing || o.warnings.canonicalNotHttps || o.warnings.ogImageMissing || o.warnings.descriptionShort) && (
         <SeoSection title="هشدارهای پیش‌فرض سئو" description="مواردی که بهتر است در پیش‌فرض‌های سئو اصلاح شوند.">
-          <ul className="flex flex-col gap-2 text-sm text-dz-primary-700 dark:text-dz-night-fg">
+          <ul className="flex flex-col gap-2 text-sm text-dz-a-primary-700 dark:text-dz-a-night-fg">
             {o.warnings.canonicalMissing && <Warn>پایه‌ی Canonical تنظیم نشده — canonicalها فعلاً از آدرسِ پیش‌فرض ساخته می‌شوند.</Warn>}
             {o.warnings.canonicalNotHttps && <Warn>پایه‌ی Canonical با https شروع نمی‌شود.</Warn>}
             {o.warnings.ogImageMissing && <Warn>تصویر OG پیش‌فرض تنظیم نشده.</Warn>}
@@ -69,12 +69,12 @@ export default async function SeoOverviewPage() {
 
       <SeoSection title="دسترسی سریع">
         <div className="flex flex-wrap gap-2">
-          <Link href="/admin/seo/settings" className={action}><SlidersHorizontal className="size-4 text-dz-primary-400 dark:text-dz-night-faint" /> ویرایش پیش‌فرض‌های سئو</Link>
-          <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className={action}><Map className="size-4 text-dz-primary-400 dark:text-dz-night-faint" /> مشاهده sitemap.xml <ExternalLink className="size-3.5 text-dz-primary-300 dark:text-dz-night-faint" /></a>
-          <a href="/robots.txt" target="_blank" rel="noopener noreferrer" className={action}><Bot className="size-4 text-dz-primary-400 dark:text-dz-night-faint" /> مشاهده robots.txt <ExternalLink className="size-3.5 text-dz-primary-300 dark:text-dz-night-faint" /></a>
-          <a href="/merchant/products.xml" target="_blank" rel="noopener noreferrer" className={action}><ShoppingBag className="size-4 text-dz-primary-400 dark:text-dz-night-faint" /> مشاهده فید Merchant <ExternalLink className="size-3.5 text-dz-primary-300 dark:text-dz-night-faint" /></a>
-          <Link href="/admin/collections/redirects" className={action}><ArrowLeftRight className="size-4 text-dz-primary-400 dark:text-dz-night-faint" /> مدیریت ریدایرکت‌ها</Link>
-          <Link href="/admin/collections/products" className={action}><Package className="size-4 text-dz-primary-400 dark:text-dz-night-faint" /> بررسی محصولات</Link>
+          <Link href="/admin/seo/settings" className={action}><SlidersHorizontal className="size-4 text-dz-a-primary-400 dark:text-dz-a-night-faint" /> ویرایش پیش‌فرض‌های سئو</Link>
+          <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className={action}><Map className="size-4 text-dz-a-primary-400 dark:text-dz-a-night-faint" /> مشاهده sitemap.xml <ExternalLink className="size-3.5 text-dz-a-primary-300 dark:text-dz-a-night-faint" /></a>
+          <a href="/robots.txt" target="_blank" rel="noopener noreferrer" className={action}><Bot className="size-4 text-dz-a-primary-400 dark:text-dz-a-night-faint" /> مشاهده robots.txt <ExternalLink className="size-3.5 text-dz-a-primary-300 dark:text-dz-a-night-faint" /></a>
+          <a href="/merchant/products.xml" target="_blank" rel="noopener noreferrer" className={action}><ShoppingBag className="size-4 text-dz-a-primary-400 dark:text-dz-a-night-faint" /> مشاهده فید Merchant <ExternalLink className="size-3.5 text-dz-a-primary-300 dark:text-dz-a-night-faint" /></a>
+          <Link href="/admin/collections/redirects" className={action}><ArrowLeftRight className="size-4 text-dz-a-primary-400 dark:text-dz-a-night-faint" /> مدیریت ریدایرکت‌ها</Link>
+          <Link href="/admin/collections/products" className={action}><Package className="size-4 text-dz-a-primary-400 dark:text-dz-a-night-faint" /> بررسی محصولات</Link>
         </div>
       </SeoSection>
 
@@ -88,7 +88,7 @@ export default async function SeoOverviewPage() {
 function Warn({ children }: { children: React.ReactNode }) {
   return (
     <li className="flex items-start gap-2">
-      <AlertTriangle className="mt-0.5 size-4 shrink-0 text-dz-warning dark:text-dz-warning-300" />
+      <AlertTriangle className="mt-0.5 size-4 shrink-0 text-dz-a-warning dark:text-dz-a-warning-300" />
       <span>{children}</span>
     </li>
   );

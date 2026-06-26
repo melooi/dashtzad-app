@@ -1,10 +1,16 @@
 import { THEME_INIT_SCRIPT } from "@/lib/admin/theme";
+import { ACCENT_INIT_SCRIPT } from "@/lib/admin/accent";
 
 /**
- * Renders the synchronous theme-init script. Placed at the very top of the admin
- * layout so the warm dark/light theme is applied before admin chrome paints —
- * preventing a flash on full page loads. Admin-scoped only.
+ * Renders two synchronous init scripts at the top of the admin layout to
+ * prevent flash: one applies dark/light theme class, one sets the accent
+ * palette attribute on <html> before any admin chrome paints.
  */
 export function AdminThemeScript() {
-  return <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />;
+  return (
+    <>
+      <script id="admin-theme-init" dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      <script id="admin-accent-init" dangerouslySetInnerHTML={{ __html: ACCENT_INIT_SCRIPT }} />
+    </>
+  );
 }

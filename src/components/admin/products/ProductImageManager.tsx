@@ -45,14 +45,14 @@ export function ProductImageManager({
         {images.map((img) => (
           <div
             key={img.id}
-            className="group relative size-24 overflow-hidden rounded-xl border border-dz-primary-200 bg-dz-primary-50/50 dark:border-dz-night-border dark:bg-white/5"
+            className="group relative size-24 overflow-hidden rounded-xl border border-dz-a-primary-200 bg-dz-a-primary-50/50 dark:border-dz-a-night-border dark:bg-white/5"
           >
             <img src={img.url} alt={img.alt ?? ""} className="size-full object-contain p-1" />
             <button
               type="button"
               disabled={pending}
               onClick={() => handleRemove(img.id)}
-              className="absolute right-1 top-1 hidden size-5 items-center justify-center rounded-full bg-dz-error text-white hover:opacity-90 group-hover:flex disabled:opacity-60"
+              className="absolute right-1 top-1 hidden size-5 items-center justify-center rounded-full bg-dz-a-error text-white hover:opacity-90 group-hover:flex disabled:opacity-60"
               title="حذف تصویر"
             >
               <X className="size-3" />
@@ -64,7 +64,7 @@ export function ProductImageManager({
           type="button"
           disabled={pending}
           onClick={() => setOpen(true)}
-          className="flex size-24 flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-dz-primary-300 text-dz-primary-400 transition-colors hover:border-dz-primary-500 hover:bg-dz-primary-50/50 hover:text-dz-primary-600 disabled:opacity-60 dark:border-dz-night-border dark:text-dz-night-faint dark:hover:bg-white/5"
+          className="flex size-24 flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-dz-a-primary-300 text-dz-a-primary-400 transition-colors hover:border-dz-a-primary-500 hover:bg-dz-a-primary-50/50 hover:text-dz-a-primary-600 disabled:opacity-60 dark:border-dz-a-night-border dark:text-dz-a-night-faint dark:hover:bg-white/5"
         >
           {pending ? (
             <Loader2 className="size-5 animate-spin" />

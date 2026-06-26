@@ -30,7 +30,7 @@ export function HtmlSourceEditor({
       onBlur={onBlur}
       style={{ minHeight }}
       placeholder="<p>…</p>"
-      className="block w-full resize-y border-0 bg-white px-4 py-3 font-mono text-xs leading-6 text-dz-primary-900 outline-none placeholder:text-dz-primary-300 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-dz-night-card dark:text-dz-night-fg dark:placeholder:text-dz-night-faint"
+      className="block w-full resize-y border-0 bg-white px-4 py-3 font-mono text-xs leading-6 text-dz-a-primary-900 outline-none placeholder:text-dz-a-primary-300 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-dz-a-night-card dark:text-dz-a-night-fg dark:placeholder:text-dz-a-night-faint"
     />
   );
 }

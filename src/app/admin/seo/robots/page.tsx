@@ -25,7 +25,7 @@ export default async function SeoRobotsPage() {
   return (
     <div className="flex flex-col gap-6">
       <SeoSection title="robots.txt" action={<SeoCopyButton value={url} openHref="/robots.txt" />}>
-        <pre dir="ltr" className="overflow-x-auto rounded-xl border border-dz-primary-100 dark:border-dz-night-border bg-dz-primary-50/40 dark:bg-white/5 p-4 text-start font-mono text-xs leading-6 text-dz-primary-700 dark:text-dz-night-fg">
+        <pre dir="ltr" className="overflow-x-auto rounded-xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-dz-a-primary-50/40 dark:bg-white/5 p-4 text-start font-mono text-xs leading-6 text-dz-a-primary-700 dark:text-dz-a-night-fg">
           {preview}
         </pre>
       </SeoSection>

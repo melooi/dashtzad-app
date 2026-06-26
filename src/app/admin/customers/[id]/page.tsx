@@ -36,8 +36,8 @@ function Toman({ rial }: { rial: number }) {
   );
 }
 
-const card = "rounded-2xl border border-dz-primary-100 bg-white p-5 dark:border-dz-night-border dark:bg-dz-night-card";
-const cardTitle = "mb-3 flex items-center gap-2 font-bold text-dz-primary-800 dark:text-dz-night-fg";
+const card = "rounded-2xl border border-dz-a-primary-100 bg-white p-5 dark:border-dz-a-night-border dark:bg-dz-a-night-card";
+const cardTitle = "mb-3 flex items-center gap-2 font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg";
 
 export default async function Customer360Page({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
@@ -68,53 +68,53 @@ export default async function Customer360Page({ params }: { params: Promise<{ id
       <div className="grid gap-5 lg:grid-cols-[1fr_20rem]">
         <div className="flex flex-col gap-5">
           <div className={card}>
-            <div className="grid gap-3 text-sm text-dz-primary-700 sm:grid-cols-2 dark:text-dz-night-muted">
+            <div className="grid gap-3 text-sm text-dz-a-primary-700 sm:grid-cols-2 dark:text-dz-a-night-muted">
               <span className="flex items-center gap-2" dir="ltr">
-                <Phone className="size-4 text-dz-primary-400" /> {toPersianNumbers(profile.phoneNumber)}
+                <Phone className="size-4 text-dz-a-primary-400" /> {toPersianNumbers(profile.phoneNumber)}
               </span>
               <span className="flex items-center gap-2">
-                <Mail className="size-4 text-dz-primary-400" /> {profile.email || "—"}
+                <Mail className="size-4 text-dz-a-primary-400" /> {profile.email || "—"}
               </span>
               <span className="flex items-center gap-2">
-                <Calendar className="size-4 text-dz-primary-400" /> عضو از {formatJalali(profile.createdAtISO)}
+                <Calendar className="size-4 text-dz-a-primary-400" /> عضو از {formatJalali(profile.createdAtISO)}
               </span>
               <span className="flex items-center gap-2">
-                <ShieldCheck className="size-4 text-dz-primary-400" /> کد ملی:{" "}
+                <ShieldCheck className="size-4 text-dz-a-primary-400" /> کد ملی:{" "}
                 {profile.nationalId ? toPersianNumbers(profile.nationalId) : "—"}
               </span>
             </div>
             <div className="mt-4">
-              <div className="flex justify-between text-xs text-dz-primary-500 dark:text-dz-night-muted">
+              <div className="flex justify-between text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">
                 <span>تکمیل پروفایل</span>
                 <span>{toPersianNumbers(data.completion)}٪</span>
               </div>
-              <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-dz-primary-100 dark:bg-dz-night-elevated">
-                <div className="h-full rounded-full bg-dz-primary-500" style={{ width: `${data.completion}%` }} />
+              <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-dz-a-primary-100 dark:bg-dz-a-night-elevated">
+                <div className="h-full rounded-full bg-dz-a-primary-500" style={{ width: `${data.completion}%` }} />
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-3">
             <div className={`${card} text-center`}>
-              <Package className="mx-auto size-5 text-dz-primary-500" />
-              <div className="mt-1 font-heading text-xl font-bold text-dz-primary-800 dark:text-dz-night-fg">
+              <Package className="mx-auto size-5 text-dz-a-primary-500" />
+              <div className="mt-1 font-heading text-xl font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
                 {toPersianNumbers(data.orderCount)}
               </div>
-              <div className="text-xs text-dz-primary-400">سفارش</div>
+              <div className="text-xs text-dz-a-primary-400">سفارش</div>
             </div>
             <div className={`${card} text-center`}>
-              <Wallet className="mx-auto size-5 text-dz-primary-500" />
-              <div className="mt-1 font-heading text-sm font-bold text-dz-primary-800 dark:text-dz-night-fg">
+              <Wallet className="mx-auto size-5 text-dz-a-primary-500" />
+              <div className="mt-1 font-heading text-sm font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
                 <Toman rial={data.totalSpentRial} />
               </div>
-              <div className="text-xs text-dz-primary-400">مجموع خرید</div>
+              <div className="text-xs text-dz-a-primary-400">مجموع خرید</div>
             </div>
             <div className={`${card} text-center`}>
-              <Wallet className="mx-auto size-5 text-dz-primary-500" />
-              <div className="mt-1 font-heading text-sm font-bold text-dz-primary-800 dark:text-dz-night-fg">
+              <Wallet className="mx-auto size-5 text-dz-a-primary-500" />
+              <div className="mt-1 font-heading text-sm font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
                 <Toman rial={data.credit.balanceRial} />
               </div>
-              <div className="text-xs text-dz-primary-400">اعتبار</div>
+              <div className="text-xs text-dz-a-primary-400">اعتبار</div>
             </div>
           </div>
 
@@ -124,15 +124,15 @@ export default async function Customer360Page({ params }: { params: Promise<{ id
               <Package className="size-[18px]" /> سفارش‌ها ({toPersianNumbers(data.orders.length)})
             </h2>
             {data.orders.length === 0 ? (
-              <p className="text-sm text-dz-primary-400">سفارشی ندارد.</p>
+              <p className="text-sm text-dz-a-primary-400">سفارشی ندارد.</p>
             ) : (
-              <ul className="divide-y divide-dz-primary-50 dark:divide-dz-night-line">
+              <ul className="divide-y divide-dz-a-primary-50 dark:divide-dz-a-night-line">
                 {data.orders.slice(0, 10).map((o) => (
                   <li key={o.id} className="flex items-center justify-between gap-2 py-2.5 text-sm">
-                    <Link href={`/admin/collections/orders/${o.id}`} className="font-bold text-dz-primary-700 hover:underline dark:text-dz-primary-300">
+                    <Link href={`/admin/collections/orders/${o.id}`} className="font-bold text-dz-a-primary-700 hover:underline dark:text-dz-a-primary-300">
                       #{toPersianNumbers(o.orderNumber)}
                     </Link>
-                    <span className="text-dz-primary-400">{formatJalali(o.createdAtISO)}</span>
+                    <span className="text-dz-a-primary-400">{formatJalali(o.createdAtISO)}</span>
                     <AdminStatusBadge tone={orderStatusTone(o.status)}>
                       {ORDER_STATUS_LABEL[o.status]}
                     </AdminStatusBadge>
@@ -149,15 +149,15 @@ export default async function Customer360Page({ params }: { params: Promise<{ id
               <MessageSquare className="size-[18px]" /> گفتگوها ({toPersianNumbers(data.conversations.length)})
             </h2>
             {data.conversations.length === 0 ? (
-              <p className="text-sm text-dz-primary-400">گفتگویی ندارد.</p>
+              <p className="text-sm text-dz-a-primary-400">گفتگویی ندارد.</p>
             ) : (
-              <ul className="divide-y divide-dz-primary-50 dark:divide-dz-night-line">
+              <ul className="divide-y divide-dz-a-primary-50 dark:divide-dz-a-night-line">
                 {data.conversations.slice(0, 8).map((c) => (
                   <li key={c.id} className="flex items-center justify-between gap-2 py-2.5 text-sm">
-                    <Link href={`/admin/chat/${c.id}`} className="truncate font-medium text-dz-primary-700 hover:underline dark:text-dz-primary-300">
+                    <Link href={`/admin/chat/${c.id}`} className="truncate font-medium text-dz-a-primary-700 hover:underline dark:text-dz-a-primary-300">
                       {c.subject || "گفتگو"}
                     </Link>
-                    <span className="shrink-0 text-dz-primary-400">{formatJalali(c.lastMessageAtISO)}</span>
+                    <span className="shrink-0 text-dz-a-primary-400">{formatJalali(c.lastMessageAtISO)}</span>
                   </li>
                 ))}
               </ul>
@@ -171,9 +171,9 @@ export default async function Customer360Page({ params }: { params: Promise<{ id
                 <Star className="size-[18px]" /> دیدگاه‌ها ({toPersianNumbers(data.reviews.length)})
               </h2>
               {data.reviews.length === 0 ? (
-                <p className="text-sm text-dz-primary-400">دیدگاهی ندارد.</p>
+                <p className="text-sm text-dz-a-primary-400">دیدگاهی ندارد.</p>
               ) : (
-                <ul className="space-y-2 text-sm text-dz-primary-700 dark:text-dz-night-muted">
+                <ul className="space-y-2 text-sm text-dz-a-primary-700 dark:text-dz-a-night-muted">
                   {data.reviews.slice(0, 5).map((r) => (
                     <li key={r.id} className="truncate">
                       {toPersianNumbers(r.rating)}★ — {r.productTitle}
@@ -187,9 +187,9 @@ export default async function Customer360Page({ params }: { params: Promise<{ id
                 <MessageSquare className="size-[18px]" /> پرسش‌ها ({toPersianNumbers(data.questions.length)})
               </h2>
               {data.questions.length === 0 ? (
-                <p className="text-sm text-dz-primary-400">پرسشی ندارد.</p>
+                <p className="text-sm text-dz-a-primary-400">پرسشی ندارد.</p>
               ) : (
-                <ul className="space-y-2 text-sm text-dz-primary-700 dark:text-dz-night-muted">
+                <ul className="space-y-2 text-sm text-dz-a-primary-700 dark:text-dz-a-night-muted">
                   {data.questions.slice(0, 5).map((qq) => (
                     <li key={qq.id} className="truncate">
                       {qq.productTitle}: {qq.question}
@@ -206,22 +206,22 @@ export default async function Customer360Page({ params }: { params: Promise<{ id
               <h2 className={cardTitle}>
                 <Heart className="size-[18px]" /> علاقه‌مندی‌ها ({toPersianNumbers(data.wishlist.length)})
               </h2>
-              <ul className="space-y-1.5 text-sm text-dz-primary-700 dark:text-dz-night-muted">
+              <ul className="space-y-1.5 text-sm text-dz-a-primary-700 dark:text-dz-a-night-muted">
                 {data.wishlist.slice(0, 6).map((p) => (
                   <li key={p.productId} className="truncate">{p.title}</li>
                 ))}
-                {data.wishlist.length === 0 && <li className="text-dz-primary-400">موردی ندارد.</li>}
+                {data.wishlist.length === 0 && <li className="text-dz-a-primary-400">موردی ندارد.</li>}
               </ul>
             </div>
             <div className={card}>
               <h2 className={cardTitle}>
                 <History className="size-[18px]" /> بازدیدهای اخیر ({toPersianNumbers(data.recent.length)})
               </h2>
-              <ul className="space-y-1.5 text-sm text-dz-primary-700 dark:text-dz-night-muted">
+              <ul className="space-y-1.5 text-sm text-dz-a-primary-700 dark:text-dz-a-night-muted">
                 {data.recent.slice(0, 6).map((p) => (
                   <li key={p.productId} className="truncate">{p.title}</li>
                 ))}
-                {data.recent.length === 0 && <li className="text-dz-primary-400">موردی ندارد.</li>}
+                {data.recent.length === 0 && <li className="text-dz-a-primary-400">موردی ندارد.</li>}
               </ul>
             </div>
           </div>
@@ -233,16 +233,16 @@ export default async function Customer360Page({ params }: { params: Promise<{ id
             <h2 className={cardTitle}>
               <Wallet className="size-[18px]" /> اعتبار دشت‌زاد
             </h2>
-            <div className="mb-3 font-heading text-2xl font-bold text-dz-primary-800 dark:text-dz-night-fg">
+            <div className="mb-3 font-heading text-2xl font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
               <Toman rial={data.credit.balanceRial} />
             </div>
             <CreditAdjustForm userId={profile.id} />
             {data.credit.entries.length > 0 && (
-              <ul className="mt-4 max-h-48 space-y-1.5 overflow-y-auto border-t border-dz-primary-50 pt-3 text-xs text-dz-primary-600 dark:border-dz-night-line dark:text-dz-night-muted">
+              <ul className="mt-4 max-h-48 space-y-1.5 overflow-y-auto border-t border-dz-a-primary-50 pt-3 text-xs text-dz-a-primary-600 dark:border-dz-a-night-line dark:text-dz-a-night-muted">
                 {data.credit.entries.slice(0, 12).map((t) => (
                   <li key={t.id} className="flex items-center justify-between gap-2">
                     <span>{t.direction === "IN" ? "+ " : "− "}<Toman rial={t.amountRial} /></span>
-                    <span className="text-dz-primary-400">{formatJalali(t.createdAtISO)}</span>
+                    <span className="text-dz-a-primary-400">{formatJalali(t.createdAtISO)}</span>
                   </li>
                 ))}
               </ul>
@@ -254,12 +254,12 @@ export default async function Customer360Page({ params }: { params: Promise<{ id
               <MapPin className="size-[18px]" /> آدرس‌ها ({toPersianNumbers(data.addresses.length)})
             </h2>
             {data.addresses.length === 0 ? (
-              <p className="text-sm text-dz-primary-400">آدرسی ندارد.</p>
+              <p className="text-sm text-dz-a-primary-400">آدرسی ندارد.</p>
             ) : (
-              <ul className="space-y-2 text-sm text-dz-primary-700 dark:text-dz-night-muted">
+              <ul className="space-y-2 text-sm text-dz-a-primary-700 dark:text-dz-a-night-muted">
                 {data.addresses.map((a) => (
                   <li key={a.id} className="leading-6">
-                    <span className="font-medium text-dz-primary-800 dark:text-dz-night-fg">
+                    <span className="font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">
                       {a.title || "آدرس"}
                       {a.isDefault ? " (پیش‌فرض)" : ""}:
                     </span>{" "}
@@ -276,11 +276,11 @@ export default async function Customer360Page({ params }: { params: Promise<{ id
             </h2>
             <CustomerNoteForm userId={profile.id} />
             {data.notes.length > 0 && (
-              <ul className="mt-4 space-y-2 border-t border-dz-primary-50 pt-3 text-sm dark:border-dz-night-line">
+              <ul className="mt-4 space-y-2 border-t border-dz-a-primary-50 pt-3 text-sm dark:border-dz-a-night-line">
                 {data.notes.map((n) => (
-                  <li key={n.id} className="rounded-xl bg-dz-primary-50/60 p-2.5 dark:bg-dz-night-elevated">
-                    <p className="text-dz-primary-800 dark:text-dz-night-fg">{n.body}</p>
-                    <p className="mt-1 text-xs text-dz-primary-400">
+                  <li key={n.id} className="rounded-xl bg-dz-a-primary-50/60 p-2.5 dark:bg-dz-a-night-elevated">
+                    <p className="text-dz-a-primary-800 dark:text-dz-a-night-fg">{n.body}</p>
+                    <p className="mt-1 text-xs text-dz-a-primary-400">
                       {n.authorName} · {formatJalali(n.createdAtISO)}
                     </p>
                   </li>

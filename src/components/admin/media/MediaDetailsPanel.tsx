@@ -109,13 +109,13 @@ function MediaDetailsPanelInner({
   return (
     <>
       <aside className="flex h-full flex-col overflow-y-auto">
-        <div className="flex items-center justify-between border-b border-dz-primary-100 px-4 py-3 dark:border-dz-night-border">
-          <h2 className="font-heading text-sm font-bold text-dz-primary-800 dark:text-dz-night-fg">جزئیات رسانه</h2>
+        <div className="flex items-center justify-between border-b border-dz-a-primary-100 px-4 py-3 dark:border-dz-a-night-border">
+          <h2 className="font-heading text-sm font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">جزئیات رسانه</h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="بستن"
-            className="focus-ring rounded-lg p-1.5 text-dz-primary-400 hover:bg-dz-primary-50 hover:text-dz-primary-700 dark:text-dz-night-faint dark:hover:bg-white/5 dark:hover:text-dz-night-fg"
+            className="focus-ring rounded-lg p-1.5 text-dz-a-primary-400 hover:bg-dz-a-primary-50 hover:text-dz-a-primary-700 dark:text-dz-a-night-faint dark:hover:bg-white/5 dark:hover:text-dz-a-night-fg"
           >
             <X className="size-4" />
           </button>
@@ -123,33 +123,33 @@ function MediaDetailsPanelInner({
 
         <div className="flex flex-col gap-4 p-4">
           {/* Preview */}
-          <div className="overflow-hidden rounded-xl border border-dz-primary-100 bg-dz-primary-50/60 dark:border-dz-night-border dark:bg-white/5">
+          <div className="overflow-hidden rounded-xl border border-dz-a-primary-100 bg-dz-a-primary-50/60 dark:border-dz-a-night-border dark:bg-white/5">
             <img src={asset.url} alt={asset.alt ?? asset.originalName} className="mx-auto max-h-56 w-full object-contain" />
           </div>
 
           {/* URL + copy */}
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-dz-primary-700 dark:text-dz-night-fg">نشانی فایل</label>
+            <label className="mb-1.5 block text-xs font-medium text-dz-a-primary-700 dark:text-dz-a-night-fg">نشانی فایل</label>
             <div className="flex items-stretch gap-2">
-              <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-dz-primary-200 bg-dz-primary-50/40 px-3 py-2 dark:border-dz-night-border dark:bg-white/5">
-                <Link2 className="size-3.5 shrink-0 text-dz-primary-400 dark:text-dz-night-faint" />
-                <span dir="ltr" className="truncate font-mono text-xs text-dz-primary-700 dark:text-dz-night-muted" title={asset.url}>
+              <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-dz-a-primary-200 bg-dz-a-primary-50/40 px-3 py-2 dark:border-dz-a-night-border dark:bg-white/5">
+                <Link2 className="size-3.5 shrink-0 text-dz-a-primary-400 dark:text-dz-a-night-faint" />
+                <span dir="ltr" className="truncate font-mono text-xs text-dz-a-primary-700 dark:text-dz-a-night-muted" title={asset.url}>
                   {asset.url}
                 </span>
               </div>
               <button
                 type="button"
                 onClick={copyUrl}
-                className="focus-ring inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-dz-primary-200 px-3 text-xs font-medium text-dz-primary-700 transition-colors hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-fg dark:hover:bg-white/5"
+                className="focus-ring inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-dz-a-primary-200 px-3 text-xs font-medium text-dz-a-primary-700 transition-colors hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-fg dark:hover:bg-white/5"
               >
-                {copied ? <Check className="size-3.5 text-dz-success dark:text-dz-success-300" /> : <Copy className="size-3.5" />}
+                {copied ? <Check className="size-3.5 text-dz-a-success dark:text-dz-a-success-300" /> : <Copy className="size-3.5" />}
                 {copied ? "کپی شد" : "کپی"}
               </button>
             </div>
           </div>
 
           {/* Read-only facts */}
-          <dl className="grid grid-cols-2 gap-x-3 gap-y-2 rounded-xl border border-dz-primary-100 bg-white p-3 text-xs dark:border-dz-night-border dark:bg-dz-night-card">
+          <dl className="grid grid-cols-2 gap-x-3 gap-y-2 rounded-xl border border-dz-a-primary-100 bg-white p-3 text-xs dark:border-dz-a-night-border dark:bg-dz-a-night-card">
             <Fact label="نام اصلی" value={asset.originalName} dir="ltr" />
             <Fact label="فرمت" value={mimeLabel(asset.mimeType)} />
             <Fact label="حجم" value={formatBytes(asset.sizeBytes)} />
@@ -189,9 +189,9 @@ function MediaDetailsPanelInner({
               {tags.length > 0 && (
                 <div className="flex flex-wrap gap-1.5">
                   {tags.map((t) => (
-                    <span key={t} className="inline-flex items-center gap-1 rounded-md bg-dz-primary-50 px-2 py-1 text-xs text-dz-primary-700 ring-1 ring-dz-primary-100 dark:bg-white/5 dark:text-dz-primary-300 dark:ring-dz-night-border">
+                    <span key={t} className="inline-flex items-center gap-1 rounded-md bg-dz-a-primary-50 px-2 py-1 text-xs text-dz-a-primary-700 ring-1 ring-dz-a-primary-100 dark:bg-white/5 dark:text-dz-a-primary-300 dark:ring-dz-a-night-border">
                       {t}
-                      <button type="button" onClick={() => setTags(tags.filter((x) => x !== t))} aria-label={`حذف ${t}`} className="text-dz-primary-400 hover:text-dz-error dark:text-dz-night-faint">
+                      <button type="button" onClick={() => setTags(tags.filter((x) => x !== t))} aria-label={`حذف ${t}`} className="text-dz-a-primary-400 hover:text-dz-a-error dark:text-dz-a-night-faint">
                         <X className="size-3" />
                       </button>
                     </span>
@@ -211,7 +211,7 @@ function MediaDetailsPanelInner({
                   placeholder="افزودن برچسب و Enter"
                   className={fieldClass()}
                 />
-                <button type="button" onClick={addTag} aria-label="افزودن برچسب" className="focus-ring shrink-0 rounded-xl border border-dz-primary-200 px-3 text-dz-primary-600 transition-colors hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-primary-300 dark:hover:bg-white/5">
+                <button type="button" onClick={addTag} aria-label="افزودن برچسب" className="focus-ring shrink-0 rounded-xl border border-dz-a-primary-200 px-3 text-dz-a-primary-600 transition-colors hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-primary-300 dark:hover:bg-white/5">
                   <Plus className="size-4" />
                 </button>
               </div>
@@ -219,7 +219,7 @@ function MediaDetailsPanelInner({
           </AdminField>
 
           {error && (
-            <p className="flex items-center gap-1.5 rounded-lg border border-dz-error/30 bg-dz-error/5 px-3 py-2 text-xs text-dz-error dark:text-dz-error-300">
+            <p className="flex items-center gap-1.5 rounded-lg border border-dz-a-error/30 bg-dz-a-error/5 px-3 py-2 text-xs text-dz-a-error dark:text-dz-a-error-300">
               <AlertTriangle className="size-3.5 shrink-0" /> {error}
             </p>
           )}
@@ -228,22 +228,22 @@ function MediaDetailsPanelInner({
             type="button"
             onClick={save}
             disabled={pending}
-            className="focus-ring inline-flex items-center justify-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-primary-700 active:bg-dz-primary-800 disabled:bg-dz-primary-300 dark:disabled:bg-dz-primary-800"
+            className="focus-ring inline-flex items-center justify-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-a-primary-700 active:bg-dz-a-primary-800 disabled:bg-dz-a-primary-300 dark:disabled:bg-dz-a-primary-800"
           >
             {pending ? <Loader2 className="size-4 animate-spin" /> : saved ? <Check className="size-4" /> : <Save className="size-4" />}
             {pending ? "در حال ذخیره…" : saved ? "ذخیره شد" : "ذخیره‌ی تغییرات"}
           </button>
 
           {/* Danger */}
-          <div className="mt-1 rounded-xl border border-dz-error/25 bg-dz-error/5 p-3 dark:bg-dz-error/10">
-            <p className="flex items-start gap-1.5 text-xs leading-5 text-dz-error dark:text-dz-error-300">
+          <div className="mt-1 rounded-xl border border-dz-a-error/25 bg-dz-a-error/5 p-3 dark:bg-dz-a-error/10">
+            <p className="flex items-start gap-1.5 text-xs leading-5 text-dz-a-error dark:text-dz-a-error-300">
               <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />
               حذف، فایل و رکورد را پاک می‌کند. اگر این نشانی در محصول، بنر یا سئو استفاده شده باشد، آن‌جا خراب می‌شود.
             </p>
             <button
               type="button"
               onClick={() => setConfirmOpen(true)}
-              className="focus-ring mt-2.5 inline-flex items-center gap-1.5 rounded-lg border border-dz-error/40 px-3 py-1.5 text-xs font-medium text-dz-error transition-colors hover:bg-dz-error/10 dark:text-dz-error-300"
+              className="focus-ring mt-2.5 inline-flex items-center gap-1.5 rounded-lg border border-dz-a-error/40 px-3 py-1.5 text-xs font-medium text-dz-a-error transition-colors hover:bg-dz-a-error/10 dark:text-dz-a-error-300"
             >
               <Trash2 className="size-3.5" /> حذف رسانه
             </button>
@@ -268,8 +268,8 @@ function MediaDetailsPanelInner({
 function Fact({ label, value, dir }: { label: string; value: string; dir?: "ltr" | "rtl" }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <dt className="text-dz-primary-400 dark:text-dz-night-faint">{label}</dt>
-      <dd dir={dir} className="truncate font-medium text-dz-primary-800 dark:text-dz-night-fg" title={value}>
+      <dt className="text-dz-a-primary-400 dark:text-dz-a-night-faint">{label}</dt>
+      <dd dir={dir} className="truncate font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg" title={value}>
         {value}
       </dd>
     </div>

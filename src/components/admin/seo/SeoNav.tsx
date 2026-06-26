@@ -27,7 +27,7 @@ const TABS = [
 export function SeoNav() {
   const pathname = usePathname();
   return (
-    <nav className="mb-6 flex flex-wrap gap-1.5 rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card p-1.5 shadow-xs">
+    <nav className="mb-6 flex flex-wrap gap-1.5 rounded-2xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-white dark:bg-dz-a-night-card p-1.5 shadow-xs">
       {TABS.map((t) => {
         const active = pathname === t.href || pathname.startsWith(t.href + "/");
         const Icon = t.icon;
@@ -38,11 +38,11 @@ export function SeoNav() {
             aria-current={active ? "page" : undefined}
             className={`focus-ring inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm transition-colors ${
               active
-                ? "bg-dz-primary-600 font-medium text-white shadow-xs"
-                : "text-dz-primary-600 dark:text-dz-primary-300 hover:bg-dz-primary-50 dark:hover:bg-white/5 hover:text-dz-primary-800 dark:hover:text-dz-night-fg"
+                ? "bg-dz-a-primary-600 font-medium text-white shadow-xs"
+                : "text-dz-a-primary-600 dark:text-dz-a-primary-300 hover:bg-dz-a-primary-50 dark:hover:bg-white/5 hover:text-dz-a-primary-800 dark:hover:text-dz-a-night-fg"
             }`}
           >
-            <Icon className={`size-4 ${active ? "text-white" : "text-dz-primary-400 dark:text-dz-night-faint"}`} />
+            <Icon className={`size-4 ${active ? "text-white" : "text-dz-a-primary-400 dark:text-dz-a-night-faint"}`} />
             {t.label}
           </Link>
         );

@@ -18,7 +18,7 @@ const bodySchema = z.object({
  * operator inbox (Conversation) and links it via AiHandoff. Works regardless of
  * AI availability (this is the human safety net).
  */
-export async function POST(req: Request, ctx: RouteContext<"/api/chat/conversations/[id]">) {
+export async function POST(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
   const json = await req.json().catch(() => ({}));
   const parsed = bodySchema.safeParse(json ?? {});

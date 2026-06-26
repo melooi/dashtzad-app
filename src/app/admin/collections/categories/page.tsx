@@ -91,7 +91,7 @@ export default async function CategoriesListPage({
   const addButton = (
     <Link
       href={`${categoriesCollection.route}/new`}
-      className="inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-dz-primary-700"
+      className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-dz-a-primary-700"
     >
       <Plus className="size-4" />
       {categoriesCollection.addLabel}

@@ -70,16 +70,16 @@ export function AdminSlugField({
           type="button"
           onClick={regenerate}
           title="تولید خودکار از عنوان"
-          className="focus-ring flex shrink-0 items-center gap-1.5 rounded-xl border border-dz-primary-200 dark:border-dz-night-border px-3 text-xs text-dz-primary-600 dark:text-dz-primary-300 transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5"
+          className="focus-ring flex shrink-0 items-center gap-1.5 rounded-xl border border-dz-a-primary-200 dark:border-dz-a-night-border px-3 text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300 transition-colors hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 hover:bg-dz-a-primary-50 dark:hover:bg-white/5"
         >
           <Wand2 className="size-4" />
           خودکار
         </button>
       </div>
       {previewBase && slug && (
-        <span dir="ltr" className="mt-0.5 block text-start text-xs text-dz-primary-400 dark:text-dz-night-faint">
+        <span dir="ltr" className="mt-0.5 block text-start text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
           {previewBase}
-          <span className="text-dz-primary-600 dark:text-dz-primary-300">{slug}</span>
+          <span className="text-dz-a-primary-600 dark:text-dz-a-primary-300">{slug}</span>
         </span>
       )}
     </AdminField>

@@ -30,30 +30,30 @@ export function AdminReadinessChecklist({
   const complete = doneCount === required.length;
 
   return (
-    <section className="rounded-2xl border border-dz-primary-100 bg-white p-5 shadow-xs dark:border-dz-night-border dark:bg-dz-night-card">
+    <section className="rounded-2xl border border-dz-a-primary-100 bg-white p-5 shadow-xs dark:border-dz-a-night-border dark:bg-dz-a-night-card">
       <div className="mb-3 flex items-center justify-between gap-3">
-        <h2 className="flex items-center gap-2 font-heading text-sm font-bold text-dz-primary-800 dark:text-dz-night-fg">
+        <h2 className="flex items-center gap-2 font-heading text-sm font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
           {complete ? (
-            <Check className="size-4 text-dz-success" />
+            <Check className="size-4 text-dz-a-success" />
           ) : (
-            <CircleAlert className="size-4 text-dz-warning" />
+            <CircleAlert className="size-4 text-dz-a-warning" />
           )}
           {title}
         </h2>
         <span
           className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold ${
             complete
-              ? "bg-dz-success/15 text-dz-success dark:text-dz-success-300"
-              : "bg-dz-warning/15 text-dz-warning dark:text-dz-warning-300"
+              ? "bg-dz-a-success/15 text-dz-a-success dark:text-dz-a-success-300"
+              : "bg-dz-a-warning/15 text-dz-a-warning dark:text-dz-a-warning-300"
           }`}
         >
           {toFa(doneCount)}‏/‏{toFa(required.length)}
         </span>
       </div>
 
-      <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-dz-primary-100 dark:bg-white/10">
+      <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-dz-a-primary-100 dark:bg-white/10">
         <div
-          className={`h-full rounded-full transition-all ${complete ? "bg-dz-success" : "bg-dz-primary-500"}`}
+          className={`h-full rounded-full transition-all ${complete ? "bg-dz-a-success" : "bg-dz-a-primary-500"}`}
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -62,17 +62,17 @@ export function AdminReadinessChecklist({
         {items.map((item, i) => (
           <li key={i} className="flex items-start gap-2 text-sm">
             {item.done ? (
-              <Check className="mt-0.5 size-4 shrink-0 text-dz-success" aria-hidden />
+              <Check className="mt-0.5 size-4 shrink-0 text-dz-a-success" aria-hidden />
             ) : (
-              <Circle className={`mt-0.5 size-4 shrink-0 ${item.optional ? "text-dz-primary-200 dark:text-dz-night-faint" : "text-dz-primary-300 dark:text-dz-night-muted"}`} aria-hidden />
+              <Circle className={`mt-0.5 size-4 shrink-0 ${item.optional ? "text-dz-a-primary-200 dark:text-dz-a-night-faint" : "text-dz-a-primary-300 dark:text-dz-a-night-muted"}`} aria-hidden />
             )}
             <span className="min-w-0">
-              <span className={item.done ? "text-dz-primary-700 dark:text-dz-night-fg" : "text-dz-primary-600 dark:text-dz-night-muted"}>
+              <span className={item.done ? "text-dz-a-primary-700 dark:text-dz-a-night-fg" : "text-dz-a-primary-600 dark:text-dz-a-night-muted"}>
                 {item.label}
               </span>
-              {item.optional && <span className="ms-1 text-[11px] text-dz-primary-300 dark:text-dz-night-faint">(اختیاری)</span>}
+              {item.optional && <span className="ms-1 text-[11px] text-dz-a-primary-300 dark:text-dz-a-night-faint">(اختیاری)</span>}
               {!item.done && item.hint && (
-                <span className="mt-0.5 block text-xs text-dz-primary-400 dark:text-dz-night-faint">{item.hint}</span>
+                <span className="mt-0.5 block text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{item.hint}</span>
               )}
             </span>
           </li>

@@ -55,20 +55,20 @@ export function MediaGalleryView({ node, updateAttributes, deleteNode, editor }:
     >
       {editable && (
         <div className="dz-gallery__bar mb-2 flex flex-wrap items-center gap-2" contentEditable={false}>
-          <Images className="size-4 shrink-0 text-dz-primary-500 dark:text-dz-night-muted" aria-hidden />
+          <Images className="size-4 shrink-0 text-dz-a-primary-500 dark:text-dz-a-night-muted" aria-hidden />
           <input
             value={title}
             onChange={(e) => updateAttributes({ title: e.target.value })}
             placeholder="عنوان گالری (اختیاری)"
             aria-label="عنوان گالری"
-            className="min-w-0 flex-1 rounded-lg border border-dz-primary-200 bg-white px-2 py-1 text-xs font-medium text-dz-primary-900 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
+            className="min-w-0 flex-1 rounded-lg border border-dz-a-primary-200 bg-white px-2 py-1 text-xs font-medium text-dz-a-primary-900 outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
           />
           <select
             value={layout}
             onChange={(e) => updateAttributes({ layout: e.target.value })}
             title="چیدمان گالری"
             aria-label="چیدمان گالری"
-            className="focus-ring h-7 rounded-lg border border-dz-primary-200 bg-white px-1.5 text-xs text-dz-primary-700 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
+            className="focus-ring h-7 rounded-lg border border-dz-a-primary-200 bg-white px-1.5 text-xs text-dz-a-primary-700 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
           >
             {LAYOUTS.map((l) => (
               <option key={l.key} value={l.key}>
@@ -79,7 +79,7 @@ export function MediaGalleryView({ node, updateAttributes, deleteNode, editor }:
           <button
             type="button"
             onClick={() => setPick(true)}
-            className="focus-ring inline-flex items-center gap-1 rounded-lg border border-dz-primary-200 px-2 py-1 text-xs font-medium text-dz-primary-700 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-fg dark:hover:bg-white/5"
+            className="focus-ring inline-flex items-center gap-1 rounded-lg border border-dz-a-primary-200 px-2 py-1 text-xs font-medium text-dz-a-primary-700 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-fg dark:hover:bg-white/5"
           >
             <ImagePlus className="size-3.5" /> افزودن تصاویر
           </button>
@@ -88,7 +88,7 @@ export function MediaGalleryView({ node, updateAttributes, deleteNode, editor }:
             onClick={deleteNode}
             title="حذف گالری"
             aria-label="حذف گالری"
-            className="focus-ring inline-flex size-7 items-center justify-center rounded-lg text-dz-error/80 hover:bg-dz-error/10 dark:text-dz-error-300"
+            className="focus-ring inline-flex size-7 items-center justify-center rounded-lg text-dz-a-error/80 hover:bg-dz-a-error/10 dark:text-dz-a-error-300"
           >
             <Trash2 className="size-3.5" />
           </button>
@@ -100,7 +100,7 @@ export function MediaGalleryView({ node, updateAttributes, deleteNode, editor }:
           <button
             type="button"
             onClick={() => setPick(true)}
-            className="focus-ring flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-dz-primary-300 bg-dz-primary-50/40 px-4 py-8 text-sm text-dz-primary-500 hover:border-dz-primary-400 hover:bg-dz-primary-50 dark:border-dz-night-border dark:bg-white/2 dark:text-dz-night-muted"
+            className="focus-ring flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-dz-a-primary-300 bg-dz-a-primary-50/40 px-4 py-8 text-sm text-dz-a-primary-500 hover:border-dz-a-primary-400 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-white/2 dark:text-dz-a-night-muted"
           >
             <Images className="size-6" /> افزودن تصاویر از کتابخانه‌ی رسانه
           </button>
@@ -110,7 +110,7 @@ export function MediaGalleryView({ node, updateAttributes, deleteNode, editor }:
           {items.map((it, i) => (
             <li
               key={`${it.id ?? it.src}-${i}`}
-              className="flex flex-col gap-1 rounded-lg border border-dz-primary-100 bg-white p-1.5 dark:border-dz-night-border dark:bg-dz-night-elevated"
+              className="flex flex-col gap-1 rounded-lg border border-dz-a-primary-100 bg-white p-1.5 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated"
             >
               <img src={it.src} alt={it.alt} className="h-20 w-full rounded object-cover" />
               <input
@@ -118,14 +118,14 @@ export function MediaGalleryView({ node, updateAttributes, deleteNode, editor }:
                 onChange={(e) => setCaption(i, e.target.value)}
                 placeholder="کپشن"
                 aria-label={`کپشن تصویر ${i + 1}`}
-                className="w-full rounded border border-dz-primary-100 bg-white px-1.5 py-0.5 text-[11px] text-dz-primary-800 outline-none focus:border-dz-primary-400 dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-night-fg"
+                className="w-full rounded border border-dz-a-primary-100 bg-white px-1.5 py-0.5 text-[11px] text-dz-a-primary-800 outline-none focus:border-dz-a-primary-400 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-fg"
               />
               <input
                 value={it.alt}
                 onChange={(e) => setAlt(i, e.target.value)}
                 placeholder="alt"
                 aria-label={`متن جایگزین تصویر ${i + 1}`}
-                className="w-full rounded border border-dz-primary-100 bg-white px-1.5 py-0.5 text-[11px] text-dz-primary-700 outline-none focus:border-dz-primary-400 dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-night-fg"
+                className="w-full rounded border border-dz-a-primary-100 bg-white px-1.5 py-0.5 text-[11px] text-dz-a-primary-700 outline-none focus:border-dz-a-primary-400 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-fg"
               />
               <div className="flex items-center justify-between">
                 <button
@@ -134,7 +134,7 @@ export function MediaGalleryView({ node, updateAttributes, deleteNode, editor }:
                   disabled={i === items.length - 1}
                   title="جابه‌جایی به بعد"
                   aria-label="جابه‌جایی به بعد"
-                  className="focus-ring rounded p-0.5 text-dz-primary-500 disabled:opacity-30 dark:text-dz-night-muted"
+                  className="focus-ring rounded p-0.5 text-dz-a-primary-500 disabled:opacity-30 dark:text-dz-a-night-muted"
                 >
                   <ChevronLeft className="size-4" />
                 </button>
@@ -143,7 +143,7 @@ export function MediaGalleryView({ node, updateAttributes, deleteNode, editor }:
                   onClick={() => removeAt(i)}
                   title="حذف تصویر"
                   aria-label="حذف تصویر"
-                  className="focus-ring rounded p-0.5 text-dz-error/80 hover:bg-dz-error/10 dark:text-dz-error-300"
+                  className="focus-ring rounded p-0.5 text-dz-a-error/80 hover:bg-dz-a-error/10 dark:text-dz-a-error-300"
                 >
                   <Trash2 className="size-3.5" />
                 </button>
@@ -153,7 +153,7 @@ export function MediaGalleryView({ node, updateAttributes, deleteNode, editor }:
                   disabled={i === 0}
                   title="جابه‌جایی به قبل"
                   aria-label="جابه‌جایی به قبل"
-                  className="focus-ring rounded p-0.5 text-dz-primary-500 disabled:opacity-30 dark:text-dz-night-muted"
+                  className="focus-ring rounded p-0.5 text-dz-a-primary-500 disabled:opacity-30 dark:text-dz-a-night-muted"
                 >
                   <ChevronRight className="size-4" />
                 </button>

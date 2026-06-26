@@ -1,0 +1,489 @@
+/* ============================================================
+   Terms page styles (design-export/assets/css/pages/terms.css)
+   Imported verbatim — FRONT-FAQ-TERMS
+   ============================================================ */
+/* =============================================================================
+ * Dashtzad — صفحهٔ «قوانین و مقررات» (page-templates/terms + components/pages/terms/*).
+ * dz- تنها · بدون px · بدون رنگِ خام · فقط توکن‌های dz-. RTL با خصیصه‌های منطقی.
+ * بخش‌ها: hero · intro · layout(nav + legal sections) · contact.
+ * نکته: ارتفاعِ هدرِ چسبان از CSS var سراسری --size-dz-header-height خوانده می‌شود (با
+ * fallback). assets/js/terms.js این متغیر را پس از لودِ هدر تنظیم می‌کند.
+ * ========================================================================== */
+
+.dz-terms { display: block; overflow-x: clip; }
+
+/* ============================================================================
+ * 1) HERO — کارتِ بنفش‌-سبزِ تیره، badge آخرین به‌روزرسانی، جستجو، چیپ‌ها
+ * ========================================================================= */
+.dz-terms-hero {
+	position: relative; overflow: hidden;
+	background: var(--color-dz-primary-deep); color: var(--color-dz-text-inverse);
+	padding-block: clamp(2.4rem, 3.5vw, 3.6rem) clamp(2.8rem, 4vw, 4.2rem);
+}
+.dz-terms-hero::before {
+	content: ""; position: absolute; inset: 0; pointer-events: none;
+	background:
+		radial-gradient(110% 130% at 100% 0%, color-mix(in oklch, var(--color-dz-primary) 55%, transparent), transparent 56%),
+		radial-gradient(90% 110% at 0% 100%, color-mix(in oklch, var(--color-dz-primary-deepest) 55%, transparent), transparent 60%);
+}
+.dz-terms-hero__inner {
+	position: relative; max-width: var(--container-dz-xl, 90rem); margin-inline: auto;
+	padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+.dz-terms-hero__copy { max-width: 49rem; }
+
+/* badge «آخرین به‌روزرسانی» (مطلق، گوشهٔ شروعِ کانتینر) */
+.dz-terms-hero__updated {
+	position: absolute; inset-block-start: 0; inset-inline-start: clamp(1rem, 4vw, 2.5rem);
+	display: inline-flex; align-items: center; gap: .5em;
+	font-weight: 600; font-size: var(--text-dz-caption, .75rem);
+	color: color-mix(in oklch, var(--color-dz-text-inverse) 82%, transparent);
+	background: color-mix(in oklch, var(--color-dz-text-inverse) 10%, transparent);
+	border: var(--border-dz-thin, .0625rem) solid color-mix(in oklch, var(--color-dz-text-inverse) 24%, transparent);
+	border-radius: var(--radius-dz-pill, 999rem);
+	padding-block: .45em; padding-inline: 1em;
+}
+.dz-terms-hero__updated .dz-icon { color: var(--color-dz-honey); }
+
+.dz-terms-hero__kicker {
+	display: inline-flex; align-items: center; gap: .5em;
+	font-weight: 700; font-size: var(--text-dz-body-sm, .875rem); letter-spacing: .04em;
+	color: var(--color-dz-honey);
+	margin-block-start: clamp(2rem, 4vw, 3rem);
+}
+.dz-terms-hero__title {
+	font-family: var(--font-dz-display, sans-serif); font-weight: 900;
+	font-size: clamp(2rem, 1.4rem + 2.4vw, 3.2rem); line-height: var(--leading-dz-tight, 1.35);
+	letter-spacing: -.02em; margin-block-start: 1rem; text-wrap: balance;
+}
+.dz-terms-hero__sub {
+	color: color-mix(in oklch, var(--color-dz-text-inverse) 82%, transparent);
+	font-size: clamp(1rem, .94rem + .4vw, 1.15rem); line-height: var(--leading-dz-normal, 1.8);
+	margin-block-start: 1rem; max-width: 38rem; text-wrap: pretty;
+}
+
+/* فرمِ جستجو */
+.dz-terms-hero__search {
+	display: flex; align-items: center; gap: .8em;
+	background: var(--color-dz-surface); border-radius: var(--radius-dz-lg, 1rem);
+	padding-block: .45em; padding-inline-start: 1.2em; padding-inline-end: .45em;
+	box-shadow: var(--shadow-dz-modal, 0 1.5rem 4rem rgba(47, 38, 31, .22));
+	margin-block-start: 1.8rem; max-width: 36rem;
+}
+.dz-terms-hero__search > .dz-icon { color: var(--color-dz-primary); flex: 0 0 auto; }
+.dz-terms-hero__input {
+	flex: 1; border: 0; outline: 0; background: transparent;
+	font-family: inherit; font-size: var(--text-dz-body, 1rem); color: var(--color-dz-text);
+	padding-block: .7em; min-inline-size: 0;
+}
+.dz-terms-hero__input::placeholder { color: var(--color-dz-text-faint); }
+.dz-terms-hero__clear {
+	flex: 0 0 auto; display: inline-flex; align-items: center; gap: .4em;
+	font-family: inherit; font-weight: 700; font-size: var(--text-dz-caption, .75rem);
+	border: 0; cursor: pointer; border-radius: var(--radius-dz-md, .75rem);
+	padding-block: .65em; padding-inline: 1em;
+	background: var(--color-dz-primary); color: var(--color-dz-text-inverse);
+	transition: background-color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease);
+}
+.dz-terms-hero__clear:hover { background: var(--color-dz-primary-hover); }
+.dz-terms-hero__clear[hidden] { display: none; }
+
+/* چیپ‌های میان‌بر — اسکرول افقی روی موبایل */
+.dz-terms-hero__chips {
+	display: flex; flex-wrap: nowrap; gap: .6rem; margin-block-start: 2rem;
+	overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+	-webkit-mask-image: linear-gradient(to left, currentColor 82%, transparent 100%);
+	mask-image: linear-gradient(to left, currentColor 82%, transparent 100%);
+}
+.dz-terms-hero__chips::-webkit-scrollbar { display: none; }
+.dz-terms-hero__chip {
+	display: inline-flex; align-items: center; gap: .5em; flex: 0 0 auto; white-space: nowrap;
+	font-weight: 700; font-size: var(--text-dz-body-sm, .875rem); color: var(--color-dz-text-inverse);
+	background: color-mix(in oklch, var(--color-dz-text-inverse) 10%, transparent);
+	border: var(--border-dz-thin, .0625rem) solid color-mix(in oklch, var(--color-dz-text-inverse) 26%, transparent);
+	border-radius: var(--radius-dz-pill, 999rem);
+	padding-block: .55em; padding-inline: 1em;
+	transition: background-color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease), transform var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease);
+}
+.dz-terms-hero__chip:hover {
+	background: color-mix(in oklch, var(--color-dz-text-inverse) 20%, transparent);
+	transform: translateY(-0.0625rem); color: var(--color-dz-text-inverse);
+}
+.dz-terms-hero__chip .dz-icon { color: var(--color-dz-honey); }
+
+/* ============================================================================
+ * 2) INTRO — کارتِ کوتاهِ مقدمه (قبلِ آکاردئون‌ها)
+ * ========================================================================= */
+.dz-terms-intro-wrap {
+	max-width: var(--container-dz-xl, 90rem); margin-inline: auto;
+	padding-inline: clamp(1rem, 4vw, 2.5rem); padding-block-start: clamp(2rem, 3.4vw, 3.4rem);
+}
+.dz-terms-intro {
+	background: var(--color-dz-surface);
+	border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+	border-radius: var(--radius-dz-xl, 1.5rem); box-shadow: var(--shadow-dz-card, 0 .75rem 2rem rgba(47, 38, 31, .08));
+	padding: clamp(1.4rem, 3vw, 2rem);
+	color: var(--color-dz-text-muted);
+	font-size: clamp(1rem, .96rem + .25vw, 1.08rem); line-height: var(--leading-dz-relaxed, 2);
+}
+.dz-terms-intro p { margin-block: 0 .8rem; text-wrap: pretty; }
+.dz-terms-intro p:last-child { margin-block-end: 0; }
+.dz-terms-intro strong { color: var(--color-dz-text); font-weight: 700; }
+
+/* ============================================================================
+ * 3) LAYOUT — دوستونی: فهرستِ کناری + ستونِ سکشن‌ها
+ * ========================================================================= */
+.dz-terms-layout-wrap {
+	max-width: var(--container-dz-xl, 90rem); margin-inline: auto;
+	padding-inline: clamp(1rem, 4vw, 2.5rem);
+	padding-block: clamp(1.6rem, 3vw, 2.4rem) clamp(3rem, 5vw, 5rem);
+}
+.dz-terms-layout {
+	display: grid; grid-template-columns: 1fr; gap: clamp(1.6rem, 3vw, 2.4rem);
+	align-items: start;
+}
+@media (min-width: 60rem) {
+	.dz-terms-layout { grid-template-columns: 17rem 1fr; gap: clamp(2rem, 3vw, 3rem); }
+}
+
+/* ============================================================================
+ * 3a) SIDE NAV — فهرستِ مقررات (sticky)
+ * ========================================================================= */
+.dz-terms-nav {
+	background: var(--color-dz-surface);
+	border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+	border-radius: var(--radius-dz-xl, 1.5rem); box-shadow: var(--shadow-dz-card, 0 .75rem 2rem rgba(47, 38, 31, .08));
+	padding: 1.1rem; display: flex; flex-direction: column; gap: .2rem;
+}
+@media (min-width: 60rem) {
+	.dz-terms-nav { position: sticky; inset-block-start: calc(var(--size-dz-header-height, 5rem) + 1rem); }
+}
+.dz-terms-nav__h {
+	display: flex; align-items: center; gap: .5em;
+	font-weight: 700; font-size: var(--text-dz-body-sm, .875rem); color: var(--color-dz-text-muted);
+	padding-block: .2em .8em; padding-inline: .4em;
+	border-block-end: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+	margin-block-end: .4em;
+}
+.dz-terms-nav__h .dz-icon { color: var(--color-dz-clay); }
+
+.dz-terms-nav__item {
+	display: flex; align-items: center; gap: .7em;
+	padding-block: .65em; padding-inline: .7em; border-radius: var(--radius-dz-md, .75rem);
+	font-weight: 600; font-size: var(--text-dz-body-sm, .875rem); color: var(--color-dz-text-muted);
+	transition: background-color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease), color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease);
+}
+.dz-terms-nav__ic {
+	display: inline-grid; place-items: center; flex: 0 0 auto;
+	inline-size: 2.1em; block-size: 2.1em; border-radius: var(--radius-dz-sm, .5rem);
+	background: var(--color-dz-surface-warm); color: var(--color-dz-text-faint);
+	font-size: 1em;
+	transition: background-color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease), color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease);
+}
+.dz-terms-nav__t { flex: 1; min-inline-size: 0; }
+.dz-terms-nav__item:hover {
+	background: var(--color-dz-surface-warm); color: var(--color-dz-primary-hover);
+}
+.dz-terms-nav__item:hover .dz-terms-nav__ic { color: var(--color-dz-primary-hover); }
+.dz-terms-nav__item.is-active {
+	background: var(--color-dz-primary-soft); color: var(--color-dz-primary-hover);
+}
+.dz-terms-nav__item.is-active .dz-terms-nav__ic { background: var(--color-dz-primary); color: var(--color-dz-text-inverse); }
+
+.dz-terms-nav__sep { block-size: var(--border-dz-hairline, .0625rem); background: var(--color-dz-border); margin: .6em .4em; }
+.dz-terms-nav__faq {
+	display: flex; align-items: center; gap: .8em;
+	padding: .8em; border-radius: var(--radius-dz-md, .75rem);
+	background: var(--color-dz-surface-warm); color: var(--color-dz-text);
+}
+.dz-terms-nav__faq .dz-icon { color: var(--color-dz-primary); font-size: 1.4em; }
+.dz-terms-nav__faq b { display: block; font-size: var(--text-dz-body-sm, .875rem); font-weight: 700; }
+.dz-terms-nav__faq > span > span { display: block; font-size: var(--text-dz-caption, .75rem); color: var(--color-dz-text-faint); margin-block-start: .15em; }
+
+@media (max-width: 59.999rem) {
+	.dz-terms-nav { padding: .8rem; }
+	.dz-terms-nav__item { flex: 1 1 auto; }
+	/* فهرستِ کناری در موبایل/تبلت پنهان شود (چیپ‌های هیرو نقشِ ناوبری را دارند) */
+	.dz-terms .dz-terms-nav { display: none; }
+}
+
+/* ============================================================================
+ * 3b) LEGAL SECTIONS — کارت‌های آکاردئونی
+ * ========================================================================= */
+.dz-legal { min-inline-size: 0; display: flex; flex-direction: column; gap: clamp(1rem, 2.2vw, 1.4rem); }
+
+.dz-legal-empty {
+	display: none; text-align: center; padding: clamp(2rem, 4vw, 3rem) 1.4rem;
+	color: var(--color-dz-text-faint);
+	background: var(--color-dz-surface);
+	border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+	border-radius: var(--radius-dz-xl, 1.5rem);
+}
+.dz-legal-empty.is-shown { display: block; }
+.dz-legal-empty .dz-icon { font-size: 2.2rem; color: var(--color-dz-border-strong); }
+.dz-legal-empty p { margin-block-start: .8rem; font-size: var(--text-dz-body, 1rem); }
+
+.dz-legal-sec {
+	background: var(--color-dz-surface);
+	border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+	border-radius: var(--radius-dz-xl, 1.5rem); overflow: hidden;
+	scroll-margin-block-start: calc(var(--size-dz-header-height, 5rem) + 1.2rem);
+	transition: border-color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease), box-shadow var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease);
+}
+.dz-legal-sec:hover { border-color: var(--color-dz-border-strong); }
+.dz-legal-sec.is-open { border-color: var(--color-dz-primary); box-shadow: var(--shadow-dz-card, 0 .75rem 2rem rgba(47, 38, 31, .08)); }
+
+.dz-legal-sec__head {
+	display: flex; align-items: center; gap: .9em;
+	inline-size: 100%; text-align: start; cursor: pointer; user-select: none;
+	background: none; border: 0; appearance: none; font-family: inherit; color: inherit;
+	padding-block: 1.1em; padding-inline: 1.2em;
+}
+.dz-legal-sec__ic {
+	display: inline-grid; place-items: center; flex: 0 0 auto;
+	inline-size: 2.6em; block-size: 2.6em; border-radius: var(--radius-dz-md, .75rem);
+	background: var(--color-dz-primary-soft); color: var(--color-dz-primary-hover);
+	font-size: 1.1em;
+	transition: background-color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease), color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease);
+}
+.dz-legal-sec.is-open .dz-legal-sec__ic { background: var(--color-dz-primary); color: var(--color-dz-text-inverse); }
+.dz-legal-sec__heading { flex: 1; min-inline-size: 0; display: flex; flex-direction: column; gap: .1em; }
+.dz-legal-sec__t {
+	font-family: var(--font-dz-primary, sans-serif); font-weight: 700;
+	font-size: clamp(1rem, .94rem + .35vw, 1.15rem); line-height: 1.6; color: var(--color-dz-text);
+	letter-spacing: -.005em;
+}
+.dz-legal-sec__n {
+	font-size: var(--text-dz-caption, .75rem); color: var(--color-dz-text-faint);
+	margin: 0;
+}
+.dz-legal-sec__toggle {
+	display: inline-grid; place-items: center; flex: 0 0 auto;
+	inline-size: 2em; block-size: 2em; border-radius: var(--radius-dz-pill, 999rem);
+	background: var(--color-dz-surface-warm); color: var(--color-dz-text-faint);
+	font-size: .9em;
+	transition: background-color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease), color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease), transform var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease);
+}
+.dz-legal-sec.is-open .dz-legal-sec__toggle {
+	background: var(--color-dz-primary); color: var(--color-dz-text-inverse);
+	transform: rotate(45deg);
+}
+
+/* بدنهٔ آکاردئون — grid-trick با wrapper داخلی برای جمع‌شدنِ امن */
+.dz-legal-sec__body {
+	display: grid; grid-template-rows: 0fr;
+	transition: grid-template-rows var(--duration-dz-slow, .32s) var(--ease-dz-standard, ease);
+}
+.dz-legal-sec.is-open .dz-legal-sec__body { grid-template-rows: 1fr; }
+.dz-legal-sec__inner {
+	min-block-size: 0; overflow: hidden;
+	color: var(--color-dz-text-muted);
+	font-size: clamp(.94rem, .9rem + .2vw, 1rem); line-height: var(--leading-dz-relaxed, 2);
+}
+.dz-legal-sec.is-open .dz-legal-sec__inner { padding-block-end: 1.4em; padding-inline: 1.2em; }
+.dz-legal-sec__intro { margin-block: 0 .8em; }
+.dz-legal-sec__intro strong, .dz-legal-sec__p strong { color: var(--color-dz-text); font-weight: 700; }
+.dz-legal-sec__body a { color: var(--color-dz-primary); font-weight: 700; border-block-end: var(--border-dz-thin, .0625rem) solid color-mix(in oklch, var(--color-dz-primary) 40%, transparent); }
+.dz-legal-sec__body a:hover { border-block-end-color: var(--color-dz-primary); }
+
+/* لیستِ بولت‌ها — تیکِ سبز */
+.dz-legal-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .55em; }
+.dz-legal-list li { display: flex; align-items: flex-start; gap: .7em; }
+.dz-legal-list li > .dz-icon { color: var(--color-dz-primary); font-size: 1em; margin-block-start: .3em; flex: 0 0 auto; }
+.dz-legal-list li strong { color: var(--color-dz-text); font-weight: 700; }
+
+/* زیرعنوان (Privacy subsections) */
+.dz-legal-subh {
+	display: flex; align-items: center; gap: .55em;
+	font-family: var(--font-dz-primary, sans-serif); font-weight: 700;
+	font-size: clamp(1rem, .95rem + .35vw, 1.18rem); color: var(--color-dz-text);
+	margin-block: 1.4em .6em;
+}
+.dz-legal-subh .dz-icon { color: var(--color-dz-primary); font-size: 1em; }
+
+/* کالاوت — سه واریاسیون */
+.dz-legal-note {
+	display: flex; gap: .7em;
+	background: var(--color-dz-primary-soft); color: var(--color-dz-primary-hover);
+	border-radius: var(--radius-dz-md, .75rem);
+	padding-block: .9em; padding-inline: 1.1em;
+	margin-block-start: 1em; font-size: var(--text-dz-body-sm, .875rem); line-height: var(--leading-dz-normal, 1.8);
+}
+.dz-legal-note .dz-icon { font-size: 1.2em; margin-block-start: .15em; flex: 0 0 auto; }
+.dz-legal-note strong { color: inherit; font-weight: 700; }
+.dz-legal-note--gold { background: var(--color-dz-amber-soft); color: var(--color-dz-gold-deep); }
+.dz-legal-note--clay { background: var(--color-dz-clay-soft); color: var(--color-dz-clay-deep); }
+
+/* لینکِ پایانیِ هر سکشن — «در پرسش‌های متداول…» */
+.dz-legal-link {
+	display: inline-flex; align-items: center; gap: .5em;
+	margin-block-start: 1em; font-weight: 700; font-size: var(--text-dz-body-sm, .875rem);
+	color: var(--color-dz-primary); border-block-end: 0 !important;
+	transition: gap var(--duration-dz-fast, .12s) var(--ease-dz-standard, ease);
+}
+.dz-legal-link:hover { gap: .8em; }
+.dz-legal-link .dz-icon { font-size: 1em; }
+
+/* پاورقیِ پایان لیست */
+.dz-legal-foot {
+	background: var(--color-dz-surface-warm);
+	border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+	border-radius: var(--radius-dz-xl, 1.5rem);
+	padding: clamp(1.2rem, 2.5vw, 1.6rem);
+	color: var(--color-dz-text-muted); font-size: var(--text-dz-body-sm, .875rem); line-height: var(--leading-dz-normal, 1.8);
+}
+.dz-legal-foot b { color: var(--color-dz-text); font-weight: 700; }
+.dz-legal-foot a { color: var(--color-dz-primary); font-weight: 700; border-block-end: var(--border-dz-thin, .0625rem) solid color-mix(in oklch, var(--color-dz-primary) 40%, transparent); }
+
+/* ============================================================================
+ * 4) CONTACT — کارتِ پایانیِ تماس
+ * ========================================================================= */
+.dz-terms-contact-wrap {
+	max-width: var(--container-dz-xl, 90rem); margin-inline: auto;
+	padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 4vw, 2.5rem) clamp(3rem, 5vw, 4.5rem);
+}
+.dz-terms-contact {
+	position: relative; overflow: hidden;
+	background: var(--color-dz-ink); color: var(--color-dz-text-inverse);
+	border-radius: var(--radius-dz-modal, 1.75rem);
+	padding: clamp(2rem, 4vw, 3.2rem) clamp(1.6rem, 3.5vw, 3.2rem);
+	display: grid; grid-template-columns: 1fr; gap: clamp(1.6rem, 3vw, 2.4rem); align-items: center;
+}
+@media (min-width: 56rem) {
+	.dz-terms-contact { grid-template-columns: 1.2fr 1fr; gap: clamp(2.4rem, 4vw, 3.2rem); }
+}
+.dz-terms-contact::before {
+	content: ""; position: absolute; inset: 0; pointer-events: none;
+	background:
+		radial-gradient(80% 120% at 100% 0%, color-mix(in oklch, var(--color-dz-primary) 45%, transparent), transparent 55%),
+		radial-gradient(70% 100% at 0% 100%, color-mix(in oklch, var(--color-dz-gold) 30%, transparent), transparent 55%);
+}
+.dz-terms-contact__copy { position: relative; }
+.dz-terms-contact__kicker {
+	display: inline-flex; align-items: center; gap: .5em;
+	font-weight: 700; font-size: var(--text-dz-caption, .75rem); letter-spacing: .04em;
+	color: var(--color-dz-honey);
+}
+.dz-terms-contact__title {
+	font-family: var(--font-dz-display, sans-serif); font-weight: 700;
+	font-size: clamp(1.6rem, 1.1rem + 2vw, 2.2rem); line-height: var(--leading-dz-tight, 1.35);
+	margin-block-start: .9rem; text-wrap: balance;
+}
+.dz-terms-contact__sub {
+	color: color-mix(in oklch, var(--color-dz-text-inverse) 80%, transparent);
+	font-size: var(--text-dz-body, 1rem); line-height: var(--leading-dz-normal, 1.8);
+	margin-block-start: .9rem; max-width: 30rem; text-wrap: pretty;
+}
+.dz-terms-contact__actions { position: relative; display: flex; flex-direction: column; gap: .9rem; }
+.dz-terms-contact__row {
+	display: flex; align-items: center; gap: 1em;
+	background: color-mix(in oklch, var(--color-dz-text-inverse) 8%, transparent);
+	border: var(--border-dz-thin, .0625rem) solid color-mix(in oklch, var(--color-dz-text-inverse) 16%, transparent);
+	border-radius: var(--radius-dz-md, .75rem);
+	padding-block: 1em; padding-inline: 1.2em;
+	color: var(--color-dz-text-inverse);
+	transition: background-color var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease), transform var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease);
+}
+.dz-terms-contact__row:hover {
+	background: color-mix(in oklch, var(--color-dz-text-inverse) 14%, transparent);
+	transform: translateY(-0.125rem); color: var(--color-dz-text-inverse);
+}
+.dz-terms-contact__row > .dz-icon {
+	display: inline-grid; place-items: center;
+	inline-size: 2.6em; block-size: 2.6em; border-radius: var(--radius-dz-pill, 999rem);
+	background: color-mix(in oklch, var(--color-dz-text-inverse) 12%, transparent);
+	color: var(--color-dz-honey); flex: 0 0 auto; font-size: 1em;
+}
+.dz-terms-contact__row b { display: block; font-size: var(--text-dz-body, 1rem); font-weight: 700; }
+.dz-terms-contact__row > span > span { display: block; font-size: var(--text-dz-caption, .75rem); color: color-mix(in oklch, var(--color-dz-text-inverse) 65%, transparent); margin-block-start: .2em; }
+
+/* ============================================================================
+ * 5) RESPONSIVE — اصلاحاتِ موبایل و تبلت
+ * ========================================================================= */
+
+/* تبلت و موبایلِ بزرگ */
+@media (max-width: 47.999rem) {
+	/* HERO: badge را در جریان قرار می‌دهیم تا با عنوان تداخل نکند */
+	.dz-terms-hero { padding-block: clamp(1.6rem, 4vw, 2.4rem) clamp(2.4rem, 5vw, 3.4rem); }
+	.dz-terms-hero__updated {
+		position: static; display: inline-flex; margin-block-end: 1rem;
+	}
+	.dz-terms-hero__kicker { margin-block-start: 0; }
+	.dz-terms-hero__title { font-size: clamp(1.7rem, 1.2rem + 3vw, 2.4rem); margin-block-start: .8rem; }
+	.dz-terms-hero__sub { font-size: clamp(.95rem, .9rem + .3vw, 1.05rem); margin-block-start: .8rem; }
+
+	/* جستجو: ارتفاع و فاصله‌های متعادل‌تر */
+	.dz-terms-hero__search { padding-inline-start: .9em; padding-inline-end: .35em; gap: .55em; max-width: 100%; }
+	.dz-terms-hero__clear { padding-inline: .8em; padding-block: .55em; font-size: .68rem; }
+	.dz-terms-hero__clear span { display: none; }
+
+	/* چیپ‌ها: کوچک‌تر، اسکرول افقی */
+	.dz-terms-hero__chips { gap: .5rem; margin-block-start: 1.4rem; }
+	.dz-terms-hero__chip { font-size: var(--text-dz-caption, .75rem); padding-block: .5em; padding-inline: .9em; }
+
+	/* INTRO: paddingِ منعطف‌تر */
+	.dz-terms-intro-wrap { padding-block-start: clamp(1.4rem, 3vw, 2rem); }
+	.dz-terms-intro { padding: 1.2rem; font-size: .95rem; }
+
+	/* TOC: ساده‌سازی روی موبایل — آیکن‌های جمع‌وجور، آیتم تمام‌عرض */
+	.dz-terms-layout-wrap { padding-block: 1.4rem 3rem; }
+	.dz-terms-layout { gap: 1.4rem; }
+	.dz-terms-nav { padding: .7rem; gap: .15rem; }
+	.dz-terms-nav__h { font-size: .8rem; padding-block: .2em .6em; }
+	.dz-terms-nav__item { padding-block: .55em; padding-inline: .6em; font-size: .85rem; gap: .55em; }
+	.dz-terms-nav__ic { inline-size: 1.9em; block-size: 1.9em; }
+	.dz-terms-nav__faq { padding: .7em; gap: .6em; }
+	.dz-terms-nav__faq b { font-size: .85rem; }
+	.dz-terms-nav__faq > span > span { font-size: .7rem; }
+
+	/* LEGAL SECTIONS: padding متناسبِ موبایل */
+	.dz-legal { gap: .9rem; }
+	.dz-legal-sec { border-radius: var(--radius-dz-lg, 1rem); }
+	.dz-legal-sec__head { gap: .7em; padding-block: .9em; padding-inline: .9em; }
+	.dz-legal-sec__ic { inline-size: 2.3em; block-size: 2.3em; font-size: 1em; }
+	.dz-legal-sec__t { font-size: .98rem; }
+	.dz-legal-sec__n { font-size: .7rem; }
+	.dz-legal-sec__toggle { inline-size: 1.8em; block-size: 1.8em; font-size: .85em; }
+	.dz-legal-sec.is-open .dz-legal-sec__inner { padding-block-end: 1.2em; padding-inline: .9em; }
+	.dz-legal-sec__body { font-size: .92rem; line-height: 1.95; }
+	.dz-legal-list { gap: .65em; }
+	.dz-legal-list li { gap: .55em; }
+	.dz-legal-subh { font-size: 1rem; margin-block: 1.1em .5em; }
+	.dz-legal-note { padding-block: .8em; padding-inline: .9em; font-size: .85rem; }
+	.dz-legal-link { font-size: .85rem; margin-block-start: .8em; }
+	.dz-legal-foot { padding: 1.1rem; font-size: .85rem; }
+
+	/* CONTACT: ستون‌بندی تک‌ستونه با گپِ معتدل */
+	.dz-terms-contact-wrap { padding: 1rem 1rem 3rem; }
+	.dz-terms-contact { padding: 1.6rem 1.4rem; gap: 1.4rem; border-radius: var(--radius-dz-xl, 1.5rem); }
+	.dz-terms-contact__title { font-size: clamp(1.3rem, 1rem + 2vw, 1.8rem); margin-block-start: .7rem; }
+	.dz-terms-contact__sub { font-size: .9rem; margin-block-start: .7rem; }
+	.dz-terms-contact__actions { gap: .7rem; }
+	.dz-terms-contact__row { padding-block: .85em; padding-inline: 1em; gap: .8em; }
+	.dz-terms-contact__row > .dz-icon { inline-size: 2.4em; block-size: 2.4em; font-size: .95em; }
+	.dz-terms-contact__row b { font-size: .92rem; }
+	.dz-terms-contact__row > span > span { font-size: .72rem; }
+}
+
+/* موبایلِ خیلی باریک */
+@media (max-width: 30rem) {
+	/* HERO فشرده‌تر */
+	.dz-terms-hero__inner { padding-inline: 1rem; }
+	.dz-terms-hero__title { font-size: 1.6rem; }
+	.dz-terms-hero__sub { font-size: .9rem; line-height: 1.75; }
+	.dz-terms-hero__chip { font-size: .68rem; padding-inline: .75em; }
+	.dz-terms-hero__chip .dz-icon { font-size: .9em; }
+
+	/* INTRO/LAYOUT/CONTACT کم‌حاشیه‌تر */
+	.dz-terms-intro-wrap, .dz-terms-layout-wrap, .dz-terms-contact-wrap { padding-inline: .9rem; }
+
+	/* سکشن‌ها: padding/آیکن کوچک‌تر، عنوان به خط دوم وادار نشود */
+	.dz-legal-sec__head { padding-inline: .75em; padding-block: .8em; }
+	.dz-legal-sec__ic { inline-size: 2.1em; block-size: 2.1em; }
+	.dz-legal-sec__t { font-size: .92rem; line-height: 1.5; }
+	.dz-legal-sec.is-open .dz-legal-sec__inner { padding-inline: .8em; }
+
+	/* TOC: ستون‌فشردهٔ کم‌ارتفاع */
+	.dz-terms-nav__item { padding-inline: .55em; }
+	.dz-terms-nav__t { font-size: .82rem; }
+}

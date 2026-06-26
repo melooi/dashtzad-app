@@ -22,10 +22,12 @@ export function GlobalForm({
   globalKey,
   initialData,
   ctx,
+  excludeSections,
 }: {
   globalKey: string;
   initialData: Record<string, unknown>;
   ctx: FieldContext;
+  excludeSections?: string[];
 }) {
   const config = getGlobalConfig(globalKey)!;
   const router = useRouter();
@@ -61,23 +63,25 @@ export function GlobalForm({
       return (
         <div key={f.name} className={FULL_WIDTH.has(f.type) ? "sm:col-span-2" : ""}>
           <GlobalFieldInput def={f} value={data[f.name]} ctx={ctx} onChange={(v) => setField(f.name, v)} />
-          {f.hint && <span className="mt-1 block text-xs text-dz-primary-400 dark:text-dz-night-faint">{f.hint}</span>}
+          {f.hint && <span className="mt-1 block text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{f.hint}</span>}
         </div>
       );
     }
     return (
       <div key={f.name} className={FULL_WIDTH.has(f.type) ? "sm:col-span-2" : ""}>
-        <label htmlFor={`gf-${f.name}`} className="mb-1.5 block text-sm font-medium text-dz-primary-800 dark:text-dz-night-fg">
+        <label htmlFor={`gf-${f.name}`} className="mb-1.5 block text-sm font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">
           {f.label}
         </label>
         <GlobalFieldInput def={f} value={data[f.name]} ctx={ctx} onChange={(v) => setField(f.name, v)} />
-        {f.hint && <span className="mt-1 block text-xs text-dz-primary-400 dark:text-dz-night-faint">{f.hint}</span>}
+        {f.hint && <span className="mt-1 block text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{f.hint}</span>}
       </div>
     );
   };
 
   const visibleSections = config.sections.filter(
-    (section) => config.fields.some((f) => f.section === section.key),
+    (section) =>
+      config.fields.some((f) => f.section === section.key) &&
+      !(excludeSections ?? []).includes(section.key),
   );
   const navItems: FormNavItem[] = visibleSections.map((s) => ({ id: `gs-${s.key}`, label: s.title }));
 

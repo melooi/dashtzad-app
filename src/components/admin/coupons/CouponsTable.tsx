@@ -100,7 +100,7 @@ export function CouponsTable({ rows }: { rows: CouponRow[] }) {
           <Link
             href={`${ROUTE}/${r.id}`}
             dir="ltr"
-            className="inline-flex items-center gap-1.5 font-mono text-sm font-semibold text-dz-primary-800 dark:text-dz-night-fg hover:text-dz-primary-600 dark:hover:text-dz-primary-300"
+            className="inline-flex items-center gap-1.5 font-mono text-sm font-semibold text-dz-a-primary-800 dark:text-dz-a-night-fg hover:text-dz-a-primary-600 dark:hover:text-dz-a-primary-300"
           >
             {r.code}
           </Link>
@@ -111,9 +111,9 @@ export function CouponsTable({ rows }: { rows: CouponRow[] }) {
         header: headerOf("title"),
         render: (r) =>
           r.title ? (
-            <span className="text-dz-primary-700 dark:text-dz-night-fg">{r.title}</span>
+            <span className="text-dz-a-primary-700 dark:text-dz-a-night-fg">{r.title}</span>
           ) : (
-            <span className="text-dz-primary-300 dark:text-dz-night-faint">—</span>
+            <span className="text-dz-a-primary-300 dark:text-dz-a-night-faint">—</span>
           ),
       },
       {
@@ -130,14 +130,14 @@ export function CouponsTable({ rows }: { rows: CouponRow[] }) {
         header: headerOf("value"),
         align: "center",
         render: (r) => (
-          <span className="font-medium text-dz-primary-800 dark:text-dz-night-fg">{r.valueLabel}</span>
+          <span className="font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">{r.valueLabel}</span>
         ),
       },
       {
         key: "rule",
         header: headerOf("rule"),
         render: (r) => (
-          <span className="text-xs text-dz-primary-600 dark:text-dz-night-muted">{r.ruleSummary}</span>
+          <span className="text-xs text-dz-a-primary-600 dark:text-dz-a-night-muted">{r.ruleSummary}</span>
         ),
       },
       {
@@ -145,7 +145,7 @@ export function CouponsTable({ rows }: { rows: CouponRow[] }) {
         header: headerOf("usage"),
         align: "center",
         render: (r) => (
-          <span dir="ltr" className="text-xs text-dz-primary-700 dark:text-dz-night-fg">
+          <span dir="ltr" className="text-xs text-dz-a-primary-700 dark:text-dz-a-night-fg">
             {r.usageLabel}
           </span>
         ),
@@ -159,7 +159,7 @@ export function CouponsTable({ rows }: { rows: CouponRow[] }) {
       {
         key: "dates",
         header: headerOf("dates"),
-        render: (r) => <span className="text-xs text-dz-primary-500 dark:text-dz-night-muted">{r.datesLabel}</span>,
+        render: (r) => <span className="text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">{r.datesLabel}</span>,
       },
       {
         key: "actions",
@@ -170,7 +170,7 @@ export function CouponsTable({ rows }: { rows: CouponRow[] }) {
             <Link
               href={`${ROUTE}/${r.id}`}
               title="ویرایش"
-              className="rounded-lg p-1.5 text-dz-primary-500 dark:text-dz-night-muted hover:bg-dz-primary-50 dark:hover:bg-white/5 hover:text-dz-primary-700 dark:hover:text-dz-night-fg"
+              className="rounded-lg p-1.5 text-dz-a-primary-500 dark:text-dz-a-night-muted hover:bg-dz-a-primary-50 dark:hover:bg-white/5 hover:text-dz-a-primary-700 dark:hover:text-dz-a-night-fg"
             >
               <Pencil className="size-4" />
             </Link>
@@ -179,7 +179,7 @@ export function CouponsTable({ rows }: { rows: CouponRow[] }) {
               title={r.isActive ? "غیرفعال‌سازی" : "فعال‌سازی"}
               disabled={pending}
               onClick={() => runToggleActive(r.id, !r.isActive)}
-              className="rounded-lg p-1.5 text-dz-primary-500 dark:text-dz-night-muted hover:bg-dz-primary-50 dark:hover:bg-white/5 hover:text-dz-primary-700 dark:hover:text-dz-night-fg disabled:opacity-50"
+              className="rounded-lg p-1.5 text-dz-a-primary-500 dark:text-dz-a-night-muted hover:bg-dz-a-primary-50 dark:hover:bg-white/5 hover:text-dz-a-primary-700 dark:hover:text-dz-a-night-fg disabled:opacity-50"
             >
               {r.isActive ? <PowerOff className="size-4" /> : <Power className="size-4" />}
             </button>
@@ -188,7 +188,7 @@ export function CouponsTable({ rows }: { rows: CouponRow[] }) {
               title="حذف"
               disabled={pending}
               onClick={() => setConfirm({ kind: "single", id: r.id })}
-              className="rounded-lg p-1.5 text-dz-error/70 dark:text-dz-error-300 hover:bg-dz-error/10 hover:text-dz-error dark:hover:text-dz-error-300 disabled:opacity-50"
+              className="rounded-lg p-1.5 text-dz-a-error/70 dark:text-dz-a-error-300 hover:bg-dz-a-error/10 hover:text-dz-a-error dark:hover:text-dz-a-error-300 disabled:opacity-50"
             >
               <Trash2 className="size-4" />
             </button>
@@ -221,11 +221,11 @@ export function CouponsTable({ rows }: { rows: CouponRow[] }) {
         onToggleAll={toggleAll}
         empty={
           <div className="flex flex-col items-center gap-3 p-12 text-center">
-            <TicketPercent className="size-10 text-dz-primary-300 dark:text-dz-night-faint" />
-            <p className="text-sm text-dz-primary-500 dark:text-dz-night-muted">کوپنی مطابق این نمایش یافت نشد.</p>
+            <TicketPercent className="size-10 text-dz-a-primary-300 dark:text-dz-a-night-faint" />
+            <p className="text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">کوپنی مطابق این نمایش یافت نشد.</p>
             <Link
               href={`${ROUTE}/new`}
-              className="text-sm font-medium text-dz-primary-600 dark:text-dz-primary-300 hover:text-dz-primary-800 dark:hover:text-dz-night-fg"
+              className="text-sm font-medium text-dz-a-primary-600 dark:text-dz-a-primary-300 hover:text-dz-a-primary-800 dark:hover:text-dz-a-night-fg"
             >
               {couponsCollection.addLabel}
             </Link>
@@ -238,7 +238,7 @@ export function CouponsTable({ rows }: { rows: CouponRow[] }) {
           type="button"
           disabled={pending}
           onClick={() => setConfirm({ kind: "bulk" })}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-dz-error px-3 py-1.5 text-xs font-medium text-white hover:bg-dz-error/90 disabled:opacity-60"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-dz-a-error px-3 py-1.5 text-xs font-medium text-white hover:bg-dz-a-error/90 disabled:opacity-60"
         >
           <Trash2 className="size-3.5" />
           حذف انتخاب‌ها

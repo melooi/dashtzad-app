@@ -45,7 +45,7 @@ export function AdminListEmptyState({
             {clearFiltersHref && (
               <Link
                 href={clearFiltersHref}
-                className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-primary-200 bg-white px-4 py-2.5 text-sm font-medium text-dz-primary-700 transition-colors hover:bg-dz-primary-50 dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-night-fg dark:hover:bg-white/5"
+                className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-a-primary-200 bg-white px-4 py-2.5 text-sm font-medium text-dz-a-primary-700 transition-colors hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-fg dark:hover:bg-white/5"
               >
                 <FilterX className="size-4" />
                 پاک کردن فیلترها
@@ -70,7 +70,7 @@ export function AdminListEmptyState({
             {helpHref && (
               <Link
                 href={helpHref}
-                className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-primary-200 bg-white px-4 py-2.5 text-sm font-medium text-dz-primary-700 transition-colors hover:bg-dz-primary-50 dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-night-fg dark:hover:bg-white/5"
+                className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-a-primary-200 bg-white px-4 py-2.5 text-sm font-medium text-dz-a-primary-700 transition-colors hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-fg dark:hover:bg-white/5"
               >
                 {helpLabel ?? "راهنما"}
               </Link>

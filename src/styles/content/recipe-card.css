@@ -1,0 +1,127 @@
+/* =============================================================================
+ * Recipe card (RECIPE-CP1) — structured «دستور پخت» card injected at the top of
+ * a recipe article body. Faithful port of design-export recipe.css, scoped under
+ * .dz-recipe-card with design tokens mapped to the store-* palette (light only).
+ * ========================================================================== */
+.dz-recipe-card {
+  --clay: var(--color-store-clay); --clay-deep: var(--color-store-clay-deep); --clay-soft: var(--color-store-clay-soft);
+  --gold: var(--color-store-gold); --gold-deep: var(--color-store-gold-deep); --honey: var(--color-store-honey);
+  --amber-soft: var(--color-store-amber-soft);
+  --amber-50: color-mix(in srgb, var(--color-store-amber-soft), var(--color-store-surface) 52%);
+  --r-sm: 0.5rem;
+  position: relative; border: 1px solid var(--color-store-border-strong); border-radius: 1.375rem;
+  overflow: hidden; box-shadow: var(--shadow-store-card-hover); background: var(--color-store-surface);
+  font-family: var(--font-sans); color: var(--color-store-text); line-height: 1.7;
+}
+.dz-recipe-card * { box-sizing: border-box; }
+.dz-recipe-card h3 { margin: 0; font-weight: 700; line-height: 1.25; }
+
+/* stats box */
+.dz-recipe-card .recipe__statsbox { position: relative; overflow: hidden; background: var(--color-store-primary-hover);
+  color: var(--color-store-text-inverse); padding: clamp(1.25rem, 3vw, 1.75rem) clamp(1.375rem, 3vw, 1.875rem); }
+.dz-recipe-card .recipe__statsbox::before { content: ""; position: absolute; inset: 0; pointer-events: none; background:
+  radial-gradient(120% 130% at 100% 0%, color-mix(in srgb, var(--color-store-primary), transparent 45%), transparent 55%),
+  radial-gradient(90% 90% at 0% 100%, color-mix(in srgb, var(--color-store-primary-deep), transparent 35%), transparent 60%); }
+.dz-recipe-card .recipe__stats { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.dz-recipe-card .recipe__stat { background: rgb(255 255 255 / .1); border: 1px solid rgb(255 255 255 / .18); border-radius: 0.875rem;
+  padding: 0.875rem 0.625rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.3125rem; }
+.dz-recipe-card .recipe__stat svg { width: 1.2rem; height: 1.2rem; color: var(--honey); }
+.dz-recipe-card .recipe__stat-v { font-weight: 700; font-size: 1rem; }
+.dz-recipe-card .recipe__stat-l { font-size: 0.7188rem; color: rgb(255 255 255 / .72); }
+.dz-recipe-card .serv-step { display: inline-flex; align-items: center; justify-content: center; gap: 0.4375rem; }
+.dz-recipe-card .serv-step > span { min-width: 2.75rem; }
+.dz-recipe-card .serv-btn { width: 2rem; height: 2rem; border-radius: 999rem; border: 1px solid rgb(255 255 255 / .4);
+  background: rgb(255 255 255 / .14); color: var(--color-store-text-inverse); font-size: 1.125rem; font-weight: 700; line-height: 1;
+  display: grid; place-items: center; cursor: pointer; transition: all .14s; }
+.dz-recipe-card .serv-btn:hover { background: var(--color-store-surface); color: var(--color-store-primary-hover); border-color: var(--color-store-text-inverse); }
+.dz-recipe-card .serv-btn:disabled { opacity: .35; cursor: not-allowed; }
+/* visible keyboard focus + larger tap target (a11y / touch) */
+.dz-recipe-card .ing-list li:focus-visible { outline: 0.1875rem solid color-mix(in srgb, var(--color-store-primary), transparent 45%); outline-offset: 0.125rem; }
+.dz-recipe-card .serv-btn:focus-visible { outline: 0.1875rem solid rgb(255 255 255 / .9); outline-offset: 0.125rem; }
+.dz-recipe-card .ing-list li { min-height: 2.75rem; }
+/* tabular figures so re-scaling servings doesn't shift layout */
+.dz-recipe-card .recipe__stat-v,
+.dz-recipe-card .serv-step > span,
+.dz-recipe-card .ing-qty,
+.dz-recipe-card .nutri-cell__v { font-variant-numeric: tabular-nums; }
+
+/* dietary tags */
+.dz-recipe-card .recipe__tags { display: flex; flex-wrap: wrap; gap: 0.375rem; padding: clamp(1rem, 2.4vw, 1.375rem) clamp(1.375rem, 3vw, 1.875rem) 0; }
+.dz-recipe-card .rtag { display: inline-flex; align-items: center; gap: 0.2813rem; font-weight: 700; font-size: 0.6875rem; border-radius: 999rem; padding: 0.25rem 0.625rem; }
+.dz-recipe-card .rtag svg { width: 0.8rem; height: 0.8rem; }
+.dz-recipe-card .rtag--green { background: var(--color-store-primary-soft); color: var(--color-store-primary-hover); }
+.dz-recipe-card .rtag--gold { background: var(--amber-soft); color: var(--gold-deep); }
+.dz-recipe-card .rtag--clay { background: var(--clay-soft); color: var(--clay-deep); }
+
+/* nutrition */
+.dz-recipe-card .recipe__nutri { margin: clamp(0.875rem, 2vw, 1.125rem) clamp(1.375rem, 3vw, 1.875rem) 0; }
+.dz-recipe-card .nutri-head { display: flex; align-items: center; gap: 0.375rem; font-weight: 700; font-size: 0.8125rem; color: var(--color-store-text-muted); margin-bottom: 0.5rem; }
+.dz-recipe-card .nutri-head svg { width: 0.85rem; height: 0.85rem; color: var(--clay); }
+.dz-recipe-card .nutri-head__sub { font-weight: 600; font-size: 0.6875rem; color: var(--color-store-text-faint); margin-inline-start: auto; }
+.dz-recipe-card .nutri-grid { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3125rem 0.875rem; }
+.dz-recipe-card .nutri-cell { display: inline-flex; align-items: baseline; gap: 0.25rem; }
+.dz-recipe-card .nutri-cell__v { font-family: var(--font-heading); font-weight: 700; font-size: 0.9063rem; color: var(--color-store-primary-hover); }
+.dz-recipe-card .nutri-cell__l { font-size: 0.75rem; color: var(--color-store-text-faint); }
+.dz-recipe-card .health { display: inline-flex; align-items: center; gap: 0.5rem; margin-inline-start: auto; }
+.dz-recipe-card .health__l { display: inline-flex; align-items: center; gap: 0.3125rem; font-weight: 700; font-size: 0.8125rem; }
+.dz-recipe-card .health__l svg { width: 0.85rem; height: 0.85rem; color: var(--clay); }
+.dz-recipe-card .health__badge { display: inline-flex; align-items: center; gap: 0.25rem; font-weight: 700; font-size: 0.8125rem; color: var(--color-store-text-muted); }
+
+/* body: ingredients + steps */
+.dz-recipe-card .recipe__body { display: block; margin-top: clamp(0.875rem, 2vw, 1.125rem); }
+.dz-recipe-card .recipe__ing { padding: clamp(1.375rem, 3vw, 1.75rem); background: var(--color-store-surface-warm); border-block: 1px solid var(--color-store-border); }
+.dz-recipe-card .recipe__sec-h { display: flex; align-items: center; gap: 0.5625rem; font-family: var(--font-heading); font-weight: 700; font-size: 1.1875rem; margin-bottom: 1.125rem; }
+.dz-recipe-card .recipe__sec-h svg { width: 1.1rem; height: 1.1rem; color: var(--color-store-primary); }
+.dz-recipe-card .recipe__sec-note { margin: -0.75rem 0 1rem; color: var(--color-store-text-faint); font-size: 0.8125rem; display: flex; align-items: center; gap: 0.375rem; }
+.dz-recipe-card .recipe__sec-note svg { width: 0.85rem; height: 0.85rem; color: var(--color-store-primary); }
+.dz-recipe-card .ing-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.875rem; }
+.dz-recipe-card .ing-summary__item { display: flex; align-items: center; gap: 0.5625rem; background: var(--color-store-surface); border: 1px solid var(--color-store-border); border-radius: 0.875rem; padding: 0.5rem 0.6875rem; }
+.dz-recipe-card .ing-summary__ic { width: 1.875rem; height: 1.875rem; flex: 0 0 auto; border-radius: var(--r-sm); display: grid; place-items: center; background: var(--color-store-primary-soft); color: var(--color-store-primary-hover); }
+.dz-recipe-card .ing-summary__ic svg { width: 0.9rem; height: 0.9rem; }
+.dz-recipe-card .ing-summary__item:nth-child(2) .ing-summary__ic { background: var(--amber-soft); color: var(--gold-deep); }
+.dz-recipe-card .ing-summary__v { display: block; font-weight: 700; font-size: 0.8438rem; color: var(--color-store-text); }
+.dz-recipe-card .ing-summary__l { display: block; font-size: 0.6875rem; color: var(--color-store-text-faint); margin-top: 0.0625rem; }
+.dz-recipe-card .ing-list { display: flex; flex-wrap: wrap; gap: 0.625rem; list-style: none; margin: 0; padding: 0; }
+.dz-recipe-card .ing-list li { display: inline-flex; align-items: center; gap: 0.625rem; padding: 0.625rem 0.875rem; border-radius: 0.625rem; white-space: nowrap;
+  border: 1px solid var(--color-store-border); background: var(--color-store-surface); font-size: 0.9063rem; cursor: pointer; transition: all .14s; user-select: none; }
+.dz-recipe-card .ing-list li:hover { border-color: var(--color-store-primary); }
+.dz-recipe-card .ing-list .tick { flex: 0 0 auto; width: 1.375rem; height: 1.375rem; border-radius: 0.375rem; border: 1px solid var(--color-store-border-strong);
+  display: grid; place-items: center; color: var(--color-store-text-inverse); transition: all .14s; }
+.dz-recipe-card .ing-list .tick svg { width: 0.75rem; height: 0.75rem; opacity: 0; }
+.dz-recipe-card .ing-list li.is-checked { color: var(--color-store-text-faint); border-color: color-mix(in srgb, var(--color-store-primary-soft), var(--color-store-primary) 14%); background: var(--color-store-primary-soft); }
+.dz-recipe-card .ing-list li.is-checked .tick { background: var(--color-store-primary); border-color: var(--color-store-primary); }
+.dz-recipe-card .ing-list li.is-checked .tick svg { opacity: 1; }
+.dz-recipe-card .ing-name { font-weight: 600; }
+.dz-recipe-card .ing-qty { font-weight: 700; color: var(--color-store-primary-hover); font-size: 0.8125rem; padding-inline-start: 0.5rem; border-inline-start: 1px solid var(--color-store-border-strong); }
+
+/* steps */
+.dz-recipe-card .recipe__steps { padding: clamp(1.375rem, 3vw, 1.75rem); }
+.dz-recipe-card .step-quick { display: inline-flex; align-items: center; gap: 0.25rem; font-weight: 700; font-size: 0.7188rem; color: var(--clay-deep);
+  background: var(--clay-soft); border-radius: 999rem; padding: 0.1875rem 0.625rem; margin-inline-start: 0.375rem; }
+.dz-recipe-card .step-quick svg { width: 0.75rem; height: 0.75rem; }
+.dz-recipe-card .step-list { counter-reset: step; position: relative; display: flex; gap: 1.125rem; overflow-x: auto; padding: 0 0 0.875rem; margin: 0; list-style: none;
+  scroll-snap-type: x proximity; scrollbar-width: thin; }
+.dz-recipe-card .step-list::-webkit-scrollbar { height: 0.4375rem; }
+.dz-recipe-card .step-list::-webkit-scrollbar-thumb { background: var(--color-store-border-strong); border-radius: 999rem; }
+.dz-recipe-card .step-list li { position: relative; flex: 0 0 13.75rem; scroll-snap-align: start; padding-top: 3.625rem; text-align: center; }
+.dz-recipe-card .step-ic { position: absolute; inset-block-start: 0; left: 50%; transform: translateX(-50%); z-index: 2;
+  width: 2.75rem; height: 2.75rem; border-radius: 999rem; background: var(--color-store-primary); color: var(--color-store-text-inverse); display: grid; place-items: center;
+  box-shadow: 0 0.1563rem 0.4688rem color-mix(in srgb, var(--color-store-primary), transparent 66%); }
+.dz-recipe-card .step-ic svg { width: 1.15rem; height: 1.15rem; }
+.dz-recipe-card .step-list li:not(:last-child)::after { content: ""; position: absolute; inset-block-start: 1.375rem; right: 50%; width: calc(100% + 1.125rem); height: 1px;
+  background: linear-gradient(to left, color-mix(in srgb, var(--color-store-primary), transparent 55%), var(--color-store-border)); z-index: 1; }
+.dz-recipe-card .step-t { font-weight: 700; font-size: 0.9375rem; margin-bottom: 0.25rem; }
+.dz-recipe-card .step-d { color: var(--color-store-text-muted); font-size: 0.8438rem; line-height: 1.7; }
+.dz-recipe-card .step-timer { display: inline-flex; align-items: center; gap: 0.3125rem; margin-top: 0.5rem; font-weight: 700; font-size: 0.7188rem;
+  color: var(--color-store-primary-hover); background: var(--color-store-primary-soft); border-radius: 999rem; padding: 0.1875rem 0.625rem; }
+.dz-recipe-card .step-timer svg { width: 0.8rem; height: 0.8rem; }
+
+/* foot (rating / like / actions) */
+.dz-recipe-card .recipe__foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.875rem;
+  padding: 1.125rem clamp(1.375rem, 3vw, 1.75rem); border-top: 1px solid var(--color-store-border); background: var(--color-store-surface); }
+
+@media (max-width: 760px) {
+  .dz-recipe-card .recipe__stats { grid-template-columns: repeat(2, 1fr); }
+  .dz-recipe-card .ing-summary { grid-template-columns: 1fr; }
+  .dz-recipe-card .step-list li { flex-basis: 11rem; }
+}

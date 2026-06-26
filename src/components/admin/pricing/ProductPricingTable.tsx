@@ -55,17 +55,17 @@ export function ProductPricingTable({ rows }: { rows: ProductPriceRow[] }) {
 
   if (rows.length === 0) {
     return (
-      <div className="rounded-2xl border border-dz-primary-100 bg-white p-8 text-center text-sm text-dz-primary-400 dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-night-faint">
+      <div className="rounded-2xl border border-dz-a-primary-100 bg-white p-8 text-center text-sm text-dz-a-primary-400 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-faint">
         محصولی ثبت نشده.
       </div>
     );
   }
 
   return (
-    <PricingGrid className="overflow-x-auto rounded-2xl border border-dz-primary-100 bg-white shadow-xs dark:border-dz-night-border dark:bg-dz-night-card">
+    <PricingGrid className="overflow-x-auto rounded-2xl border border-dz-a-primary-100 bg-white shadow-xs dark:border-dz-a-night-border dark:bg-dz-a-night-card">
       <table className="w-full min-w-[760px] border-collapse text-sm">
         <thead>
-          <tr className="border-b border-dz-primary-100 bg-dz-primary-50/60 text-xs font-medium text-dz-primary-500 dark:border-dz-night-border dark:bg-white/5 dark:text-dz-night-muted">
+          <tr className="border-b border-dz-a-primary-100 bg-dz-a-primary-50/60 text-xs font-medium text-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-white/5 dark:text-dz-a-night-muted">
             <th className="px-3 py-3.5 text-start font-medium">محصول</th>
             <th className="px-3 py-3.5 text-center font-medium" title="قیمت پایه برای هر واحد؛ مبنای محاسبه‌ی قیمت همه‌ی مدل‌های فروش. به تومان وارد می‌شود.">
               قیمت پایه (تومان)
@@ -109,11 +109,11 @@ function RowGroup({
 }) {
   return (
     <>
-      <tr className="border-b border-dz-primary-50 transition-colors last:border-0 hover:bg-dz-primary-50/40 dark:border-dz-night-border dark:hover:bg-white/5">
+      <tr className="border-b border-dz-a-primary-50 transition-colors last:border-0 hover:bg-dz-a-primary-50/40 dark:border-dz-a-night-border dark:hover:bg-white/5">
         <td className="px-3 py-3 align-middle">
           <Link
             href={`/admin/collections/products/${p.id}`}
-            className="font-medium text-dz-primary-800 hover:text-dz-primary-600 dark:text-dz-night-fg dark:hover:text-dz-primary-300"
+            className="font-medium text-dz-a-primary-800 hover:text-dz-a-primary-600 dark:text-dz-a-night-fg dark:hover:text-dz-a-primary-300"
           >
             {p.title}
           </Link>
@@ -126,19 +126,19 @@ function RowGroup({
             title="قیمت پایه (تومان) — برای ویرایش کلیک کنید"
             onSave={(v) => updateProductBasePriceAction(p.id, String(v ?? ""))}
           />
-          <span className="ms-1 text-[11px] text-dz-primary-400 dark:text-dz-night-faint">/ {p.unitLabel}</span>
+          <span className="ms-1 text-[11px] text-dz-a-primary-400 dark:text-dz-a-night-faint">/ {p.unitLabel}</span>
         </td>
-        <td className="px-3 py-3 text-center align-middle text-dz-primary-700 dark:text-dz-night-fg">
+        <td className="px-3 py-3 text-center align-middle text-dz-a-primary-700 dark:text-dz-a-night-fg">
           {toPersianNumbers(p.variantCount)}
         </td>
-        <td className="px-3 py-3 text-center align-middle text-xs text-dz-primary-600 dark:text-dz-primary-300">
+        <td className="px-3 py-3 text-center align-middle text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300">
           {p.rangeLabel}
         </td>
         <td className="px-3 py-3 text-center align-middle">
           {p.lockedCount > 0 ? (
             <AdminStatusBadge tone="amber">{toPersianNumbers(p.lockedCount)}</AdminStatusBadge>
           ) : (
-            <span className="text-dz-primary-300 dark:text-dz-night-faint">—</span>
+            <span className="text-dz-a-primary-300 dark:text-dz-a-night-faint">—</span>
           )}
         </td>
         <td className="px-3 py-3 text-center align-middle">
@@ -148,7 +148,7 @@ function RowGroup({
               onClick={onToggle}
               aria-expanded={isOpen}
               aria-label={isOpen ? "بستن مدل‌ها" : "نمایش مدل‌ها"}
-              className="focus-ring rounded-lg p-1 text-dz-primary-400 transition-colors hover:bg-dz-primary-50 hover:text-dz-primary-600 dark:text-dz-night-muted dark:hover:bg-white/5"
+              className="focus-ring rounded-lg p-1 text-dz-a-primary-400 transition-colors hover:bg-dz-a-primary-50 hover:text-dz-a-primary-600 dark:text-dz-a-night-muted dark:hover:bg-white/5"
             >
               {isOpen ? <ChevronDown className="size-4" /> : <ChevronLeft className="size-4" />}
             </button>
@@ -156,8 +156,8 @@ function RowGroup({
         </td>
       </tr>
       {isOpen && p.variants.length > 0 && (
-        <tr className="border-b border-dz-primary-50 dark:border-dz-night-border">
-          <td colSpan={COL_COUNT} className="bg-dz-primary-50/30 px-3 py-3 dark:bg-white/2">
+        <tr className="border-b border-dz-a-primary-50 dark:border-dz-a-night-border">
+          <td colSpan={COL_COUNT} className="bg-dz-a-primary-50/30 px-3 py-3 dark:bg-white/2">
             <VariantSubTable variants={p.variants} />
           </td>
         </tr>
@@ -168,10 +168,10 @@ function RowGroup({
 
 function VariantSubTable({ variants }: { variants: VariantPriceRow[] }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-dz-primary-100 bg-white dark:border-dz-night-border dark:bg-dz-night-card">
+    <div className="overflow-x-auto rounded-xl border border-dz-a-primary-100 bg-white dark:border-dz-a-night-border dark:bg-dz-a-night-card">
       <table className="w-full min-w-[640px] text-xs">
         <thead>
-          <tr className="border-b border-dz-primary-100 bg-dz-primary-50/60 text-dz-primary-500 dark:border-dz-night-border dark:bg-white/5 dark:text-dz-night-muted">
+          <tr className="border-b border-dz-a-primary-100 bg-dz-a-primary-50/60 text-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-white/5 dark:text-dz-a-night-muted">
             <th className="px-2 py-2 text-start font-medium">مدل فروش</th>
             <th className="px-2 py-2 text-center font-medium" title="خروجی موتور قیمت (پایه × وزن + بسته‌بندی). فقط خواندنی.">
               محاسبه‌شده (ت)
@@ -189,9 +189,9 @@ function VariantSubTable({ variants }: { variants: VariantPriceRow[] }) {
         </thead>
         <tbody>
           {variants.map((v) => (
-            <tr key={v.id} className="border-b border-dz-primary-50 last:border-0 dark:border-dz-night-border">
-              <td className="px-2 py-2 align-middle text-dz-primary-800 dark:text-dz-night-fg">{v.modelLabel}</td>
-              <td className="px-2 py-2 text-center align-middle tabular-nums text-dz-primary-400 dark:text-dz-night-faint">
+            <tr key={v.id} className="border-b border-dz-a-primary-50 last:border-0 dark:border-dz-a-night-border">
+              <td className="px-2 py-2 align-middle text-dz-a-primary-800 dark:text-dz-a-night-fg">{v.modelLabel}</td>
+              <td className="px-2 py-2 text-center align-middle tabular-nums text-dz-a-primary-400 dark:text-dz-a-night-faint">
                 {toPersianNumbersWithComma(v.calculatedToman)}
               </td>
               <td className="px-2 py-2 text-center align-middle">

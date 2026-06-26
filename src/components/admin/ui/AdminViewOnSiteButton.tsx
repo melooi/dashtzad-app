@@ -28,7 +28,7 @@ export function AdminViewOnSiteButton({
       <span
         title={disabledReason}
         aria-disabled="true"
-        className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-xl border border-dz-primary-100 bg-dz-primary-50/50 px-3.5 py-2 text-sm font-medium text-dz-primary-300 dark:border-dz-night-border dark:bg-white/5 dark:text-dz-night-faint"
+        className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-xl border border-dz-a-primary-100 bg-dz-a-primary-50/50 px-3.5 py-2 text-sm font-medium text-dz-a-primary-300 dark:border-dz-a-night-border dark:bg-white/5 dark:text-dz-a-night-faint"
       >
         <Eye className="size-4 shrink-0" aria-hidden />
         {text}
@@ -41,7 +41,7 @@ export function AdminViewOnSiteButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-primary-200 bg-white px-3.5 py-2 text-sm font-medium text-dz-primary-700 shadow-xs transition-colors hover:border-dz-primary-300 hover:bg-dz-primary-50 dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-night-fg dark:shadow-none dark:hover:bg-white/5"
+      className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-a-primary-200 bg-white px-3.5 py-2 text-sm font-medium text-dz-a-primary-700 shadow-xs transition-colors hover:border-dz-a-primary-300 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-fg dark:shadow-none dark:hover:bg-white/5"
     >
       <Eye className="size-4 shrink-0" aria-hidden />
       {text}

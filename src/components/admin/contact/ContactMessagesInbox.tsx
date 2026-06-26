@@ -51,7 +51,7 @@ export function ContactMessagesInbox({ messages }: { messages: InboxMessage[] })
 
   if (items.length === 0) {
     return (
-      <p className="rounded-2xl border border-dz-primary-100 bg-white p-10 text-center text-sm text-dz-primary-400 dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-night-faint">
+      <p className="rounded-2xl border border-dz-a-primary-100 bg-white p-10 text-center text-sm text-dz-a-primary-400 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-faint">
         هنوز پیامی از فرم تماس دریافت نشده.
       </p>
     );
@@ -65,26 +65,26 @@ export function ContactMessagesInbox({ messages }: { messages: InboxMessage[] })
         return (
           <article
             key={m.id}
-            className="rounded-2xl border border-dz-primary-100 bg-white p-4 shadow-sm dark:border-dz-night-border dark:bg-dz-night-card sm:p-5"
+            className="rounded-2xl border border-dz-a-primary-100 bg-white p-4 shadow-sm dark:border-dz-a-night-border dark:bg-dz-a-night-card sm:p-5"
           >
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="flex flex-col gap-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="font-heading text-base font-bold text-dz-primary-800 dark:text-dz-night-fg">{m.subject}</h3>
+                  <h3 className="font-heading text-base font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">{m.subject}</h3>
                   <AdminStatusBadge tone={meta.tone}>{meta.label}</AdminStatusBadge>
-                  <span className="rounded-full bg-dz-primary-50 px-2 py-0.5 text-xs text-dz-primary-600 dark:bg-white/5 dark:text-dz-night-muted">{m.type}</span>
+                  <span className="rounded-full bg-dz-a-primary-50 px-2 py-0.5 text-xs text-dz-a-primary-600 dark:bg-white/5 dark:text-dz-a-night-muted">{m.type}</span>
                 </div>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-dz-primary-500 dark:text-dz-night-muted">
-                  <span className="font-medium text-dz-primary-700 dark:text-dz-night-fg">{m.name}</span>
-                  <a href={`tel:${m.phone}`} dir="ltr" className="inline-flex items-center gap-1 hover:text-dz-primary-700">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">
+                  <span className="font-medium text-dz-a-primary-700 dark:text-dz-a-night-fg">{m.name}</span>
+                  <a href={`tel:${m.phone}`} dir="ltr" className="inline-flex items-center gap-1 hover:text-dz-a-primary-700">
                     <Phone className="size-3.5" /> {m.phone}
                   </a>
-                  <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">{m.createdAtLabel}</span>
+                  <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{m.createdAtLabel}</span>
                 </div>
               </div>
             </div>
 
-            <p className="mt-3 whitespace-pre-wrap rounded-xl bg-dz-primary-50/50 p-3 text-sm leading-7 text-dz-primary-700 dark:bg-white/5 dark:text-dz-night-muted">
+            <p className="mt-3 whitespace-pre-wrap rounded-xl bg-dz-a-primary-50/50 p-3 text-sm leading-7 text-dz-a-primary-700 dark:bg-white/5 dark:text-dz-a-night-muted">
               {m.message}
             </p>
 
@@ -100,15 +100,15 @@ export function ContactMessagesInbox({ messages }: { messages: InboxMessage[] })
                 </button>
               )}
               {m.status !== "ARCHIVED" ? (
-                <button type="button" disabled={disabled} onClick={() => update(m.id, "ARCHIVED")} className="inline-flex items-center gap-1.5 rounded-lg border border-dz-primary-200 px-3 py-1.5 text-xs font-medium text-dz-primary-500 hover:bg-dz-primary-50 disabled:opacity-50 dark:border-dz-night-border dark:text-dz-night-muted">
+                <button type="button" disabled={disabled} onClick={() => update(m.id, "ARCHIVED")} className="inline-flex items-center gap-1.5 rounded-lg border border-dz-a-primary-200 px-3 py-1.5 text-xs font-medium text-dz-a-primary-500 hover:bg-dz-a-primary-50 disabled:opacity-50 dark:border-dz-a-night-border dark:text-dz-a-night-muted">
                   <Archive className="size-3.5" /> بایگانی
                 </button>
               ) : (
-                <button type="button" disabled={disabled} onClick={() => update(m.id, "NEW")} className="inline-flex items-center gap-1.5 rounded-lg border border-dz-primary-200 px-3 py-1.5 text-xs font-medium text-dz-primary-500 hover:bg-dz-primary-50 disabled:opacity-50 dark:border-dz-night-border dark:text-dz-night-muted">
+                <button type="button" disabled={disabled} onClick={() => update(m.id, "NEW")} className="inline-flex items-center gap-1.5 rounded-lg border border-dz-a-primary-200 px-3 py-1.5 text-xs font-medium text-dz-a-primary-500 hover:bg-dz-a-primary-50 disabled:opacity-50 dark:border-dz-a-night-border dark:text-dz-a-night-muted">
                   <RotateCcw className="size-3.5" /> بازگردانی
                 </button>
               )}
-              <button type="button" disabled={disabled} onClick={() => remove(m.id)} className="ms-auto inline-flex items-center gap-1.5 rounded-lg border border-dz-error/30 px-3 py-1.5 text-xs font-medium text-dz-error hover:bg-dz-error/10 disabled:opacity-50">
+              <button type="button" disabled={disabled} onClick={() => remove(m.id)} className="ms-auto inline-flex items-center gap-1.5 rounded-lg border border-dz-a-error/30 px-3 py-1.5 text-xs font-medium text-dz-a-error hover:bg-dz-a-error/10 disabled:opacity-50">
                 <Trash2 className="size-3.5" /> حذف
               </button>
             </div>

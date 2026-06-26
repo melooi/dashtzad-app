@@ -23,10 +23,7 @@ import {
   ArrowLeftRight,
   Library,
   Settings,
-  Building2,
   Phone,
-  Palette,
-  Share2,
   Activity,
   SlidersHorizontal,
   Store,
@@ -78,6 +75,7 @@ export const ADMIN_NAV: NavGroup[] = [
       { label: "دیدگاه‌ها و پرسش‌ها", href: "/admin/collections/reviews", icon: Star },
       { label: "پیام‌های فرم تماس", href: "/admin/collections/contact-messages", icon: MessageSquare },
       { label: "چت و پشتیبانی", href: "/admin/chat", icon: Headset },
+      { label: "پیامک", href: "/admin/sms", icon: MessageSquare },
     ],
   },
   {
@@ -118,7 +116,6 @@ export const ADMIN_NAV: NavGroup[] = [
     items: [
       { label: "بررسی سئو", href: "/admin/seo/overview", icon: Activity },
       { label: "صف خطاهای سئو", href: "/admin/seo/issues", icon: AlertTriangle },
-      { label: "پیش‌فرض‌های سئو", href: "/admin/seo/settings", icon: SlidersHorizontal },
       { label: "داده‌های ساختاریافته", href: "/admin/seo/structured-data", icon: Braces },
       { label: "سایت‌مپ", href: "/admin/seo/sitemap", icon: Map },
       { label: "robots.txt", href: "/admin/seo/robots", icon: Bot },
@@ -127,21 +124,9 @@ export const ADMIN_NAV: NavGroup[] = [
     ],
   },
   {
-    title: "تنظیمات کسب‌وکار",
-    icon: Building2,
-    items: [
-      { label: "تنظیمات سایت", href: "/admin/globals/site", icon: Settings },
-      { label: "اطلاعات کسب‌وکار", href: "/admin/globals/business", icon: Building2 },
-      { label: "اطلاعات تماس", href: "/admin/globals/contact", icon: Phone },
-      { label: "تنظیمات برند", href: "/admin/globals/brand", icon: Palette },
-      { label: "شبکه‌های اجتماعی", href: "/admin/globals/social", icon: Share2 },
-    ],
-  },
-  {
-    title: "سیستم",
+    title: "تنظیمات سیستم",
     icon: SlidersHorizontal,
     items: [
-      { label: "فعالیت‌ها", href: "/admin/activity", icon: Activity },
       { label: "تنظیمات سیستم", href: "/admin/settings", icon: SlidersHorizontal },
     ],
   },

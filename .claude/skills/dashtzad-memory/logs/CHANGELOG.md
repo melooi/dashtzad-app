@@ -1,3 +1,17 @@
+## 2026-06-26 — chat-ai — ROUTECONTEXT-FIX-CONVERSATIONS
+- چه شد: حذف .next stale، رفع ۶ خطای RouteContext در مسیرهای ai conversations.
+- فایل‌های تغییر/ساخت: `api/admin-ai/conversations/[id]/route.ts`, `api/chat/conversations/[id]/{route,close,feedback,handoff}/route.ts`
+- تأیید: tsc=pass (0 error)
+- وضعیت بعد: ✅ tsc کاملاً سبز
+- نکتهٔ جدید: RouteContext هیچ‌جای next/server export نمی‌شود — همه route handlers باید inline `{ params: Promise<{ id: string }> }` داشته باشند.
+
+## 2026-06-26 — design-system — CSS-SPLIT-REFACTOR
+- چه شد: globals.css از ۳۱۲۴ به ۳۷۰ خط کاهش یافت. تمام CSS به فایل‌های جداگانه منتقل شد.
+- فایل‌های تغییر/ساخت: `src/app/globals.css` (trim) + ۸ فایل جدید در `src/styles/`
+- تأیید: tsc=⚠️ (یک خطای stale در .next/types برای canned-replies — پیش‌وجود، نامربوط به CSS)
+- وضعیت بعد: ✅ ساختار CSS سامان‌دهی شده
+- نکتهٔ جدید: @import در Tailwind 4 باید قبل از @theme/@utility بیاید. variable resolution از import order مستقل است.
+
 ## 2026-06-26 — all — LINT-STABILIZATION-GATE
 
 - چه شد: رفع ۲۲ خطای ESLint. lint/tsc/build همه سبز شدند.

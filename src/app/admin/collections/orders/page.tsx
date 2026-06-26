@@ -36,18 +36,18 @@ export default async function AdminOrdersPage({
 
       <form method="get" className="mb-4 flex flex-wrap items-center gap-2">
         <div className="relative flex-1 min-w-56">
-          <Search className="pointer-events-none absolute inset-inline-start-3 top-1/2 size-4 -translate-y-1/2 text-dz-primary-400" />
+          <Search className="pointer-events-none absolute inset-inline-start-3 top-1/2 size-4 -translate-y-1/2 text-dz-a-primary-400" />
           <input
             name="q"
             defaultValue={q}
             placeholder="جستجوی شماره سفارش، نام یا موبایل…"
-            className="w-full rounded-xl border border-dz-primary-200 bg-white py-2.5 ps-9 pe-3 text-sm text-dz-primary-900 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
+            className="w-full rounded-xl border border-dz-a-primary-200 bg-white py-2.5 ps-9 pe-3 text-sm text-dz-a-primary-900 outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
           />
         </div>
         <select
           name="status"
           defaultValue={status ?? ""}
-          className="rounded-xl border border-dz-primary-200 bg-white px-3 py-2.5 text-sm text-dz-primary-900 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
+          className="rounded-xl border border-dz-a-primary-200 bg-white px-3 py-2.5 text-sm text-dz-a-primary-900 outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
         >
           <option value="">همهٔ وضعیت‌ها</option>
           {ADMIN_ORDER_STATUSES.map((s) => (
@@ -56,7 +56,7 @@ export default async function AdminOrdersPage({
             </option>
           ))}
         </select>
-        <button type="submit" className="rounded-xl bg-dz-primary-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-dz-primary-700">
+        <button type="submit" className="rounded-xl bg-dz-a-primary-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
           اعمال
         </button>
       </form>
@@ -70,9 +70,9 @@ export default async function AdminOrdersPage({
           clearFiltersHref="/admin/collections/orders"
         />
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-dz-primary-100 bg-white dark:border-dz-night-border dark:bg-dz-night-card">
+        <div className="overflow-x-auto rounded-2xl border border-dz-a-primary-100 bg-white dark:border-dz-a-night-border dark:bg-dz-a-night-card">
           <table className="w-full min-w-[44rem] text-sm">
-            <thead className="border-b border-dz-primary-100 text-dz-primary-500 dark:border-dz-night-border dark:text-dz-night-muted">
+            <thead className="border-b border-dz-a-primary-100 text-dz-a-primary-500 dark:border-dz-a-night-border dark:text-dz-a-night-muted">
               <tr className="text-right">
                 <th className="px-4 py-3 font-medium">شماره</th>
                 <th className="px-4 py-3 font-medium">مشتری</th>
@@ -82,21 +82,21 @@ export default async function AdminOrdersPage({
                 <th className="px-4 py-3 font-medium">وضعیت</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-dz-primary-50 dark:divide-dz-night-line">
+            <tbody className="divide-y divide-dz-a-primary-50 dark:divide-dz-a-night-line">
               {orders.map((o) => (
-                <tr key={o.id} className="text-dz-primary-800 hover:bg-dz-primary-50/40 dark:text-dz-night-fg dark:hover:bg-dz-night-elevated/40">
+                <tr key={o.id} className="text-dz-a-primary-800 hover:bg-dz-a-primary-50/40 dark:text-dz-a-night-fg dark:hover:bg-dz-a-night-elevated/40">
                   <td className="px-4 py-3">
-                    <Link href={`/admin/collections/orders/${o.id}`} className="font-bold text-dz-primary-700 hover:underline dark:text-dz-primary-300">
+                    <Link href={`/admin/collections/orders/${o.id}`} className="font-bold text-dz-a-primary-700 hover:underline dark:text-dz-a-primary-300">
                       #{toPersianNumbers(o.orderNumber)}
                     </Link>
                   </td>
                   <td className="px-4 py-3">
                     <div>{o.customerName}</div>
-                    <div dir="ltr" className="text-right text-xs text-dz-primary-400">
+                    <div dir="ltr" className="text-right text-xs text-dz-a-primary-400">
                       {toPersianNumbers(o.customerPhone)}
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-dz-primary-500 dark:text-dz-night-muted">
+                  <td className="px-4 py-3 text-dz-a-primary-500 dark:text-dz-a-night-muted">
                     {formatJalali(o.createdAtISO)}
                   </td>
                   <td className="px-4 py-3">{toPersianNumbers(o.itemCount)}</td>

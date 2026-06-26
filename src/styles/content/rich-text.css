@@ -1,0 +1,659 @@
+/* ============================================================
+   RICH TEXT CONTENT (ADMIN-RICH-EDITOR-CP1) — `.dz-rich`
+   One stylesheet shared by:
+     • the admin visual editor surface (`.dz-rich--editing`)
+     • the public RichTextRenderer (storefront)
+   Warm Persian typography + custom Dashtzad quote / callout / leaf-list
+   styles. Body color adapts to context; admin dark mode is handled by the
+   `.dark .dz-rich` overrides at the end of this block.
+   ============================================================ */
+
+/* Persian numerals for ordered lists. */
+@counter-style dz-persian {
+  system: numeric;
+  symbols: "۰" "۱" "۲" "۳" "۴" "۵" "۶" "۷" "۸" "۹";
+  suffix: ". ";
+}
+
+.dz-rich {
+  color: var(--color-store-text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.9;
+  word-break: break-word;
+  /* Override any inherited `white-space: pre-line` (e.g. FAQ accordion wrapper). */
+  white-space: normal;
+}
+.dz-rich > :first-child { margin-block-start: 0; }
+.dz-rich > :last-child { margin-block-end: 0; }
+
+.dz-rich p { margin-block: 0.85em; }
+
+.dz-rich h1,
+.dz-rich h2,
+.dz-rich h3,
+.dz-rich h4,
+.dz-rich h5,
+.dz-rich h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--color-store-ink);
+}
+.dz-rich h1 { font-size: 1.7rem; margin-block: 1.6em 0.55em; }
+.dz-rich h2 { font-size: 1.4rem; margin-block: 1.5em 0.5em; }
+.dz-rich h3 { font-size: 1.15rem; margin-block: 1.3em 0.45em; }
+.dz-rich h4 { font-size: 1.05rem; margin-block: 1.2em 0.4em; }
+.dz-rich h5 { font-size: 0.95rem; font-weight: 600; margin-block: 1.1em 0.4em; }
+.dz-rich h6 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--color-store-text-muted);
+  margin-block: 1.1em 0.4em;
+}
+
+.dz-rich strong,
+.dz-rich b { font-weight: 700; color: inherit; }
+.dz-rich em,
+.dz-rich i { font-style: italic; }
+.dz-rich u { text-underline-offset: 0.18em; }
+
+.dz-rich a {
+  color: var(--color-store-primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 0.06em;
+  font-weight: 500;
+}
+.dz-rich a:hover { color: var(--color-store-primary-deep); }
+
+.dz-rich hr {
+  margin-block: 1.8em;
+  border: 0;
+  block-size: 1px;
+  background: linear-gradient(
+    to inline-end,
+    transparent,
+    color-mix(in srgb, currentColor 22%, transparent),
+    transparent
+  );
+}
+
+/* ---- lists ---- */
+.dz-rich ul,
+.dz-rich ol { margin-block: 0.85em; padding-inline-start: 0; list-style: none; }
+.dz-rich li { position: relative; margin-block: 0.4em; padding-inline-start: 1.6em; }
+.dz-rich li > ul,
+.dz-rich li > ol { margin-block: 0.3em; }
+
+/* default bullet — Dashtzad green disc */
+.dz-rich ul > li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0.3em;
+  inset-block-start: 0.72em;
+  inline-size: 0.42em;
+  block-size: 0.42em;
+  border-radius: 50%;
+  background: var(--color-store-primary);
+}
+
+/* leaf variant — soft leaf marker for a heritage feel */
+.dz-rich ul.dz-list--leaf > li::before {
+  content: "";
+  inset-block-start: 0.5em;
+  inline-size: 0.7em;
+  block-size: 0.7em;
+  border-radius: 0 70% 0 70%;
+  transform: rotate(8deg);
+  background: color-mix(in srgb, var(--color-store-primary) 80%, var(--color-store-gold) 20%);
+}
+
+/* check variant — green tick marker */
+.dz-rich ul.dz-list--check > li::before {
+  content: "✓";
+  inset-block-start: 0;
+  inline-size: auto;
+  block-size: auto;
+  background: transparent;
+  border-radius: 0;
+  transform: none;
+  color: var(--color-store-primary);
+  font-weight: 700;
+  font-size: 0.95em;
+}
+
+/* ordered — Persian numerals in green */
+.dz-rich ol { counter-reset: dz-ol; }
+.dz-rich ol > li { counter-increment: dz-ol; }
+.dz-rich ol > li::before {
+  content: counter(dz-ol, dz-persian);
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  min-inline-size: 1.3em;
+  font-weight: 700;
+  font-size: 0.9em;
+  color: var(--color-store-primary-hover);
+}
+
+/* ---- quotes ---- */
+.dz-rich blockquote {
+  margin-block: 1.3em;
+  padding: 0.95rem 1.15rem;
+  background: var(--color-store-cream);
+  border-inline-start: 3px solid var(--color-store-primary);
+  border-radius: 0.75rem;
+  color: var(--color-store-text);
+}
+.dz-rich blockquote p { margin-block: 0.4em; }
+.dz-rich blockquote p:first-child { margin-block-start: 0; }
+.dz-rich blockquote p:last-child { margin-block-end: 0; }
+.dz-rich .dz-quote__caption {
+  display: block;
+  margin-block-start: 0.5em;
+  font-size: 0.85em;
+  color: var(--color-store-text-faint);
+}
+
+/* editorial — centered, larger, clay/gold accent, no card */
+.dz-rich blockquote.dz-quote--editorial {
+  background: transparent;
+  border-inline-start: 0;
+  border-block: 1px solid color-mix(in srgb, var(--color-store-clay) 30%, transparent);
+  border-radius: 0;
+  padding: 1.1rem 0.5rem;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 1.22em;
+  line-height: 1.85;
+  color: var(--color-store-clay-deep);
+}
+
+/* ---- speech-author quote: warm bubble + tail + author/role/avatar meta ---- */
+.dz-rich .dz-quote--speech-author { margin-block: 1.5em; }
+.dz-rich .dz-quote--speech-author > blockquote {
+  position: relative;
+  margin: 0;
+  padding: 1rem 1.2rem;
+  background: var(--color-store-cream);
+  border: 1px solid color-mix(in srgb, var(--color-store-primary) 16%, transparent);
+  border-radius: 1rem;
+  color: var(--color-store-text);
+  font-size: 1.05em;
+  line-height: 1.85;
+}
+.dz-rich .dz-quote--speech-author > blockquote > :first-child { margin-block-start: 0; }
+.dz-rich .dz-quote--speech-author > blockquote > :last-child { margin-block-end: 0; }
+/* tail — rotated square inheriting two borders, pointing toward the author meta */
+.dz-rich .dz-quote--speech-author > blockquote::after {
+  content: "";
+  position: absolute;
+  inset-block-end: -0.45rem;
+  inset-inline-start: 1.9rem;
+  inline-size: 0.9rem;
+  block-size: 0.9rem;
+  background: var(--color-store-cream);
+  border-inline-end: 1px solid color-mix(in srgb, var(--color-store-primary) 16%, transparent);
+  border-block-end: 1px solid color-mix(in srgb, var(--color-store-primary) 16%, transparent);
+  border-end-end-radius: 3px;
+  transform: rotate(45deg);
+}
+/* public meta line: avatar (start) + author over role */
+.dz-rich .dz-quote--speech-author > figcaption {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.7rem;
+  align-items: center;
+  margin-block-start: 0.85rem;
+  padding-inline-start: 0.6rem;
+}
+.dz-rich .dz-quote__avatar {
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-store-primary) 14%, transparent);
+  color: var(--color-store-primary-hover);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.dz-rich .dz-quote__avatar:empty::before { content: "\""; font-size: 1.4rem; opacity: 0.75; }
+.dz-rich .dz-quote--speech-author .dz-quote__author {
+  grid-column: 2;
+  align-self: end;
+  font-weight: 700;
+  color: var(--color-store-ink);
+}
+.dz-rich .dz-quote--speech-author .dz-quote__role {
+  grid-column: 2;
+  align-self: start;
+  font-size: 0.85em;
+  color: var(--color-store-text-faint);
+}
+
+/* ---- callouts ---- */
+.dz-rich .dz-callout {
+  --dz-c: var(--color-store-primary);
+  margin-block: 1.3em;
+  padding: 0.9rem 1.1rem;
+  border-radius: 0.85rem;
+  border-inline-start: 3px solid var(--dz-c);
+  background: color-mix(in srgb, var(--dz-c) 9%, transparent);
+  color: var(--color-store-text);
+}
+.dz-rich .dz-callout > :first-child { margin-block-start: 0; }
+.dz-rich .dz-callout > :last-child { margin-block-end: 0; }
+.dz-rich .dz-callout::before {
+  display: block;
+  margin-block-end: 0.45em;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9em;
+  color: var(--dz-c);
+}
+.dz-rich .dz-callout--note { --dz-c: #2f6b4f; }
+.dz-rich .dz-callout--note::before { content: "نکته"; }
+.dz-rich .dz-callout--warning { --dz-c: var(--color-store-gold-deep); }
+.dz-rich .dz-callout--warning::before { content: "هشدار"; }
+.dz-rich .dz-callout--tip { --dz-c: var(--color-store-clay); }
+.dz-rich .dz-callout--tip::before { content: "پیشنهاد"; }
+.dz-rich .dz-callout--experience { --dz-c: var(--color-store-special); }
+.dz-rich .dz-callout--experience::before { content: "تجربه دشت‌زاد"; }
+
+/* ============================================================
+   MEDIA (ADMIN-RICH-MEDIA-CP1) — single image + gallery/album.
+   Public layout rules are guarded with :not(.dz-…--editing) so they
+   don't fight the in-editor NodeView chrome.
+   ============================================================ */
+.dz-rich .dz-media { margin-block: 1.4em; }
+.dz-rich .dz-media--editing,
+.dz-rich .dz-gallery--editing { display: block; }
+/* hide a media figure whose <img> was dropped by the sanitizer (external src) */
+.dz-rich .dz-media--image:not(.dz-media--editing):not(:has(img)) { display: none; }
+
+/* ---- single image ---- */
+.dz-rich .dz-media--image > img,
+.dz-rich .dz-media--image > a > img {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+  border-radius: 0.85rem;
+  border: 1px solid var(--color-store-border);
+}
+.dz-rich .dz-media--image > figcaption {
+  margin-block-start: 0.5em;
+  font-size: 0.85em;
+  color: var(--color-store-text-faint);
+  text-align: center;
+}
+.dz-rich .dz-media--center { text-align: center; }
+.dz-rich .dz-media--center > img,
+.dz-rich .dz-media--center > a > img { margin-inline: auto; }
+.dz-rich .dz-media--wide > img,
+.dz-rich .dz-media--wide > a > img { inline-size: 100%; }
+.dz-rich .dz-media--right:not(.dz-media--editing) {
+  float: right;
+  max-inline-size: 50%;
+  margin: 0.3em 0 0.6em 1.2rem;
+}
+.dz-rich .dz-media--left:not(.dz-media--editing) {
+  float: left;
+  max-inline-size: 50%;
+  margin: 0.3em 1.2rem 0.6em 0;
+}
+/* clear floated images at the end of the content */
+.dz-rich::after { content: ""; display: block; clear: both; }
+
+/* ---- gallery ---- */
+.dz-rich .dz-gallery__title {
+  margin-block-end: 0.7em;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.05em;
+  color: var(--color-store-ink);
+}
+.dz-rich .dz-gallery__item { margin: 0; }
+/* drop a gallery cell whose image was removed by the sanitizer */
+.dz-rich .dz-gallery:not(.dz-gallery--editing) .dz-gallery__item:not(:has(img)) { display: none; }
+.dz-rich .dz-gallery__item > img {
+  display: block;
+  inline-size: 100%;
+  border-radius: 0.6rem;
+  border: 1px solid var(--color-store-border);
+  object-fit: cover;
+}
+.dz-rich .dz-gallery__item > figcaption {
+  margin-block-start: 0.35em;
+  font-size: 0.8em;
+  color: var(--color-store-text-faint);
+}
+/* grid layouts */
+.dz-rich .dz-gallery--grid-2:not(.dz-gallery--editing),
+.dz-rich .dz-gallery--grid-3:not(.dz-gallery--editing),
+.dz-rich .dz-gallery--featured:not(.dz-gallery--editing) {
+  display: grid;
+  gap: 0.7rem;
+}
+.dz-rich .dz-gallery--grid-2:not(.dz-gallery--editing) > .dz-gallery__title,
+.dz-rich .dz-gallery--grid-3:not(.dz-gallery--editing) > .dz-gallery__title,
+.dz-rich .dz-gallery--featured:not(.dz-gallery--editing) > .dz-gallery__title { grid-column: 1 / -1; margin-block-end: 0; }
+.dz-rich .dz-gallery--grid-2:not(.dz-gallery--editing) { grid-template-columns: repeat(2, 1fr); }
+.dz-rich .dz-gallery--grid-3:not(.dz-gallery--editing) { grid-template-columns: repeat(3, 1fr); }
+.dz-rich .dz-gallery--grid-2:not(.dz-gallery--editing) .dz-gallery__item > img,
+.dz-rich .dz-gallery--grid-3:not(.dz-gallery--editing) .dz-gallery__item > img { aspect-ratio: 4 / 3; }
+/* featured — first image spans the full width */
+.dz-rich .dz-gallery--featured:not(.dz-gallery--editing) { grid-template-columns: repeat(3, 1fr); }
+.dz-rich .dz-gallery--featured:not(.dz-gallery--editing) .dz-gallery__item:first-of-type { grid-column: 1 / -1; }
+.dz-rich .dz-gallery--featured:not(.dz-gallery--editing) .dz-gallery__item:first-of-type > img { aspect-ratio: 16 / 9; }
+.dz-rich .dz-gallery--featured:not(.dz-gallery--editing) .dz-gallery__item > img { aspect-ratio: 4 / 3; }
+/* scroll-mobile — horizontal scroll on phones, grid ≥768px */
+.dz-rich .dz-gallery--scroll-mobile:not(.dz-gallery--editing) {
+  display: flex;
+  gap: 0.7rem;
+  overflow-x: auto;
+  padding-block-end: 0.3rem;
+  scroll-snap-type: x mandatory;
+}
+.dz-rich .dz-gallery--scroll-mobile:not(.dz-gallery--editing) > .dz-gallery__title { flex: 0 0 100%; }
+.dz-rich .dz-gallery--scroll-mobile:not(.dz-gallery--editing) .dz-gallery__item {
+  flex: 0 0 72%;
+  scroll-snap-align: start;
+}
+.dz-rich .dz-gallery--scroll-mobile:not(.dz-gallery--editing) .dz-gallery__item > img { aspect-ratio: 4 / 3; }
+@media (min-width: 768px) {
+  .dz-rich .dz-gallery--scroll-mobile:not(.dz-gallery--editing) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow: visible;
+  }
+  .dz-rich .dz-gallery--scroll-mobile:not(.dz-gallery--editing) .dz-gallery__item { flex: initial; }
+}
+/* phone: drop floats + tighten grids */
+@media (max-width: 640px) {
+  .dz-rich .dz-media--right:not(.dz-media--editing),
+  .dz-rich .dz-media--left:not(.dz-media--editing) { float: none; max-inline-size: 100%; margin-inline: 0; }
+  .dz-rich .dz-gallery--grid-3:not(.dz-gallery--editing) { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   Magazine blocks (CONTENT-CP1): extra callouts, list variants,
+   table, timeline, FAQ, card. Light-mode (storefront + admin editor).
+   ============================================================ */
+/* ---- extra callout types (color + label only; base styling shared) ---- */
+.dz-rich .dz-callout--definition { --dz-c: #3f6478; }
+.dz-rich .dz-callout--definition::before { content: "تعریف"; }
+.dz-rich .dz-callout--quick-fact { --dz-c: #2f7d6b; }
+.dz-rich .dz-callout--quick-fact::before { content: "آیا می‌دانستید؟"; }
+.dz-rich .dz-callout--myth { --dz-c: var(--color-store-sale); }
+.dz-rich .dz-callout--myth::before { content: "تصور رایج"; }
+.dz-rich .dz-callout--fact { --dz-c: #2f6b4f; }
+.dz-rich .dz-callout--fact::before { content: "واقعیت"; }
+.dz-rich .dz-callout--mistake { --dz-c: var(--color-store-clay-deep); }
+.dz-rich .dz-callout--mistake::before { content: "اشتباه رایج"; }
+.dz-rich .dz-callout--nutrition { --dz-c: #4a7c59; }
+.dz-rich .dz-callout--nutrition::before { content: "اطلاعات تغذیه‌ای"; }
+.dz-rich .dz-callout--medical { --dz-c: #b3261e; }
+.dz-rich .dz-callout--medical::before { content: "هشدار سلامت"; }
+.dz-rich .dz-callout--consult { --dz-c: #3f6478; }
+.dz-rich .dz-callout--consult::before { content: "با پزشک مشورت کنید"; }
+.dz-rich .dz-callout--evidence { --dz-c: #5b6470; }
+.dz-rich .dz-callout--evidence::before { content: "خلاصه شواهد"; }
+.dz-rich .dz-callout--source { --dz-c: var(--color-store-secondary); }
+.dz-rich .dz-callout--source::before { content: "منبع"; }
+
+/* ---- list variants: cross (نکنید) + steps (گام‌به‌گام) ---- */
+.dz-rich ul.dz-list--cross > li::before {
+  content: "✕";
+  inset-block-start: 0.05em;
+  inline-size: auto;
+  block-size: auto;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-store-sale);
+  font-weight: 700;
+}
+.dz-rich ol.dz-list--steps { counter-reset: dz-step; }
+.dz-rich ol.dz-list--steps > li { counter-increment: dz-step; padding-inline-start: 2.4em; margin-block: 0.7em; }
+.dz-rich ol.dz-list--steps > li::before {
+  content: counter(dz-step);
+  inset-block-start: 0;
+  inline-size: 1.7em;
+  block-size: 1.7em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--color-store-primary);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 0.8em;
+  font-weight: 700;
+}
+
+/* ---- table (comparison / feature grid) ---- */
+.dz-rich .dz-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  margin-block: 1.4em;
+  font-size: 0.95em;
+}
+.dz-rich .dz-table th,
+.dz-rich .dz-table td {
+  border: 1px solid var(--color-store-border);
+  padding: 0.5rem 0.75rem;
+  text-align: start;
+  vertical-align: top;
+}
+.dz-rich .dz-table th {
+  background: var(--color-store-cream);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-store-ink);
+}
+.dz-rich .dz-table tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--color-store-cream) 28%, transparent);
+}
+
+/* ---- timeline / chapters ---- */
+.dz-rich .dz-timeline:not(.dz-timeline--editing) {
+  margin-block: 1.5em;
+  padding-inline-start: 0;
+  border-inline-start: 2px solid var(--color-store-border-soft);
+}
+.dz-rich .dz-timeline:not(.dz-timeline--editing) .dz-timeline__item {
+  position: relative;
+  padding-inline-start: 1.3rem;
+  padding-block-end: 1.1em;
+}
+.dz-rich .dz-timeline:not(.dz-timeline--editing) .dz-timeline__item::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -5px;
+  inset-block-start: 0.35em;
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 999px;
+  background: var(--color-store-primary);
+}
+.dz-rich .dz-timeline__label {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.95em;
+  color: var(--color-store-primary-deep);
+}
+.dz-rich .dz-timeline__body {
+  display: block;
+  margin-block-start: 0.2em;
+  color: var(--color-store-text-muted);
+}
+
+/* ---- FAQ ---- */
+.dz-rich .dz-faq:not(.dz-faq--editing) {
+  margin-block: 1.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.dz-rich .dz-faq__item {
+  border: 1px solid var(--color-store-border);
+  border-radius: 0.7rem;
+  padding: 0.8rem 1rem;
+  background: var(--color-store-surface-warm);
+}
+.dz-rich .dz-faq__q {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-store-ink);
+}
+.dz-rich .dz-faq__a {
+  margin-block-start: 0.4em;
+  color: var(--color-store-text-muted);
+}
+
+/* ---- card (origin / culture / announcement / launch / cta) ---- */
+.dz-rich .dz-card {
+  --dz-card-accent: var(--color-store-primary);
+  margin-block: 1.5em;
+  border: 1px solid var(--color-store-border);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--color-store-surface);
+  box-shadow: var(--shadow-store-xs);
+}
+.dz-rich .dz-card__media img {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.dz-rich .dz-card__body { padding: 1rem 1.1rem; }
+.dz-rich .dz-card__eyebrow {
+  margin: 0 0 0.25em;
+  font-size: 0.78em;
+  font-weight: 700;
+  color: var(--dz-card-accent);
+}
+.dz-rich .dz-card__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.1em;
+  color: var(--color-store-ink);
+}
+.dz-rich .dz-card__text {
+  margin: 0.4em 0 0;
+  color: var(--color-store-text-muted);
+}
+.dz-rich .dz-card__link {
+  display: inline-block;
+  margin-block-start: 0.7em;
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  background: var(--dz-card-accent);
+  color: #fff;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-decoration: none;
+}
+.dz-rich .dz-card__link:hover { filter: brightness(0.95); color: #fff; }
+.dz-rich .dz-card--origin { --dz-card-accent: var(--color-store-secondary); }
+.dz-rich .dz-card--culture { --dz-card-accent: #3f6478; }
+.dz-rich .dz-card--announcement { --dz-card-accent: var(--color-store-primary); }
+.dz-rich .dz-card--launch { --dz-card-accent: var(--color-store-clay); }
+.dz-rich .dz-card--cta {
+  --dz-card-accent: var(--color-store-primary-deep);
+  border-color: color-mix(in srgb, var(--color-store-primary) 40%, var(--color-store-border));
+  background: var(--color-store-primary-tint);
+}
+
+/* ============================================================
+   `.dz-rich` — admin DARK mode (only inside .dark / admin shell)
+   ============================================================ */
+.dark .dz-rich { color: var(--color-dz-night-fg); }
+.dark .dz-rich h1,
+.dark .dz-rich h2,
+.dark .dz-rich h3,
+.dark .dz-rich h4,
+.dark .dz-rich h5,
+.dark .dz-rich h6 { color: var(--color-dz-night-fg); }
+.dark .dz-rich a { color: var(--color-dz-primary-300); }
+.dark .dz-rich a:hover { color: var(--color-dz-primary-200); }
+.dark .dz-rich ul > li::before { background: var(--color-dz-primary-400); }
+.dark .dz-rich ol > li::before { color: var(--color-dz-primary-300); }
+.dark .dz-rich blockquote {
+  background: color-mix(in srgb, #ffffff 5%, transparent);
+  border-inline-start-color: var(--color-dz-primary-400);
+  color: var(--color-dz-night-fg);
+}
+.dark .dz-rich blockquote.dz-quote--editorial {
+  background: transparent;
+  border-block-color: color-mix(in srgb, var(--color-dz-warning-300) 35%, transparent);
+  color: var(--color-dz-warning-300);
+}
+.dark .dz-rich .dz-callout { color: var(--color-dz-night-fg); }
+.dark .dz-rich .dz-callout--note { --dz-c: var(--color-dz-success-300); }
+.dark .dz-rich .dz-callout--warning { --dz-c: var(--color-dz-warning-300); }
+.dark .dz-rich .dz-callout--tip { --dz-c: #ef9a6a; }
+.dark .dz-rich .dz-callout--experience { --dz-c: #d8b48a; }
+/* media — dark borders + captions */
+.dark .dz-rich .dz-media--image > img,
+.dark .dz-rich .dz-media--image > a > img,
+.dark .dz-rich .dz-gallery__item > img { border-color: var(--color-dz-night-border); }
+.dark .dz-rich .dz-media--image > figcaption,
+.dark .dz-rich .dz-gallery__item > figcaption { color: var(--color-dz-night-faint); }
+.dark .dz-rich .dz-gallery__title { color: var(--color-dz-night-fg); }
+
+/* ============================================================
+   Editor surface tweaks (`.dz-rich--editing` = the ProseMirror node)
+   ============================================================ */
+.dz-rich--editing { outline: none; }
+.dz-rich--editing:focus { outline: none; }
+.dz-rich--editing p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: inline-start;
+  block-size: 0;
+  color: var(--color-dz-primary-300);
+  pointer-events: none;
+  font-style: normal;
+}
+.dark .dz-rich--editing p.is-editor-empty:first-child::before {
+  color: var(--color-dz-night-faint);
+}
+
+/* ---- magazine blocks (CONTENT-CP1) — dark variants ---- */
+.dark .dz-rich .dz-callout--definition { --dz-c: #93b0d6; }
+.dark .dz-rich .dz-callout--quick-fact { --dz-c: #6fc7b3; }
+.dark .dz-rich .dz-callout--myth { --dz-c: #e89b90; }
+.dark .dz-rich .dz-callout--fact { --dz-c: var(--color-dz-success-300); }
+.dark .dz-rich .dz-callout--mistake { --dz-c: #ef9a6a; }
+.dark .dz-rich .dz-callout--nutrition { --dz-c: #8fc7a1; }
+.dark .dz-rich .dz-callout--medical { --dz-c: #f0928a; }
+.dark .dz-rich .dz-callout--consult { --dz-c: #93b0d6; }
+.dark .dz-rich .dz-callout--evidence { --dz-c: #aeb6c2; }
+.dark .dz-rich .dz-callout--source { --dz-c: #d8b48a; }
+.dark .dz-rich ul.dz-list--cross > li::before { color: #e89b90; }
+.dark .dz-rich ol.dz-list--steps > li::before { background: var(--color-dz-primary-500); color: #fff; }
+.dark .dz-rich .dz-table th { background: var(--color-dz-night-elevated); color: var(--color-dz-night-fg); }
+.dark .dz-rich .dz-table th,
+.dark .dz-rich .dz-table td { border-color: var(--color-dz-night-border); }
+.dark .dz-rich .dz-table tr:nth-child(even) td { background: rgba(255, 255, 255, 0.03); }
+.dark .dz-rich .dz-timeline:not(.dz-timeline--editing) { border-color: var(--color-dz-night-border); }
+.dark .dz-rich .dz-timeline__label { color: var(--color-dz-primary-300); }
+.dark .dz-rich .dz-timeline__body { color: var(--color-dz-night-muted); }
+.dark .dz-rich .dz-faq__item { background: var(--color-dz-night-elevated); border-color: var(--color-dz-night-border); }
+.dark .dz-rich .dz-faq__q { color: var(--color-dz-night-fg); }
+.dark .dz-rich .dz-faq__a { color: var(--color-dz-night-muted); }
+.dark .dz-rich .dz-card { background: var(--color-dz-night-card); border-color: var(--color-dz-night-border); }
+.dark .dz-rich .dz-card__title { color: var(--color-dz-night-fg); }
+.dark .dz-rich .dz-card__text { color: var(--color-dz-night-muted); }
+.dark .dz-rich .dz-card--cta { background: rgba(255, 255, 255, 0.04); border-color: var(--color-dz-night-border); }

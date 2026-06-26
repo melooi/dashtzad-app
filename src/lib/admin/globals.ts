@@ -593,15 +593,26 @@ export const chatSettingsSchema = z.object({
   aiCopilotEnabled: bool(false),
   aiModel: z
     .enum([
+      // Anthropic
       "claude-opus-4-8",
       "claude-sonnet-4-6",
+      "claude-haiku-4-5-20251001",
+      // keep old haiku ID for backward compat
       "claude-haiku-4-5",
+      // OpenAI
       "gpt-4o",
       "gpt-4o-mini",
+      "o3",
+      "o4-mini",
+      // Google
+      "gemini-2.5-pro",
+      "gemini-2.5-flash",
+      "gemini-2.0-flash",
+      // keep old gemini for backward compat
       "gemini-1.5-pro",
       "gemini-1.5-flash",
     ])
-    .default("claude-opus-4-8"),
+    .default("gpt-4o"),
   aiContext: text(""),
 
   // AI-CP-B — customer-facing AI chatbot (distinct from the operator copilot
@@ -633,13 +644,19 @@ export const PRE_CHAT_OPTIONS = [
 ];
 
 export const AI_MODEL_OPTIONS = [
-  { value: "claude-opus-4-8", label: "Claude Opus 4.8 — دقیق‌ترین (Anthropic)" },
-  { value: "claude-sonnet-4-6", label: "Claude Sonnet 4.6 — متعادل (Anthropic)" },
-  { value: "claude-haiku-4-5", label: "Claude Haiku 4.5 — سریع‌ترین (Anthropic)" },
-  { value: "gpt-4o", label: "GPT-4o — دقیق (OpenAI)" },
-  { value: "gpt-4o-mini", label: "GPT-4o mini — سریع و کم‌هزینه (OpenAI)" },
-  { value: "gemini-1.5-pro", label: "Gemini 1.5 Pro — دقیق (Google)" },
-  { value: "gemini-1.5-flash", label: "Gemini 1.5 Flash — سریع (Google)" },
+  // Anthropic
+  { value: "claude-opus-4-8", label: "Claude Opus 4.8 — دقیق‌ترین (Anthropic)", group: "anthropic" },
+  { value: "claude-sonnet-4-6", label: "Claude Sonnet 4.6 — متعادل (Anthropic)", group: "anthropic" },
+  { value: "claude-haiku-4-5-20251001", label: "Claude Haiku 4.5 — سریع‌ترین (Anthropic)", group: "anthropic" },
+  // OpenAI
+  { value: "gpt-4o", label: "GPT-4o — دقیق (OpenAI)", group: "openai" },
+  { value: "gpt-4o-mini", label: "GPT-4o mini — سریع و اقتصادی (OpenAI)", group: "openai" },
+  { value: "o3", label: "o3 — استدلال پیشرفته (OpenAI)", group: "openai" },
+  { value: "o4-mini", label: "o4-mini — استدلال سریع (OpenAI)", group: "openai" },
+  // Google
+  { value: "gemini-2.5-pro", label: "Gemini 2.5 Pro — دقیق‌ترین (Google)", group: "google" },
+  { value: "gemini-2.5-flash", label: "Gemini 2.5 Flash — سریع (Google)", group: "google" },
+  { value: "gemini-2.0-flash", label: "Gemini 2.0 Flash — اقتصادی (Google)", group: "google" },
 ];
 
 export const AI_CHATBOT_PERSONA_OPTIONS = [

@@ -1,0 +1,293 @@
+/* =============================================================================
+ * Dashtzad — Product Card «سبک رسمی» (components/product/*). توکن dz- · بدون px · RTL.
+ * کارتِ عمودیِ رسمیِ فروشگاه: رسانه + علاقه‌مندی + نشانه + دسته + تایمر شگفت‌انگیز،
+ * تراشه‌های قسطی/موجودی‌کم، قیمت، و اکشن‌های افزودن/مشاهده/اطلاع/تماس.
+ * اجزای تعاملی (انتخاب وزن، پله‌ی تعداد، پاپ‌آپ اطلاع) را product-card.js می‌سازد.
+ * ========================================================================== */
+
+.dz-product-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background: var(--color-dz-surface);
+	border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+	border-radius: var(--radius-dz-card, 1.5rem);
+	overflow: hidden;
+	box-shadow: var(--shadow-dz-card);
+	transition: transform var(--duration-dz-normal, .18s) var(--ease-dz-standard, ease),
+		box-shadow var(--duration-dz-normal, .18s) var(--ease-dz-standard, ease),
+		border-color var(--duration-dz-normal, .18s) var(--ease-dz-standard, ease);
+}
+.dz-product-card:hover {
+	transform: translateY(-.4rem);
+	border-color: var(--color-dz-primary);
+	box-shadow: var(--shadow-dz-card-hover);
+}
+
+/* ---- رسانه ---- */
+.dz-product-card__media-wrap { position: relative; }
+.dz-product-card__media {
+	display: block;
+	block-size: 15.5rem;
+	padding: var(--spacing-dz-3, .75rem);
+	background: var(--color-dz-surface);
+	overflow: hidden;
+	cursor: pointer;
+}
+.dz-product-card__img { inline-size: 100%; block-size: 100%; object-fit: contain; transition: transform var(--duration-dz-slow, .35s) ease; }
+.dz-product-card:hover .dz-product-card__img { transform: scale(1.05); }
+.dz-product-card__placeholder {
+	display: grid; place-items: center; inline-size: 100%; block-size: 100%;
+	color: var(--color-dz-text-faint); font-size: 2.4rem;
+	background-image: repeating-linear-gradient(135deg, transparent 0 1.1rem, color-mix(in srgb, var(--color-dz-text-faint), transparent 94%) 1.1rem 2.2rem);
+}
+
+/* ---- علاقه‌مندی ---- */
+.dz-product-card__fav {
+	position: absolute; inset-block-start: .8rem; inset-inline-end: .8rem; z-index: 3;
+	inline-size: 2.4rem; block-size: 2.4rem; border-radius: var(--radius-dz-pill, 999rem);
+	display: grid; place-items: center; cursor: pointer;
+	color: var(--color-dz-text-faint);
+	border: var(--border-dz-medium, .09375rem) solid var(--color-dz-border);
+	background: color-mix(in srgb, var(--color-dz-surface), transparent 8%);
+	transition: color var(--duration-dz-fast, .15s) ease, background var(--duration-dz-fast, .15s) ease, border-color var(--duration-dz-fast, .15s) ease;
+}
+.dz-product-card__fav:hover { color: var(--color-dz-clay); border-color: var(--color-dz-clay); }
+.dz-product-card__fav.is-fav { color: var(--color-dz-text-inverse); border-color: var(--color-dz-clay); background: var(--color-dz-clay); }
+.dz-product-card__fav.is-pop { animation: dzFavPop .42s cubic-bezier(.18,.9,.32,1.4); }
+.dz-product-card__fav-burst { position: absolute; inset: 0; border-radius: var(--radius-dz-pill, 999rem); pointer-events: none; }
+.dz-product-card__fav.is-pop .dz-product-card__fav-burst { animation: dzFavBurst .5s ease-out forwards; }
+@keyframes dzFavPop { 0%{transform:scale(1)} 28%{transform:scale(.82)} 55%{transform:scale(1.22)} 78%{transform:scale(.96)} 100%{transform:scale(1)} }
+@keyframes dzFavBurst { 0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--color-dz-clay), transparent 40%); opacity:.9} 100%{box-shadow:0 0 0 1.4rem color-mix(in srgb, var(--color-dz-clay), transparent 100%); opacity:0} }
+
+/* ---- نشانهٔ بالا (پرفروش/تخفیف/ویژه) ---- */
+.dz-product-card__flag { position: absolute; inset-block-start: .8rem; inset-inline-start: .8rem; z-index: 2; }
+.dz-product-card__badge {
+	display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em);
+	font-weight: 700; font-size: var(--text-dz-caption, .75rem);
+	border-radius: var(--radius-dz-pill, 999rem); padding: .3rem .7rem;
+	box-shadow: var(--shadow-dz-card);
+}
+.dz-product-card__badge--bestseller { background: color-mix(in srgb, var(--color-dz-clay-soft), transparent 12%); color: var(--color-dz-clay-deep); }
+.dz-product-card__badge--discount    { background: color-mix(in srgb, var(--color-dz-amber-soft), transparent 12%); color: var(--color-dz-gold-deep); }
+.dz-product-card__badge--special     { background: color-mix(in srgb, var(--color-dz-primary-soft), transparent 12%); color: var(--color-dz-primary-hover); }
+
+/* ---- دسته (پایین تصویر) ---- */
+.dz-product-card__cat {
+	position: absolute; inset-block-end: .8rem; inset-inline-start: .8rem; z-index: 2;
+	display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em);
+	font-weight: 700; font-size: var(--text-dz-caption, .75rem);
+	color: var(--color-dz-primary);
+	text-shadow: 0 .06rem .18rem color-mix(in srgb, var(--color-dz-surface), transparent 4%);
+}
+.dz-product-card__cat--clay { color: var(--color-dz-clay); }
+.dz-product-card__cat--gold { color: var(--color-dz-gold-deep); }
+
+/* ---- تایمر شگفت‌انگیز ---- */
+.dz-product-card__timer {
+	position: absolute; inset-block-end: .8rem; inset-inline-end: .8rem; z-index: 3;
+	display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em);
+	font-weight: 700; font-size: .69rem; color: var(--color-dz-text-inverse);
+	background: color-mix(in srgb, var(--color-dz-clay), transparent 6%);
+	border-radius: var(--radius-dz-pill, 999rem); padding: .26rem .53rem;
+	box-shadow: var(--shadow-dz-card);
+}
+.dz-product-card__timer .dz-icon { animation: dzBolt 1.4s ease-in-out infinite; }
+.dz-product-card__timer b { font-variant-numeric: tabular-nums; letter-spacing: .03em; }
+@keyframes dzBolt { 0%,100%{opacity:1} 50%{opacity:.45} }
+
+/* ---- برچسبِ ناموجود ---- */
+.dz-product-card__oos { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; z-index: 2; }
+.dz-product-card__oos-tag {
+	display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em);
+	font-weight: 700; font-size: var(--text-dz-body-sm, .875rem); color: var(--color-dz-text-inverse);
+	background: color-mix(in srgb, var(--color-dz-text), transparent 10%);
+	border-radius: var(--radius-dz-pill, 999rem); padding: .4rem .9rem;
+	box-shadow: var(--shadow-dz-popover);
+}
+
+/* ---- بدنه ---- */
+.dz-product-card__body { display: flex; flex-direction: column; gap: .45rem; padding: var(--spacing-dz-3, .9rem) var(--spacing-dz-4, 1rem) var(--spacing-dz-4, 1rem); flex: 1 1 auto; }
+.dz-product-card__title-link { text-decoration: none; color: inherit; }
+.dz-product-card__title-link:hover { color: var(--color-dz-primary); }
+.dz-product-card__title {
+	font-family: var(--font-dz-display, sans-serif); font-weight: 700;
+	font-size: var(--text-dz-body, 1rem); line-height: var(--leading-dz-tight, 1.45); margin: 0;
+	display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-block-size: 2.8em;
+}
+
+/* ---- ردیف‌های متادیتا ---- */
+.dz-product-card__meta { display: flex; align-items: center; gap: var(--spacing-dz-2, .5rem); flex-wrap: wrap; }
+.dz-product-card__rating { display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em); font-size: var(--text-dz-caption, .8rem); font-weight: 600; color: var(--color-dz-text-muted); margin-inline-start: auto; }
+.dz-product-card__rating .dz-icon { color: var(--color-dz-gold); }
+.dz-product-card__rating-count { color: var(--color-dz-text-faint); }
+.dz-product-card__weight { display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em); font-size: var(--text-dz-caption, .75rem); font-weight: 600; color: var(--color-dz-text-faint); }
+
+.dz-product-card__chip {
+	display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em); white-space: nowrap;
+	font-weight: 700; font-size: .69rem; border-radius: var(--radius-dz-pill, 999rem); padding: .22rem .56rem;
+}
+.dz-product-card__chip--installment { color: var(--color-dz-primary-hover); background: color-mix(in srgb, var(--color-dz-primary-soft), transparent 38%); }
+.dz-product-card__chip--stock { color: var(--color-dz-clay-deep); background: var(--color-dz-clay-soft); margin-inline-start: auto; }
+
+/* ---- پایه‌ی قیمت + اکشن ---- */
+.dz-product-card__foot {
+	display: flex; flex-direction: row-reverse; align-items: flex-end; justify-content: space-between;
+	gap: var(--spacing-dz-3, .75rem); margin-block-start: auto; padding-block-start: var(--spacing-dz-3, .75rem);
+	border-block-start: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+}
+.dz-product-card__price { display: flex; flex-direction: column; min-inline-size: 0; }
+.dz-product-card__price-was { font-size: var(--text-dz-caption, .78rem); color: var(--color-dz-clay); text-decoration: line-through; text-decoration-color: var(--color-dz-clay); font-variant-numeric: tabular-nums; }
+.dz-product-card__price-now { font-family: var(--font-dz-display, sans-serif); font-weight: 700; font-size: var(--text-dz-price, 1.25rem); color: var(--color-dz-text); font-variant-numeric: tabular-nums; display: inline-flex; align-items: baseline; gap: .25em; }
+.dz-product-card__price-contact { font-weight: 700; font-size: var(--text-dz-body-sm, .9rem); color: var(--color-dz-info); }
+.dz-product-card__price-na { font-weight: 700; font-size: var(--text-dz-body-sm, .9rem); color: var(--color-dz-text-faint); }
+
+/* علامتِ تومان (mask از toman.svg) */
+.dz-toman {
+	display: inline-block; inline-size: .9em; block-size: .78em; vertical-align: -.02em; flex: 0 0 auto;
+	background-color: currentColor;
+	-webkit-mask: url("/icons/toman.svg") center/contain no-repeat;
+	mask: url("/icons/toman.svg") center/contain no-repeat;
+	color: var(--color-dz-text-faint);
+}
+
+/* ---- اکشن‌ها ---- */
+.dz-product-card__add {
+	inline-size: 2.9rem; block-size: 2.9rem; flex: none; border: 0; cursor: pointer;
+	border-radius: var(--radius-dz-md, .9rem); background: var(--color-dz-primary); color: var(--color-dz-text-inverse);
+	display: grid; place-items: center; font-size: 1.15rem;
+	box-shadow: 0 .375rem 1rem color-mix(in srgb, var(--color-dz-primary), transparent 74%);
+	transition: background var(--duration-dz-fast, .15s) ease, transform var(--duration-dz-fast, .15s) ease;
+}
+.dz-product-card__add:hover { background: var(--color-dz-primary-hover); }
+.dz-product-card__add--cart { inline-size: auto; padding-inline: 1.1rem; gap: var(--space-dz-gap-em, .45em); font-size: var(--text-dz-button, .9rem); font-weight: 700; font-family: inherit; display: inline-flex; align-items: center; white-space: nowrap; }
+.dz-product-card__add.is-out { animation: dzAddOut .22s ease forwards; }
+@keyframes dzAddOut { to { transform: scale(.4); opacity: 0; } }
+
+.dz-product-card__view {
+	display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .45em);
+	block-size: 2.9rem; padding-inline: 1.1rem; border-radius: var(--radius-dz-md, .9rem);
+	background: var(--color-dz-surface); color: var(--color-dz-primary-hover);
+	border: var(--border-dz-medium, .09375rem) solid var(--color-dz-primary);
+	font-family: inherit; font-weight: 700; font-size: var(--text-dz-button, .9rem); cursor: pointer; text-decoration: none; white-space: nowrap;
+	transition: background var(--duration-dz-fast, .15s) ease, color var(--duration-dz-fast, .15s) ease;
+}
+.dz-product-card__view:hover { background: var(--color-dz-primary); color: var(--color-dz-text-inverse); }
+
+.dz-product-card__notify {
+	inline-size: 2.9rem; block-size: 2.9rem; flex: none; cursor: pointer; display: grid; place-items: center; font-size: 1.05rem;
+	border-radius: var(--radius-dz-md, .9rem); background: var(--color-dz-surface); color: var(--color-dz-clay);
+	border: var(--border-dz-medium, .09375rem) solid var(--color-dz-clay);
+	transition: background var(--duration-dz-fast, .15s) ease, color var(--duration-dz-fast, .15s) ease;
+}
+.dz-product-card__notify:hover { background: var(--color-dz-clay); color: var(--color-dz-text-inverse); }
+
+.dz-product-card__contact {
+	display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .45em);
+	block-size: 2.9rem; padding-inline: 1.1rem; border-radius: var(--radius-dz-md, .9rem);
+	background: color-mix(in srgb, var(--color-dz-info), transparent 88%); color: var(--color-dz-info);
+	border: var(--border-dz-medium, .09375rem) solid color-mix(in srgb, var(--color-dz-info), transparent 55%);
+	font-family: inherit; font-weight: 700; font-size: var(--text-dz-button, .9rem); cursor: pointer; text-decoration: none; white-space: nowrap;
+	transition: background var(--duration-dz-fast, .15s) ease, color var(--duration-dz-fast, .15s) ease;
+}
+.dz-product-card__contact:hover { background: var(--color-dz-info); color: var(--color-dz-text-inverse); }
+
+/* ---- پله‌ی تعداد (JS) ---- */
+.dz-product-card__qty {
+	display: inline-flex; align-items: center; overflow: hidden; block-size: 2.9rem;
+	background: var(--color-dz-primary-soft); border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-primary);
+	border-radius: var(--radius-dz-md, .9rem);
+	box-shadow: 0 .375rem 1rem color-mix(in srgb, var(--color-dz-primary), transparent 80%);
+}
+.dz-product-card__qty button { inline-size: 2.4rem; block-size: 100%; border: 0; background: transparent; color: var(--color-dz-primary-hover); font-size: 1.25rem; font-weight: 700; cursor: pointer; line-height: 1; display: grid; place-items: center; transition: background var(--duration-dz-fast, .15s) ease; }
+.dz-product-card__qty button:hover { background: color-mix(in srgb, var(--color-dz-primary), transparent 82%); }
+.dz-product-card__qty .dz-product-card__n { min-inline-size: 1.9rem; text-align: center; font-weight: 800; font-size: 1.15rem; color: var(--color-dz-primary-hover); font-variant-numeric: tabular-nums; }
+.dz-product-card__qty .dz-product-card__n.is-bump { animation: dzNBump .26s ease; }
+.dz-product-card__qty.is-in { animation: dzQtyIn .34s cubic-bezier(.2,.9,.3,1.35); }
+.dz-product-card__qty .js-dz-pcdec.is-danger { color: var(--color-dz-text-inverse) !important; background: var(--color-dz-clay) !important; animation: dzNBump .26s ease; }
+@keyframes dzQtyIn { 0%{transform:scale(.55); opacity:0} 60%{transform:scale(1.08); opacity:1} 100%{transform:scale(1)} }
+@keyframes dzNBump { 0%{transform:scale(1)} 42%{transform:scale(1.38)} 100%{transform:scale(1)} }
+
+/* ---- انتخابگرِ وزن/بسته‌بندی (JS) ---- */
+.dz-product-card__wsel[hidden],
+.dz-product-card__qty[hidden],
+.dz-product-card__pop[hidden],
+.dz-product-card__wstep[hidden] { display: none !important; }
+
+.dz-product-card__wsel {
+	position: absolute; inset: 0; z-index: 8; padding: 1.25rem 1.1rem;
+	display: flex; flex-direction: column; justify-content: center; gap: .9rem;
+	background: color-mix(in srgb, var(--color-dz-surface), transparent 2%);
+}
+.dz-product-card__wsel.is-in { animation: dzWselIn .32s cubic-bezier(.2,.9,.3,1.2); }
+@keyframes dzWselIn { 0%{opacity:0; transform:translateY(-.5rem) scale(.97)} 100%{opacity:1; transform:none} }
+.dz-product-card__wstep { display: flex; flex-direction: column; gap: .6rem; }
+.dz-product-card__wsel-h { font-size: .72rem; color: var(--color-dz-text-faint); font-weight: 600; display: flex; align-items: center; gap: .4rem; }
+.dz-product-card__wback { border: 0; background: transparent; color: var(--color-dz-text-faint); cursor: pointer; font-size: 1rem; padding: 0; line-height: 1; }
+.dz-product-card__wback:hover { color: var(--color-dz-primary-hover); }
+.dz-product-card__wopts { display: flex; flex-direction: column; gap: .4rem; }
+.dz-product-card__wopt {
+	display: flex; align-items: center; gap: .5rem; inline-size: 100%; padding: .55rem .7rem; text-align: start;
+	border-radius: var(--radius-dz-sm, .7rem); border: var(--border-dz-medium, .09375rem) solid var(--color-dz-border);
+	background: var(--color-dz-surface); font-family: inherit; font-weight: 700; font-size: .8rem; color: var(--color-dz-text-muted); cursor: pointer;
+	transition: border-color var(--duration-dz-fast, .15s) ease, background var(--duration-dz-fast, .15s) ease;
+}
+.dz-product-card__wopt:hover { border-color: var(--color-dz-primary); }
+.dz-product-card__wradio { inline-size: 1.1rem; block-size: 1.1rem; border-radius: var(--radius-dz-pill, 999rem); border: var(--border-dz-medium, .125rem) solid var(--color-dz-border-strong); flex: none; position: relative; transition: border-color var(--duration-dz-fast, .15s) ease; }
+.dz-product-card__wopt.is-sel { border-color: var(--color-dz-primary); background: color-mix(in srgb, var(--color-dz-primary-soft), transparent 35%); }
+.dz-product-card__wopt.is-sel .dz-product-card__wradio { border-color: var(--color-dz-primary); }
+.dz-product-card__wopt.is-sel .dz-product-card__wradio::after { content: ""; position: absolute; inset: .18rem; border-radius: var(--radius-dz-pill, 999rem); background: var(--color-dz-primary); }
+.dz-product-card__wopt-price { margin-inline-start: auto; font-weight: 700; font-size: .78rem; color: var(--color-dz-text-faint); font-variant-numeric: tabular-nums; }
+.dz-product-card__wopt.is-sel .dz-product-card__wopt-price { color: var(--color-dz-primary-hover); }
+.dz-product-card__wbest { font-size: .6rem; font-weight: 700; padding: .08rem .4rem; border-radius: var(--radius-dz-pill, 999rem); background: var(--color-dz-clay); color: var(--color-dz-text-inverse); }
+.dz-product-card__wprice { text-align: center; font-size: .8rem; font-weight: 600; color: var(--color-dz-text-muted); display: flex; align-items: center; justify-content: center; gap: .3rem; }
+.dz-product-card__wprice b { font-family: var(--font-dz-display, sans-serif); font-weight: 700; font-size: 1.05rem; color: var(--color-dz-text); font-variant-numeric: tabular-nums; }
+.dz-product-card__wnext { inline-size: 100%; padding: .7rem; border-radius: var(--radius-dz-sm, .75rem); background: var(--color-dz-primary); color: var(--color-dz-text-inverse); border: 0; font-family: inherit; font-weight: 700; font-size: .9rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: .4rem; transition: background var(--duration-dz-fast, .15s) ease; }
+.dz-product-card__wnext:hover { background: var(--color-dz-primary-hover); }
+.dz-product-card__wview { inline-size: 100%; margin-block-start: .4rem; padding: .7rem; border-radius: var(--radius-dz-sm, .75rem); background: var(--color-dz-surface); color: var(--color-dz-primary-hover); border: var(--border-dz-medium, .09375rem) solid var(--color-dz-primary); font-family: inherit; font-weight: 700; font-size: .9rem; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: .4rem; transition: background var(--duration-dz-fast, .15s) ease, color var(--duration-dz-fast, .15s) ease; }
+.dz-product-card__wview:hover { background: var(--color-dz-primary); color: var(--color-dz-text-inverse); }
+
+/* ---- پاپ‌آپِ اطلاع موجودی (JS) ---- */
+.dz-product-card__pop { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; padding: 1.25rem 1.1rem; background: color-mix(in srgb, var(--color-dz-surface), transparent 2%); }
+.dz-product-card__pop.is-in { animation: dzWselIn .3s cubic-bezier(.2,.9,.3,1.2); }
+.dz-product-card__pop-x { position: absolute; inset-block-start: .8rem; inset-inline-end: .8rem; inline-size: 2rem; block-size: 2rem; border-radius: var(--radius-dz-pill, 999rem); border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); background: var(--color-dz-surface); color: var(--color-dz-text-muted); cursor: pointer; font-size: 1rem; display: grid; place-items: center; }
+.dz-product-card__pop-x:hover { border-color: var(--color-dz-clay); color: var(--color-dz-clay); }
+.dz-product-card__pop-in { margin: auto 0; display: flex; flex-direction: column; gap: .7rem; text-align: center; align-items: center; }
+.dz-product-card__pop-in > .dz-icon { font-size: 1.75rem; color: var(--color-dz-clay); }
+.dz-product-card__pop-h { font-family: var(--font-dz-display, sans-serif); font-weight: 700; font-size: 1.2rem; }
+.dz-product-card__pop-in p { margin: 0; font-size: .82rem; color: var(--color-dz-text-muted); line-height: var(--leading-dz-normal, 1.8); }
+.dz-product-card__pop input { inline-size: 100%; padding: .75rem .9rem; border-radius: var(--radius-dz-sm, .75rem); border: var(--border-dz-medium, .09375rem) solid var(--color-dz-border); font-family: inherit; font-size: .95rem; text-align: center; box-sizing: border-box; }
+.dz-product-card__pop input:focus { outline: none; border-color: var(--color-dz-primary); }
+.dz-product-card__pop-go { inline-size: 100%; padding: .75rem; border-radius: var(--radius-dz-sm, .75rem); background: var(--color-dz-primary); color: var(--color-dz-text-inverse); border: 0; font-family: inherit; font-weight: 700; font-size: .95rem; cursor: pointer; transition: background var(--duration-dz-fast, .15s) ease; }
+.dz-product-card__pop-go:hover { background: var(--color-dz-primary-hover); }
+
+/* ---- وضعیتِ ناموجود ---- */
+.dz-product-card--oos .dz-product-card__media { filter: grayscale(.92) opacity(.6); cursor: default; }
+.dz-product-card--oos:hover { transform: none; border-color: var(--color-dz-border); box-shadow: var(--shadow-dz-card); }
+.dz-product-card--oos:hover .dz-product-card__img { transform: none; }
+
+/* ---- اسکلتونِ بارگذاری ---- */
+.dz-product-card-sk { display: flex; flex-direction: column; height: 100%; background: var(--color-dz-surface); border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); border-radius: var(--radius-dz-card, 1.5rem); overflow: hidden; box-shadow: var(--shadow-dz-card); }
+.dz-product-card-sk__body { padding: var(--spacing-dz-3, .9rem) var(--spacing-dz-4, 1rem) var(--spacing-dz-4, 1rem); display: flex; flex-direction: column; gap: .7rem; }
+.dz-sk { background: linear-gradient(90deg, var(--color-dz-border) 25%, var(--color-dz-surface-soft) 37%, var(--color-dz-border) 63%); background-size: 400% 100%; animation: dzSk 2.4s ease-in-out infinite; border-radius: var(--radius-dz-sm, .5rem); }
+.dz-product-card-sk__img { block-size: 15.5rem; border-radius: 0; }
+@keyframes dzSk { 0%{background-position:100% 0} 100%{background-position:-200% 0} }
+
+/* ---- چیدمانِ گریدِ پیش‌فرضِ ووکامرس (ul.products) با همین کارت ---- */
+.woocommerce ul.products,
+ul.products {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--spacing-dz-4, 1rem);
+	margin: 0; padding: 0; list-style: none;
+}
+.woocommerce ul.products::before,
+.woocommerce ul.products::after { content: none; display: none; }
+.woocommerce ul.products li.product,
+.woocommerce ul.products .product,
+ul.products .product {
+	margin: 0 !important; inline-size: auto !important; float: none !important; clear: none !important;
+}
+@media (min-width: 40rem) { .woocommerce ul.products, ul.products { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 64rem) { .woocommerce ul.products, ul.products { grid-template-columns: repeat(4, 1fr); } }

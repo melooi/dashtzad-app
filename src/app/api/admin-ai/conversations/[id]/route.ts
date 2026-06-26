@@ -16,7 +16,7 @@ async function requireAdmin() {
 }
 
 /** Admin: AI conversation detail (messages, tool calls, handoffs, feedback). */
-export async function GET(_req: Request, ctx: RouteContext<"/api/admin-ai/conversations/[id]">) {
+export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
   const gate = await requireAdmin();
   if (gate.error) return gate.error;
   const { id } = await ctx.params;
@@ -34,7 +34,7 @@ const patchSchema = z.object({
 });
 
 /** Admin: update AI conversation metadata (status/priority/tags/note/assignment). */
-export async function PATCH(req: Request, ctx: RouteContext<"/api/admin-ai/conversations/[id]">) {
+export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const gate = await requireAdmin();
   if (gate.error) return gate.error;
   const { id } = await ctx.params;

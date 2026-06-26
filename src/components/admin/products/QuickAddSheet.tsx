@@ -53,7 +53,7 @@ const toInt = (s: string) => {
 /** Inline keyboard-shortcut hint chip for the sheet help bar. */
 function Kbd({ children }: { children: React.ReactNode }) {
   return (
-    <kbd className="rounded-md border border-dz-primary-200 bg-white px-1.5 py-0.5 font-sans text-[10px] font-medium text-dz-primary-600 shadow-xs dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-primary-300">
+    <kbd className="rounded-md border border-dz-a-primary-200 bg-white px-1.5 py-0.5 font-sans text-[10px] font-medium text-dz-a-primary-600 shadow-xs dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-primary-300">
       {children}
     </kbd>
   );
@@ -324,28 +324,28 @@ export function QuickAddSheet({
   };
 
   const cellInput =
-    "w-full rounded-md border border-dz-primary-200 px-2 py-1.5 text-xs text-dz-primary-900 outline-none transition-colors focus:relative focus:z-20 focus:border-dz-primary-500 focus:bg-dz-primary-50/60 focus:ring-2 focus:ring-dz-primary-500/35 disabled:bg-dz-primary-50/40 disabled:text-dz-primary-400 dark:border-dz-night-border dark:text-dz-night-fg dark:placeholder:text-dz-night-faint dark:focus:border-dz-primary-400 dark:focus:bg-dz-primary-400/10 dark:focus:ring-dz-primary-400/40 dark:disabled:bg-white/5 dark:disabled:text-dz-night-faint";
-  const th = "sticky top-0 z-10 border-b border-dz-primary-100 bg-dz-primary-50/90 px-2 py-2.5 text-start text-[11px] font-bold text-dz-primary-500 backdrop-blur dark:border-dz-night-border dark:bg-dz-night-elevated/95 dark:text-dz-night-muted";
+    "w-full rounded-md border border-dz-a-primary-200 px-2 py-1.5 text-xs text-dz-a-primary-900 outline-none transition-colors focus:relative focus:z-20 focus:border-dz-a-primary-500 focus:bg-dz-a-primary-50/60 focus:ring-2 focus:ring-dz-a-primary-500/35 disabled:bg-dz-a-primary-50/40 disabled:text-dz-a-primary-400 dark:border-dz-a-night-border dark:text-dz-a-night-fg dark:placeholder:text-dz-a-night-faint dark:focus:border-dz-a-primary-400 dark:focus:bg-dz-a-primary-400/10 dark:focus:ring-dz-a-primary-400/40 dark:disabled:bg-white/5 dark:disabled:text-dz-a-night-faint";
+  const th = "sticky top-0 z-10 border-b border-dz-a-primary-100 bg-dz-a-primary-50/90 px-2 py-2.5 text-start text-[11px] font-bold text-dz-a-primary-500 backdrop-blur dark:border-dz-a-night-border dark:bg-dz-a-night-elevated/95 dark:text-dz-a-night-muted";
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-dz-primary-100 bg-white px-2.5 py-1.5 text-xs text-dz-primary-600 shadow-xs dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-primary-300">
-          <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} className="size-3.5 accent-dz-primary-600" />
+        <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-dz-a-primary-100 bg-white px-2.5 py-1.5 text-xs text-dz-a-primary-600 shadow-xs dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-primary-300">
+          <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} className="size-3.5 accent-dz-a-primary-600" />
           نمایش همه گزینه‌ها (بدون فیلتر دسته)
         </label>
-        <div className="flex flex-wrap items-center gap-1 text-[11px] text-dz-primary-400 dark:text-dz-night-faint">
+        <div className="flex flex-wrap items-center gap-1 text-[11px] text-dz-a-primary-400 dark:text-dz-a-night-faint">
           <Kbd>جهت‌ها/Tab/Enter</Kbd> حرکت
-          <span className="mx-0.5 text-dz-primary-200 dark:text-dz-night-border">·</span>
+          <span className="mx-0.5 text-dz-a-primary-200 dark:text-dz-a-night-border">·</span>
           <Kbd>⌘/Ctrl+S</Kbd> ذخیره
-          <span className="mx-0.5 text-dz-primary-200 dark:text-dz-night-border">·</span>
+          <span className="mx-0.5 text-dz-a-primary-200 dark:text-dz-a-night-border">·</span>
           <Kbd>⌘/Ctrl+D</Kbd> تکرار
-          <span className="mx-0.5 text-dz-primary-200 dark:text-dz-night-border">·</span>
+          <span className="mx-0.5 text-dz-a-primary-200 dark:text-dz-a-night-border">·</span>
           <Kbd>Esc</Kbd> بستن
         </div>
       </div>
 
-      <div ref={gridRef} onKeyDown={onKeyDown} className="overflow-x-auto rounded-2xl border border-dz-primary-100 bg-white shadow-xs dark:border-dz-night-border dark:bg-dz-night-card">
+      <div ref={gridRef} onKeyDown={onKeyDown} className="overflow-x-auto rounded-2xl border border-dz-a-primary-100 bg-white shadow-xs dark:border-dz-a-night-border dark:bg-dz-a-night-card">
         <table className="w-full min-w-[1040px] border-collapse text-xs">
           <thead>
             <tr>
@@ -366,8 +366,8 @@ export function QuickAddSheet({
             {rows.map((r, i) => {
               const locked = !!r.savedId;
               return (
-                <tr key={r.key} className={`border-t border-dz-primary-50 dark:border-dz-night-line ${locked ? "bg-dz-success/5 dark:bg-dz-success/10" : ""} ${r.error ? "bg-dz-error/5 dark:bg-dz-error/10" : ""}`}>
-                  <td className="px-2 py-1.5 text-center text-[11px] text-dz-primary-400 dark:text-dz-night-faint">{toPersianNumbers(i + 1)}</td>
+                <tr key={r.key} className={`border-t border-dz-a-primary-50 dark:border-dz-a-night-line ${locked ? "bg-dz-a-success/5 dark:bg-dz-a-success/10" : ""} ${r.error ? "bg-dz-a-error/5 dark:bg-dz-a-error/10" : ""}`}>
+                  <td className="px-2 py-1.5 text-center text-[11px] text-dz-a-primary-400 dark:text-dz-a-night-faint">{toPersianNumbers(i + 1)}</td>
                   {/* title */}
                   <td className="px-1.5 py-1.5">
                     <input data-cell={`${i}-0`} value={r.title} disabled={locked} onChange={(e) => patch(r.key, { title: e.target.value })} onPaste={(e) => onPasteTitle(i, e)} placeholder="عنوان فارسی" className={cellInput} />
@@ -393,7 +393,7 @@ export function QuickAddSheet({
                       options={buildOptions(weights, r.weightIds, r.categoryId, true)}
                       selectedIds={r.weightIds}
                       onChange={(ids) => patchUndoable(r.key, { weightIds: ids })}
-                      popoverHeader={!r.categoryId ? <p className="mb-1 px-1 text-[11px] text-dz-primary-400 dark:text-dz-night-faint">اول دسته‌بندی را انتخاب کنید تا گزینه‌های مناسب فیلتر شوند.</p> : undefined}
+                      popoverHeader={!r.categoryId ? <p className="mb-1 px-1 text-[11px] text-dz-a-primary-400 dark:text-dz-a-night-faint">اول دسته‌بندی را انتخاب کنید تا گزینه‌های مناسب فیلتر شوند.</p> : undefined}
                     />
                   </td>
                   {/* packaging */}
@@ -429,7 +429,7 @@ export function QuickAddSheet({
                           patchUndoable(r.key, { isActive: false });
                         }
                       }}
-                      className={`rounded-md border px-2 py-1 text-[11px] outline-none focus:ring-1 focus:ring-dz-primary-400 ${r.isActive ? "border-dz-primary-200 bg-dz-primary-50 text-dz-primary-700 dark:border-dz-primary-400/30 dark:bg-dz-primary-400/15 dark:text-dz-primary-200" : "border-dz-primary-200 text-dz-primary-400 dark:border-dz-night-border dark:text-dz-night-faint"}`}
+                      className={`rounded-md border px-2 py-1 text-[11px] outline-none focus:ring-1 focus:ring-dz-a-primary-400 ${r.isActive ? "border-dz-a-primary-200 bg-dz-a-primary-50 text-dz-a-primary-700 dark:border-dz-a-primary-400/30 dark:bg-dz-a-primary-400/15 dark:text-dz-a-primary-200" : "border-dz-a-primary-200 text-dz-a-primary-400 dark:border-dz-a-night-border dark:text-dz-a-night-faint"}`}
                     >
                       {r.isActive ? "فعال" : "غیرفعال"}
                     </button>
@@ -437,21 +437,21 @@ export function QuickAddSheet({
                   {/* error / result */}
                   <td className="px-2 py-1.5">
                     {r.savedId ? (
-                      <Link href={`/admin/collections/products/${r.savedId}`} className="inline-flex items-center gap-1 text-[11px] text-dz-primary-600 hover:underline dark:text-dz-primary-300">
-                        <CheckCircle2 className="size-3.5 text-dz-success dark:text-dz-success-300" /> ویرایش کامل ({toPersianNumbers(r.savedVariants ?? 0)} مدل)
+                      <Link href={`/admin/collections/products/${r.savedId}`} className="inline-flex items-center gap-1 text-[11px] text-dz-a-primary-600 hover:underline dark:text-dz-a-primary-300">
+                        <CheckCircle2 className="size-3.5 text-dz-a-success dark:text-dz-a-success-300" /> ویرایش کامل ({toPersianNumbers(r.savedVariants ?? 0)} مدل)
                       </Link>
                     ) : r.error ? (
-                      <span className="text-[11px] text-dz-error dark:text-dz-error-300">{r.error}</span>
+                      <span className="text-[11px] text-dz-a-error dark:text-dz-a-error-300">{r.error}</span>
                     ) : (
-                      <span className="text-[11px] text-dz-primary-300 dark:text-dz-night-faint">—</span>
+                      <span className="text-[11px] text-dz-a-primary-300 dark:text-dz-a-night-faint">—</span>
                     )}
                   </td>
                   {/* row actions */}
                   <td className="px-1.5 py-1.5">
                     <div className="flex items-center gap-0.5">
-                      <button type="button" onClick={() => duplicateRowAt(i)} title="تکرار ردیف" aria-label="تکرار ردیف" className="focus-ring rounded p-1 text-dz-primary-400 transition-colors hover:bg-dz-primary-50 hover:text-dz-primary-700 dark:text-dz-night-faint dark:hover:bg-white/5 dark:hover:text-dz-night-fg"><Copy className="size-3.5" /></button>
-                      <button type="button" onClick={() => clearRow(r.key)} title="پاک کردن ردیف" aria-label="پاک کردن ردیف" className="focus-ring rounded p-1 text-dz-primary-400 transition-colors hover:bg-dz-primary-50 hover:text-dz-primary-700 dark:text-dz-night-faint dark:hover:bg-white/5 dark:hover:text-dz-night-fg"><Eraser className="size-3.5" /></button>
-                      <button type="button" onClick={() => removeRow(r.key)} title="حذف ردیف" aria-label="حذف ردیف" className="focus-ring rounded p-1 text-dz-error/70 transition-colors hover:bg-dz-error/10 hover:text-dz-error dark:text-dz-error-300/80 dark:hover:bg-dz-error/15 dark:hover:text-dz-error-300"><Trash2 className="size-3.5" /></button>
+                      <button type="button" onClick={() => duplicateRowAt(i)} title="تکرار ردیف" aria-label="تکرار ردیف" className="focus-ring rounded p-1 text-dz-a-primary-400 transition-colors hover:bg-dz-a-primary-50 hover:text-dz-a-primary-700 dark:text-dz-a-night-faint dark:hover:bg-white/5 dark:hover:text-dz-a-night-fg"><Copy className="size-3.5" /></button>
+                      <button type="button" onClick={() => clearRow(r.key)} title="پاک کردن ردیف" aria-label="پاک کردن ردیف" className="focus-ring rounded p-1 text-dz-a-primary-400 transition-colors hover:bg-dz-a-primary-50 hover:text-dz-a-primary-700 dark:text-dz-a-night-faint dark:hover:bg-white/5 dark:hover:text-dz-a-night-fg"><Eraser className="size-3.5" /></button>
+                      <button type="button" onClick={() => removeRow(r.key)} title="حذف ردیف" aria-label="حذف ردیف" className="focus-ring rounded p-1 text-dz-a-error/70 transition-colors hover:bg-dz-a-error/10 hover:text-dz-a-error dark:text-dz-a-error-300/80 dark:hover:bg-dz-a-error/15 dark:hover:text-dz-a-error-300"><Trash2 className="size-3.5" /></button>
                     </div>
                   </td>
                 </tr>
@@ -463,10 +463,10 @@ export function QuickAddSheet({
 
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <button type="button" onClick={addRow} className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-primary-200 px-3 py-2 text-sm text-dz-primary-700 transition-colors hover:border-dz-primary-300 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-fg dark:hover:border-dz-primary-500/50 dark:hover:bg-white/5"><Plus className="size-4" /> افزودن ردیف</button>
-          <button type="button" onClick={addFive} className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-primary-200 px-3 py-2 text-sm text-dz-primary-700 transition-colors hover:border-dz-primary-300 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-fg dark:hover:border-dz-primary-500/50 dark:hover:bg-white/5"><ListPlus className="size-4" /> ۵ ردیف</button>
+          <button type="button" onClick={addRow} className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-a-primary-200 px-3 py-2 text-sm text-dz-a-primary-700 transition-colors hover:border-dz-a-primary-300 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-fg dark:hover:border-dz-a-primary-500/50 dark:hover:bg-white/5"><Plus className="size-4" /> افزودن ردیف</button>
+          <button type="button" onClick={addFive} className="focus-ring inline-flex items-center gap-1.5 rounded-xl border border-dz-a-primary-200 px-3 py-2 text-sm text-dz-a-primary-700 transition-colors hover:border-dz-a-primary-300 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-fg dark:hover:border-dz-a-primary-500/50 dark:hover:bg-white/5"><ListPlus className="size-4" /> ۵ ردیف</button>
         </div>
-        <button type="button" onClick={save} disabled={saving} className="focus-ring inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-primary-700 active:bg-dz-primary-800 disabled:bg-dz-primary-300 dark:disabled:bg-dz-primary-800">
+        <button type="button" onClick={save} disabled={saving} className="focus-ring inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-a-primary-700 active:bg-dz-a-primary-800 disabled:bg-dz-a-primary-300 dark:disabled:bg-dz-a-primary-800">
           <Save className="size-4" />
           {saving ? "در حال ذخیره…" : "ذخیره‌ی همه"}
         </button>

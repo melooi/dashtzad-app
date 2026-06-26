@@ -36,9 +36,9 @@ export function AdminRichTextField({
   return (
     <div className="flex flex-col gap-1.5">
       {label && (
-        <label id={labelId} className="text-sm font-medium text-dz-primary-800 dark:text-dz-night-fg">
+        <label id={labelId} className="text-sm font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">
           {label}
-          {required && <span className="text-dz-error dark:text-dz-error-300"> *</span>}
+          {required && <span className="text-dz-a-error dark:text-dz-a-error-300"> *</span>}
         </label>
       )}
       <Controller
@@ -56,8 +56,8 @@ export function AdminRichTextField({
           />
         )}
       />
-      {hint && !error && <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">{hint}</span>}
-      {error && <span className="text-xs text-dz-error dark:text-dz-error-300">{error}</span>}
+      {hint && !error && <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{hint}</span>}
+      {error && <span className="text-xs text-dz-a-error dark:text-dz-a-error-300">{error}</span>}
     </div>
   );
 }

@@ -59,7 +59,7 @@ export default async function EditMenuPage({ params }: { params: Promise<{ id: s
       </div>
 
       <div>
-        <h2 className="mb-4 font-heading text-lg font-bold text-dz-primary-800 dark:text-dz-night-fg">موارد این منو</h2>
+        <h2 className="mb-4 font-heading text-lg font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">موارد این منو</h2>
         <MenuItemsManager menuId={menu.id} items={items} />
       </div>
     </div>

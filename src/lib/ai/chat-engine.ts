@@ -21,6 +21,10 @@ import { logUsage, logError } from "@/lib/ai/usage-logger";
 import { safetyIdentifier } from "@/lib/ai/guardrails";
 import { triageMessage, toDbPriority } from "@/lib/ai/intent";
 import { supportAssistantPrompt } from "@/lib/ai/prompts";
+import { buildSiteContext } from "@/lib/ai/memory/site-context";
+import { getUserMemory, updateUserMemory, formatUserMemoryForPrompt } from "@/lib/ai/memory/user-memory";
+import { getFrequentTopicsContext, trackConversationTopic } from "@/lib/ai/memory/frequent-topics";
+import { searchKnowledge, formatKnowledgeForPrompt } from "@/lib/ai/memory/knowledge-search";
 import { toolRegistry, type ToolActor, type ToolContext } from "@/lib/ai/tool-registry";
 import { ensureToolsRegistered } from "@/lib/ai/tools";
 import { appendAiMessage, setConversationMeta } from "@/lib/ai/chat-session";
@@ -52,6 +56,15 @@ export interface ChatTurnOptions {
   available?: boolean;
   /** Customizable AI-unavailable message (from Chat Center settings). */
   unavailableMessage?: string;
+  /** Session ID for anonymous visitors (used for memory when no customerId). */
+  sessionId?: string | null;
+  /** Internal: dynamic memory context built in runChatTurn and consumed by runAiTurn. */
+  _memoryContext?: {
+    siteCtx: string;
+    userMem: { facts: string[]; summary?: string };
+    freqCtx: string;
+    knowledgeChunks: string[];
+  };
 }
 
 const DEFAULT_CATEGORIES: AiToolCategory[] = ["PRODUCT", "ORDER", "KNOWLEDGE", "CUSTOMER", "SUPPORT"];
@@ -108,7 +121,27 @@ export async function* runChatTurn(opts: ChatTurnOptions): AsyncGenerator<WireEv
     return;
   }
 
-  // 5) AI available: build context + tools and run the streamed tool loop.
+  // 5) AI available: build dynamic memory context (parallel, best-effort), then run tool loop.
+  const memResults = await Promise.allSettled([
+    buildSiteContext(),
+    getUserMemory({ customerId: actor.customerId, sessionId: opts.sessionId }),
+    getFrequentTopicsContext(),
+    searchKnowledge(userText),
+  ]);
+  const [siteCtxR, userMemR, freqCtxR, knowledgeChunksR] = memResults;
+  opts._memoryContext = {
+    siteCtx: siteCtxR.status === "fulfilled" && typeof siteCtxR.value === "string" ? siteCtxR.value : "",
+    userMem:
+      userMemR.status === "fulfilled" && userMemR.value
+        ? (userMemR.value as { facts: string[]; summary?: string })
+        : { facts: [], summary: undefined },
+    freqCtx: freqCtxR.status === "fulfilled" && typeof freqCtxR.value === "string" ? freqCtxR.value : "",
+    knowledgeChunks:
+      knowledgeChunksR.status === "fulfilled" && Array.isArray(knowledgeChunksR.value)
+        ? (knowledgeChunksR.value as string[])
+        : [],
+  };
+
   try {
     yield* runAiTurn(opts, userMessage.id, triage.angry);
   } catch (err) {
@@ -155,9 +188,28 @@ async function* runAiTurn(
     .map((m) => ({ role: m.role === "USER" ? "user" : "assistant", content: m.content }) as AiInputMessage);
   input.push({ role: "user", content: userText });
 
+  const { siteCtx, userMem, freqCtx, knowledgeChunks } = opts._memoryContext ?? {
+    siteCtx: "",
+    userMem: { facts: [] as string[], summary: undefined },
+    freqCtx: "",
+    knowledgeChunks: [] as string[],
+  };
+
+  const memorySection = [
+    siteCtx ? `\n\n${siteCtx}` : "",
+    formatKnowledgeForPrompt(knowledgeChunks),
+    formatUserMemoryForPrompt(userMem),
+    freqCtx ? `\n\n${freqCtx}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+
   const instructions =
     (opts.instructions ?? supportAssistantPrompt()) +
-    (angry ? "\n\nتوجه: مشتری ناراضی/عصبانی به‌نظر می‌رسد؛ همدلانه و آرام پاسخ بده و در صورت لزوم به پشتیبانی انسانی ارجاع بده." : "");
+    memorySection +
+    (angry
+      ? "\n\nتوجه: مشتری ناراضی/عصبانی به‌نظر می‌رسد؛ همدلانه و آرام پاسخ بده و در صورت لزوم به پشتیبانی انسانی ارجاع بده."
+      : "");
   const safety = safetyIdentifier(opts.safetySeed ?? actor.customerId ?? null);
 
   let finalText = "";
@@ -252,6 +304,21 @@ async function* runAiTurn(
       usage,
     },
   };
+
+  // Fire-and-forget background memory updates (never await, never throw)
+  const recentMsgs = input.slice(-10).map((m) => ({
+    role: (m as { role?: string }).role ?? "user",
+    content:
+      typeof (m as { content?: string }).content === "string"
+        ? (m as { content: string }).content
+        : "",
+  }));
+  void updateUserMemory({
+    customerId: actor.customerId,
+    sessionId: opts.sessionId,
+    conversationMessages: recentMsgs,
+  });
+  void trackConversationTopic(userText);
 }
 
 interface ToolExecOutcome {

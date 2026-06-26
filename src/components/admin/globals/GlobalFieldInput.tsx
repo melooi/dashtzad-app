@@ -53,12 +53,12 @@ export function GlobalFieldInput({
   switch (def.type) {
     case "checkbox":
       return (
-        <label className="flex cursor-pointer items-center gap-2 py-1 text-sm text-dz-primary-800 dark:text-dz-night-fg">
+        <label className="flex cursor-pointer items-center gap-2 py-1 text-sm text-dz-a-primary-800 dark:text-dz-a-night-fg">
           <input
             type="checkbox"
             checked={Boolean(value)}
             onChange={(e) => onChange(e.target.checked)}
-            className="size-4 accent-dz-primary-600"
+            className="size-4 accent-dz-a-primary-600"
           />
           {def.label}
         </label>
@@ -98,7 +98,7 @@ export function GlobalFieldInput({
             type="color"
             value={/^#[0-9a-fA-F]{6}$/.test(String(value ?? "")) ? String(value) : "#4a6340"}
             onChange={(e) => onChange(e.target.value)}
-            className="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-dz-primary-200 dark:border-dz-night-border"
+            className="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-dz-a-primary-200 dark:border-dz-a-night-border"
             aria-label={def.label}
           />
           <input
@@ -208,7 +208,7 @@ export function GlobalFieldInput({
               <button
                 type="button"
                 onClick={() => onChange(list.filter((_, j) => j !== i))}
-                className="focus-ring shrink-0 rounded-lg border border-dz-error/30 px-2 text-dz-error dark:text-dz-error-300 transition-colors hover:bg-dz-error/10"
+                className="focus-ring shrink-0 rounded-lg border border-dz-a-error/30 px-2 text-dz-a-error dark:text-dz-a-error-300 transition-colors hover:bg-dz-a-error/10"
                 aria-label="حذف"
               >
                 <Trash2 className="size-4" />
@@ -218,7 +218,7 @@ export function GlobalFieldInput({
           <button
             type="button"
             onClick={() => onChange([...list, ""])}
-            className="focus-ring inline-flex w-fit items-center gap-1.5 rounded-lg border border-dz-primary-200 dark:border-dz-night-border px-3 py-1.5 text-xs text-dz-primary-600 dark:text-dz-primary-300 transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5"
+            className="focus-ring inline-flex w-fit items-center gap-1.5 rounded-lg border border-dz-a-primary-200 dark:border-dz-a-night-border px-3 py-1.5 text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300 transition-colors hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 hover:bg-dz-a-primary-50 dark:hover:bg-white/5"
           >
             <Plus className="size-3.5" /> افزودن
           </button>
@@ -246,22 +246,22 @@ export function GlobalFieldInput({
       return (
         <div className="flex flex-col gap-3">
           {list.map((item, i) => (
-            <div key={i} className="rounded-xl border border-dz-primary-100 dark:border-dz-night-border bg-dz-primary-50/40 dark:bg-white/5 p-3 shadow-xs">
+            <div key={i} className="rounded-xl border border-dz-a-primary-100 dark:border-dz-a-night-border bg-dz-a-primary-50/40 dark:bg-white/5 p-3 shadow-xs">
               <div className="mb-2.5 flex items-center justify-between">
-                <span className="flex items-center gap-1.5 text-xs font-medium text-dz-primary-500 dark:text-dz-night-muted">
-                  <span className="flex size-5 items-center justify-center rounded-md bg-white dark:bg-dz-night-card font-heading text-[10px] font-bold text-dz-primary-500 dark:text-dz-night-muted ring-1 ring-dz-primary-100 dark:ring-dz-night-border">
+                <span className="flex items-center gap-1.5 text-xs font-medium text-dz-a-primary-500 dark:text-dz-a-night-muted">
+                  <span className="flex size-5 items-center justify-center rounded-md bg-white dark:bg-dz-a-night-card font-heading text-[10px] font-bold text-dz-a-primary-500 dark:text-dz-a-night-muted ring-1 ring-dz-a-primary-100 dark:ring-dz-a-night-border">
                     {i + 1}
                   </span>
                   مورد
                 </span>
                 <div className="flex items-center gap-0.5">
-                  <button type="button" onClick={() => move(i, -1)} disabled={i === 0} className="focus-ring rounded p-1 text-dz-primary-500 dark:text-dz-night-muted transition-colors hover:bg-dz-primary-100 dark:hover:bg-white/10 disabled:opacity-30" aria-label="انتقال به بالا">
+                  <button type="button" onClick={() => move(i, -1)} disabled={i === 0} className="focus-ring rounded p-1 text-dz-a-primary-500 dark:text-dz-a-night-muted transition-colors hover:bg-dz-a-primary-100 dark:hover:bg-white/10 disabled:opacity-30" aria-label="انتقال به بالا">
                     <ChevronUp className="size-4" />
                   </button>
-                  <button type="button" onClick={() => move(i, 1)} disabled={i === list.length - 1} className="focus-ring rounded p-1 text-dz-primary-500 dark:text-dz-night-muted transition-colors hover:bg-dz-primary-100 dark:hover:bg-white/10 disabled:opacity-30" aria-label="انتقال به پایین">
+                  <button type="button" onClick={() => move(i, 1)} disabled={i === list.length - 1} className="focus-ring rounded p-1 text-dz-a-primary-500 dark:text-dz-a-night-muted transition-colors hover:bg-dz-a-primary-100 dark:hover:bg-white/10 disabled:opacity-30" aria-label="انتقال به پایین">
                     <ChevronDown className="size-4" />
                   </button>
-                  <button type="button" onClick={() => onChange(list.filter((_, j) => j !== i))} className="focus-ring rounded p-1 text-dz-error/70 dark:text-dz-error-300/70 transition-colors hover:bg-dz-error/10 hover:text-dz-error dark:hover:text-dz-error-300" aria-label="حذف مورد">
+                  <button type="button" onClick={() => onChange(list.filter((_, j) => j !== i))} className="focus-ring rounded p-1 text-dz-a-error/70 dark:text-dz-a-error-300/70 transition-colors hover:bg-dz-a-error/10 hover:text-dz-a-error dark:hover:text-dz-a-error-300" aria-label="حذف مورد">
                     <Trash2 className="size-4" />
                   </button>
                 </div>
@@ -270,7 +270,7 @@ export function GlobalFieldInput({
                 {itemFields.map((f) => (
                   <div key={f.name} className={f.type === "textarea" ? "sm:col-span-2" : ""}>
                     {f.type !== "checkbox" && (
-                      <label className="mb-1 block text-xs font-medium text-dz-primary-700 dark:text-dz-night-fg">{f.label}</label>
+                      <label className="mb-1 block text-xs font-medium text-dz-a-primary-700 dark:text-dz-a-night-fg">{f.label}</label>
                     )}
                     <GlobalFieldInput
                       def={f}
@@ -290,7 +290,7 @@ export function GlobalFieldInput({
           <button
             type="button"
             onClick={() => onChange([...list, blank()])}
-            className="focus-ring inline-flex w-fit items-center gap-1.5 rounded-lg border border-dz-primary-200 dark:border-dz-night-border px-3 py-1.5 text-xs text-dz-primary-600 dark:text-dz-primary-300 transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5"
+            className="focus-ring inline-flex w-fit items-center gap-1.5 rounded-lg border border-dz-a-primary-200 dark:border-dz-a-night-border px-3 py-1.5 text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300 transition-colors hover:border-dz-a-primary-300 dark:hover:border-dz-a-primary-500/50 hover:bg-dz-a-primary-50 dark:hover:bg-white/5"
           >
             <Plus className="size-3.5" /> {def.itemLabel ?? "افزودن"}
           </button>

@@ -198,13 +198,13 @@ export function VariantMatrix({
   const chip = (active: boolean) =>
     `focus-ring rounded-lg border px-2.5 py-1 text-xs transition-colors ${
       active
-        ? "border-dz-primary-600 bg-dz-primary-600 text-white shadow-xs"
-        : "border-dz-primary-200 bg-white text-dz-primary-700 hover:border-dz-primary-300 hover:bg-dz-primary-50 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg dark:hover:border-dz-primary-500/50 dark:hover:bg-white/5"
+        ? "border-dz-a-primary-600 bg-dz-a-primary-600 text-white shadow-xs"
+        : "border-dz-a-primary-200 bg-white text-dz-a-primary-700 hover:border-dz-a-primary-300 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg dark:hover:border-dz-a-primary-500/50 dark:hover:bg-white/5"
     }`;
 
   const stepLabel = (n: string, text: string) => (
-    <p className="mb-2.5 flex items-center gap-2 text-xs font-bold text-dz-primary-600 dark:text-dz-primary-300">
-      <span className="flex size-5 items-center justify-center rounded-full bg-dz-primary-600 text-[10px] text-white">
+    <p className="mb-2.5 flex items-center gap-2 text-xs font-bold text-dz-a-primary-600 dark:text-dz-a-primary-300">
+      <span className="flex size-5 items-center justify-center rounded-full bg-dz-a-primary-600 text-[10px] text-white">
         {n}
       </span>
       {text}
@@ -216,9 +216,9 @@ export function VariantMatrix({
       {notice && (notice.ok ? <AdminSuccessNotice message={notice.message} onDismiss={() => setNotice(null)} /> : <AdminFormError message={notice.message} />)}
 
       {/* Selectors */}
-      <div className="rounded-xl border border-dz-primary-100 bg-dz-primary-50/40 p-4 shadow-xs dark:border-dz-night-border dark:bg-white/2">
-        <label className="mb-4 flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-white px-2.5 py-1.5 text-xs text-dz-primary-600 ring-1 ring-dz-primary-100 dark:bg-dz-night-elevated dark:text-dz-primary-300 dark:ring-dz-night-border">
-          <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} className="size-3.5 accent-dz-primary-600" />
+      <div className="rounded-xl border border-dz-a-primary-100 bg-dz-a-primary-50/40 p-4 shadow-xs dark:border-dz-a-night-border dark:bg-white/2">
+        <label className="mb-4 flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-white px-2.5 py-1.5 text-xs text-dz-a-primary-600 ring-1 ring-dz-a-primary-100 dark:bg-dz-a-night-elevated dark:text-dz-a-primary-300 dark:ring-dz-a-night-border">
+          <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} className="size-3.5 accent-dz-a-primary-600" />
           نمایش همه گزینه‌ها (بدون فیلتر دسته)
         </label>
         {stepLabel("۱", "وزن‌های مجاز")}
@@ -228,7 +228,7 @@ export function VariantMatrix({
               {w.title}
             </button>
           ))}
-          {visibleWeights.length === 0 && <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">وزن سازگاری یافت نشد؛ «نمایش همه» را بزنید.</span>}
+          {visibleWeights.length === 0 && <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">وزن سازگاری یافت نشد؛ «نمایش همه» را بزنید.</span>}
         </div>
         {stepLabel("۲", "بسته‌بندی‌های مجاز (اختیاری)")}
         <div className="mb-4 flex flex-wrap gap-1.5">
@@ -237,9 +237,9 @@ export function VariantMatrix({
               {p.title}
             </button>
           ))}
-          {visiblePackagings.length === 0 && <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">بسته‌بندی سازگاری یافت نشد؛ «نمایش همه» را بزنید.</span>}
+          {visiblePackagings.length === 0 && <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">بسته‌بندی سازگاری یافت نشد؛ «نمایش همه» را بزنید.</span>}
         </div>
-        <button type="button" onClick={generate} className="focus-ring inline-flex items-center gap-2 rounded-xl border border-dz-primary-300 bg-white px-4 py-2 text-sm font-medium text-dz-primary-700 shadow-xs transition-colors hover:border-dz-primary-400 hover:bg-dz-primary-50 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg dark:hover:border-dz-primary-500/50 dark:hover:bg-white/5">
+        <button type="button" onClick={generate} className="focus-ring inline-flex items-center gap-2 rounded-xl border border-dz-a-primary-300 bg-white px-4 py-2 text-sm font-medium text-dz-a-primary-700 shadow-xs transition-colors hover:border-dz-a-primary-400 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg dark:hover:border-dz-a-primary-500/50 dark:hover:bg-white/5">
           <Wand2 className="size-4" />
           تولید/به‌روزرسانی ماتریس
         </button>
@@ -247,20 +247,20 @@ export function VariantMatrix({
 
       {/* Matrix table */}
       {rows.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-dz-primary-200 bg-dz-primary-50/30 p-8 text-center dark:border-dz-night-border dark:bg-white/2">
-          <div className="flex size-11 items-center justify-center rounded-xl bg-white text-dz-primary-300 shadow-xs ring-1 ring-dz-primary-100 dark:bg-dz-night-elevated dark:text-dz-night-faint dark:ring-dz-night-border">
+        <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-dz-a-primary-200 bg-dz-a-primary-50/30 p-8 text-center dark:border-dz-a-night-border dark:bg-white/2">
+          <div className="flex size-11 items-center justify-center rounded-xl bg-white text-dz-a-primary-300 shadow-xs ring-1 ring-dz-a-primary-100 dark:bg-dz-a-night-elevated dark:text-dz-a-night-faint dark:ring-dz-a-night-border">
             <Wand2 className="size-5" />
           </div>
-          <p className="text-sm font-medium text-dz-primary-700 dark:text-dz-night-fg">هنوز مدلی تعریف نشده</p>
-          <p className="max-w-sm text-xs leading-5 text-dz-primary-400 dark:text-dz-night-faint">
+          <p className="text-sm font-medium text-dz-a-primary-700 dark:text-dz-a-night-fg">هنوز مدلی تعریف نشده</p>
+          <p className="max-w-sm text-xs leading-5 text-dz-a-primary-400 dark:text-dz-a-night-faint">
             وزن و بسته‌بندیِ مجاز را از بالا انتخاب کنید و «تولید ماتریس» را بزنید تا قیمت‌ها به‌صورت خودکار ساخته شوند.
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-dz-primary-100 shadow-xs dark:border-dz-night-border">
+        <div className="overflow-x-auto rounded-xl border border-dz-a-primary-100 shadow-xs dark:border-dz-a-night-border">
           <table className="w-full min-w-[920px] text-xs">
             <thead>
-              <tr className="border-b border-dz-primary-100 bg-dz-primary-50/60 text-dz-primary-500 dark:border-dz-night-border dark:bg-white/5 dark:text-dz-night-muted">
+              <tr className="border-b border-dz-a-primary-100 bg-dz-a-primary-50/60 text-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-white/5 dark:text-dz-a-night-muted">
                 <th className="px-2 py-2.5 text-start font-medium">وزن</th>
                 <th className="px-2 py-2.5 text-start font-medium">بسته‌بندی</th>
                 <th className="px-2 py-2.5 text-start font-medium">SKU</th>
@@ -279,16 +279,16 @@ export function VariantMatrix({
                 const calc = calcRial(r.weightPresetId, r.packagingOptionId);
                 const finalToman = r.isPriceLocked ? toInt(r.manualPriceToman) : Math.round(calc / 10);
                 return (
-                  <tr key={r.key} className="border-b border-dz-primary-50 last:border-0 dark:border-dz-night-line">
-                    <td className="px-2 py-2 text-dz-primary-800 dark:text-dz-night-fg">{weightById.get(r.weightPresetId)?.title ?? "—"}</td>
-                    <td className="px-2 py-2 text-dz-primary-700 dark:text-dz-night-fg">{r.packagingOptionId ? pkgById.get(r.packagingOptionId)?.title : <span className="text-dz-primary-300 dark:text-dz-night-faint">بدون</span>}</td>
-                    <td className="px-2 py-2"><span dir="ltr" className="block text-start font-mono text-[11px] text-dz-primary-400 dark:text-dz-night-faint">{r.sku ?? "خودکار"}</span></td>
-                    <td className="px-2 py-2 text-center text-dz-primary-400 tabular-nums dark:text-dz-night-faint">{rialToTomanStr(calc)}</td>
+                  <tr key={r.key} className="border-b border-dz-a-primary-50 last:border-0 dark:border-dz-a-night-line">
+                    <td className="px-2 py-2 text-dz-a-primary-800 dark:text-dz-a-night-fg">{weightById.get(r.weightPresetId)?.title ?? "—"}</td>
+                    <td className="px-2 py-2 text-dz-a-primary-700 dark:text-dz-a-night-fg">{r.packagingOptionId ? pkgById.get(r.packagingOptionId)?.title : <span className="text-dz-a-primary-300 dark:text-dz-a-night-faint">بدون</span>}</td>
+                    <td className="px-2 py-2"><span dir="ltr" className="block text-start font-mono text-[11px] text-dz-a-primary-400 dark:text-dz-a-night-faint">{r.sku ?? "خودکار"}</span></td>
+                    <td className="px-2 py-2 text-center text-dz-a-primary-400 tabular-nums dark:text-dz-a-night-faint">{rialToTomanStr(calc)}</td>
                     <td className="px-2 py-2 text-center">
                       <button
                         type="button"
                         onClick={() => patch(r.key, { isPriceLocked: !r.isPriceLocked })}
-                        className={`focus-ring inline-flex items-center gap-1 rounded-lg border px-2 py-1 transition-colors ${r.isPriceLocked ? "border-dz-warning/40 bg-dz-warning/10 text-dz-warning dark:bg-dz-warning/15 dark:text-dz-warning-300" : "border-dz-primary-200 text-dz-primary-500 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-muted dark:hover:bg-white/5"}`}
+                        className={`focus-ring inline-flex items-center gap-1 rounded-lg border px-2 py-1 transition-colors ${r.isPriceLocked ? "border-dz-a-warning/40 bg-dz-a-warning/10 text-dz-a-warning dark:bg-dz-a-warning/15 dark:text-dz-a-warning-300" : "border-dz-a-primary-200 text-dz-a-primary-500 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-night-muted dark:hover:bg-white/5"}`}
                         title={r.isPriceLocked ? "قیمت دستی قفل" : "خودکار"}
                       >
                         {r.isPriceLocked ? <Lock className="size-3" /> : <LockOpen className="size-3" />}
@@ -305,7 +305,7 @@ export function VariantMatrix({
                       )}
                     </td>
                     <td className="px-2 py-2 text-center">
-                      <span className={`inline-flex items-center gap-1 rounded-lg px-2 py-0.5 font-bold tabular-nums ${r.isPriceLocked ? "bg-dz-warning/10 text-dz-warning dark:bg-dz-warning/15 dark:text-dz-warning-300" : "text-dz-primary-800 dark:text-dz-night-fg"}`}>
+                      <span className={`inline-flex items-center gap-1 rounded-lg px-2 py-0.5 font-bold tabular-nums ${r.isPriceLocked ? "bg-dz-a-warning/10 text-dz-a-warning dark:bg-dz-a-warning/15 dark:text-dz-a-warning-300" : "text-dz-a-primary-800 dark:text-dz-a-night-fg"}`}>
                         {r.isPriceLocked && <Lock className="size-3" />}
                         {toPersianNumbersWithComma(finalToman)}
                       </span>
@@ -325,10 +325,10 @@ export function VariantMatrix({
                       </select>
                     </td>
                     <td className="px-2 py-2 text-center">
-                      <input type="checkbox" checked={r.isActive} onChange={(e) => patch(r.key, { isActive: e.target.checked })} className="size-4 accent-dz-primary-600" />
+                      <input type="checkbox" checked={r.isActive} onChange={(e) => patch(r.key, { isActive: e.target.checked })} className="size-4 accent-dz-a-primary-600" />
                     </td>
                     <td className="px-2 py-2 text-center">
-                      <button type="button" onClick={() => removeRow(r.key)} title="حذف ردیف" aria-label="حذف ردیف" className="focus-ring rounded-lg p-1 text-dz-error/70 transition-colors hover:bg-dz-error/10 hover:text-dz-error dark:text-dz-error-300/80 dark:hover:bg-dz-error/15 dark:hover:text-dz-error-300">
+                      <button type="button" onClick={() => removeRow(r.key)} title="حذف ردیف" aria-label="حذف ردیف" className="focus-ring rounded-lg p-1 text-dz-a-error/70 transition-colors hover:bg-dz-a-error/10 hover:text-dz-a-error dark:text-dz-a-error-300/80 dark:hover:bg-dz-a-error/15 dark:hover:text-dz-a-error-300">
                         <Trash2 className="size-3.5" />
                       </button>
                     </td>
@@ -341,8 +341,8 @@ export function VariantMatrix({
       )}
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-dz-primary-400 dark:text-dz-night-faint">قیمت‌ها به تومان وارد می‌شوند و در دیتابیس به ریال ذخیره می‌شوند.</p>
-        <button type="button" onClick={save} disabled={saving} className="focus-ring inline-flex w-full items-center justify-center gap-2 rounded-xl bg-dz-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-primary-700 active:bg-dz-primary-800 disabled:bg-dz-primary-300 sm:w-auto dark:disabled:bg-dz-primary-800">
+        <p className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">قیمت‌ها به تومان وارد می‌شوند و در دیتابیس به ریال ذخیره می‌شوند.</p>
+        <button type="button" onClick={save} disabled={saving} className="focus-ring inline-flex w-full items-center justify-center gap-2 rounded-xl bg-dz-a-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-a-primary-700 active:bg-dz-a-primary-800 disabled:bg-dz-a-primary-300 sm:w-auto dark:disabled:bg-dz-a-primary-800">
           <Save className="size-4" />
           {saving ? "در حال ذخیره…" : "ذخیره‌ی مدل‌های فروش"}
         </button>

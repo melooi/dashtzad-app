@@ -198,10 +198,10 @@ export function EditablePriceCell({
 
   const stateRing =
     status === "error"
-      ? "border-dz-error/70 focus:ring-dz-error/20 dark:border-dz-error/70"
+      ? "border-dz-a-error/70 focus:ring-dz-a-error/20 dark:border-dz-a-error/70"
       : dirty
-        ? "border-dz-warning/70 focus:ring-dz-warning/20 dark:border-dz-warning/70"
-        : "border-dz-primary-200 hover:border-dz-primary-400 focus:border-dz-primary-500 focus:ring-dz-primary-500/15 dark:border-dz-night-border dark:hover:border-dz-primary-500/60 dark:focus:border-dz-primary-400 dark:focus:ring-dz-primary-400/25";
+        ? "border-dz-a-warning/70 focus:ring-dz-a-warning/20 dark:border-dz-a-warning/70"
+        : "border-dz-a-primary-200 hover:border-dz-a-primary-400 focus:border-dz-a-primary-500 focus:ring-dz-a-primary-500/15 dark:border-dz-a-night-border dark:hover:border-dz-a-primary-500/60 dark:focus:border-dz-a-primary-400 dark:focus:ring-dz-a-primary-400/25";
 
   if (editing) {
     return (
@@ -216,10 +216,10 @@ export function EditablePriceCell({
           inputMode="numeric"
           aria-label={ariaLabel}
           aria-invalid={status === "error"}
-          className={`focus-ring w-24 rounded-lg border bg-white px-2 py-1 text-center text-xs tabular-nums text-dz-primary-900 shadow-xs outline-none transition-[border-color,box-shadow] focus:ring-3 dark:bg-dz-night-elevated dark:text-dz-night-fg ${stateRing}`}
+          className={`focus-ring w-24 rounded-lg border bg-white px-2 py-1 text-center text-xs tabular-nums text-dz-a-primary-900 shadow-xs outline-none transition-[border-color,box-shadow] focus:ring-3 dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg ${stateRing}`}
         />
         {status === "error" && error && (
-          <span className="absolute top-full z-10 mt-1 w-max max-w-[200px] rounded-md bg-dz-error px-2 py-1 text-[10px] text-white shadow-md">
+          <span className="absolute top-full z-10 mt-1 w-max max-w-[200px] rounded-md bg-dz-a-error px-2 py-1 text-[10px] text-white shadow-md">
             {error}
           </span>
         )}
@@ -229,11 +229,11 @@ export function EditablePriceCell({
 
   const indicator =
     status === "saving" ? (
-      <Loader2 className="size-3 animate-spin text-dz-primary-400" />
+      <Loader2 className="size-3 animate-spin text-dz-a-primary-400" />
     ) : status === "saved" ? (
-      <Check className="size-3 text-dz-success" />
+      <Check className="size-3 text-dz-a-success" />
     ) : status === "error" ? (
-      <AlertCircle className="size-3 text-dz-error" />
+      <AlertCircle className="size-3 text-dz-a-error" />
     ) : null;
 
   return (
@@ -245,12 +245,12 @@ export function EditablePriceCell({
         onKeyDown={onReadKey}
         title={status === "error" && error ? error : title}
         aria-label={ariaLabel}
-        className={`focus-ring group inline-flex min-w-[3.5rem] items-center justify-center gap-1 rounded-lg border border-transparent px-2 py-1 text-xs tabular-nums transition-colors hover:border-dz-primary-200 hover:bg-dz-primary-50/60 dark:hover:border-dz-night-border dark:hover:bg-white/5 ${
+        className={`focus-ring group inline-flex min-w-[3.5rem] items-center justify-center gap-1 rounded-lg border border-transparent px-2 py-1 text-xs tabular-nums transition-colors hover:border-dz-a-primary-200 hover:bg-dz-a-primary-50/60 dark:hover:border-dz-a-night-border dark:hover:bg-white/5 ${
           status === "error"
-            ? "border-dz-error/40 text-dz-error dark:text-dz-error-300"
+            ? "border-dz-a-error/40 text-dz-a-error dark:text-dz-a-error-300"
             : locked
-              ? "font-bold text-dz-warning dark:text-dz-warning-300"
-              : "text-dz-primary-800 dark:text-dz-night-fg"
+              ? "font-bold text-dz-a-warning dark:text-dz-a-warning-300"
+              : "text-dz-a-primary-800 dark:text-dz-a-night-fg"
         }`}
       >
         {locked && <Lock className="size-3 shrink-0" />}

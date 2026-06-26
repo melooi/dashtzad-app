@@ -8,7 +8,7 @@ import { MediaPickerDialog } from "@/components/admin/media/MediaPickerDialog";
 import { CARD_VARIANTS, CARD_VARIANT_LABELS, type CardVariant } from "./structured-extensions";
 
 const inputCls =
-  "w-full rounded-lg border border-dz-primary-200 bg-white px-2.5 py-1.5 text-sm text-dz-primary-900 outline-none focus:border-dz-primary-500 dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg";
+  "w-full rounded-lg border border-dz-a-primary-200 bg-white px-2.5 py-1.5 text-sm text-dz-a-primary-900 outline-none focus:border-dz-a-primary-500 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg";
 
 const str = (v: unknown) => (typeof v === "string" ? v : "");
 
@@ -23,7 +23,7 @@ export function CardView({ node, updateAttributes, deleteNode, editor }: NodeVie
   return (
     <NodeViewWrapper
       as="div"
-      className="dz-card--editing my-4 rounded-xl border border-dz-primary-200 bg-dz-primary-50/30 p-3 dark:border-dz-night-border dark:bg-white/2"
+      className="dz-card--editing my-4 rounded-xl border border-dz-a-primary-200 bg-dz-a-primary-50/30 p-3 dark:border-dz-a-night-border dark:bg-white/2"
       contentEditable={false}
       dir="rtl"
     >
@@ -33,7 +33,7 @@ export function CardView({ node, updateAttributes, deleteNode, editor }: NodeVie
           disabled={!editable}
           onChange={(e) => updateAttributes({ variant: e.target.value as CardVariant })}
           aria-label="نوع کارت"
-          className="focus-ring h-8 rounded-lg border border-dz-primary-200 bg-white px-2 text-xs font-medium text-dz-primary-700 outline-none dark:border-dz-night-border dark:bg-dz-night-elevated dark:text-dz-night-fg"
+          className="focus-ring h-8 rounded-lg border border-dz-a-primary-200 bg-white px-2 text-xs font-medium text-dz-a-primary-700 outline-none dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
         >
           {CARD_VARIANTS.map((v) => (
             <option key={v} value={v}>
@@ -46,7 +46,7 @@ export function CardView({ node, updateAttributes, deleteNode, editor }: NodeVie
           onClick={deleteNode}
           title="حذف کارت"
           aria-label="حذف کارت"
-          className="focus-ring ms-auto inline-flex size-7 items-center justify-center rounded-lg text-dz-error/80 hover:bg-dz-error/10 dark:text-dz-error-300"
+          className="focus-ring ms-auto inline-flex size-7 items-center justify-center rounded-lg text-dz-a-error/80 hover:bg-dz-a-error/10 dark:text-dz-a-error-300"
         >
           <Trash2 className="size-3.5" />
         </button>
@@ -55,7 +55,7 @@ export function CardView({ node, updateAttributes, deleteNode, editor }: NodeVie
       <div className="flex flex-col gap-2">
         {/* image */}
         {src ? (
-          <div className="relative overflow-hidden rounded-lg border border-dz-primary-100 dark:border-dz-night-line">
+          <div className="relative overflow-hidden rounded-lg border border-dz-a-primary-100 dark:border-dz-a-night-line">
             <img src={src} alt={str(a.alt)} className="h-32 w-full object-cover" />
             <div className="absolute end-1.5 top-1.5 flex gap-1">
               <button
@@ -63,7 +63,7 @@ export function CardView({ node, updateAttributes, deleteNode, editor }: NodeVie
                 onClick={() => setPick(true)}
                 title="تعویض تصویر"
                 aria-label="تعویض تصویر"
-                className="focus-ring inline-flex size-7 items-center justify-center rounded-lg bg-white/90 text-dz-primary-700 hover:bg-white dark:bg-dz-night-card/90 dark:text-dz-night-fg"
+                className="focus-ring inline-flex size-7 items-center justify-center rounded-lg bg-white/90 text-dz-a-primary-700 hover:bg-white dark:bg-dz-a-night-card/90 dark:text-dz-a-night-fg"
               >
                 <Replace className="size-3.5" />
               </button>
@@ -72,7 +72,7 @@ export function CardView({ node, updateAttributes, deleteNode, editor }: NodeVie
                 onClick={() => updateAttributes({ mediaId: null, src: "", alt: "" })}
                 title="حذف تصویر"
                 aria-label="حذف تصویر"
-                className="focus-ring inline-flex size-7 items-center justify-center rounded-lg bg-white/90 text-dz-error hover:bg-white dark:bg-dz-night-card/90 dark:text-dz-error-300"
+                className="focus-ring inline-flex size-7 items-center justify-center rounded-lg bg-white/90 text-dz-a-error hover:bg-white dark:bg-dz-a-night-card/90 dark:text-dz-a-error-300"
               >
                 <X className="size-3.5" />
               </button>
@@ -83,7 +83,7 @@ export function CardView({ node, updateAttributes, deleteNode, editor }: NodeVie
             <button
               type="button"
               onClick={() => setPick(true)}
-              className="focus-ring flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-dz-primary-300 bg-white px-3 py-4 text-xs text-dz-primary-500 hover:bg-dz-primary-50 dark:border-dz-night-border dark:bg-dz-night-card dark:text-dz-night-muted dark:hover:bg-white/5"
+              className="focus-ring flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-dz-a-primary-300 bg-white px-3 py-4 text-xs text-dz-a-primary-500 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-muted dark:hover:bg-white/5"
             >
               <ImagePlus className="size-4" /> افزودن تصویر (اختیاری)
             </button>

@@ -91,23 +91,23 @@ export function ProductsTable({ rows }: { rows: ProductRow[] }) {
         key: "title",
         header: headerOf("title"),
         render: (r) => (
-          <Link href={`${ROUTE}/${r.id}`} className="block font-medium text-dz-primary-800 hover:text-dz-primary-600 dark:text-dz-night-fg dark:hover:text-dz-primary-300">
+          <Link href={`${ROUTE}/${r.id}`} className="block font-medium text-dz-a-primary-800 hover:text-dz-a-primary-600 dark:text-dz-a-night-fg dark:hover:text-dz-a-primary-300">
             {r.title}
-            <span dir="ltr" className="mt-0.5 block text-start font-mono text-xs text-dz-primary-400 dark:text-dz-night-faint">
+            <span dir="ltr" className="mt-0.5 block text-start font-mono text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
               {r.slug}
             </span>
           </Link>
         ),
       },
-      { key: "category", header: headerOf("category"), render: (r) => <span className="text-dz-primary-700 dark:text-dz-night-fg">{r.categoryTitle}</span> },
+      { key: "category", header: headerOf("category"), render: (r) => <span className="text-dz-a-primary-700 dark:text-dz-a-night-fg">{r.categoryTitle}</span> },
       {
         key: "basePrice",
         header: headerOf("basePrice"),
         align: "center",
         render: (r) => (
-          <span className="text-dz-primary-700 dark:text-dz-night-fg">
+          <span className="text-dz-a-primary-700 dark:text-dz-a-night-fg">
             {r.basePriceLabel}
-            <span className="mr-1 text-xs text-dz-primary-400 dark:text-dz-night-faint">/ {r.unitLabel}</span>
+            <span className="mr-1 text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">/ {r.unitLabel}</span>
           </span>
         ),
       },
@@ -117,16 +117,16 @@ export function ProductsTable({ rows }: { rows: ProductRow[] }) {
         align: "center",
         render: (r) =>
           r.variantCount > 0 ? (
-            <span className="text-dz-primary-700 dark:text-dz-night-fg">{toPersianNumbers(r.variantCount)}</span>
+            <span className="text-dz-a-primary-700 dark:text-dz-a-night-fg">{toPersianNumbers(r.variantCount)}</span>
           ) : (
-            <span className="text-dz-primary-300 dark:text-dz-night-faint">—</span>
+            <span className="text-dz-a-primary-300 dark:text-dz-a-night-faint">—</span>
           ),
       },
       {
         key: "stock",
         header: headerOf("stock"),
         align: "center",
-        render: (r) => <span className="text-dz-primary-700 dark:text-dz-night-fg">{toPersianNumbers(r.stockTotal)}</span>,
+        render: (r) => <span className="text-dz-a-primary-700 dark:text-dz-a-night-fg">{toPersianNumbers(r.stockTotal)}</span>,
       },
       {
         key: "priceRange",
@@ -134,9 +134,9 @@ export function ProductsTable({ rows }: { rows: ProductRow[] }) {
         align: "center",
         render: (r) =>
           r.variantCount > 0 ? (
-            <span className="text-xs text-dz-primary-600 dark:text-dz-primary-300">{r.priceRangeLabel}</span>
+            <span className="text-xs text-dz-a-primary-600 dark:text-dz-a-primary-300">{r.priceRangeLabel}</span>
           ) : (
-            <span className="text-dz-primary-300 dark:text-dz-night-faint">—</span>
+            <span className="text-dz-a-primary-300 dark:text-dz-a-night-faint">—</span>
           ),
       },
       {
@@ -149,20 +149,20 @@ export function ProductsTable({ rows }: { rows: ProductRow[] }) {
           </AdminStatusBadge>
         ),
       },
-      { key: "updatedAt", header: headerOf("updatedAt"), render: (r) => <span className="text-xs text-dz-primary-500 dark:text-dz-night-muted">{r.updatedAtLabel}</span> },
+      { key: "updatedAt", header: headerOf("updatedAt"), render: (r) => <span className="text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">{r.updatedAtLabel}</span> },
       {
         key: "actions",
         header: "",
         align: "end",
         render: (r) => (
           <div className="flex items-center justify-end gap-1">
-            <Link href={`${ROUTE}/${r.id}`} title="ویرایش" aria-label={`ویرایش ${r.title}`} className="focus-ring rounded-lg p-1.5 text-dz-primary-500 transition-colors hover:bg-dz-primary-50 hover:text-dz-primary-700 dark:text-dz-night-muted dark:hover:bg-white/5 dark:hover:text-dz-night-fg">
+            <Link href={`${ROUTE}/${r.id}`} title="ویرایش" aria-label={`ویرایش ${r.title}`} className="focus-ring rounded-lg p-1.5 text-dz-a-primary-500 transition-colors hover:bg-dz-a-primary-50 hover:text-dz-a-primary-700 dark:text-dz-a-night-muted dark:hover:bg-white/5 dark:hover:text-dz-a-night-fg">
               <Pencil className="size-4" />
             </Link>
-            <button type="button" title="تکثیر" aria-label={`تکثیر ${r.title}`} disabled={pending} onClick={() => runDuplicate(r.id)} className="focus-ring rounded-lg p-1.5 text-dz-primary-500 transition-colors hover:bg-dz-primary-50 hover:text-dz-primary-700 disabled:opacity-50 dark:text-dz-night-muted dark:hover:bg-white/5 dark:hover:text-dz-night-fg">
+            <button type="button" title="تکثیر" aria-label={`تکثیر ${r.title}`} disabled={pending} onClick={() => runDuplicate(r.id)} className="focus-ring rounded-lg p-1.5 text-dz-a-primary-500 transition-colors hover:bg-dz-a-primary-50 hover:text-dz-a-primary-700 disabled:opacity-50 dark:text-dz-a-night-muted dark:hover:bg-white/5 dark:hover:text-dz-a-night-fg">
               <Copy className="size-4" />
             </button>
-            <button type="button" title="حذف" aria-label={`حذف ${r.title}`} disabled={pending} onClick={() => setConfirm({ kind: "single", id: r.id })} className="focus-ring rounded-lg p-1.5 text-dz-error/70 transition-colors hover:bg-dz-error/10 hover:text-dz-error disabled:opacity-50 dark:text-dz-error-300/80 dark:hover:bg-dz-error/15 dark:hover:text-dz-error-300">
+            <button type="button" title="حذف" aria-label={`حذف ${r.title}`} disabled={pending} onClick={() => setConfirm({ kind: "single", id: r.id })} className="focus-ring rounded-lg p-1.5 text-dz-a-error/70 transition-colors hover:bg-dz-a-error/10 hover:text-dz-a-error disabled:opacity-50 dark:text-dz-a-error-300/80 dark:hover:bg-dz-a-error/15 dark:hover:text-dz-a-error-300">
               <Trash2 className="size-4" />
             </button>
           </div>
@@ -194,14 +194,14 @@ export function ProductsTable({ rows }: { rows: ProductRow[] }) {
         onToggleAll={toggleAll}
         empty={
           <div className="flex flex-col items-center gap-3 p-12 text-center">
-            <div className="flex size-14 items-center justify-center rounded-2xl bg-dz-primary-50 text-dz-primary-400 ring-1 ring-dz-primary-100 dark:bg-white/5 dark:text-dz-night-faint dark:ring-dz-night-border">
+            <div className="flex size-14 items-center justify-center rounded-2xl bg-dz-a-primary-50 text-dz-a-primary-400 ring-1 ring-dz-a-primary-100 dark:bg-white/5 dark:text-dz-a-night-faint dark:ring-dz-a-night-border">
               <PackagePlus className="size-7" />
             </div>
-            <p className="font-heading text-base font-bold text-dz-primary-800 dark:text-dz-night-fg">محصولی یافت نشد</p>
-            <p className="max-w-sm text-sm text-dz-primary-500 dark:text-dz-night-muted">
+            <p className="font-heading text-base font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">محصولی یافت نشد</p>
+            <p className="max-w-sm text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">
               با این جستجو/فیلتر محصولی پیدا نشد. اولین محصول دشت‌زاد را اضافه کنید.
             </p>
-            <Link href={`${ROUTE}/new`} className="focus-ring mt-1 inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-4 py-2 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-primary-700">
+            <Link href={`${ROUTE}/new`} className="focus-ring mt-1 inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-a-primary-700">
               <PackagePlus className="size-4" />
               {productsCollection.addLabel}
             </Link>
@@ -210,7 +210,7 @@ export function ProductsTable({ rows }: { rows: ProductRow[] }) {
       />
 
       <AdminBulkActionBar count={selected.size} onClear={() => setSelected(new Set())}>
-        <button type="button" disabled={pending} onClick={() => setConfirm({ kind: "bulk" })} className="focus-ring inline-flex items-center gap-1.5 rounded-lg bg-dz-error px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-dz-error/90 disabled:opacity-60">
+        <button type="button" disabled={pending} onClick={() => setConfirm({ kind: "bulk" })} className="focus-ring inline-flex items-center gap-1.5 rounded-lg bg-dz-a-error px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-dz-a-error/90 disabled:opacity-60">
           <Trash2 className="size-3.5" />
           حذف انتخاب‌ها
         </button>

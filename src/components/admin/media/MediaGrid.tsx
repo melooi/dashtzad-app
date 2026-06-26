@@ -27,7 +27,7 @@ export function MediaGrid({
     selectedIds ? selectedIds.includes(id) : id === selectedId;
   if (view === "list") {
     return (
-      <ul className="overflow-hidden rounded-2xl border border-dz-primary-100 dark:border-dz-night-border">
+      <ul className="overflow-hidden rounded-2xl border border-dz-a-primary-100 dark:border-dz-a-night-border">
         {assets.map((asset, i) => (
           <li key={asset.id}>
             <button
@@ -35,24 +35,24 @@ export function MediaGrid({
               onClick={() => onSelect(asset)}
               aria-pressed={isSelected(asset.id)}
               className={`focus-ring flex w-full items-center gap-3 px-3 py-2.5 text-start transition-colors ${
-                i > 0 ? "border-t border-dz-primary-100 dark:border-dz-night-line" : ""
+                i > 0 ? "border-t border-dz-a-primary-100 dark:border-dz-a-night-line" : ""
               } ${
                 isSelected(asset.id)
-                  ? "bg-dz-primary-50 dark:bg-white/5"
-                  : "bg-white hover:bg-dz-primary-50/50 dark:bg-dz-night-card dark:hover:bg-white/5"
+                  ? "bg-dz-a-primary-50 dark:bg-white/5"
+                  : "bg-white hover:bg-dz-a-primary-50/50 dark:bg-dz-a-night-card dark:hover:bg-white/5"
               }`}
             >
               <img
                 src={asset.url}
                 alt={asset.alt ?? asset.originalName}
                 loading="lazy"
-                className="size-11 shrink-0 rounded-lg object-cover ring-1 ring-dz-primary-100 dark:ring-dz-night-border"
+                className="size-11 shrink-0 rounded-lg object-cover ring-1 ring-dz-a-primary-100 dark:ring-dz-a-night-border"
               />
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-medium text-dz-primary-800 dark:text-dz-night-fg" title={asset.originalName}>
+                <span className="block truncate text-sm font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg" title={asset.originalName}>
                   {asset.title || asset.originalName}
                 </span>
-                <span className="mt-0.5 flex items-center gap-2 text-xs text-dz-primary-400 dark:text-dz-night-faint">
+                <span className="mt-0.5 flex items-center gap-2 text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
                   <span>{mimeLabel(asset.mimeType)}</span>
                   <span aria-hidden>·</span>
                   <span>{formatBytes(asset.sizeBytes)}</span>

@@ -33,11 +33,11 @@ export function MediaPicker({
   return (
     <div className="flex items-start gap-2">
       {/* Preview */}
-      <div className="flex size-[58px] shrink-0 items-center justify-center overflow-hidden rounded-xl border border-dz-primary-200 bg-dz-primary-50/50 dark:border-dz-night-border dark:bg-white/5">
+      <div className="flex size-[58px] shrink-0 items-center justify-center overflow-hidden rounded-xl border border-dz-a-primary-200 bg-dz-a-primary-50/50 dark:border-dz-a-night-border dark:bg-white/5">
         {value ? (
           <img src={value} alt="" className="size-full object-contain" />
         ) : (
-          <ImageOff className="size-5 text-dz-primary-300 dark:text-dz-night-faint" />
+          <ImageOff className="size-5 text-dz-a-primary-300 dark:text-dz-a-night-faint" />
         )}
       </div>
 
@@ -56,7 +56,7 @@ export function MediaPicker({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-dz-primary-200 px-3 py-1.5 text-xs font-medium text-dz-primary-700 transition-colors hover:border-dz-primary-300 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-primary-300 dark:hover:bg-white/5"
+            className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-dz-a-primary-200 px-3 py-1.5 text-xs font-medium text-dz-a-primary-700 transition-colors hover:border-dz-a-primary-300 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:text-dz-a-primary-300 dark:hover:bg-white/5"
           >
             <ImagePlus className="size-3.5" /> انتخاب از رسانه‌ها
           </button>
@@ -64,7 +64,7 @@ export function MediaPicker({
             <button
               type="button"
               onClick={() => onChange("")}
-              className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-dz-error/30 px-3 py-1.5 text-xs text-dz-error transition-colors hover:bg-dz-error/10 dark:text-dz-error-300"
+              className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-dz-a-error/30 px-3 py-1.5 text-xs text-dz-a-error transition-colors hover:bg-dz-a-error/10 dark:text-dz-a-error-300"
             >
               <X className="size-3.5" /> حذف
             </button>

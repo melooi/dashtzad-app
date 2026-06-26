@@ -1,17 +1,23 @@
-import Link from "next/link";
-import { Star, MessageSquare } from "lucide-react";
+import { Star } from "lucide-react";
 import { requireAdmin } from "@/lib/auth/guards";
 import { AdminPageHeader } from "@/components/admin/ui/AdminPageHeader";
-import { AdminListEmptyState } from "@/components/admin/ui/AdminListEmptyState";
 import {
   feedbackCounts,
   listAdminQuestions,
   listAdminReviews,
 } from "@/lib/admin/product-feedback";
-import { QuestionRow, ReviewRow } from "@/components/admin/feedback/FeedbackModeration";
-import { toPersianNumbers } from "@/lib/price";
+import { FeedbackWorkspace } from "@/components/admin/feedback/FeedbackModeration";
+import type { ReviewStatus, QuestionStatus } from "@/generated/prisma/enums";
 
 export const dynamic = "force-dynamic";
+
+type Tab = "all" | "pending" | "approved" | "rejected" | "questions";
+
+const REVIEW_TAB_STATUS: Partial<Record<Tab, ReviewStatus>> = {
+  pending:  "PENDING",
+  approved: "APPROVED",
+  rejected: "REJECTED",
+};
 
 export default async function AdminReviewsPage({
   searchParams,
@@ -20,87 +26,37 @@ export default async function AdminReviewsPage({
 }) {
   await requireAdmin();
   const sp = await searchParams;
-  const tab = sp.tab === "questions" ? "questions" : "reviews";
-  const counts = await feedbackCounts();
+  const raw = sp.tab ?? "all";
+  const tab: Tab = (["all", "pending", "approved", "rejected", "questions"] as Tab[]).includes(raw as Tab)
+    ? (raw as Tab)
+    : "all";
 
-  const tabs = [
-    { id: "reviews", label: "دیدگاه‌ها", n: counts.pendingReviews },
-    { id: "questions", label: "پرسش‌ها", n: counts.pendingQuestions },
-  ];
+  const [counts, reviews, questions] = await Promise.all([
+    feedbackCounts(),
+    tab !== "questions"
+      ? listAdminReviews({ status: REVIEW_TAB_STATUS[tab], newestFirst: tab === "all" })
+      : Promise.resolve([]),
+    tab === "questions"
+      ? listAdminQuestions({ newestFirst: true })
+      : Promise.resolve([]),
+  ]);
 
   return (
     <div>
       <AdminPageHeader
         title="دیدگاه‌ها و پرسش‌های محصول"
         description="بررسی، تأیید/رد دیدگاه‌ها و پاسخ به پرسش‌های مشتریان"
+        breadcrumbs={[
+          { label: "مجموعه‌ها", href: "/admin/collections" },
+          { label: "دیدگاه‌ها" },
+        ]}
       />
-
-      <div className="mb-4 flex gap-2">
-        {tabs.map((t) => (
-          <Link
-            key={t.id}
-            href={`/admin/collections/reviews?tab=${t.id}`}
-            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
-              tab === t.id
-                ? "bg-dz-primary-600 text-white"
-                : "border border-dz-primary-200 text-dz-primary-700 hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-fg"
-            }`}
-          >
-            {t.label}
-            {t.n > 0 && (
-              <span className={`rounded-full px-1.5 text-xs ${tab === t.id ? "bg-white/20" : "bg-dz-warning/15 text-dz-warning"}`}>
-                {toPersianNumbers(t.n)}
-              </span>
-            )}
-          </Link>
-        ))}
-      </div>
-
-      {tab === "reviews" ? (
-        <ReviewsList />
-      ) : (
-        <QuestionsList />
-      )}
-    </div>
-  );
-}
-
-async function ReviewsList() {
-  const reviews = await listAdminReviews();
-  if (reviews.length === 0)
-    return (
-      <AdminListEmptyState
-        mode="empty"
-        icon={<Star className="size-7" />}
-        title="هنوز دیدگاهی ثبت نشده است"
-        description="دیدگاه‌هایی که مشتریان برای محصولات می‌نویسند این‌جا برای بررسی و تأیید نمایش داده می‌شوند."
+      <FeedbackWorkspace
+        tab={tab}
+        reviews={reviews}
+        questions={questions}
+        counts={counts}
       />
-    );
-  return (
-    <div className="flex flex-col gap-3">
-      {reviews.map((r) => (
-        <ReviewRow key={r.id} review={r} />
-      ))}
-    </div>
-  );
-}
-
-async function QuestionsList() {
-  const questions = await listAdminQuestions();
-  if (questions.length === 0)
-    return (
-      <AdminListEmptyState
-        mode="empty"
-        icon={<MessageSquare className="size-7" />}
-        title="هنوز پرسشی ثبت نشده است"
-        description="پرسش‌هایی که مشتریان دربارهٔ محصولات می‌پرسند این‌جا برای پاسخ‌دهی نمایش داده می‌شوند."
-      />
-    );
-  return (
-    <div className="flex flex-col gap-3">
-      {questions.map((q) => (
-        <QuestionRow key={q.id} question={q} />
-      ))}
     </div>
   );
 }

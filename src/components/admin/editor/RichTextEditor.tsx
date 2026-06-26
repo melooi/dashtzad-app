@@ -95,33 +95,33 @@ export function RichTextEditor({
     setMode("visual");
   }, [editor, value, onChange]);
 
-  const shellClass = `overflow-hidden rounded-xl border bg-white shadow-xs transition-[box-shadow,border-color] focus-within:ring-3 dark:bg-dz-night-card dark:shadow-none ${
+  const shellClass = `overflow-hidden rounded-xl border bg-white shadow-xs transition-[box-shadow,border-color] focus-within:ring-3 dark:bg-dz-a-night-card dark:shadow-none ${
     error
-      ? "border-dz-error focus-within:border-dz-error focus-within:ring-dz-error/15 dark:border-dz-error/70 dark:focus-within:ring-dz-error/25"
-      : "border-dz-primary-200 focus-within:border-dz-primary-500 focus-within:ring-dz-primary-500/15 dark:border-dz-night-border dark:focus-within:border-dz-primary-400 dark:focus-within:ring-dz-primary-400/25"
+      ? "border-dz-a-error focus-within:border-dz-a-error focus-within:ring-dz-a-error/15 dark:border-dz-a-error/70 dark:focus-within:ring-dz-a-error/25"
+      : "border-dz-a-primary-200 focus-within:border-dz-a-primary-500 focus-within:ring-dz-a-primary-500/15 dark:border-dz-a-night-border dark:focus-within:border-dz-a-primary-400 dark:focus-within:ring-dz-a-primary-400/25"
   } ${disabled ? "pointer-events-none opacity-60" : ""}`;
 
   const segBtn = (active: boolean) =>
     `focus-ring inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors ${
       active
-        ? "bg-white text-dz-primary-800 shadow-xs dark:bg-dz-night-elevated dark:text-dz-night-fg"
-        : "text-dz-primary-500 hover:text-dz-primary-700 dark:text-dz-night-muted dark:hover:text-dz-night-fg"
+        ? "bg-white text-dz-a-primary-800 shadow-xs dark:bg-dz-a-night-elevated dark:text-dz-a-night-fg"
+        : "text-dz-a-primary-500 hover:text-dz-a-primary-700 dark:text-dz-a-night-muted dark:hover:text-dz-a-night-fg"
     }`;
 
   return (
     <div className={shellClass}>
       {/* bar: toolbar (visual) / hint (code) + mode toggle */}
-      <div className="flex items-start justify-between gap-2 border-b border-dz-primary-100 bg-dz-primary-50/40 px-1.5 py-1.5 dark:border-dz-night-border dark:bg-white/2">
+      <div className="flex items-start justify-between gap-2 border-b border-dz-a-primary-100 bg-dz-a-primary-50/40 px-1.5 py-1.5 dark:border-dz-a-night-border dark:bg-white/2">
         <div className="min-w-0 flex-1">
           {mode === "visual" && editor ? (
             <RichTextToolbar editor={editor} articleType={articleType} />
           ) : (
-            <p className="px-1.5 py-2 text-xs text-dz-primary-500 dark:text-dz-night-muted">
+            <p className="px-1.5 py-2 text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">
               حالت کد — ویرایش مستقیم HTML (هنگام ذخیره و بازگشت پاک‌سازی می‌شود)
             </p>
           )}
         </div>
-        <div className="flex shrink-0 items-center gap-0.5 self-start rounded-lg border border-dz-primary-200 p-0.5 dark:border-dz-night-border">
+        <div className="flex shrink-0 items-center gap-0.5 self-start rounded-lg border border-dz-a-primary-200 p-0.5 dark:border-dz-a-night-border">
           <button type="button" onClick={switchToVisual} className={segBtn(mode === "visual")} aria-pressed={mode === "visual"}>
             <Eye className="size-3.5" />
             <span className="hidden sm:inline">دیداری</span>
@@ -156,7 +156,7 @@ export function RichTextEditor({
       )}
 
       {notice && (
-        <div className="flex items-center gap-1.5 border-t border-dz-warning/30 bg-dz-warning/10 px-3 py-1.5 text-xs text-dz-warning dark:border-dz-warning-300/30 dark:bg-dz-warning-300/10 dark:text-dz-warning-300">
+        <div className="flex items-center gap-1.5 border-t border-dz-a-warning/30 bg-dz-a-warning/10 px-3 py-1.5 text-xs text-dz-a-warning dark:border-dz-a-warning-300/30 dark:bg-dz-a-warning-300/10 dark:text-dz-a-warning-300">
           <ShieldAlert className="size-3.5 shrink-0" />
           {notice}
         </div>

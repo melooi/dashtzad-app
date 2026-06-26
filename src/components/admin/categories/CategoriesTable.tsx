@@ -98,10 +98,10 @@ export function CategoriesTable({ rows }: { rows: CategoryRow[] }) {
         render: (r) => (
           <Link
             href={`${ROUTE}/${r.id}`}
-            className="flex items-center font-medium text-dz-primary-800 dark:text-dz-night-fg hover:text-dz-primary-600 dark:hover:text-dz-primary-300"
+            className="flex items-center font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg hover:text-dz-a-primary-600 dark:hover:text-dz-a-primary-300"
             style={{ paddingInlineStart: `${r.depth * 18}px` }}
           >
-            {r.depth > 0 && <span className="ms-1 text-dz-primary-300 dark:text-dz-night-faint">↳</span>}
+            {r.depth > 0 && <span className="ms-1 text-dz-a-primary-300 dark:text-dz-a-night-faint">↳</span>}
             {r.title}
           </Link>
         ),
@@ -110,7 +110,7 @@ export function CategoriesTable({ rows }: { rows: CategoryRow[] }) {
         key: "slug",
         header: headerOf("slug"),
         render: (r) => (
-          <span dir="ltr" className="block text-start font-mono text-xs text-dz-primary-500 dark:text-dz-night-muted">
+          <span dir="ltr" className="block text-start font-mono text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">
             {r.slug}
           </span>
         ),
@@ -129,9 +129,9 @@ export function CategoriesTable({ rows }: { rows: CategoryRow[] }) {
         header: headerOf("parent"),
         render: (r) =>
           r.parentTitle ? (
-            <span className="text-dz-primary-700 dark:text-dz-night-fg">{r.parentTitle}</span>
+            <span className="text-dz-a-primary-700 dark:text-dz-a-night-fg">{r.parentTitle}</span>
           ) : (
-            <span className="text-dz-primary-300 dark:text-dz-night-faint">—</span>
+            <span className="text-dz-a-primary-300 dark:text-dz-a-night-faint">—</span>
           ),
       },
       {
@@ -140,9 +140,9 @@ export function CategoriesTable({ rows }: { rows: CategoryRow[] }) {
         align: "center",
         render: (r) =>
           r.childCount > 0 ? (
-            <span className="text-dz-primary-700 dark:text-dz-night-fg">{toPersianNumbers(r.childCount)}</span>
+            <span className="text-dz-a-primary-700 dark:text-dz-a-night-fg">{toPersianNumbers(r.childCount)}</span>
           ) : (
-            <span className="text-dz-primary-300 dark:text-dz-night-faint">—</span>
+            <span className="text-dz-a-primary-300 dark:text-dz-a-night-faint">—</span>
           ),
       },
       {
@@ -151,17 +151,17 @@ export function CategoriesTable({ rows }: { rows: CategoryRow[] }) {
         align: "center",
         render: (r) =>
           r.usageCount > 0 ? (
-            <span className="text-dz-primary-700 dark:text-dz-night-fg">
+            <span className="text-dz-a-primary-700 dark:text-dz-a-night-fg">
               {toPersianNumbers(r.usageCount)} {r.usageUnit}
             </span>
           ) : (
-            <span className="text-dz-primary-300 dark:text-dz-night-faint">—</span>
+            <span className="text-dz-a-primary-300 dark:text-dz-a-night-faint">—</span>
           ),
       },
       {
         key: "updatedAt",
         header: headerOf("updatedAt"),
-        render: (r) => <span className="text-xs text-dz-primary-500 dark:text-dz-night-muted">{r.updatedAtLabel}</span>,
+        render: (r) => <span className="text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">{r.updatedAtLabel}</span>,
       },
       {
         key: "actions",
@@ -172,7 +172,7 @@ export function CategoriesTable({ rows }: { rows: CategoryRow[] }) {
             <Link
               href={`${ROUTE}/${r.id}`}
               title="ویرایش"
-              className="rounded-lg p-1.5 text-dz-primary-500 dark:text-dz-night-muted hover:bg-dz-primary-50 dark:hover:bg-white/5 hover:text-dz-primary-700 dark:hover:text-dz-night-fg"
+              className="rounded-lg p-1.5 text-dz-a-primary-500 dark:text-dz-a-night-muted hover:bg-dz-a-primary-50 dark:hover:bg-white/5 hover:text-dz-a-primary-700 dark:hover:text-dz-a-night-fg"
             >
               <Pencil className="size-4" />
             </Link>
@@ -181,7 +181,7 @@ export function CategoriesTable({ rows }: { rows: CategoryRow[] }) {
               title="تکثیر"
               disabled={pending}
               onClick={() => runDuplicate(r.id)}
-              className="rounded-lg p-1.5 text-dz-primary-500 dark:text-dz-night-muted hover:bg-dz-primary-50 dark:hover:bg-white/5 hover:text-dz-primary-700 dark:hover:text-dz-night-fg disabled:opacity-50"
+              className="rounded-lg p-1.5 text-dz-a-primary-500 dark:text-dz-a-night-muted hover:bg-dz-a-primary-50 dark:hover:bg-white/5 hover:text-dz-a-primary-700 dark:hover:text-dz-a-night-fg disabled:opacity-50"
             >
               <Copy className="size-4" />
             </button>
@@ -190,7 +190,7 @@ export function CategoriesTable({ rows }: { rows: CategoryRow[] }) {
               title="حذف"
               disabled={pending}
               onClick={() => setConfirm({ kind: "single", id: r.id })}
-              className="rounded-lg p-1.5 text-dz-error/70 dark:text-dz-error-300 hover:bg-dz-error/10 hover:text-dz-error dark:hover:text-dz-error-300 disabled:opacity-50"
+              className="rounded-lg p-1.5 text-dz-a-error/70 dark:text-dz-a-error-300 hover:bg-dz-a-error/10 hover:text-dz-a-error dark:hover:text-dz-a-error-300 disabled:opacity-50"
             >
               <Trash2 className="size-4" />
             </button>
@@ -223,11 +223,11 @@ export function CategoriesTable({ rows }: { rows: CategoryRow[] }) {
         onToggleAll={toggleAll}
         empty={
           <div className="flex flex-col items-center gap-3 p-12 text-center">
-            <FolderPlus className="size-10 text-dz-primary-300 dark:text-dz-night-faint" />
-            <p className="text-sm text-dz-primary-500 dark:text-dz-night-muted">دسته‌بندی‌ای مطابق این نمایش یافت نشد.</p>
+            <FolderPlus className="size-10 text-dz-a-primary-300 dark:text-dz-a-night-faint" />
+            <p className="text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">دسته‌بندی‌ای مطابق این نمایش یافت نشد.</p>
             <Link
               href={`${ROUTE}/new`}
-              className="text-sm font-medium text-dz-primary-600 dark:text-dz-primary-300 hover:text-dz-primary-800 dark:hover:text-dz-night-fg"
+              className="text-sm font-medium text-dz-a-primary-600 dark:text-dz-a-primary-300 hover:text-dz-a-primary-800 dark:hover:text-dz-a-night-fg"
             >
               {categoriesCollection.addLabel}
             </Link>
@@ -240,7 +240,7 @@ export function CategoriesTable({ rows }: { rows: CategoryRow[] }) {
           type="button"
           disabled={pending}
           onClick={() => setConfirm({ kind: "bulk" })}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-dz-error px-3 py-1.5 text-xs font-medium text-white hover:bg-dz-error/90 disabled:opacity-60"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-dz-a-error px-3 py-1.5 text-xs font-medium text-white hover:bg-dz-a-error/90 disabled:opacity-60"
         >
           <Trash2 className="size-3.5" />
           حذف انتخاب‌ها

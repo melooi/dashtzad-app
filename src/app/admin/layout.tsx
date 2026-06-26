@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { requireAdmin } from "@/lib/auth/guards";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { AdminThemeScript } from "@/components/admin/AdminThemeScript";
 import { getChatSettings } from "@/lib/admin/global-service";
 import { getAdminChatCounts } from "@/lib/chat/service";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "پنل مدیریت | دشت‌زاد",
@@ -21,13 +21,13 @@ export default async function AdminLayout({
   const chatSettings = await getChatSettings();
   const showLauncher = chatSettings.enabled && chatSettings.showAdminLauncher;
   const { open } = showLauncher ? await getAdminChatCounts() : { open: 0 };
+  const newContactCount = await prisma.contactMessage.count({ where: { status: "NEW" } });
 
   return (
     <>
-      <AdminThemeScript />
       <AdminShell
         user={{ name: user.name }}
-        chat={{ showLauncher, openCount: open, label: "چت و پشتیبانی" }}
+        notifications={{ chatCount: open, contactCount: newContactCount }}
       >
         {children}
       </AdminShell>

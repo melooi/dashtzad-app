@@ -6,7 +6,7 @@ import { getAiConversation, conversationAccessible } from "@/lib/ai/chat-session
 export const runtime = "nodejs";
 
 /** Close an AI conversation (customer-initiated). Idempotent. */
-export async function POST(req: Request, ctx: RouteContext<"/api/chat/conversations/[id]">) {
+export async function POST(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
   const caller = await resolveCaller(req);
   const conv = await getAiConversation(id);

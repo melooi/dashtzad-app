@@ -87,18 +87,18 @@ export function CaseFileForm({
       <AdminFormError message={serverError} />
       <AdminSuccessNotice message={success} onDismiss={() => setSuccess(null)} />
 
-      <div className="overflow-hidden rounded-2xl border border-dz-primary-100 bg-white shadow-xs dark:border-dz-night-border dark:bg-dz-night-card">
-        <div className="relative flex min-h-[140px] items-center justify-center bg-dz-primary-50 dark:bg-white/5">
+      <div className="overflow-hidden rounded-2xl border border-dz-a-primary-100 bg-white shadow-xs dark:border-dz-a-night-border dark:bg-dz-a-night-card">
+        <div className="relative flex min-h-[140px] items-center justify-center bg-dz-a-primary-50 dark:bg-white/5">
           {cover ? (
             <img src={String(cover)} alt={String(title ?? "")} className="h-36 w-full object-cover" />
           ) : (
-            <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">پیش‌نمایش جلد پرونده</span>
+            <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">پیش‌نمایش جلد پرونده</span>
           )}
           <span className="absolute end-3 top-3 rounded-full bg-[#7a5538] px-2.5 py-1 text-[11px] font-bold text-white">پرونده</span>
         </div>
         <div className="p-4">
-          <h3 className="font-heading text-lg font-bold text-dz-primary-800 dark:text-dz-night-fg">{String(title) || "عنوان پرونده"}</h3>
-          {subtitle && <p className="mt-1 text-sm text-dz-primary-500 dark:text-dz-night-muted">{String(subtitle)}</p>}
+          <h3 className="font-heading text-lg font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">{String(title) || "عنوان پرونده"}</h3>
+          {subtitle && <p className="mt-1 text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">{String(subtitle)}</p>}
         </div>
       </div>
 

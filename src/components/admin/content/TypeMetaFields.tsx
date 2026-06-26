@@ -13,7 +13,7 @@ export function TypeMetaFields({ articleType }: { articleType: ArticleTypeKey })
   const fields = ARTICLE_TYPES[articleType]?.metaFields ?? [];
 
   if (fields.length === 0) {
-    return <p className="text-xs text-dz-primary-400 dark:text-dz-night-faint">این نوع مقاله فیلد اختصاصی ندارد.</p>;
+    return <p className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">این نوع مقاله فیلد اختصاصی ندارد.</p>;
   }
 
   return (
@@ -23,7 +23,7 @@ export function TypeMetaFields({ articleType }: { articleType: ArticleTypeKey })
         const wide = f.input === "textarea" || f.input === "tags";
         return (
           <div key={f.key} className={`flex flex-col gap-1.5 ${wide ? "@md:col-span-2" : ""}`}>
-            <label htmlFor={name} className="text-sm font-medium text-dz-primary-800 dark:text-dz-night-fg">
+            <label htmlFor={name} className="text-sm font-medium text-dz-a-primary-800 dark:text-dz-a-night-fg">
               {f.label}
             </label>
             {f.input === "textarea" ? (
@@ -40,7 +40,7 @@ export function TypeMetaFields({ articleType }: { articleType: ArticleTypeKey })
             ) : (
               <input id={name} className={fieldClass()} {...register(name)} />
             )}
-            {f.hint && <span className="text-xs text-dz-primary-400 dark:text-dz-night-faint">{f.hint}</span>}
+            {f.hint && <span className="text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">{f.hint}</span>}
           </div>
         );
       })}
