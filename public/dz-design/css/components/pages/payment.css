@@ -1,0 +1,374 @@
+/* =============================================================================
+ * Dashtzad — Payment result pages (components/pages/payment-*). توکن dz- · بدون px.
+ * صفحاتِ نتیجهٔ پرداخت (موفق/ناموفق): خودبسنده، هدرِ تیرهٔ اختصاصی، بدونِ هدر/فوترِ سایت.
+ * مقیاسِ تایپ یکدست با قالب (پایهٔ ۱۶px) — رنگ‌ها همگی از توکنِ dz- (یا color-mix روی توکن).
+ * ========================================================================== */
+
+.dz-pay * { box-sizing: border-box; }
+.dz-pay-body {
+	margin: 0;
+	font-family: var(--font-dz-primary);
+	background: var(--color-dz-paper-warm);
+	color: var(--color-dz-text);
+	direction: rtl;
+	line-height: 1.7;
+	font-size: 1rem;
+	-webkit-font-smoothing: antialiased;
+	min-block-size: 100vh;
+}
+.dz-pay h1, .dz-pay h2, .dz-pay h3, .dz-pay h4 { margin: 0; font-weight: 700; line-height: 1.15; }
+.dz-pay p { margin: 0; }
+.dz-pay a { color: inherit; text-decoration: none; }
+.dz-pay button { font-family: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+.dz-pay img { display: block; max-inline-size: 100%; }
+.dz-pay .num { font-variant-numeric: tabular-nums; }
+
+.dz-pay__wrap {
+	max-inline-size: 65rem;
+	margin-inline: auto;
+	padding-inline: clamp(1.25rem, 5vw, 2.75rem);
+}
+.dz-pay__toman {
+	display: inline-block;
+	inline-size: 0.9em; block-size: 0.78em;
+	vertical-align: -0.02em;
+	font-size: 0.82em;
+	font-weight: 700;
+	opacity: 0.75;
+}
+.dz-pay__eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.625rem;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.16em;
+}
+.dz-pay__eyebrow::before {
+	content: "";
+	inline-size: 1.625rem; block-size: var(--border-dz-medium);
+	background: currentColor; opacity: 0.7;
+}
+
+/* ============================================================
+ * HERO (full-bleed dark) — مشترک، با variant رنگی
+ * ============================================================ */
+.dz-pay__hero {
+	position: relative;
+	overflow: hidden;
+	color: var(--color-dz-cream);
+}
+.dz-pay--success .dz-pay__hero {
+	background:
+		radial-gradient(50rem 31.25rem at 78% -10%, color-mix(in srgb, var(--color-dz-gold) 20%, transparent), transparent 60%),
+		radial-gradient(43.75rem 37.5rem at 10% 120%, color-mix(in srgb, var(--color-dz-primary) 55%, transparent), transparent 60%),
+		linear-gradient(155deg, var(--color-dz-primary-deep) 0%, var(--color-dz-primary-900) 55%, var(--color-dz-primary-950) 100%);
+}
+.dz-pay--failed .dz-pay__hero {
+	background:
+		radial-gradient(50rem 31.25rem at 78% -10%, color-mix(in srgb, var(--color-dz-amber-bright) 18%, transparent), transparent 60%),
+		radial-gradient(43.75rem 37.5rem at 10% 120%, color-mix(in srgb, var(--color-dz-clay) 42%, transparent), transparent 60%),
+		linear-gradient(155deg, var(--color-dz-umber-deep) 0%, var(--color-dz-umber-900) 55%, var(--color-dz-umber-950) 100%);
+}
+.dz-pay__hero::after {
+	content: "";
+	position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
+	background-image: radial-gradient(color-mix(in srgb, var(--color-dz-cream) 5%, transparent) 0.0625rem, transparent 0.0875rem);
+	background-size: 0.875rem 0.875rem;
+	-webkit-mask: radial-gradient(75rem 37.5rem at 70% 0%, var(--color-dz-text) 0%, transparent 75%);
+	mask: radial-gradient(75rem 37.5rem at 70% 0%, var(--color-dz-text) 0%, transparent 75%);
+}
+.dz-pay__top {
+	position: relative; z-index: 2;
+	display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+	padding-block: 1.125rem;
+}
+.dz-pay__brand { display: inline-flex; align-items: center; gap: 0.75rem; }
+.dz-pay__seal {
+	inline-size: 2.625rem; block-size: 2.625rem; flex: 0 0 auto;
+	border-radius: 624.375rem;
+	background: color-mix(in srgb, var(--color-dz-cream) 8%, transparent);
+	color: var(--color-dz-cream);
+	display: grid; place-items: center;
+	font-family: var(--font-dz-display); font-weight: 700; font-size: 1.25rem;
+	border: var(--border-dz-medium) solid color-mix(in srgb, var(--color-dz-gold) 70%, transparent);
+}
+.dz-pay__brandname { font-family: var(--font-dz-display); font-weight: 700; font-size: 1.375rem; line-height: 1; color: var(--color-dz-cream); }
+.dz-pay__brandtag { display: block; color: color-mix(in srgb, var(--color-dz-cream) 74%, transparent); font-size: 0.6563rem; margin-block-start: 0.1875rem; letter-spacing: 0.02em; }
+.dz-pay__support { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8438rem; font-weight: 600; color: color-mix(in srgb, var(--color-dz-cream) 74%, transparent); }
+.dz-pay--success .dz-pay__support i { color: var(--color-dz-gold-bright); }
+.dz-pay--failed .dz-pay__support i { color: var(--color-dz-amber-bright); }
+
+.dz-pay__hbody {
+	position: relative; z-index: 2; text-align: center;
+	padding-block: clamp(0.375rem, 1.4vw, 0.875rem) clamp(2.5rem, 7vw, 4.0625rem);
+}
+
+/* medallion */
+.dz-pay__medal { position: relative; inline-size: 5rem; block-size: 5rem; margin: 0 auto clamp(1rem, 2.6vw, 1.375rem); }
+.dz-pay--success .dz-pay__medal { inline-size: 4.25rem; block-size: 4.25rem; }
+.dz-pay--failed .dz-pay__medal { inline-size: 6.25rem; block-size: 6.25rem; }
+.dz-pay__halo {
+	position: absolute; inset: -1.625rem; border-radius: 624.375rem;
+	animation: dz-pay-halo 3.6s ease-in-out infinite;
+}
+.dz-pay--success .dz-pay__halo { background: radial-gradient(circle, color-mix(in srgb, var(--color-dz-gold) 28%, transparent), transparent 66%); }
+.dz-pay--failed .dz-pay__halo { background: radial-gradient(circle, color-mix(in srgb, var(--color-dz-clay-bright) 26%, transparent), transparent 66%); }
+@keyframes dz-pay-halo { 0%,100% { opacity: 0.55; transform: scale(0.96); } 50% { opacity: 1; transform: scale(1.04); } }
+.dz-pay__medal svg { position: relative; z-index: 1; inline-size: 100%; block-size: 100%; display: block; }
+.dz-pay__medal .ring-bg { fill: color-mix(in srgb, var(--color-dz-cream) 4%, transparent); stroke: color-mix(in srgb, var(--color-dz-cream) 18%, transparent); stroke-width: 1.5; }
+.dz-pay__medal .ring-gold { fill: none; stroke: var(--color-dz-gold-bright); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 376; stroke-dashoffset: 376; transform: rotate(-90deg); transform-origin: 50% 50%; animation: dz-pay-draw 0.85s cubic-bezier(.6,0,.2,1) 0.15s forwards; }
+.dz-pay__medal .ring-clay { fill: none; stroke: var(--color-dz-clay-bright); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 376; stroke-dashoffset: 376; transform: rotate(-90deg); transform-origin: 50% 50%; animation: dz-pay-draw 2.2s cubic-bezier(.45,0,.15,1) 0.2s forwards; }
+.dz-pay__medal .tick { fill: none; stroke: var(--color-dz-gold-bright); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 46; stroke-dashoffset: 46; animation: dz-pay-draw 0.42s cubic-bezier(.6,0,.2,1) 0.78s forwards; }
+.dz-pay__medal .bang { stroke: var(--color-dz-amber-bright); stroke-width: 7; stroke-linecap: round; opacity: 0; animation: dz-pay-bang 0.5s ease-out 2.1s forwards; }
+.dz-pay__medal .bang-dot { fill: var(--color-dz-amber-bright); stroke: none; opacity: 0; animation: dz-pay-bang 0.5s ease-out 2.1s forwards; }
+@keyframes dz-pay-draw { to { stroke-dashoffset: 0; } }
+@keyframes dz-pay-bang { from { opacity: 0; transform: translateY(-0.25rem); } to { opacity: 1; transform: none; } }
+
+.dz-pay__heyebrow { justify-content: center; margin-block-end: 0.625rem; font-size: 0.7187rem; white-space: nowrap; }
+.dz-pay--success .dz-pay__heyebrow { color: var(--color-dz-gold-bright); }
+.dz-pay--failed .dz-pay__heyebrow { color: var(--color-dz-amber-bright); }
+.dz-pay--failed .dz-pay__heyebrow::before { content: none; }
+.dz-pay__title { font-family: var(--font-dz-display); font-weight: 900; font-size: clamp(1.5rem, 1.0625rem + 1.8vw, 2.375rem); line-height: 1.25; letter-spacing: -0.02em; color: var(--color-dz-cream); }
+.dz-pay--success .dz-pay__title em { font-style: normal; color: var(--color-dz-gold-bright); }
+.dz-pay--failed .dz-pay__title em { font-style: normal; color: var(--color-dz-amber-bright); }
+.dz-pay__sub { max-inline-size: 31.25rem; margin: 0.75rem auto 0; text-align: center; color: color-mix(in srgb, var(--color-dz-cream) 78%, transparent); font-size: clamp(0.8438rem, 1.4vw, 0.9375rem); line-height: 1.8; text-wrap: pretty; }
+
+/* order number pill (success) */
+.dz-pay__ordernum { display: inline-flex; align-items: center; gap: 0.875rem; flex-wrap: wrap; justify-content: center; margin-block-start: 0.9375rem; padding: 0.4375rem 0.4375rem 0.4375rem 1.25rem; background: color-mix(in srgb, var(--color-dz-cream) 6%, transparent); border: var(--border-dz-hairline) solid color-mix(in srgb, var(--color-dz-cream) 16%, transparent); border-radius: 624.375rem; }
+.dz-pay__ordernum-k { font-size: 0.7813rem; color: color-mix(in srgb, var(--color-dz-cream) 74%, transparent); font-weight: 600; }
+.dz-pay__ordernum-v { font-size: 1rem; font-weight: 700; letter-spacing: 0.06em; color: var(--color-dz-cream); }
+.dz-pay__copy { display: inline-flex; align-items: center; gap: 0.375rem; font-size: 0.8125rem; font-weight: 700; color: var(--color-dz-primary-950); background: var(--color-dz-gold); padding: 0.5625rem 0.9375rem; border-radius: 624.375rem; transition: background var(--duration-dz-fast) ease, transform var(--duration-dz-fast) ease; }
+.dz-pay__copy:hover { background: var(--color-dz-gold-bright); }
+.dz-pay__copy:active { transform: translateY(0.0625rem); }
+
+/* safe pill (failed) */
+.dz-pay__safepill { display: inline-flex; align-items: center; gap: 0.5625rem; margin-block-start: 1.375rem; padding: 0.5937rem 1.125rem; background: color-mix(in srgb, var(--color-dz-primary) 16%, transparent); border: var(--border-dz-hairline) solid color-mix(in srgb, var(--color-dz-primary) 40%, transparent); border-radius: 624.375rem; font-size: 0.875rem; font-weight: 700; color: color-mix(in srgb, var(--color-dz-cream) 80%, var(--color-dz-primary)); }
+.dz-pay__safepill i { color: var(--color-dz-gold-bright); font-size: 0.9375rem; }
+
+.dz-pay__wave { position: relative; z-index: 2; display: block; inline-size: 100%; block-size: clamp(2.5rem, 7vw, 4.375rem); margin-block-end: -0.0625rem; color: var(--color-dz-paper-warm); }
+
+/* ============================================================
+ * STAGE
+ * ============================================================ */
+.dz-pay__stage { background: var(--color-dz-paper-warm); padding-block-end: clamp(3.125rem, 9vw, 5.625rem); }
+.dz-pay--failed .dz-pay__stage { padding-block-start: clamp(1.875rem, 5vw, 2.8125rem); }
+
+.dz-pay__metastrip { position: relative; z-index: 5; display: grid; grid-template-columns: repeat(3, 1fr); background: var(--color-dz-paper-warm); border: var(--border-dz-hairline) solid var(--color-dz-border); border-radius: 1.25rem; box-shadow: 0 1.875rem 4.375rem -1.875rem color-mix(in srgb, var(--color-dz-primary-deep) 45%, transparent); overflow: hidden; }
+.dz-pay--success .dz-pay__metastrip { margin-block-start: clamp(-3.75rem, -9vw, -2.8125rem); }
+.dz-pay--failed .dz-pay__metastrip { margin-block-start: clamp(-5.625rem, -12vw, -4.0625rem); box-shadow: 0 1.875rem 4.375rem -1.875rem color-mix(in srgb, var(--color-dz-umber-deep) 40%, transparent); }
+.dz-pay__mcell { display: flex; align-items: center; gap: 0.875rem; padding: 1.375rem clamp(1.125rem, 2.5vw, 1.75rem); }
+.dz-pay__mcell + .dz-pay__mcell { border-inline-start: var(--border-dz-hairline) solid var(--color-dz-border); }
+.dz-pay__mic { inline-size: 3rem; block-size: 3rem; flex: 0 0 auto; border-radius: 0.75rem; display: grid; place-items: center; font-size: 1.1875rem; background: var(--color-dz-primary-soft); color: var(--color-dz-primary-deep); }
+.dz-pay__mic--gold { background: var(--color-dz-amber-soft); color: var(--color-dz-gold-deep); }
+.dz-pay__mic--green { background: var(--color-dz-primary-soft); color: var(--color-dz-primary-deep); }
+.dz-pay__mic--clay { background: var(--color-dz-clay-soft); color: var(--color-dz-clay); }
+.dz-pay__mk { font-size: 0.7813rem; color: var(--color-dz-text-faint); font-weight: 600; }
+.dz-pay__mv { font-size: 1rem; font-weight: 700; color: var(--color-dz-text); margin-block-start: 0.1875rem; line-height: 1.35; }
+.dz-pay__mv .ok { color: var(--color-dz-primary); }
+
+.dz-pay__seclabel { display: flex; align-items: baseline; gap: 0.75rem; margin-block-end: 1.5rem; }
+.dz-pay__seclabel-t { font-family: var(--font-dz-display); font-weight: 800; font-size: clamp(1.375rem, 0.875rem + 2.2vw, 1.75rem); line-height: 1.45; color: var(--color-dz-text); }
+.dz-pay__seclabel-line { flex: 1; block-size: var(--border-dz-hairline); background: var(--color-dz-border); align-self: center; }
+.dz-pay__seclabel-aside { font-size: 0.8125rem; color: var(--color-dz-text-faint); font-weight: 600; }
+
+.dz-pay__cols { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: clamp(2rem, 6vw, 4rem); align-items: start; }
+.dz-pay--success .dz-pay__cols { margin-block-start: clamp(2.5rem, 6vw, 3.75rem); }
+@media (max-width: 34.375rem) { .dz-pay__cols { grid-template-columns: 1fr; gap: clamp(2.25rem, 7vw, 3.125rem); } }
+@media (max-width: 29.6875rem) { .dz-pay__metastrip { grid-template-columns: 1fr; } .dz-pay__mcell + .dz-pay__mcell { border-inline-start: 0; border-block-start: var(--border-dz-hairline) solid var(--color-dz-border); } }
+
+/* ============================================================
+ * ACTIONS + REASSURE (shared)
+ * ============================================================ */
+.dz-pay__actions { display: flex; gap: 0.875rem; margin-block-start: clamp(2.5rem, 7vw, 4rem); }
+@media (max-width: 21.875rem) { .dz-pay__actions { flex-direction: column; } }
+.dz-pay__btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-dz-gap-em, 0.4em); min-block-size: var(--size-dz-touch-target-min, 3rem); font-weight: 700; border-radius: var(--radius-dz-pill); font-size: var(--text-dz-button, 0.9375rem); padding: 0.85rem 1.6rem; transition: transform var(--duration-dz-fast) ease, background var(--duration-dz-normal) ease, border-color var(--duration-dz-fast) ease; }
+.dz-pay__btn:active { transform: translateY(0.0625rem); }
+.dz-pay__btn--primary { color: var(--color-dz-cream); }
+.dz-pay--success .dz-pay__btn--primary { background: var(--color-dz-primary); box-shadow: 0 1rem 2.25rem -0.875rem color-mix(in srgb, var(--color-dz-primary) 60%, transparent); }
+.dz-pay--success .dz-pay__btn--primary:hover { background: var(--color-dz-primary-hover); }
+.dz-pay--success .dz-pay__btn--primary i { color: var(--color-dz-gold-bright); }
+.dz-pay--failed .dz-pay__btn--primary { background: var(--color-dz-clay); box-shadow: 0 1rem 2.25rem -0.875rem color-mix(in srgb, var(--color-dz-clay) 70%, transparent); }
+.dz-pay--failed .dz-pay__btn--primary:hover { background: var(--color-dz-clay-deep); }
+.dz-pay--failed .dz-pay__btn--primary i { color: var(--color-dz-amber-soft); }
+.dz-pay__btn--ghost { background: var(--color-dz-paper-warm); color: var(--color-dz-text); border: var(--border-dz-medium) solid var(--color-dz-border-strong); }
+.dz-pay--success .dz-pay__btn--ghost:hover { color: var(--color-dz-primary-deep); border-color: var(--color-dz-primary); }
+.dz-pay--success .dz-pay__btn--ghost i { color: var(--color-dz-primary); }
+.dz-pay--failed .dz-pay__btn--ghost:hover { color: var(--color-dz-clay); border-color: var(--color-dz-clay); }
+.dz-pay--failed .dz-pay__btn--ghost i { color: var(--color-dz-clay); }
+
+.dz-pay__reassure { display: flex; align-items: center; justify-content: center; gap: clamp(1.125rem, 3vw, 2rem); flex-wrap: wrap; margin-block-start: 2.125rem; }
+.dz-pay__reassure-item { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8438rem; color: var(--color-dz-text-muted); }
+.dz-pay__reassure-item i { color: var(--color-dz-primary); font-size: 0.9375rem; }
+.dz-pay__reassure-item b { color: var(--color-dz-text); font-weight: 700; }
+.dz-pay__reassure-sep { inline-size: 0.25rem; block-size: 0.25rem; border-radius: 624.375rem; background: var(--color-dz-border-strong); }
+@media (max-width: 23.4375rem) { .dz-pay__reassure-sep { display: none; } }
+
+/* ============================================================
+ * SUCCESS — invoice sheet
+ * ============================================================ */
+.dz-pay-inv { min-inline-size: 0; }
+.dz-pay-inv__sheet { position: relative; background: var(--color-dz-paper-warm); border: var(--border-dz-hairline) solid var(--color-dz-border); border-radius: 1.125rem; padding: clamp(1.25rem, 3vw, 1.875rem); box-shadow: 0 1.875rem 4.375rem -2.25rem color-mix(in srgb, var(--color-dz-primary-deep) 40%, transparent); overflow: hidden; }
+.dz-pay-inv__sheet::before { content: ""; position: absolute; inset-block-start: 0; inset-inline: 0; block-size: 0.25rem; background: linear-gradient(90deg, var(--color-dz-primary-deep), var(--color-dz-gold)); }
+.dz-pay-inv__head { display: flex; justify-content: space-between; gap: 1rem 1.25rem; flex-wrap: wrap; padding-block-end: 1.25rem; border-block-end: var(--border-dz-hairline) solid var(--color-dz-border); }
+.dz-pay-inv__brand { display: flex; align-items: center; gap: 0.6875rem; }
+.dz-pay-inv__seal { inline-size: 2.75rem; block-size: 2.75rem; flex: 0 0 auto; border-radius: 624.375rem; display: grid; place-items: center; background: var(--color-dz-primary-soft); color: var(--color-dz-primary-deep); font-family: var(--font-dz-display); font-weight: 700; font-size: 1.3125rem; border: var(--border-dz-medium) solid color-mix(in srgb, var(--color-dz-primary) 25%, transparent); }
+.dz-pay-inv__brandname { font-family: var(--font-dz-display); font-weight: 800; font-size: 1.25rem; color: var(--color-dz-text); line-height: 1; }
+.dz-pay-inv__brandtag { font-size: 0.7187rem; color: var(--color-dz-text-faint); margin-block-start: 0.2813rem; }
+.dz-pay-inv__doc { display: flex; flex-direction: column; gap: 0.2187rem; align-items: flex-start; }
+.dz-pay-inv__doctitle { font-family: var(--font-dz-display); font-weight: 800; font-size: 1.0625rem; color: var(--color-dz-primary-deep); }
+.dz-pay-inv__docmeta { font-size: 0.7813rem; color: var(--color-dz-text-muted); display: inline-flex; gap: 0.375rem; align-items: baseline; }
+.dz-pay-inv__docmeta b { color: var(--color-dz-text); font-weight: 700; letter-spacing: 0.03em; }
+.dz-pay-inv__parties { display: grid; grid-template-columns: 1fr; gap: 0.75rem; padding-block: 1.125rem; border-block-end: var(--border-dz-hairline) solid var(--color-dz-border); }
+.dz-pay-inv__party { display: flex; gap: 0.625rem; align-items: flex-start; background: var(--color-dz-surface-warm); border: var(--border-dz-hairline) solid var(--color-dz-border); border-radius: 0.75rem; padding: 0.8125rem 0.875rem; }
+.dz-pay-inv__party-ic { inline-size: 2.125rem; block-size: 2.125rem; flex: 0 0 auto; border-radius: 0.5625rem; display: grid; place-items: center; background: var(--color-dz-paper-warm); color: var(--color-dz-primary-deep); font-size: 0.875rem; border: var(--border-dz-hairline) solid var(--color-dz-border); }
+.dz-pay-inv__party-k { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.04em; color: var(--color-dz-gold-deep); margin-block-end: 0.1875rem; }
+.dz-pay-inv__party-body { flex: 1; min-inline-size: 0; }
+.dz-pay-inv__prow { display: flex; gap: 0.625rem; align-items: baseline; margin-block-start: 0.375rem; }
+.dz-pay-inv__prow-k { flex: 0 0 4.375rem; color: var(--color-dz-text-faint); font-size: 0.75rem; font-weight: 600; }
+.dz-pay-inv__prow-v { flex: 1; min-inline-size: 0; color: var(--color-dz-text); font-size: 0.875rem; font-weight: 700; line-height: 1.6; }
+.dz-pay-inv__table { inline-size: 100%; border-collapse: collapse; margin: 0; }
+.dz-pay-inv__table thead th { font-size: 0.7187rem; font-weight: 700; color: var(--color-dz-text-faint); text-align: center; padding: 0.8125rem 0.4375rem; border-block-end: var(--border-dz-medium) solid var(--color-dz-border-strong); white-space: nowrap; }
+.dz-pay-inv__table thead .dz-pay-inv__c-desc { text-align: start; }
+.dz-pay-inv__table tbody td { padding: 0.9375rem 0.4375rem; border-block-end: var(--border-dz-hairline) solid var(--color-dz-border); vertical-align: middle; font-size: 0.875rem; color: var(--color-dz-text); text-align: center; white-space: nowrap; }
+.dz-pay-inv__table tbody tr:last-child td { border-block-end: 0; }
+.dz-pay-inv__c-no { inline-size: 1.875rem; color: var(--color-dz-text-faint); }
+.dz-pay-inv__c-qty { inline-size: 3.125rem; }
+.dz-pay-inv__c-desc { text-align: start; white-space: normal; }
+.dz-pay-inv__c-sum { font-weight: 700; }
+.dz-pay-inv__item { display: block; font-weight: 700; font-size: 0.9062rem; }
+.dz-pay-inv__item-sub { display: block; font-size: 0.7187rem; color: var(--color-dz-text-faint); margin-block-start: 0.1563rem; font-weight: 400; }
+.dz-pay-inv__foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem 1.25rem; flex-wrap: wrap; margin-block-start: 1.25rem; padding-block-start: 1.125rem; border-block-start: var(--border-dz-medium) solid var(--color-dz-border-strong); }
+.dz-pay-inv__stamp-t { font-weight: 800; font-size: 0.9062rem; color: var(--color-dz-primary-deep); font-family: var(--font-dz-display); }
+.dz-pay-inv__stamp-d { font-size: 0.75rem; color: var(--color-dz-text-faint); margin-block-start: 0.125rem; }
+.dz-pay-inv__totals { min-inline-size: 15rem; flex: 1; max-inline-size: 20rem; display: flex; flex-direction: column; gap: 0.5625rem; }
+.dz-pay-inv__trow { display: flex; justify-content: space-between; gap: 0.625rem; font-size: 0.875rem; color: var(--color-dz-text-muted); }
+.dz-pay-inv__trow > span:last-child { font-weight: 600; color: var(--color-dz-text); display: inline-flex; align-items: center; gap: 0.25rem; white-space: nowrap; }
+.dz-pay-inv__trow--save > span:last-child { color: var(--color-dz-clay); }
+.dz-pay-inv__free { color: var(--color-dz-primary); font-weight: 700; }
+.dz-pay-inv__grand { display: flex; justify-content: space-between; align-items: center; gap: 0.625rem; margin-block-start: 0.25rem; padding-block-start: 0.75rem; border-block-start: var(--border-dz-hairline) solid var(--color-dz-border); font-family: var(--font-dz-display); }
+.dz-pay-inv__grand > span:first-child { font-size: 0.9375rem; font-weight: 700; color: var(--color-dz-text); }
+.dz-pay-inv__grand > span:last-child { font-size: 1.375rem; font-weight: 800; color: var(--color-dz-primary-deep); display: inline-flex; align-items: center; gap: 0.25rem; white-space: nowrap; }
+.dz-pay-inv__actions { display: flex; gap: 0.75rem; margin-block-start: 1.25rem; flex-wrap: wrap; }
+.dz-pay-inv__btn { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 0.9062rem; padding: 0.8125rem 1.5rem; border-radius: var(--radius-dz-pill); background: var(--color-dz-primary-deep); color: var(--color-dz-cream); transition: background var(--duration-dz-fast) ease, transform var(--duration-dz-fast) ease, border-color var(--duration-dz-fast) ease; }
+.dz-pay-inv__btn i { color: var(--color-dz-gold-bright); }
+.dz-pay-inv__btn:hover { background: var(--color-dz-primary-900); }
+.dz-pay-inv__btn:active { transform: translateY(0.0625rem); }
+.dz-pay-inv__btn--ghost { background: var(--color-dz-paper-warm); color: var(--color-dz-text); border: var(--border-dz-medium) solid var(--color-dz-border-strong); }
+.dz-pay-inv__btn--ghost i { color: var(--color-dz-primary); }
+.dz-pay-inv__btn--ghost:hover { border-color: var(--color-dz-primary); color: var(--color-dz-primary-deep); }
+@media (max-width: 20.3125rem) { .dz-pay-inv__prow-k { flex-basis: 3.75rem; } }
+
+/* SUCCESS — delivery */
+.dz-pay-eta { display: flex; align-items: center; gap: 1rem; padding-block-end: 1.625rem; border-block-end: var(--border-dz-hairline) solid var(--color-dz-border); margin-block-end: 1.625rem; }
+.dz-pay-eta__big { font-family: var(--font-dz-display); font-weight: 700; font-size: clamp(1.25rem, 2.6vw, 1.5rem); color: var(--color-dz-primary-deep); line-height: 1.3; }
+.dz-pay-eta__small { font-size: 0.8438rem; color: var(--color-dz-text-faint); margin-block-start: 0.3125rem; }
+.dz-pay-eta__small b { color: var(--color-dz-gold-deep); }
+
+.dz-pay-track { list-style: none; margin: 0.125rem 0 0; padding: 0; position: relative; }
+.dz-pay-track__step { display: flex; gap: 0.875rem; padding-block-end: 1.75rem; position: relative; }
+.dz-pay-track__step:last-child { padding-block-end: 0; }
+.dz-pay-track__step::before { content: ""; position: absolute; inset-inline-start: 1.1563rem; inset-block-start: 2.375rem; inset-block-end: 0; inline-size: 0.125rem; background: var(--color-dz-border); }
+.dz-pay-track__step:last-child::before { display: none; }
+.dz-pay-track__dot { inline-size: 2.375rem; block-size: 2.375rem; border-radius: 624.375rem; display: grid; place-items: center; flex: 0 0 auto; position: relative; background: var(--color-dz-surface-warm); border: var(--border-dz-medium) solid var(--color-dz-border-strong); color: var(--color-dz-text-faint); font-size: 0.9375rem; z-index: 1; }
+.dz-pay-track__step.is-done .dz-pay-track__dot { background: var(--color-dz-primary); border-color: var(--color-dz-primary); color: var(--color-dz-cream); }
+.dz-pay-track__step.is-current .dz-pay-track__dot { background: var(--color-dz-amber-soft); border-color: var(--color-dz-gold); color: var(--color-dz-gold-deep); box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--color-dz-gold) 20%, transparent); }
+.dz-pay-track__step::after { content: ""; position: absolute; inset-inline-start: 1.1563rem; inset-block-start: 2.375rem; inset-block-end: 0; inline-size: 0.125rem; background: var(--color-dz-primary); transform: scaleY(0); transform-origin: top; z-index: 0; }
+.dz-pay-track__step:last-child::after { display: none; }
+.dz-pay-track__step.is-done::after { transform: scaleY(1); }
+.dz-pay-track__t { font-weight: 700; font-size: 1rem; color: var(--color-dz-text); padding-block-start: 0.25rem; }
+.dz-pay-track__step.is-pending .dz-pay-track__t { color: var(--color-dz-text-faint); }
+.dz-pay-track__d { font-size: 0.8438rem; color: var(--color-dz-text-muted); margin-block-start: 0.1875rem; }
+.dz-pay-track__d b { color: var(--color-dz-primary-deep); font-weight: 700; }
+
+.dz-pay-addr { margin-block-start: 1.875rem; padding-block-start: 1.625rem; border-block-start: var(--border-dz-hairline) solid var(--color-dz-border); display: flex; flex-direction: column; gap: 1rem; }
+.dz-pay-addr__row { display: flex; gap: 0.75rem; }
+.dz-pay-addr__ic { inline-size: 2.25rem; block-size: 2.25rem; flex: 0 0 auto; border-radius: 0.625rem; display: grid; place-items: center; background: var(--color-dz-primary-soft); color: var(--color-dz-primary-deep); font-size: 0.9375rem; }
+.dz-pay-addr__k { font-size: 0.75rem; color: var(--color-dz-text-faint); font-weight: 600; }
+.dz-pay-addr__v { font-size: 0.9062rem; font-weight: 600; color: var(--color-dz-text); margin-block-start: 0.125rem; line-height: 1.65; }
+
+/* toast */
+.dz-pay__toast { position: fixed; inset-block-end: 1.625rem; inset-inline-start: 50%; transform: translateX(50%) translateY(1.25rem); display: inline-flex; align-items: center; gap: 0.625rem; font-weight: 700; color: var(--color-dz-cream); background: var(--color-dz-primary-deep); padding: 0.875rem 1.5rem; border-radius: 624.375rem; box-shadow: 0 1.25rem 3.125rem -0.9375rem color-mix(in srgb, var(--color-dz-primary-950) 70%, transparent); z-index: 95; font-size: 0.875rem; opacity: 0; pointer-events: none; transition: opacity var(--duration-dz-normal), transform var(--duration-dz-normal); }
+.dz-pay__toast[data-show="true"] { opacity: 1; transform: translateX(50%) translateY(0); }
+.dz-pay__toast i { color: var(--color-dz-gold-bright); }
+
+/* ============================================================
+ * FAILED — explain / reasons
+ * ============================================================ */
+.dz-pay-explain { display: flex; gap: 1.125rem; padding: 1.625rem; background: var(--color-dz-surface-warm); border: var(--border-dz-hairline) solid var(--color-dz-border); border-radius: 1.125rem; }
+.dz-pay-explain__ic { inline-size: 3.125rem; block-size: 3.125rem; flex: 0 0 auto; border-radius: 0.8125rem; display: grid; place-items: center; background: var(--color-dz-paper-warm); border: var(--border-dz-hairline) solid var(--color-dz-clay-soft); color: var(--color-dz-clay); font-size: 1.25rem; box-shadow: 0 0.625rem 1.5rem -0.875rem color-mix(in srgb, var(--color-dz-clay) 55%, transparent); }
+.dz-pay-explain__t { font-size: 1.1563rem; font-weight: 700; color: var(--color-dz-text); }
+.dz-pay-explain__d { font-size: 0.9375rem; color: var(--color-dz-text-muted); margin-block-start: 0.4375rem; line-height: 1.85; text-wrap: pretty; }
+.dz-pay-explain__code { display: inline-flex; align-items: center; gap: 0.375rem; flex-wrap: wrap; margin-block-start: 0.75rem; font-size: 0.7813rem; font-weight: 600; color: var(--color-dz-text-faint); }
+.dz-pay-explain__code b { color: var(--color-dz-clay); font-weight: 700; }
+.dz-pay-explain__copy { display: inline-flex; align-items: center; gap: 0.25rem; margin-inline-start: 0.5rem; padding: 0.2187rem 0.5625rem; border-radius: 0.5rem; font-size: 0.7187rem; font-weight: 700; color: var(--color-dz-clay); background: var(--color-dz-clay-soft); transition: background var(--duration-dz-fast) ease, color var(--duration-dz-fast) ease; }
+.dz-pay-explain__copy:hover { background: var(--color-dz-clay); color: var(--color-dz-cream); }
+.dz-pay-explain__copy.is-copied { background: var(--color-dz-primary-soft); color: var(--color-dz-primary-deep); }
+
+.dz-pay-reasons { display: flex; flex-direction: column; margin-block-start: 1.625rem; }
+.dz-pay-reason { display: flex; gap: 0.875rem; padding-block: 1.125rem; border-block-end: var(--border-dz-hairline) solid var(--color-dz-border); align-items: flex-start; }
+.dz-pay-reason:last-child { border-block-end: 0; }
+.dz-pay-reason__ic { inline-size: 2.375rem; block-size: 2.375rem; flex: 0 0 auto; border-radius: 0.625rem; display: grid; place-items: center; background: var(--color-dz-surface-soft); color: var(--color-dz-text-muted); font-size: 0.9375rem; }
+.dz-pay-reason__t { font-size: 1rem; font-weight: 700; color: var(--color-dz-text); }
+.dz-pay-reason__d { font-size: 0.8438rem; color: var(--color-dz-text-faint); margin-block-start: 0.1563rem; line-height: 1.7; }
+
+/* FAILED — saved cart */
+.dz-pay-saved { border: var(--border-dz-hairline) solid var(--color-dz-border); border-radius: 1.125rem; overflow: hidden; box-shadow: 0 1.5rem 3.75rem -1.875rem color-mix(in srgb, var(--color-dz-primary-deep) 40%, transparent); }
+.dz-pay-saved__head { display: flex; align-items: center; gap: 0.6875rem; padding: 1.0625rem 1.375rem; background: var(--color-dz-primary-deep); color: var(--color-dz-cream); }
+.dz-pay-saved__head i { color: var(--color-dz-gold-bright); font-size: 1.0625rem; }
+.dz-pay-saved__t { font-weight: 700; font-size: 1rem; }
+.dz-pay-saved__sub { margin-inline-start: auto; font-size: 0.75rem; color: color-mix(in srgb, var(--color-dz-cream) 74%, transparent); font-weight: 600; }
+.dz-pay-saved__body { padding: 0.25rem 1.375rem 1.375rem; }
+.dz-pay-line { display: flex; gap: 1rem; padding-block: 1.1875rem; border-block-end: var(--border-dz-hairline) solid var(--color-dz-border); align-items: center; }
+.dz-pay-line:last-child { border-block-end: 0; }
+.dz-pay-line__thumb { inline-size: 4.125rem; block-size: 4.125rem; flex: 0 0 auto; border-radius: 0.75rem; overflow: hidden; position: relative; background-color: var(--color-dz-surface-warm); background-image: repeating-linear-gradient(135deg, transparent 0 0.625rem, color-mix(in srgb, var(--color-dz-border-strong) 60%, transparent) 0.625rem 0.6875rem); }
+.dz-pay-line__thumb img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; }
+.dz-pay-line__thumb span { position: absolute; inset: 0; display: grid; place-items: center; font-family: ui-monospace, monospace; font-size: 0.5937rem; color: var(--color-dz-text-faint); text-align: center; padding: 0.1875rem; }
+.dz-pay-line__body { flex: 1; min-inline-size: 0; display: flex; flex-direction: column; gap: 0.3125rem; }
+.dz-pay-line__name { font-weight: 700; font-size: 0.9688rem; color: var(--color-dz-text); }
+.dz-pay-line__sub { font-size: 0.75rem; color: var(--color-dz-text-faint); font-weight: 600; }
+.dz-pay-line__end { display: flex; flex-direction: column; align-items: flex-end; flex: 0 0 auto; gap: 0.1563rem; text-align: end; }
+.dz-pay-line__qty { font-size: 0.7187rem; color: var(--color-dz-text-faint); font-weight: 600; }
+.dz-pay-price { display: inline-flex; align-items: center; gap: 0.25rem; font-weight: 700; font-size: 0.9688rem; color: var(--color-dz-text); }
+.dz-pay-savedtotal { display: flex; align-items: center; justify-content: space-between; margin-block-start: 1rem; padding: 1rem 1.25rem; background: var(--color-dz-surface-warm); border: var(--border-dz-medium) dashed var(--color-dz-border-strong); border-radius: 0.875rem; }
+.dz-pay-savedtotal__k { font-size: 0.9062rem; font-weight: 700; color: var(--color-dz-text); }
+.dz-pay-savedtotal__v { font-size: 1.3125rem; font-weight: 700; color: var(--color-dz-primary-deep); display: inline-flex; align-items: center; gap: 0.3125rem; }
+
+.dz-pay-hold { margin-block-start: 0.9375rem; padding: 1rem 1.0625rem; background: var(--color-dz-paper-warm); border: var(--border-dz-medium) solid var(--color-dz-clay-soft); border-radius: 0.875rem; }
+.dz-pay-hold.is-expired { border-color: var(--color-dz-border-strong); background: var(--color-dz-surface-warm); }
+.dz-pay-hold__top { display: flex; align-items: center; gap: 0.8125rem; }
+.dz-pay-hold__ic { inline-size: 2.75rem; block-size: 2.75rem; flex: 0 0 auto; border-radius: 0.75rem; display: grid; place-items: center; background: var(--color-dz-clay-soft); color: var(--color-dz-clay); font-size: 1.1875rem; }
+.dz-pay-hold.is-expired .dz-pay-hold__ic { background: var(--color-dz-surface-soft); color: var(--color-dz-text-faint); }
+.dz-pay-hold__b { flex: 1; min-inline-size: 0; }
+.dz-pay-hold__k { font-size: 0.9062rem; font-weight: 700; color: var(--color-dz-text); line-height: 1.5; }
+.dz-pay-hold.is-expired .dz-pay-hold__k { color: var(--color-dz-text-faint); }
+.dz-pay-hold__clock { font-family: var(--font-dz-display); font-weight: 700; font-size: 1.25rem; color: var(--color-dz-clay); font-variant-numeric: tabular-nums; background: var(--color-dz-clay-soft); border-radius: 0.6875rem; padding: 0.3125rem 0.6875rem; flex: 0 0 auto; align-self: flex-start; letter-spacing: 0.04em; }
+.dz-pay-hold.is-expired .dz-pay-hold__clock { background: var(--color-dz-surface-soft); color: var(--color-dz-text-faint); }
+.dz-pay-hold__bar { margin-block-start: 0.8125rem; block-size: 0.375rem; border-radius: 624.375rem; background: var(--color-dz-clay-soft); overflow: hidden; }
+.dz-pay-hold__barfill { display: block; block-size: 100%; inline-size: 100%; border-radius: 624.375rem; background: linear-gradient(90deg, var(--color-dz-clay), var(--color-dz-amber-bright)); transition: width 1s linear; }
+.dz-pay-hold.is-expired .dz-pay-hold__barfill { background: var(--color-dz-border-strong); }
+.dz-pay-holdnote { display: flex; align-items: flex-start; gap: 0.375rem; margin-block-start: 0.625rem; font-size: 0.7813rem; color: var(--color-dz-text-muted); line-height: 1.7; text-wrap: pretty; }
+.dz-pay-holdnote i { color: var(--color-dz-clay); font-size: 0.8125rem; margin-block-start: 0.1875rem; flex: 0 0 auto; }
+
+@media (max-width: 26.5625rem) {
+	.dz-pay__brandtag { font-size: 0.5625rem; }
+	.dz-pay-explain { padding: 1.25rem 1.125rem; gap: 0.875rem; border-radius: 0.9375rem; }
+	.dz-pay-explain__ic { inline-size: 2.625rem; block-size: 2.625rem; font-size: 1.0625rem; border-radius: 0.6875rem; }
+	.dz-pay-line__thumb { inline-size: 3.5rem; block-size: 3.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.dz-pay__halo, .dz-pay__medal .ring-gold, .dz-pay__medal .ring-clay, .dz-pay__medal .tick, .dz-pay__medal .bang, .dz-pay__medal .bang-dot { animation: none; stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* PRINT — فاکتورِ تمیز برای دانلودِ PDF (فقط نسخهٔ موفق) */
+@media print {
+	@page { size: A4; margin: 13mm; }
+	.dz-pay-body { background: var(--color-dz-paper); }
+	.dz-pay__hero, .dz-pay__metastrip, .dz-pay__actions, .dz-pay__reassure, .dz-pay__toast, .dz-pay-delivery, .dz-pay-inv__actions { display: none; }
+	.dz-pay-inv > .dz-pay__seclabel { display: none; }
+	.dz-pay__stage { padding: 0; }
+	.dz-pay__wrap { padding: 0; max-inline-size: none; }
+	.dz-pay__cols { display: block; margin: 0; }
+	.dz-pay-inv__sheet { box-shadow: none; border-radius: 0; break-inside: avoid; }
+}

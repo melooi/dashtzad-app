@@ -1,0 +1,280 @@
+/* =============================================================================
+ * Dashtzad — صفحهٔ «درباره ما» (page-templates/about + components/pages/about/*).
+ * توکن dz- · بدون px · RTL با خصیصه‌های منطقی. آینهٔ مسیر کامپوننت.
+ * بخش‌ها: hero (دو واریاسیون) · stats · story · manifesto · values · timeline
+ *         · process · cta.
+ * ========================================================================== */
+
+.dz-about { display: block; overflow-x: clip; }
+.dz-about__wrap { max-width: var(--container-dz-xl, 90rem); margin-inline: auto; padding-inline: clamp(1rem, 4vw, 2.5rem); }
+
+/* عنوانِ مشترکِ بخش‌ها */
+.dz-about-kicker {
+	display: inline-flex; align-items: center; gap: .5em;
+	font-family: var(--font-dz-primary, sans-serif); font-weight: 700;
+	font-size: var(--text-dz-body-sm, .875rem); letter-spacing: .04em;
+	color: var(--color-dz-primary);
+	padding: .4em .9em; border-radius: var(--radius-dz-pill, 999rem);
+	background: var(--color-dz-primary-soft);
+}
+.dz-about-kicker .dz-icon { font-size: 1.1em; }
+.dz-about-title {
+	font-family: var(--font-dz-display, sans-serif); font-weight: 800;
+	font-size: clamp(1.6rem, 1rem + 2.4vw, var(--text-dz-h1, 2.25rem));
+	line-height: var(--leading-dz-tight, 1.35); color: var(--color-dz-text);
+	margin-block: .7rem 0; text-wrap: balance;
+}
+.dz-about-lead {
+	font-size: clamp(1rem, .95rem + .3vw, 1.12rem); line-height: var(--leading-dz-relaxed, 2);
+	color: var(--color-dz-text-muted); max-width: 46rem; margin-block: 1rem 0;
+	text-wrap: pretty;
+}
+
+/* =============================================================================
+ * 1) HERO — واریاسیون A: اسپلیت (متن کنار تصویر)
+ * ========================================================================== */
+.dz-about-hero { position: relative; padding-block: clamp(2.4rem, 6vw, 4.5rem); }
+.dz-about-hero__inner {
+	max-width: var(--container-dz-xl, 90rem); margin-inline: auto;
+	padding-inline: clamp(1rem, 4vw, 2.5rem);
+	display: grid; grid-template-columns: 1fr; gap: clamp(1.8rem, 4vw, 3.2rem);
+	align-items: center;
+}
+@media (min-width: 56rem) { .dz-about-hero__inner { grid-template-columns: 1.05fr .95fr; } }
+
+.dz-about-hero__title {
+	font-family: var(--font-dz-display, sans-serif); font-weight: 900;
+	font-size: clamp(2rem, 1.2rem + 4vw, 3.4rem); line-height: 1.18;
+	color: var(--color-dz-text); margin-block: 1rem 0; text-wrap: balance;
+}
+.dz-about-hero__title em { font-style: normal; color: var(--color-dz-primary); }
+.dz-about-hero__lead {
+	font-size: clamp(1rem, .95rem + .4vw, 1.18rem); line-height: var(--leading-dz-relaxed, 2);
+	color: var(--color-dz-text-muted); margin-block: 1.2rem 0; max-width: 36rem; text-wrap: pretty;
+}
+.dz-about-hero__actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-block-start: 1.8rem; }
+.dz-about-hero__metrics { display: flex; flex-wrap: wrap; gap: 1.6rem; margin-block-start: 2.2rem; padding-block-start: 1.6rem; border-block-start: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); }
+.dz-about-hero__metric { display: flex; flex-direction: column; gap: .15rem; }
+.dz-about-hero__metric b { font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: 1.65rem; color: var(--color-dz-primary); line-height: 1; }
+.dz-about-hero__metric span { font-size: var(--text-dz-caption, .75rem); color: var(--color-dz-text-faint); }
+
+/* رسانهٔ هیرو + مدالِ سال */
+.dz-about-hero__media { position: relative; }
+.dz-about-hero__frame {
+	position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius-dz-xl, 1.5rem);
+	overflow: hidden; box-shadow: var(--shadow-dz-card, 0 .75rem 2rem rgba(47,38,31,.08));
+	background: var(--color-dz-surface-soft);
+}
+.dz-about-hero__img { inline-size: 100%; block-size: 100%; object-fit: cover; display: block; }
+.dz-about-hero__seal {
+	position: absolute; inset-block-end: 1.1rem; inset-inline-start: 1.1rem;
+	display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .1rem;
+	inline-size: 6.2rem; block-size: 6.2rem; border-radius: var(--radius-dz-pill, 999rem);
+	background: var(--color-dz-primary); color: var(--color-dz-text-inverse);
+	box-shadow: var(--shadow-dz-popover, 0 1rem 3rem rgba(47,38,31,.14)); text-align: center;
+	border: var(--border-dz-medium, .125rem) solid color-mix(in srgb, var(--color-dz-text-inverse) 35%, transparent);
+}
+.dz-about-hero__seal small { font-size: .62rem; opacity: .85; letter-spacing: .08em; }
+.dz-about-hero__seal b { font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: 1.7rem; line-height: 1; }
+.dz-about-hero__seal span { font-size: .58rem; opacity: .85; }
+
+/* پلاکِ شناورِ روی تصویر */
+.dz-about-hero__chip {
+	position: absolute; inset-block-start: 1.1rem; inset-inline-end: 1.1rem;
+	display: inline-flex; align-items: center; gap: .5em;
+	padding: .5em 1em; border-radius: var(--radius-dz-pill, 999rem);
+	background: color-mix(in srgb, var(--color-dz-surface) 92%, transparent);
+	backdrop-filter: blur(.4rem);
+	font-size: var(--text-dz-body-sm, .875rem); font-weight: 700; color: var(--color-dz-text);
+	box-shadow: var(--shadow-dz-card, 0 .75rem 2rem rgba(47,38,31,.08));
+}
+.dz-about-hero__chip .dz-icon { color: var(--color-dz-gold-deep); }
+
+/* HERO — واریاسیون B: اوورلیِ تمام‌عرض */
+.dz-about-hero--overlay { padding: 0; }
+.dz-about-hero--overlay .dz-about-hero__inner {
+	display: block; max-width: none; padding: 0; position: relative;
+	min-block-size: clamp(26rem, 60vh, 38rem);
+}
+.dz-about-hero--overlay .dz-about-hero__bg { position: absolute; inset: 0; }
+.dz-about-hero--overlay .dz-about-hero__bg img { inline-size: 100%; block-size: 100%; object-fit: cover; display: block; }
+.dz-about-hero--overlay .dz-about-hero__bg::after {
+	content: ""; position: absolute; inset: 0;
+	background: linear-gradient(to top, color-mix(in srgb, var(--color-dz-text) 82%, transparent), color-mix(in srgb, var(--color-dz-text) 28%, transparent) 60%, transparent);
+}
+.dz-about-hero--overlay .dz-about-hero__center {
+	position: relative; max-width: var(--container-dz-md, 56rem); margin-inline: auto;
+	min-block-size: inherit; display: flex; flex-direction: column; align-items: center;
+	justify-content: flex-end; text-align: center; gap: 1rem;
+	padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 4vw, 2.5rem) clamp(2.5rem, 6vw, 4rem);
+	color: var(--color-dz-text-inverse);
+}
+.dz-about-hero--overlay .dz-about-hero__title { color: var(--color-dz-text-inverse); margin: 0; }
+.dz-about-hero--overlay .dz-about-hero__title em { color: var(--color-dz-honey); }
+.dz-about-hero--overlay .dz-about-hero__lead { color: color-mix(in srgb, var(--color-dz-text-inverse) 88%, transparent); margin-inline: auto; }
+.dz-about-hero--overlay .dz-about-kicker { background: color-mix(in srgb, var(--color-dz-text-inverse) 16%, transparent); color: var(--color-dz-text-inverse); }
+.dz-about-hero--overlay .dz-about-hero__actions { justify-content: center; }
+.dz-about-hero__ribbon {
+	display: inline-flex; align-items: baseline; gap: .4em; margin-block-end: .4rem;
+	font-family: var(--font-dz-display, sans-serif); color: var(--color-dz-honey);
+}
+.dz-about-hero__ribbon b { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+.dz-about-hero__ribbon span { font-size: .9rem; opacity: .9; }
+
+/* دکمه‌های هیرو (روی .dz-button پایه) */
+.dz-about .dz-button--ghost {
+	background: transparent; color: var(--color-dz-primary);
+	border: var(--border-dz-thin, .0625rem) solid var(--color-dz-border-strong);
+}
+.dz-about .dz-button--ghost:hover { background: var(--color-dz-surface-soft); }
+.dz-about-hero--overlay .dz-button--ghost { color: var(--color-dz-text-inverse); border-color: color-mix(in srgb, var(--color-dz-text-inverse) 55%, transparent); }
+.dz-about-hero--overlay .dz-button--ghost:hover { background: color-mix(in srgb, var(--color-dz-text-inverse) 14%, transparent); }
+
+/* =============================================================================
+ * 2) STATS — نوارِ آمار
+ * ========================================================================== */
+.dz-about-stats { background: var(--color-dz-surface-warm); border-block: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); }
+.dz-about-stats__grid {
+	max-width: var(--container-dz-lg, 72rem); margin-inline: auto;
+	padding: clamp(1.8rem, 4vw, 2.6rem) clamp(1rem, 4vw, 2.5rem);
+	display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1.2rem, 3vw, 2rem);
+}
+@media (min-width: 48rem) { .dz-about-stats__grid { grid-template-columns: repeat(4, 1fr); } }
+.dz-about-stat { display: flex; flex-direction: column; align-items: center; gap: .3rem; text-align: center; }
+.dz-about-stat__icon { font-size: 1.8rem; color: var(--color-dz-primary); margin-block-end: .2rem; }
+.dz-about-stat__num { font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.5rem); line-height: 1; color: var(--color-dz-text); }
+.dz-about-stat__num em { font-style: normal; color: var(--color-dz-gold-deep); }
+.dz-about-stat__label { font-size: var(--text-dz-body-sm, .875rem); color: var(--color-dz-text-faint); }
+
+/* =============================================================================
+ * 3) STORY — روایت
+ * ========================================================================== */
+.dz-about-story { padding-block: clamp(2.8rem, 7vw, 5.5rem); }
+.dz-about-story__grid {
+	max-width: var(--container-dz-xl, 90rem); margin-inline: auto;
+	padding-inline: clamp(1rem, 4vw, 2.5rem);
+	display: grid; grid-template-columns: 1fr; gap: clamp(1.8rem, 4vw, 3.4rem); align-items: center;
+}
+@media (min-width: 56rem) { .dz-about-story__grid { grid-template-columns: .92fr 1.08fr; } }
+.dz-about-story__media { position: relative; }
+.dz-about-story__img {
+	inline-size: 100%; aspect-ratio: 5 / 6; object-fit: cover; display: block;
+	border-radius: var(--radius-dz-xl, 1.5rem); box-shadow: var(--shadow-dz-card, 0 .75rem 2rem rgba(47,38,31,.08));
+}
+.dz-about-story__tag {
+	position: absolute; inset-block-end: -1rem; inset-inline-end: -.6rem;
+	display: inline-flex; align-items: center; gap: .5em; padding: .7em 1.1em;
+	border-radius: var(--radius-dz-md, .75rem); background: var(--color-dz-secondary);
+	color: var(--color-dz-text-inverse); font-size: var(--text-dz-body-sm, .875rem); font-weight: 700;
+	box-shadow: var(--shadow-dz-card, 0 .75rem 2rem rgba(47,38,31,.08));
+}
+.dz-about-story__body p { font-size: clamp(1rem, .96rem + .25vw, 1.1rem); line-height: var(--leading-dz-relaxed, 2); color: var(--color-dz-text-muted); margin-block: 0 1rem; text-wrap: pretty; }
+.dz-about-story__body p:last-child { margin-block-end: 0; }
+.dz-about-story__sign { display: flex; align-items: center; gap: .8rem; margin-block-start: 1.8rem; }
+.dz-about-story__sign-name { font-family: var(--font-dz-display, sans-serif); font-weight: 700; color: var(--color-dz-text); }
+.dz-about-story__sign-role { font-size: var(--text-dz-caption, .75rem); color: var(--color-dz-text-faint); }
+
+/* =============================================================================
+ * 4) MANIFESTO — نوارِ شعار/نقل‌قول
+ * ========================================================================== */
+.dz-about-manifesto { background: var(--color-dz-primary); color: var(--color-dz-text-inverse); position: relative; overflow: hidden; }
+.dz-about-manifesto__inner { max-width: var(--container-dz-md, 56rem); margin-inline: auto; padding: clamp(2.8rem, 7vw, 5rem) clamp(1rem, 4vw, 2.5rem); text-align: center; position: relative; z-index: 1; }
+.dz-about-manifesto__mark { font-size: 3rem; color: color-mix(in srgb, var(--color-dz-honey) 90%, transparent); line-height: 1; }
+.dz-about-manifesto__quote { font-family: var(--font-dz-display, sans-serif); font-weight: 700; font-size: clamp(1.4rem, 1rem + 2vw, 2.1rem); line-height: 1.6; margin-block: 1rem 0; text-wrap: balance; }
+.dz-about-manifesto__cite { display: block; margin-block-start: 1.2rem; font-size: var(--text-dz-body-sm, .875rem); color: color-mix(in srgb, var(--color-dz-text-inverse) 78%, transparent); }
+.dz-about-manifesto::before, .dz-about-manifesto::after { content: ""; position: absolute; border-radius: 50%; background: color-mix(in srgb, var(--color-dz-text-inverse) 8%, transparent); }
+.dz-about-manifesto::before { inline-size: 18rem; block-size: 18rem; inset-block-start: -8rem; inset-inline-start: -6rem; }
+.dz-about-manifesto::after { inline-size: 14rem; block-size: 14rem; inset-block-end: -7rem; inset-inline-end: -4rem; }
+
+/* =============================================================================
+ * 5) VALUES — ارزش‌ها
+ * ========================================================================== */
+.dz-about-values { padding-block: clamp(2.8rem, 7vw, 5.5rem); }
+.dz-about-values__head { max-width: var(--container-dz-lg, 72rem); margin-inline: auto; padding-inline: clamp(1rem, 4vw, 2.5rem); text-align: center; display: flex; flex-direction: column; align-items: center; }
+.dz-about-values__grid {
+	max-width: var(--container-dz-lg, 72rem); margin-inline: auto;
+	padding-inline: clamp(1rem, 4vw, 2.5rem); margin-block-start: clamp(1.8rem, 4vw, 2.8rem);
+	display: grid; grid-template-columns: 1fr; gap: clamp(1rem, 2.5vw, 1.6rem);
+}
+@media (min-width: 36rem) { .dz-about-values__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .dz-about-values__grid { grid-template-columns: repeat(4, 1fr); } }
+.dz-about-value {
+	background: var(--color-dz-surface); border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+	border-radius: var(--radius-dz-lg, 1rem); padding: clamp(1.4rem, 3vw, 1.8rem);
+	display: flex; flex-direction: column; gap: .7rem;
+	transition: transform var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease), box-shadow var(--duration-dz-normal, .2s) ease, border-color var(--duration-dz-normal, .2s) ease;
+}
+.dz-about-value:hover { transform: translateY(-.3rem); box-shadow: var(--shadow-dz-card-hover, 0 1rem 2.75rem rgba(47,38,31,.12)); border-color: var(--color-dz-primary-soft); }
+.dz-about-value__icon { display: inline-grid; place-items: center; inline-size: 3.2rem; block-size: 3.2rem; border-radius: var(--radius-dz-md, .75rem); background: var(--color-dz-primary-soft); color: var(--color-dz-primary-hover); font-size: 1.6rem; }
+.dz-about-value__title { font-family: var(--font-dz-display, sans-serif); font-weight: 700; font-size: var(--text-dz-h3, 1.375rem); color: var(--color-dz-text); }
+.dz-about-value__text { font-size: var(--text-dz-body-sm, .875rem); line-height: var(--leading-dz-normal, 1.8); color: var(--color-dz-text-muted); text-wrap: pretty; }
+
+/* =============================================================================
+ * 6) TIMELINE — مسیر زمانی
+ * ========================================================================== */
+.dz-about-timeline { background: var(--color-dz-surface-warm); padding-block: clamp(2.8rem, 7vw, 5.5rem); }
+.dz-about-timeline__head { max-width: var(--container-dz-lg, 72rem); margin-inline: auto; padding-inline: clamp(1rem, 4vw, 2.5rem); text-align: center; display: flex; flex-direction: column; align-items: center; }
+.dz-about-timeline__track {
+	max-width: var(--container-dz-lg, 72rem); margin-inline: auto;
+	padding-inline: clamp(1rem, 4vw, 2.5rem); margin-block-start: clamp(2rem, 4vw, 3rem);
+	position: relative; display: flex; flex-direction: column; gap: 1.6rem;
+}
+.dz-about-tl {
+	position: relative; background: var(--color-dz-surface);
+	border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+	border-radius: var(--radius-dz-lg, 1rem); padding: clamp(1.2rem, 3vw, 1.6rem);
+	display: grid; grid-template-columns: auto 1fr; gap: 1.1rem; align-items: start;
+}
+.dz-about-tl__year { font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: 1.5rem; color: var(--color-dz-primary); min-inline-size: 4ch; }
+.dz-about-tl__dot { display: none; }
+.dz-about-tl__title { font-weight: 700; font-size: 1.1rem; color: var(--color-dz-text); margin-block-end: .35rem; }
+.dz-about-tl__text { font-size: var(--text-dz-body-sm, .875rem); line-height: var(--leading-dz-normal, 1.8); color: var(--color-dz-text-muted); text-wrap: pretty; }
+
+@media (min-width: 56rem) {
+	.dz-about-timeline__track { display: grid; grid-template-columns: 1fr 1fr; column-gap: 3.4rem; row-gap: 0; }
+	.dz-about-timeline__track::before { content: ""; position: absolute; inset-block: 1rem; inset-inline-start: 50%; transform: translateX(-50%); inline-size: var(--border-dz-medium, .125rem); background: var(--color-dz-border-strong); }
+	.dz-about-tl { margin-block-end: 1.6rem; }
+	.dz-about-tl:nth-child(odd) { grid-column: 1; }
+	.dz-about-tl:nth-child(even) { grid-column: 2; margin-block-start: 3rem; }
+	.dz-about-tl__dot { display: block; position: absolute; inset-block-start: 1.6rem; inline-size: .9rem; block-size: .9rem; border-radius: 50%; background: var(--color-dz-primary); border: var(--border-dz-medium, .125rem) solid var(--color-dz-surface-warm); }
+	.dz-about-tl:nth-child(odd) .dz-about-tl__dot { inset-inline-start: calc(-3.4rem / 2 - .45rem); }
+	.dz-about-tl:nth-child(even) .dz-about-tl__dot { inset-inline-end: calc(-3.4rem / 2 - .45rem); }
+}
+
+/* =============================================================================
+ * 7) PROCESS — از مزرعه تا سفره
+ * ========================================================================== */
+.dz-about-process { padding-block: clamp(2.8rem, 7vw, 5.5rem); }
+.dz-about-process__head { max-width: var(--container-dz-lg, 72rem); margin-inline: auto; padding-inline: clamp(1rem, 4vw, 2.5rem); text-align: center; display: flex; flex-direction: column; align-items: center; }
+.dz-about-process__grid {
+	max-width: var(--container-dz-lg, 72rem); margin-inline: auto;
+	padding-inline: clamp(1rem, 4vw, 2.5rem); margin-block-start: clamp(1.8rem, 4vw, 2.8rem);
+	display: grid; grid-template-columns: 1fr; gap: clamp(1rem, 2.5vw, 1.5rem);
+}
+@media (min-width: 40rem) { .dz-about-process__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .dz-about-process__grid { grid-template-columns: repeat(4, 1fr); } }
+.dz-about-step { position: relative; padding: clamp(1.3rem, 3vw, 1.7rem); border-radius: var(--radius-dz-lg, 1rem); background: var(--color-dz-surface-soft); display: flex; flex-direction: column; gap: .6rem; }
+.dz-about-step__n { position: absolute; inset-block-start: 1.2rem; inset-inline-end: 1.2rem; font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: 2.4rem; line-height: 1; color: color-mix(in srgb, var(--color-dz-primary) 16%, transparent); }
+.dz-about-step__icon { font-size: 2rem; color: var(--color-dz-primary); }
+.dz-about-step__title { font-family: var(--font-dz-display, sans-serif); font-weight: 700; font-size: 1.15rem; color: var(--color-dz-text); }
+.dz-about-step__text { font-size: var(--text-dz-body-sm, .875rem); line-height: var(--leading-dz-normal, 1.8); color: var(--color-dz-text-muted); text-wrap: pretty; }
+
+/* =============================================================================
+ * 8) CTA — فراخوان پایانی
+ * ========================================================================== */
+.dz-about-cta { padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem) clamp(3rem, 7vw, 5rem); }
+.dz-about-cta__card {
+	max-width: var(--container-dz-lg, 72rem); margin-inline: auto;
+	background: var(--color-dz-secondary); color: var(--color-dz-text-inverse);
+	border-radius: var(--radius-dz-card, 1.5rem); overflow: hidden; position: relative;
+	padding: clamp(2.2rem, 5vw, 3.6rem); text-align: center;
+	display: flex; flex-direction: column; align-items: center; gap: 1rem;
+}
+.dz-about-cta__card::after { content: ""; position: absolute; inset-block-start: -6rem; inset-inline-end: -6rem; inline-size: 16rem; block-size: 16rem; border-radius: 50%; background: color-mix(in srgb, var(--color-dz-text-inverse) 8%, transparent); }
+.dz-about-cta__title { font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: clamp(1.6rem, 1.1rem + 2vw, 2.4rem); position: relative; text-wrap: balance; }
+.dz-about-cta__text { max-width: 40rem; line-height: var(--leading-dz-relaxed, 2); color: color-mix(in srgb, var(--color-dz-text-inverse) 86%, transparent); position: relative; text-wrap: pretty; }
+.dz-about-cta__actions { display: flex; flex-wrap: wrap; gap: .9rem; justify-content: center; margin-block-start: .8rem; position: relative; }
+.dz-about-cta .dz-button--gold { background: var(--color-dz-honey); color: var(--color-dz-text); }
+.dz-about-cta .dz-button--gold:hover { background: var(--color-dz-gold); }
+.dz-about-cta .dz-button--ghost { color: var(--color-dz-text-inverse); border-color: color-mix(in srgb, var(--color-dz-text-inverse) 55%, transparent); background: transparent; }
+.dz-about-cta .dz-button--ghost:hover { background: color-mix(in srgb, var(--color-dz-text-inverse) 14%, transparent); }

@@ -1,0 +1,321 @@
+/* =============================================================================
+ * Dashtzad — صفحهٔ خطای ۴۰۴ (components/pages/error/notfound.php).
+ * هیروِ سبزِ تیره · عددِ طلاییِ متحرک · توکن dz- · بدون px · RTL با خصیصه‌های منطقی.
+ * ========================================================================== */
+
+.dz-error-404 {
+	position: relative;
+	overflow: clip;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	min-block-size: clamp(36rem, 82vh, 56rem);
+	padding-block: clamp(3rem, 8vw, 5rem) clamp(4rem, 9vw, 6.5rem);
+	padding-inline: clamp(1rem, 4vw, 2.5rem);
+	color: var(--color-dz-text-inverse);
+	background:
+		radial-gradient(120% 90% at 50% -10%,
+			var(--color-dz-primary) 0%,
+			var(--color-dz-primary-deep) 42%,
+			var(--color-dz-primary-deepest) 100%);
+}
+
+/* ambient honey glow */
+.dz-error-404__glow {
+	position: absolute;
+	inset-block-start: 18%;
+	inset-inline-start: 50%;
+	inline-size: 42rem;
+	block-size: 42rem;
+	transform: translate(50%, -50%);
+	pointer-events: none;
+	z-index: 0;
+	background: radial-gradient(circle,
+		color-mix(in srgb, var(--color-dz-honey), transparent 70%) 0%,
+		color-mix(in srgb, var(--color-dz-honey), transparent 92%) 38%,
+		transparent 68%);
+	animation: dz-error-404-glow 7s var(--ease-dz-standard) infinite;
+}
+
+/* furrows / field at the bottom */
+.dz-error-404__field {
+	position: absolute;
+	inset-block-end: 0;
+	inset-inline: 0;
+	block-size: 11rem;
+	pointer-events: none;
+	z-index: 0;
+	background-image: repeating-linear-gradient(90deg,
+		color-mix(in srgb, var(--color-dz-honey), transparent 88%) 0,
+		color-mix(in srgb, var(--color-dz-honey), transparent 88%) 0.12rem,
+		transparent 0.12rem,
+		transparent 3.4rem);
+	-webkit-mask-image: linear-gradient(to top, var(--color-dz-ink), transparent);
+	mask-image: linear-gradient(to top, var(--color-dz-ink), transparent);
+	transform: perspective(30rem) rotateX(58deg);
+	transform-origin: bottom;
+}
+
+.dz-error-404__inner {
+	position: relative;
+	z-index: 2;
+	max-width: var(--container-dz-sm);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	animation: dz-error-404-rise 0.7s var(--ease-dz-standard) both;
+}
+
+/* wordmark */
+.dz-error-404__brand {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-dz-gap-em);
+	font-family: var(--font-dz-display);
+	font-weight: 700;
+	font-size: var(--text-dz-h3);
+	color: color-mix(in srgb, var(--color-dz-text-inverse), transparent 8%);
+}
+.dz-error-404__brand .dz-icon { color: var(--color-dz-honey); font-size: 1.3em; }
+
+/* kicker */
+.dz-error-404__kicker {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-dz-gap-em);
+	margin-block-start: var(--spacing-dz-8);
+	padding-inline: var(--spacing-dz-4);
+	padding-block: var(--spacing-dz-2);
+	border-radius: var(--radius-dz-pill);
+	background: color-mix(in srgb, var(--color-dz-text-inverse), transparent 92%);
+	border: var(--border-dz-thin) solid color-mix(in srgb, var(--color-dz-text-inverse), transparent 82%);
+	font-size: var(--text-dz-body-sm);
+	font-weight: 600;
+	color: var(--color-dz-amber-soft);
+	-webkit-backdrop-filter: blur(0.4rem);
+	backdrop-filter: blur(0.4rem);
+}
+
+/* giant 404 */
+.dz-error-404__numeral {
+	position: relative;
+	margin-block-start: var(--spacing-dz-5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	perspective: 60rem;
+}
+.dz-error-404__digit {
+	display: inline-block;
+	font-family: var(--font-dz-display);
+	font-weight: 900;
+	font-size: clamp(7rem, 22vw, 15rem);
+	line-height: 0.92;
+	background: linear-gradient(110deg,
+		var(--color-dz-gold) 0%,
+		var(--color-dz-honey) 22%,
+		var(--color-dz-amber-soft) 42%,
+		var(--color-dz-honey) 58%,
+		var(--color-dz-honey) 78%,
+		var(--color-dz-gold) 100%);
+	background-size: 240% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+	filter: drop-shadow(0 0.6rem 1.6rem color-mix(in srgb, var(--color-dz-honey), transparent 60%));
+	animation:
+		dz-error-404-pop 0.8s cubic-bezier(0.2, 1.2, 0.3, 1) both,
+		dz-error-404-shimmer 4s linear 0.8s infinite,
+		dz-error-404-bob 4.5s var(--ease-dz-standard) 0.8s infinite;
+}
+.dz-error-404__digit:nth-child(2) { animation-delay: 0.12s, 1s, 1.05s; }
+.dz-error-404__digit:nth-child(3) { animation-delay: 0.24s, 1.2s, 1.3s; }
+
+.dz-error-404__leaf {
+	position: absolute;
+	inset-block-start: -0.4rem;
+	inset-inline-start: -1.1rem;
+	z-index: 3;
+	font-size: clamp(2rem, 5vw, 3rem);
+	color: var(--color-dz-primary-soft);
+	filter: drop-shadow(0 0.4rem 0.8rem var(--color-dz-shadow-ink-strong));
+	animation: dz-error-404-float 5s var(--ease-dz-standard) infinite;
+}
+
+/* heading + lead */
+.dz-error-404__title {
+	font-family: var(--font-dz-display);
+	font-weight: 800;
+	font-size: clamp(1.8rem, 1.1rem + 2.8vw, 2.9rem);
+	line-height: var(--leading-dz-tight);
+	margin-block-start: var(--spacing-dz-2);
+	color: var(--color-dz-text-inverse);
+	text-wrap: balance;
+}
+.dz-error-404__lead {
+	font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
+	line-height: var(--leading-dz-relaxed);
+	max-width: 34rem;
+	margin-block-start: var(--spacing-dz-4);
+	color: color-mix(in srgb, var(--color-dz-text-inverse), transparent 22%);
+	text-wrap: pretty;
+}
+
+/* search */
+.dz-error-404__search {
+	display: flex;
+	align-items: center;
+	gap: var(--space-dz-inline-em);
+	inline-size: min(30rem, 100%);
+	margin-block-start: var(--spacing-dz-8);
+	padding: var(--spacing-dz-1);
+	padding-inline-start: var(--spacing-dz-4);
+	border-radius: var(--radius-dz-pill);
+	background: color-mix(in srgb, var(--color-dz-text-inverse), transparent 90%);
+	border: var(--border-dz-thin) solid color-mix(in srgb, var(--color-dz-text-inverse), transparent 80%);
+	-webkit-backdrop-filter: blur(0.6rem);
+	backdrop-filter: blur(0.6rem);
+	box-shadow: var(--shadow-dz-card);
+}
+.dz-error-404__search .dz-icon { color: color-mix(in srgb, var(--color-dz-text-inverse), transparent 30%); }
+.dz-error-404__search-label { position: absolute; inline-size: 0.0625rem; block-size: 0.0625rem; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.dz-error-404__search input {
+	flex: 1;
+	min-inline-size: 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--color-dz-text-inverse);
+	font-family: var(--font-dz-primary);
+	font-size: var(--text-dz-body-sm);
+	min-block-size: var(--size-dz-touch-target-min);
+}
+.dz-error-404__search input::placeholder { color: color-mix(in srgb, var(--color-dz-text-inverse), transparent 45%); }
+.dz-error-404__search button {
+	flex: none;
+	border: 0;
+	cursor: pointer;
+	border-radius: var(--radius-dz-pill);
+	background: var(--color-dz-honey);
+	color: var(--color-dz-primary-deep);
+	font-family: var(--font-dz-primary);
+	font-weight: 700;
+	font-size: var(--text-dz-button);
+	min-block-size: var(--size-dz-touch-target-min);
+	padding-inline: var(--spacing-dz-5);
+	transition: background var(--duration-dz-normal) var(--ease-dz-standard);
+}
+.dz-error-404__search button:hover { background: var(--color-dz-gold); }
+
+/* primary actions */
+.dz-error-404__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-dz-3);
+	justify-content: center;
+	margin-block-start: var(--spacing-dz-6);
+}
+.dz-error-404__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-dz-gap-em);
+	min-block-size: var(--size-dz-touch-target-min);
+	padding-inline: var(--spacing-dz-6);
+	border-radius: var(--radius-dz-pill);
+	font-family: var(--font-dz-primary);
+	font-weight: 700;
+	font-size: var(--text-dz-button);
+	text-decoration: none;
+	transition: background var(--duration-dz-normal) var(--ease-dz-standard),
+		transform var(--duration-dz-normal) var(--ease-dz-standard),
+		color var(--duration-dz-normal) var(--ease-dz-standard);
+}
+.dz-error-404__btn--accent {
+	background: var(--color-dz-honey);
+	color: var(--color-dz-primary-deep);
+	box-shadow: 0 0.5rem 1.25rem color-mix(in srgb, var(--color-dz-honey), transparent 72%);
+}
+.dz-error-404__btn--accent:hover { background: var(--color-dz-gold); color: var(--color-dz-primary-deep); transform: translateY(-0.125rem); }
+.dz-error-404__btn--ghost {
+	background: color-mix(in srgb, var(--color-dz-text-inverse), transparent 94%);
+	color: var(--color-dz-text-inverse);
+	border: var(--border-dz-thin) solid color-mix(in srgb, var(--color-dz-text-inverse), transparent 70%);
+}
+.dz-error-404__btn--ghost:hover { background: color-mix(in srgb, var(--color-dz-text-inverse), transparent 86%); color: var(--color-dz-text-inverse); }
+
+/* help links */
+.dz-error-404__help {
+	inline-size: min(34rem, 100%);
+	margin-block-start: var(--spacing-dz-10);
+	padding-block-start: var(--spacing-dz-6);
+	border-block-start: var(--border-dz-thin) solid color-mix(in srgb, var(--color-dz-text-inverse), transparent 88%);
+}
+.dz-error-404__help-label {
+	display: block;
+	font-size: var(--text-dz-body-sm);
+	color: color-mix(in srgb, var(--color-dz-text-inverse), transparent 45%);
+	margin-block-end: var(--spacing-dz-3);
+}
+.dz-error-404__help-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-dz-2);
+	justify-content: center;
+}
+.dz-error-404__chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-dz-gap-em);
+	padding-inline: var(--spacing-dz-4);
+	padding-block: var(--spacing-dz-2);
+	border-radius: var(--radius-dz-pill);
+	background: color-mix(in srgb, var(--color-dz-text-inverse), transparent 93%);
+	border: var(--border-dz-thin) solid color-mix(in srgb, var(--color-dz-text-inverse), transparent 86%);
+	color: color-mix(in srgb, var(--color-dz-text-inverse), transparent 8%);
+	font-size: var(--text-dz-body-sm);
+	text-decoration: none;
+	transition: background var(--duration-dz-normal) var(--ease-dz-standard);
+}
+.dz-error-404__chip .dz-icon { color: var(--color-dz-honey); }
+.dz-error-404__chip:hover { background: color-mix(in srgb, var(--color-dz-text-inverse), transparent 86%); color: var(--color-dz-text-inverse); }
+
+/* motion */
+@keyframes dz-error-404-glow {
+	0%, 100% { opacity: 0.55; transform: translate(50%, -50%) scale(1); }
+	50% { opacity: 0.85; transform: translate(50%, -50%) scale(1.06); }
+}
+@keyframes dz-error-404-float {
+	0%, 100% { transform: translateY(0) rotate(-3deg); }
+	50% { transform: translateY(-0.5rem) rotate(3deg); }
+}
+@keyframes dz-error-404-rise {
+	from { opacity: 0; transform: translateY(1.25rem); }
+	to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dz-error-404-shimmer {
+	0% { background-position: 220% 0; }
+	100% { background-position: -40% 0; }
+}
+@keyframes dz-error-404-bob {
+	0%, 100% { transform: translateY(0) rotate(0deg); }
+	50% { transform: translateY(-0.7rem) rotate(-1.5deg); }
+}
+@keyframes dz-error-404-pop {
+	0% { opacity: 0; transform: translateY(2.5rem) scale(0.6); }
+	55% { opacity: 1; transform: translateY(-0.4rem) scale(1.08); }
+	100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.dz-error-404__glow,
+	.dz-error-404__field,
+	.dz-error-404__inner,
+	.dz-error-404__digit,
+	.dz-error-404__leaf {
+		animation: none;
+	}
+	.dz-error-404__digit { opacity: 1; transform: none; }
+}

@@ -26,6 +26,7 @@ import { AdminRichTextField } from "@/components/admin/ui/AdminRichTextField";
 import { AdminField } from "@/components/admin/ui/AdminField";
 import { AdminSubmitBar } from "@/components/admin/ui/AdminSubmitBar";
 import { AdminFormNavigator, type FormNavItem } from "@/components/admin/ui/AdminFormNavigator";
+import { AdminReadinessChecklist, type ReadinessItem } from "@/components/admin/ui/AdminReadinessChecklist";
 import { AdminFormError } from "@/components/admin/ui/AdminFormError";
 import { AdminSuccessNotice } from "@/components/admin/ui/AdminSuccessNotice";
 import { AdminDangerZone } from "@/components/admin/ui/AdminDangerZone";
@@ -108,6 +109,33 @@ export function ArticleForm({
     });
   };
 
+  // Editorial readiness — purely derived from current form values.
+  const slug = form.watch("slug");
+  const categoryId = form.watch("categoryId");
+  const authorId = form.watch("authorId");
+  const status = form.watch("status");
+  const text = form.watch("text");
+  const recipeMeta = form.watch("recipeMeta") as { ingredients?: unknown[]; steps?: unknown[] } | undefined;
+  const isRecipe = articleType === "RECIPE";
+  const hasContent =
+    typeof text === "string" ? text.replace(/<[^>]*>/g, "").trim().length > 20 : Boolean(text);
+  const editorialItems: ReadinessItem[] = [
+    { label: "عنوان", done: Boolean(String(title ?? "").trim()) },
+    { label: "اسلاگ (نامک)", done: Boolean(String(slug ?? "").trim()) },
+    { label: "خلاصه / لید", done: Boolean(String(brief ?? "").trim()) },
+    { label: "تصویر شاخص", done: Boolean(String(cover ?? "").trim()), hint: "برای کارت مقاله و اشتراک‌گذاری لازم است." },
+    { label: "محتوای اصلی", done: hasContent },
+    { label: "دسته‌بندی", done: Boolean(String(categoryId ?? "").trim()) },
+    { label: "نویسنده", done: Boolean(String(authorId ?? "").trim()) },
+    ...(isRecipe
+      ? ([
+          { label: "مواد لازم", done: Array.isArray(recipeMeta?.ingredients) && recipeMeta!.ingredients!.length > 0 },
+          { label: "مراحل پخت", done: Array.isArray(recipeMeta?.steps) && recipeMeta!.steps!.length > 0 },
+        ] as ReadinessItem[])
+      : []),
+    { label: "منتشر شده", done: status === "PUBLISHED", optional: true },
+  ];
+
   const navItems: FormNavItem[] = [
     { id: "main", label: "اطلاعات اصلی" },
     { id: "type", label: "نوع و قالب" },
@@ -149,6 +177,8 @@ export function ArticleForm({
           {brief && <p className="mt-2 line-clamp-2 text-xs text-dz-primary-400 dark:text-dz-night-faint">{String(brief)}</p>}
         </div>
       </div>
+
+      <AdminReadinessChecklist title="آمادگی انتشار مقاله" items={editorialItems} />
 
       <AdminFormShell form={form} onSubmit={submit}>
         {/* 1 — اطلاعات اصلی */}

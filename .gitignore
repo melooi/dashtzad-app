@@ -19,19 +19,35 @@
 
 # production
 /build
+dist/
 
 # misc
 .DS_Store
 *.pem
 
-# debug
+# logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+.next-dev.log
 
-# env files (can opt-in for committing if needed)
-.env*
+# os & editor
+.vscode/
+.idea/
+
+# secrets — هرگز push نشوند
+.env
+.env.local
+.env.*
+!.env.example
+*.key
+*.cert
+*.crt
+*.p12
+*-service-account*.json
+*credentials*.json
 
 # vercel
 .vercel
@@ -39,3 +55,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/src/generated/prisma
+
+# local data / uploads (فایل واقعی کاربر، نه کد)
+*.sql
+!prisma/migrations/**/*.sql
+*.sqlite
+*.db
+/public/uploads/

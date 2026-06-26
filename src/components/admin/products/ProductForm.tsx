@@ -25,6 +25,7 @@ import { AdminRelationSelect } from "@/components/admin/ui/AdminRelationSelect";
 import { AdminCheckboxField } from "@/components/admin/ui/AdminCheckboxField";
 import { AdminSubmitBar } from "@/components/admin/ui/AdminSubmitBar";
 import { AdminFormNavigator, type FormNavItem } from "@/components/admin/ui/AdminFormNavigator";
+import { AdminReadinessChecklist, type ReadinessItem } from "@/components/admin/ui/AdminReadinessChecklist";
 import { AdminFormError } from "@/components/admin/ui/AdminFormError";
 import { AdminSuccessNotice } from "@/components/admin/ui/AdminSuccessNotice";
 import { AdminDangerZone } from "@/components/admin/ui/AdminDangerZone";
@@ -109,6 +110,30 @@ export function ProductForm({
 
   const categoryOptions = categories.map((c) => ({ value: c.id, label: c.title }));
 
+  // Product readiness — purely derived from current form values / loaded data.
+  const title = form.watch("title");
+  const slug = form.watch("slug");
+  const categoryId = form.watch("categoryId");
+  const basePriceToman = form.watch("basePriceToman");
+  const description = form.watch("description");
+  const isActive = form.watch("isActive");
+  const hasDescription =
+    typeof description === "string" ? description.replace(/<[^>]*>/g, "").trim().length > 10 : Boolean(description);
+  const variantCount = variantData?.existingVariants?.length ?? 0;
+  const hasSeo = Boolean(
+    seo?.meta && (String(seo.meta.title ?? "").trim() || String(seo.meta.description ?? "").trim()),
+  );
+  const readinessItems: ReadinessItem[] = [
+    { label: "عنوان محصول", done: Boolean(String(title ?? "").trim()) },
+    { label: "اسلاگ (نامک)", done: Boolean(String(slug ?? "").trim()) },
+    { label: "دسته‌بندی", done: Boolean(String(categoryId ?? "").trim()) },
+    { label: "قیمت پایه", done: Boolean(String(basePriceToman ?? "").trim()) },
+    { label: "توضیحات", done: hasDescription },
+    { label: "مدل‌های فروش (وزن × بسته‌بندی)", done: variantCount > 0, optional: true, hint: "برای محصولات متغیر لازم است." },
+    { label: "سئو (عنوان/متا)", done: hasSeo, optional: true },
+    { label: "فعال برای نمایش", done: Boolean(isActive), optional: true },
+  ];
+
   const navItems: FormNavItem[] = [
     { id: "main", label: "اطلاعات اصلی" },
     { id: "sale", label: "حالت فروش" },
@@ -130,6 +155,8 @@ export function ProductForm({
       )}
       <AdminFormError message={serverError} />
       <AdminSuccessNotice message={success} onDismiss={() => setSuccess(null)} />
+
+      <AdminReadinessChecklist title="آمادگی انتشار محصول" items={readinessItems} />
 
       <AdminFormShell form={form} onSubmit={submit}>
         <AdminFormSection id="main" title="اطلاعات اصلی">

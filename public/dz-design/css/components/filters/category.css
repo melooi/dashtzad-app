@@ -1,0 +1,172 @@
+/* =============================================================================
+ * Dashtzad — Category / Archive (woocommerce/archive-product). توکن dz- · بدون px · RTL.
+ * breadcrumb · hero دسته + چیپ زیردسته · تولبار · فیلترِ گروهی (کشوی موبایل) ·
+ * تگ‌های فعال · گریدِ کارت · صفحه‌بندی · بخشِ معرفی. کارت از product-card.css می‌آید.
+ * ========================================================================== */
+
+.dz-cat-wrap { max-inline-size: 78rem; margin-inline: auto; padding-inline: clamp(1rem, 4vw, 2.5rem); }
+
+/* ---- breadcrumb ---- */
+.dz-crumb { border-block-end: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); }
+.dz-crumb__list {
+	display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+	list-style: none; margin: 0; padding-block: .9rem;
+	max-inline-size: 78rem; margin-inline: auto; padding-inline: clamp(1rem, 4vw, 2.5rem);
+	font-size: var(--text-dz-caption, .8rem); color: var(--color-dz-text-muted);
+}
+.dz-crumb__list a { display: inline-flex; align-items: center; gap: .3em; color: var(--color-dz-text-muted); text-decoration: none; }
+.dz-crumb__list a:hover { color: var(--color-dz-primary); }
+.dz-crumb__list [aria-current] { color: var(--color-dz-text); font-weight: 700; }
+.dz-crumb__sep { color: var(--color-dz-text-faint); display: inline-flex; }
+
+/* ---- hero دسته ---- */
+.dz-cat-hero { background: var(--color-dz-surface-soft); border-block-end: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); }
+.dz-cat-hero__inner { max-inline-size: 78rem; margin-inline: auto; padding: clamp(1.8rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem); }
+.dz-cat-hero__top { display: flex; align-items: center; gap: 1.2rem; }
+.dz-cat-hero__icon {
+	inline-size: 4rem; block-size: 4rem; flex: none; display: grid; place-items: center;
+	border-radius: var(--radius-dz-lg, 1rem); background: var(--color-dz-primary-soft); color: var(--color-dz-primary-hover); font-size: 1.6rem;
+}
+.dz-cat-hero__kicker { display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em); font-size: var(--text-dz-caption, .8rem); font-weight: 700; color: var(--color-dz-primary-hover); }
+.dz-cat-hero__title { font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: clamp(1.7rem, 3vw, 2.4rem); margin: .25rem 0; }
+.dz-cat-hero__count { margin: 0; font-size: var(--text-dz-body-sm, .85rem); color: var(--color-dz-text-muted); }
+.dz-cat-hero__count b { color: var(--color-dz-text); font-weight: 800; }
+.dz-cat-hero__desc { margin: 1rem 0 0; color: var(--color-dz-text-muted); max-inline-size: 62rem; line-height: var(--leading-dz-normal, 1.8); text-wrap: pretty; }
+.dz-cat-hero__chips { display: flex; gap: .6rem; overflow-x: auto; padding-block-start: 1.2rem; scrollbar-width: none; }
+.dz-cat-hero__chips::-webkit-scrollbar { display: none; }
+
+/* ---- چیپ ---- */
+.dz-cat-chip {
+	display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em); flex: none;
+	padding: .5rem 1rem; border-radius: var(--radius-dz-pill, 999rem);
+	border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border);
+	background: var(--color-dz-surface); color: var(--color-dz-text-muted);
+	font-family: inherit; font-weight: 700; font-size: var(--text-dz-caption, .8rem); text-decoration: none; cursor: pointer;
+	transition: border-color var(--duration-dz-fast, .15s) ease, color var(--duration-dz-fast, .15s) ease, background var(--duration-dz-fast, .15s) ease;
+}
+.dz-cat-chip:hover { border-color: var(--color-dz-primary); color: var(--color-dz-primary); }
+.dz-cat-chip.is-active { background: var(--color-dz-primary); color: var(--color-dz-text-inverse); border-color: var(--color-dz-primary); }
+.dz-cat-chip__n { font-size: var(--text-dz-caption, .72rem); opacity: .85; }
+
+/* ---- تولبار ---- */
+.dz-cat-toolbar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; padding-block: clamp(1.4rem, 3vw, 2rem) 1.2rem; }
+.dz-cat-toolbar__filter {
+	display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em); font: inherit; font-weight: 700; cursor: pointer;
+	padding: .6rem 1.1rem; min-block-size: var(--size-dz-touch-target-min, 3rem);
+	background: var(--color-dz-surface); color: var(--color-dz-text);
+	border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); border-radius: var(--radius-dz-pill, 999rem);
+}
+@media (min-width: 64rem) { .dz-cat-toolbar__filter { display: none; } }
+.dz-cat-toolbar__count { font-size: var(--text-dz-body-sm, .85rem); color: var(--color-dz-text-muted); }
+.dz-cat-toolbar__count b { color: var(--color-dz-text); font-weight: 800; }
+.dz-cat-sort { margin-inline-start: auto; display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em); font-size: var(--text-dz-body-sm, .85rem); color: var(--color-dz-text-muted); }
+.dz-cat-sort__sel { font: inherit; font-weight: 700; color: var(--color-dz-text); border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); border-radius: var(--radius-dz-md, .75rem); padding: .5rem .8rem; background: var(--color-dz-surface); cursor: pointer; }
+
+/* ---- چیدمان ---- */
+.dz-cat-layout { display: grid; grid-template-columns: 1fr; gap: var(--spacing-dz-6, 1.5rem); align-items: start; }
+@media (min-width: 64rem) { .dz-cat-layout { grid-template-columns: 17rem 1fr; } }
+
+/* ---- فیلترها ---- */
+.dz-cat-filters { background: var(--color-dz-surface); border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); border-radius: var(--radius-dz-lg, 1rem); padding: var(--spacing-dz-5, 1.25rem); }
+.dz-cat-filters__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block-end: 1rem; margin-block-end: .5rem; border-block-end: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); }
+.dz-cat-filters__head-t { font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: var(--text-dz-h3, 1.25rem); }
+.dz-cat-filters__close { inline-size: 2.4rem; block-size: 2.4rem; display: grid; place-items: center; border-radius: var(--radius-dz-pill, 999rem); border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); background: var(--color-dz-surface); color: var(--color-dz-text-muted); cursor: pointer; font-size: 1.1rem; }
+@media (min-width: 64rem) {
+	.dz-cat-filters { position: sticky; inset-block-start: 1.5rem; max-block-size: calc(100vh - 3rem); overflow-y: auto; }
+	.dz-cat-filters__head { display: none; }
+}
+@media (max-width: 63.999rem) {
+	.dz-cat-filters {
+		position: fixed; top: 0; bottom: 0; right: 0; inline-size: min(22rem, 88vw); z-index: var(--z-dz-drawer, 70);
+		border-radius: 0; overflow-y: auto; transform: translateX(110%); transition: transform var(--duration-dz-slow, .3s) ease; box-shadow: var(--shadow-dz-popover);
+	}
+	body.dz-filter-open .dz-cat-filters { transform: none; }
+}
+
+/* ---- backdrop کشوی موبایل ---- */
+.dz-cat-backdrop { display: none; }
+@media (max-width: 63.999rem) {
+	.dz-cat-backdrop { position: fixed; inset: 0; z-index: calc(var(--z-dz-drawer, 70) - 1); background: var(--color-dz-overlay, rgba(47,38,31,.58)); opacity: 0; visibility: hidden; transition: opacity var(--duration-dz-slow, .3s) ease, visibility var(--duration-dz-slow, .3s) ease; }
+	body.dz-filter-open .dz-cat-backdrop { opacity: 1; visibility: visible; }
+}
+
+/* ---- گروهِ فیلتر ---- */
+.dz-filter-group { padding-block: 1rem; border-block-end: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); }
+.dz-filter-group:last-of-type { border-block-end: 0; }
+.dz-filter-group__h { position: relative; display: flex; align-items: center; justify-content: space-between; gap: .5rem; font-family: var(--font-dz-display, sans-serif); font-weight: 700; font-size: var(--text-dz-body, 1rem); margin: 0 0 .7rem; cursor: pointer; user-select: none; }
+.dz-filter-group__h:hover { color: var(--color-dz-primary-hover); }
+.dz-filter-group__chev { color: var(--color-dz-text-faint); font-size: 1.1em; transition: transform var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease); flex: none; }
+.dz-filter-group.is-collapsed .dz-filter-group__chev { transform: rotate(-90deg); }
+.dz-filter-group.is-collapsed > :not(.dz-filter-group__h) { display: none; }
+.dz-filter-group.is-collapsed .dz-filter-group__h { margin-block-end: 0; }
+.dz-check { display: flex; align-items: center; gap: .6rem; padding-block: .4rem; cursor: pointer; font-size: var(--text-dz-body-sm, .85rem); color: var(--color-dz-text-muted); }
+.dz-check input { inline-size: 1.15rem; block-size: 1.15rem; flex: none; accent-color: var(--color-dz-primary); cursor: pointer; }
+.dz-check > span:first-of-type { flex: 1 1 auto; }
+.dz-check__n { color: var(--color-dz-text-faint); font-size: var(--text-dz-caption, .75rem); }
+.dz-stars { display: inline-flex; align-items: center; gap: .15rem; color: var(--color-dz-gold); }
+.dz-stars .dz-stars__t { color: var(--color-dz-text-muted); margin-inline-start: .3em; font-size: var(--text-dz-caption, .78rem); }
+
+.dz-price-row { display: flex; align-items: center; gap: .5rem; }
+.dz-price-in { flex: 1 1 0; min-inline-size: 0; font: inherit; font-size: var(--text-dz-body-sm, .85rem); font-weight: 700; padding: .6rem .7rem; border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); border-radius: var(--radius-dz-md, .75rem); background: var(--color-dz-surface-soft); text-align: center; }
+.dz-price-in:focus { outline: none; border-color: var(--color-dz-primary); background: var(--color-dz-surface); }
+.dz-price-sep { color: var(--color-dz-text-faint); }
+
+/* ---- اسلایدر قیمتِ دو-دستگیره ---- */
+.dz-price-slider { position: relative; block-size: 1.4rem; margin: .2rem .7rem 1rem; direction: ltr; }
+.dz-price-slider__track { position: absolute; inset-block-start: 50%; inset-inline: 0; block-size: .35rem; transform: translateY(-50%); background: var(--color-dz-surface-soft); border-radius: var(--radius-dz-pill, 999rem); }
+.dz-price-slider__fill { position: absolute; block-size: 100%; background: var(--color-dz-primary); border-radius: var(--radius-dz-pill, 999rem); }
+.dz-price-slider__thumb { position: absolute; inset-block-start: 50%; inline-size: 1.3rem; block-size: 1.3rem; transform: translate(-50%, -50%); padding: 0; border: .18rem solid var(--color-dz-primary); border-radius: var(--radius-dz-pill, 999rem); background: var(--color-dz-surface); box-shadow: var(--shadow-dz-card, 0 .125rem .5rem rgba(41,37,36,.12)); cursor: grab; touch-action: none; z-index: 2; }
+.dz-price-slider__thumb:active { cursor: grabbing; }
+
+/* ---- سنتینلِ اسکرول نامحدود ---- */
+.dz-cat-sentinel { display: flex; align-items: center; justify-content: center; gap: .8rem; padding: 2.4rem 1rem 1rem; color: var(--color-dz-text-faint); font-size: var(--text-dz-body-sm, .85rem); font-weight: 600; min-block-size: 2rem; }
+.dz-cat-sentinel__spin { inline-size: 1.6rem; block-size: 1.6rem; border: .2rem solid var(--color-dz-border); border-block-start-color: var(--color-dz-primary); border-radius: var(--radius-dz-pill, 999rem); opacity: 0; }
+.dz-cat-sentinel.is-loading .dz-cat-sentinel__spin { opacity: 1; animation: dz-cat-spin .8s linear infinite; }
+.dz-cat-sentinel__end { display: inline-flex; align-items: center; gap: .5rem; color: var(--color-dz-primary-hover); }
+@keyframes dz-cat-spin { to { transform: rotate(360deg); } }
+.dz-price-quick { display: flex; flex-wrap: wrap; gap: .5rem; margin-block-start: .7rem; }
+.dz-price-quick .dz-cat-chip { font-size: var(--text-dz-caption, .75rem); padding: .4rem .8rem; }
+
+.dz-cat-filters__foot { display: flex; gap: .6rem; padding-block-start: 1rem; }
+.dz-cat-filters__foot .dz-button { flex: 1 1 0; }
+.dz-button--ghost { background: transparent; color: var(--color-dz-text-muted); border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); }
+.dz-button--ghost:hover { background: var(--color-dz-surface-soft); color: var(--color-dz-text); }
+
+/* ---- تگ‌های فعال ---- */
+.dz-cat-active { display: flex; align-items: center; flex-wrap: wrap; gap: .6rem; margin-block-end: 1.2rem; }
+.dz-cat-active__l { font-size: var(--text-dz-caption, .8rem); color: var(--color-dz-text-faint); font-weight: 700; }
+.dz-tag-x { display: inline-flex; align-items: center; gap: var(--space-dz-gap-em, .4em); padding: .35rem .8rem; border-radius: var(--radius-dz-pill, 999rem); border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); background: var(--color-dz-surface); color: var(--color-dz-text-muted); font: inherit; font-weight: 700; font-size: var(--text-dz-caption, .78rem); cursor: pointer; }
+.dz-tag-x:hover { border-color: var(--color-dz-clay); color: var(--color-dz-clay); }
+.dz-cat-active__clear { margin-inline-start: auto; font: inherit; font-size: var(--text-dz-caption, .8rem); font-weight: 700; color: var(--color-dz-clay); background: none; border: 0; cursor: pointer; }
+
+/* ---- گریدِ کارت (با کنارهٔ فیلتر) ---- */
+ul.products.dz-cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1rem, 2vw, 1.5rem); margin: 0; padding: 0; list-style: none; }
+.dz-cat-grid::before, .dz-cat-grid::after { content: none; }
+.dz-cat-grid .product, .dz-cat-grid li.product { margin: 0 !important; inline-size: auto !important; float: none !important; }
+@media (min-width: 64rem) { ul.products.dz-cat-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* ---- بخشِ معرفی ---- */
+.dz-cat-about { margin-block-start: clamp(2.5rem, 4vw, 4rem); padding-block-start: clamp(2rem, 3vw, 3rem); border-block-start: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); color: var(--color-dz-text-muted); }
+.dz-cat-about__h { font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: clamp(1.4rem, 2.5vw, 1.75rem); margin: 0 0 1rem; color: var(--color-dz-text); }
+.dz-cat-about p { margin: 0 0 1rem; max-inline-size: 62rem; line-height: var(--leading-dz-relaxed, 2); text-wrap: pretty; }
+
+/* ---- زیرعنوانِ هیرو ---- */
+.dz-cat-hero__subtitle { margin: .4rem 0 0; font-size: var(--text-dz-body, 1rem); color: var(--color-dz-text-muted); line-height: var(--leading-dz-normal, 1.8); text-wrap: pretty; }
+
+/* ---- پرسش‌های متداولِ دسته (آکاردئون) ---- */
+.dz-cat-faq { margin-block-start: clamp(2.5rem, 4vw, 4rem); padding-block-start: clamp(2rem, 3vw, 3rem); border-block-start: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); }
+.dz-cat-faq__h { font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: clamp(1.4rem, 2.5vw, 1.75rem); margin: 0 0 1.4rem; color: var(--color-dz-text); }
+.dz-cat-faq__list { display: flex; flex-direction: column; gap: .8rem; max-inline-size: 62rem; }
+.dz-cat-faq__item { border: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); border-radius: var(--radius-dz-md, .75rem); background: var(--color-dz-surface); overflow: hidden; }
+.dz-cat-faq__q { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.1rem 1.4rem; font-weight: 700; font-size: var(--text-dz-body, 1rem); color: var(--color-dz-text); cursor: pointer; list-style: none; }
+.dz-cat-faq__q::-webkit-details-marker { display: none; }
+.dz-cat-faq__q:hover { color: var(--color-dz-primary-hover); }
+.dz-cat-faq__chev { color: var(--color-dz-text-faint); transition: transform var(--duration-dz-normal, .2s) var(--ease-dz-standard, ease); flex: none; }
+.dz-cat-faq__item[open] .dz-cat-faq__chev { transform: rotate(180deg); }
+.dz-cat-faq__a { padding: 0 1.4rem 1.3rem; color: var(--color-dz-text-muted); line-height: var(--leading-dz-relaxed, 2); text-align: justify; text-justify: inter-word; }
+
+/* ---- متن سئوی پایین (وسط‌چین + جاستیفای) ---- */
+.dz-cat-seo { margin-block-start: clamp(2.5rem, 4vw, 4rem); padding-block-start: clamp(2rem, 3vw, 3rem); border-block-start: var(--border-dz-hairline, .0625rem) solid var(--color-dz-border); max-inline-size: 84rem; margin-inline: auto; }
+.dz-cat-seo h2 { font-family: var(--font-dz-display, sans-serif); font-weight: 800; font-size: clamp(1.6rem, 2.6vw, 2rem); margin: 0 0 1.2rem; text-align: center; }
+.dz-cat-seo h3 { font-family: var(--font-dz-display, sans-serif); font-weight: 700; font-size: clamp(1.3rem, 2vw, 1.5rem); margin: 2rem 0 .8rem; color: var(--color-dz-primary-hover); }
+.dz-cat-seo p { margin: 0 0 1rem; line-height: var(--leading-dz-relaxed, 2); text-align: justify; text-justify: inter-word; text-wrap: pretty; }

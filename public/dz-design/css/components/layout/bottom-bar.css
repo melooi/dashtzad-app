@@ -1,0 +1,399 @@
+/* =============================================================================
+ * Dashtzad — Bottom Nav (components/layout/bottom-bar) · «مدل ۱۸»
+ * نوار کپسولیِ شیشهٔ دولایه (Liquid Glass) + پنلِ گفت‌وگو (نسخهٔ B): هدرِ برندِ سبز،
+ * آواتارِ دستیارِ هوشمند، پیام‌های دستیار (چپ) / کاربر (راست)، میان‌برهای سریع،
+ * پیامِ کارتیِ محصول، نشانگرِ در حال نوشتن، نظرسنجیِ رضایت و نوارِ ورودیِ تلگرامی.
+ * تبِ میانی پنل را به‌صورت bottom-sheet باز می‌کند (چک‌باکسِ مخفی، بدون JS).
+ * فقط زیر 64rem دیده می‌شود. توکنِ dz- فقط · بدون px · بدونِ رنگِ خام · RTL · RemixIcon.
+ * ========================================================================== */
+
+/* فاصلهٔ امنِ کفِ صفحه تا محتوا زیرِ نوار پنهان نشود (فقط موبایل). */
+@media (max-width: 63.99rem) {
+	html:not(.dz-no-bottomnav) body {
+		padding-block-end: calc(5.4rem + env(safe-area-inset-bottom, 0rem));
+	}
+}
+
+/* چک‌باکسِ کنترلِ پنلِ چت (مخفی). */
+.dz-chat-toggle {
+	position: absolute; inline-size: var(--border-dz-hairline); block-size: var(--border-dz-hairline);
+	margin: -0.0625rem; padding: 0; border: 0; clip: rect(0 0 0 0); overflow: hidden; pointer-events: none;
+}
+
+/* ---------- نوارِ شیشهٔ دولایه ---------- */
+.dz-bottomnav {
+	position: fixed; z-index: var(--z-dz-toast);
+	inset-inline: 1rem;
+	inset-block-end: calc(.7rem + env(safe-area-inset-bottom, 0rem));
+	block-size: 3.7rem;
+	display: flex; align-items: stretch; justify-content: space-around;
+	padding-inline: .35rem;
+	max-inline-size: 34rem; margin-inline: auto;
+	background: var(--color-dz-glass-bar);
+	-webkit-backdrop-filter: blur(2.6rem) saturate(180%);
+	backdrop-filter: blur(2.6rem) saturate(180%);
+	border: var(--border-dz-hairline) solid var(--color-dz-glass-edge);
+	border-radius: 1.6rem;
+	box-shadow:
+		inset 0 var(--border-dz-hairline) 0 var(--color-dz-glass-highlight-full),
+		inset 0 0 0 var(--border-dz-hairline) var(--color-dz-glass-inner),
+		0 .2rem .6rem var(--color-dz-shadow-ink-faint),
+		0 1.4rem 3rem var(--color-dz-shadow-ink-soft);
+}
+/* لایهٔ دوم: درخششِ ملایمِ بالای شیشه. */
+.dz-bottomnav::before {
+	content: ''; position: absolute; inset: 0 0 auto 0; block-size: 55%;
+	border-radius: 1.9rem 1.9rem 0 0; pointer-events: none;
+	background: linear-gradient(var(--color-dz-glass-highlight), var(--color-dz-glass-clear));
+}
+@media (min-width: 64rem) { .dz-bottomnav { display: none; } }
+.dz-no-bottomnav .dz-bottomnav { display: none; }
+
+/* تب */
+.dz-bnav__item {
+	position: relative; z-index: 1;
+	flex: 1 1 0; min-inline-size: 0;
+	display: flex; flex-direction: column; align-items: center; justify-content: center;
+	gap: .15rem; padding: .25rem .2rem;
+	color: var(--color-dz-text-faint); text-decoration: none;
+	font-family: inherit; font-size: .72rem; font-weight: 600; line-height: 1; cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+.dz-bnav__lbl { white-space: nowrap; transition: color var(--duration-dz-normal) ease; }
+
+/* قابِ آیکن — قرصِ فراستد در حالتِ فعال. */
+.dz-bnav__ic {
+	position: relative; display: grid; place-items: center;
+	inline-size: 2.7rem; block-size: 2rem; border-radius: .85rem;
+	color: var(--color-dz-text-faint);
+	transition: color var(--duration-dz-normal) ease, background var(--duration-dz-normal) ease, transform var(--duration-dz-normal) cubic-bezier(.32, .72, 0, 1);
+}
+.dz-bnav__ic .dz-icon { font-size: 1.25rem; }
+.dz-bnav__item:hover .dz-bnav__ic,
+.dz-bnav__item:focus-visible .dz-bnav__ic { color: var(--color-dz-text-muted); }
+.dz-bnav__item:focus-visible { outline: none; }
+.dz-bnav__item:active .dz-bnav__ic { transform: scale(.9); }
+
+/* تبِ فعال — سبزِ دشت‌زاد روی قرصِ شیشه‌ای. */
+.dz-bnav__item.is-active .dz-bnav__ic {
+	color: var(--color-dz-primary-hover);
+	background: color-mix(in srgb, var(--color-dz-primary) 14%, transparent);
+	box-shadow: inset 0 0 0 var(--border-dz-hairline) color-mix(in srgb, var(--color-dz-primary) 12%, transparent);
+}
+.dz-bnav__item.is-active .dz-bnav__lbl { color: var(--color-dz-primary-hover); font-weight: 700; }
+
+/* تبِ گفت‌وگو: هنگامِ بازبودنِ پنل، فعال دیده شود. */
+.dz-chat-toggle:checked ~ .dz-bottomnav .dz-bnav__item--chat .dz-bnav__ic {
+	color: var(--color-dz-primary-hover);
+	background: color-mix(in srgb, var(--color-dz-primary) 14%, transparent);
+}
+.dz-chat-toggle:checked ~ .dz-bottomnav .dz-bnav__item--chat .dz-bnav__lbl { color: var(--color-dz-primary-hover); }
+
+/* نشانِ تعدادِ سبد. */
+.dz-bnav__badge {
+	position: absolute; inset-block-start: -.35rem; inset-inline-start: -.3rem;
+	min-inline-size: 1.35rem; block-size: 1.35rem; padding-inline: .34rem;
+	display: grid; place-items: center; border-radius: var(--radius-dz-pill);
+	background: var(--color-dz-clay); color: var(--color-dz-text-inverse);
+	font-size: .78rem; font-weight: 700; line-height: 1;
+	border: var(--border-dz-medium) solid var(--color-dz-paper);
+}
+
+/* =============================================================================
+ * پنلِ گفت‌وگو — bottom sheet (نسخهٔ B)
+ * ========================================================================== */
+.dz-chat-backdrop {
+	position: fixed; inset: 0; z-index: calc(var(--z-dz-toast) + 6); cursor: pointer;
+	background: var(--color-dz-overlay);
+	-webkit-backdrop-filter: blur(.2rem); backdrop-filter: blur(.2rem);
+	opacity: 0; visibility: hidden;
+	transition: opacity var(--duration-dz-slow) ease, visibility var(--duration-dz-slow) ease;
+}
+.dz-chat-panel {
+	position: fixed; inset-inline: 0; inset-block-end: 0; z-index: calc(var(--z-dz-toast) + 7);
+	block-size: 88vh; max-block-size: 88vh; display: flex; flex-direction: column;
+	background: var(--color-dz-bg); overflow: hidden;
+	border-radius: var(--radius-dz-modal) var(--radius-dz-modal) 0 0;
+	box-shadow: 0 -1.2rem 3.4rem var(--color-dz-shadow-ink-strong);
+	transform: translateY(100%);
+	transition: transform var(--duration-dz-slow) cubic-bezier(.32, .72, 0, 1);
+}
+.dz-chat-toggle:checked ~ .dz-chat-backdrop { opacity: 1; visibility: visible; }
+.dz-chat-toggle:checked ~ .dz-chat-panel { transform: translateY(0); }
+
+/* قفلِ اسکرولِ پس‌زمینه هنگامِ بازبودنِ پنل. */
+html:has(.dz-chat-toggle:checked) { overflow: hidden; }
+
+/* در دسکتاپ: چت به‌صورتِ پنلِ راست‌چسب + لانچرِ شناور. */
+@media (min-width: 64rem) {
+	.dz-chat-panel {
+		inset-inline-start: auto; inset-inline-end: 1.5rem;
+		inset-block-end: 1.5rem; inset-block-start: auto;
+		inline-size: 24rem; max-inline-size: calc(100vw - 3rem);
+		block-size: 38rem; max-block-size: calc(100vh - 3rem);
+		border-radius: var(--radius-dz-xl, 1.25rem);
+		transform: translateY(2rem) scale(.98);
+		transform-origin: bottom left;
+		box-shadow: var(--shadow-dz-popover, 0 1.5rem 3rem rgba(0,0,0,.22));
+	}
+	.dz-chat-toggle:checked ~ .dz-chat-panel { transform: translateY(0) scale(1); }
+	.dz-chat-backdrop { background: transparent; }
+
+	.dz-chat-fab {
+		position: fixed; inset-inline-end: 1.5rem; inset-block-end: 1.5rem;
+		z-index: calc(var(--z-dz-toast) + 6);
+		display: inline-flex; align-items: center; gap: .6rem;
+		padding-block: .75rem; padding-inline: 1.1rem .9rem;
+		background: var(--color-dz-primary); color: var(--color-dz-text-inverse);
+		border-radius: 999px; cursor: pointer; border: none;
+		box-shadow: var(--shadow-dz-popover, 0 .75rem 1.75rem rgba(0,0,0,.22));
+		transition: transform var(--duration-dz-base, .18s) ease, box-shadow var(--duration-dz-base, .18s) ease;
+	}
+	.dz-chat-fab:hover { transform: translateY(-.15rem); }
+	.dz-chat-fab__ic { font-size: 1.35rem; display: inline-flex; }
+	.dz-chat-fab__lbl { font-weight: 700; font-size: .95rem; }
+	.dz-chat-fab__dot {
+		position: absolute; inset-block-start: .55rem; inset-inline-start: .55rem;
+		inline-size: .65rem; block-size: .65rem; border-radius: 999px;
+		background: var(--color-dz-success); border: .12rem solid var(--color-dz-primary);
+	}
+	.dz-chat-toggle:checked ~ .dz-chat-fab { transform: scale(0); pointer-events: none; }
+}
+
+/* در موبایل لانچرِ شناور رندر نشود (تریگرِ نوار پایین کافی است). */
+@media (max-width: 63.99rem) {
+	.dz-chat-fab { display: none; }
+}
+
+/* ---- هدرِ سبزِ برند ---- */
+.dz-chat-header {
+	position: relative; flex: none; display: flex; align-items: center; gap: .8rem;
+	padding: 1rem 1.1rem 1.05rem;
+	background: var(--color-dz-primary); color: var(--color-dz-text-inverse);
+}
+.dz-chat-avatar {
+	position: relative; inline-size: 3rem; block-size: 3rem; flex: none; border-radius: var(--radius-dz-pill);
+	display: grid; place-items: center;
+	background: var(--color-dz-surface); color: var(--color-dz-primary);
+	border: var(--border-dz-medium) solid var(--color-dz-gold);
+	font-family: var(--font-dz-display); font-weight: 800; font-size: 1.35rem;
+}
+.dz-chat-avatar img { inline-size: 82%; block-size: 82%; object-fit: contain; display: block; }
+.dz-chat-online-dot {
+	position: absolute; inset-block-end: -.05rem; inset-inline-end: -.05rem;
+	inline-size: .95rem; block-size: .95rem; border-radius: var(--radius-dz-pill);
+	background: var(--color-dz-honey); border: .18rem solid var(--color-dz-primary);
+}
+.dz-chat-headtext { flex: 1; min-inline-size: 0; }
+.dz-chat-headtext__title {
+	margin: 0; font-family: var(--font-dz-display); font-weight: 700; font-size: 1.1rem; line-height: 1.3;
+}
+.dz-chat-status {
+	margin: .15rem 0 0; display: flex; align-items: center; gap: .4rem;
+	font-size: .78rem; color: var(--color-dz-primary-soft); line-height: 1.4;
+}
+.dz-chat-status__dot {
+	inline-size: .5rem; block-size: .5rem; border-radius: var(--radius-dz-pill);
+	background: var(--color-dz-honey); flex: none;
+}
+.dz-chat-status__sep { opacity: .55; }
+.dz-chat-close {
+	inline-size: 2.5rem; block-size: 2.5rem; flex: none; cursor: pointer;
+	display: grid; place-items: center; border-radius: var(--radius-dz-pill);
+	background: var(--color-dz-glass-inner); color: var(--color-dz-text-inverse); font-size: 1.3rem;
+	transition: background var(--duration-dz-fast) ease;
+}
+.dz-chat-close:hover { background: var(--color-dz-glass-highlight); }
+
+/* ---- بدنه ---- */
+.dz-chat-body {
+	flex: 1; min-block-size: 0; overflow-y: auto;
+	display: flex; flex-direction: column; gap: .65rem;
+	padding: 1.1rem 1rem calc(1.3rem + env(safe-area-inset-bottom, 0rem));
+	background:
+		radial-gradient(var(--color-dz-border) .07rem, transparent .07rem) 0 0 / 1.4rem 1.4rem,
+		var(--color-dz-surface-warm);
+}
+.dz-chat-date-chip { display: flex; justify-content: center; margin-block: .1rem .35rem; }
+.dz-chat-date-chip span {
+	font-size: .72rem; font-weight: 600; color: var(--color-dz-text-faint);
+	background: var(--color-dz-surface); padding: .3rem 1rem; border-radius: var(--radius-dz-pill);
+	box-shadow: 0 .15rem .5rem var(--color-dz-shadow-ink-faint);
+}
+
+/* ---- پیام ---- */
+.dz-chat-message { display: flex; align-items: flex-end; gap: .5rem; max-inline-size: 100%; }
+.dz-chat-message--agent { justify-content: flex-end; }
+.dz-chat-message--user { justify-content: flex-start; }
+.dz-chat-message--agent .dz-chat-avatar--mini { order: 2; }
+.dz-chat-avatar--mini {
+	inline-size: 2rem; block-size: 2rem; font-size: .95rem; border-width: var(--border-dz-hairline);
+	align-self: flex-end; box-shadow: 0 .15rem .5rem var(--color-dz-shadow-ink-faint);
+}
+.dz-chat-bubble {
+	max-inline-size: 78%; display: flex; flex-direction: column; gap: .2rem;
+	padding: .6rem .85rem; font-size: .93rem; line-height: 1.75; word-break: break-word;
+	border-radius: 1.3rem;
+}
+.dz-chat-message--agent .dz-chat-bubble {
+	background: var(--color-dz-surface); color: var(--color-dz-text);
+	border: var(--border-dz-hairline) solid var(--color-dz-border);
+	border-start-end-radius: .45rem;
+	box-shadow: 0 .25rem .8rem var(--color-dz-shadow-ink-faint);
+}
+.dz-chat-message--user .dz-chat-bubble {
+	background: var(--color-dz-primary); color: var(--color-dz-text-inverse);
+	border-start-start-radius: .45rem;
+	box-shadow: 0 .35rem 1rem color-mix(in srgb, var(--color-dz-primary) 32%, transparent);
+}
+.dz-chat-bubble p { margin: 0; }
+.dz-chat-meta {
+	align-self: flex-end; display: inline-flex; align-items: center; gap: .25rem;
+	font-size: .64rem; line-height: 1; opacity: .65;
+}
+.dz-chat-meta .dz-icon { font-size: .92rem; }
+.dz-chat-message--user .dz-chat-meta { opacity: .85; }
+
+/* ---- میان‌برهای سریع ---- */
+.dz-chat-quick-actions {
+	margin: .25rem 0 .2rem; padding-inline-start: 2.5rem;
+	display: flex; flex-direction: column; gap: .5rem;
+}
+.dz-chat-quick-actions__title {
+	margin: 0; font-size: .72rem; font-weight: 700; color: var(--color-dz-text-faint);
+	display: inline-flex; align-items: center; gap: .35rem;
+}
+.dz-chat-quick-actions__title .dz-icon { font-size: .95rem; color: var(--color-dz-gold-deep); }
+.dz-chat-quick-grid { display: flex; flex-wrap: wrap; gap: .45rem; }
+.dz-chat-quick-action {
+	display: inline-flex; align-items: center; gap: .35rem;
+	padding: .5rem .9rem; border-radius: var(--radius-dz-pill);
+	background: var(--color-dz-surface); color: var(--color-dz-primary-hover);
+	border: var(--border-dz-thin) solid var(--color-dz-primary-soft);
+	font-family: inherit; font-size: .82rem; font-weight: 600; white-space: nowrap; text-decoration: none;
+	box-shadow: 0 .15rem .5rem var(--color-dz-shadow-ink-faint);
+	transition: background var(--duration-dz-fast) ease, border-color var(--duration-dz-fast) ease, transform var(--duration-dz-fast) ease;
+}
+.dz-chat-quick-action .dz-icon { font-size: 1rem; color: var(--color-dz-primary); }
+.dz-chat-quick-action:hover { background: var(--color-dz-primary-soft); border-color: var(--color-dz-primary); }
+.dz-chat-quick-action:active { transform: scale(.97); }
+
+/* ---- پیامِ کارتیِ محصول ---- */
+.dz-chat-card {
+	max-inline-size: 82%; background: var(--color-dz-surface);
+	border: var(--border-dz-hairline) solid var(--color-dz-border);
+	border-radius: 1.3rem; border-start-end-radius: .45rem; overflow: hidden;
+	box-shadow: 0 .25rem .8rem var(--color-dz-shadow-ink-faint);
+	display: flex; flex-direction: column;
+}
+.dz-chat-card__media {
+	position: relative; block-size: 7.5rem; display: grid; place-items: center;
+	background: repeating-linear-gradient(135deg, var(--color-dz-surface-soft) 0 .9rem, var(--color-dz-border) .9rem 1.8rem);
+	color: var(--color-dz-text-faint); font-family: ui-monospace, "SFMono-Regular", monospace; font-size: .7rem;
+}
+.dz-chat-card__badge {
+	position: absolute; inset-block-start: .55rem; inset-inline-start: .55rem;
+	display: inline-flex; align-items: center; gap: .25rem;
+	padding: .2rem .55rem; border-radius: var(--radius-dz-pill);
+	background: var(--color-dz-bestseller); color: var(--color-dz-text-inverse);
+	font-size: .66rem; font-weight: 700;
+}
+.dz-chat-card__badge .dz-icon { font-size: .85rem; }
+.dz-chat-card__info { padding: .7rem .85rem .35rem; display: flex; flex-direction: column; gap: .25rem; }
+.dz-chat-card__title { margin: 0; font-weight: 700; font-size: .95rem; color: var(--color-dz-text); }
+.dz-chat-card__sub { margin: 0; font-size: .75rem; color: var(--color-dz-text-faint); }
+.dz-chat-card__row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-block-start: .35rem; }
+.dz-chat-card__price { font-family: var(--font-dz-display); font-weight: 700; font-size: 1.05rem; color: var(--color-dz-primary-hover); white-space: nowrap; }
+.dz-chat-card__price em { font-style: normal; font-size: .72rem; font-weight: 600; color: var(--color-dz-text-faint); }
+.dz-chat-card__btns { display: flex; gap: .35rem; }
+.dz-chat-card__btn {
+	display: inline-flex; align-items: center; gap: .3rem; cursor: pointer; text-decoration: none;
+	padding: .45rem .8rem; border: 0; border-radius: var(--radius-dz-pill);
+	background: var(--color-dz-primary); color: var(--color-dz-text-inverse);
+	font-family: inherit; font-size: .78rem; font-weight: 700;
+	transition: background var(--duration-dz-fast) ease, transform var(--duration-dz-fast) ease;
+}
+.dz-chat-card__btn .dz-icon { font-size: 1.05rem; }
+.dz-chat-card__btn:hover { background: var(--color-dz-primary-hover); }
+.dz-chat-card__btn:active { transform: scale(.95); }
+.dz-chat-card__btn--ghost {
+	inline-size: 2.2rem; block-size: 2.2rem; padding: 0; justify-content: center; font-size: 1.1rem;
+	background: var(--color-dz-surface-soft); color: var(--color-dz-text-muted);
+}
+.dz-chat-card__btn--ghost:hover { background: var(--color-dz-border); color: var(--color-dz-text); }
+.dz-chat-card .dz-chat-meta { align-self: flex-end; padding: 0 .85rem .55rem; }
+
+/* ---- نشانگرِ «در حال نوشتن» ---- */
+.dz-chat-typing { display: flex; align-items: center; gap: .5rem; justify-content: flex-end; }
+.dz-chat-typing .dz-chat-avatar--mini { order: 2; }
+.dz-chat-typing__text { order: 0; font-size: .72rem; color: var(--color-dz-text-faint); }
+.dz-chat-typing__bubble {
+	order: 1; display: inline-flex; align-items: center; gap: .3rem;
+	padding: .7rem .9rem; background: var(--color-dz-surface);
+	border: var(--border-dz-hairline) solid var(--color-dz-border);
+	border-radius: 1.3rem; border-start-end-radius: .45rem;
+	box-shadow: 0 .25rem .8rem var(--color-dz-shadow-ink-faint);
+}
+.dz-chat-typing__bubble i {
+	inline-size: .45rem; block-size: .45rem; border-radius: var(--radius-dz-pill);
+	background: var(--color-dz-text-faint); animation: dz-bounce 1.3s infinite ease-in-out;
+}
+.dz-chat-typing__bubble i:nth-child(2) { animation-delay: .18s; }
+.dz-chat-typing__bubble i:nth-child(3) { animation-delay: .36s; }
+@keyframes dz-bounce {
+	0%, 60%, 100% { opacity: .35; transform: translateY(0); }
+	30% { opacity: 1; transform: translateY(-.22rem); }
+}
+
+/* ---- نظرسنجیِ رضایت (CSAT) ---- */
+.dz-chat-csat {
+	max-inline-size: 84%; padding: .9rem .95rem;
+	background: var(--color-dz-primary-soft);
+	border: var(--border-dz-hairline) solid color-mix(in srgb, var(--color-dz-primary) 22%, transparent);
+	border-radius: 1.3rem; border-start-end-radius: .45rem;
+	display: flex; flex-direction: column; gap: .55rem; align-items: center; text-align: center;
+}
+.dz-chat-csat__q { margin: 0; font-size: .85rem; font-weight: 700; color: var(--color-dz-primary-hover); line-height: 1.6; }
+.dz-chat-csat__stars { display: flex; gap: .3rem; }
+.dz-chat-csat__stars button {
+	border: 0; background: transparent; cursor: pointer; color: var(--color-dz-gold);
+	font-size: 1.55rem; line-height: 1; padding: .05rem;
+	transition: transform var(--duration-dz-fast) ease;
+}
+.dz-chat-csat__stars button .dz-icon { display: block; }
+.dz-chat-csat__stars button:hover { transform: scale(1.2); }
+.dz-chat-csat__stars button:hover ~ button { color: var(--color-dz-border-strong); }
+
+/* ---- نوارِ ورودی — سبکِ تلگرام: پیوست | پیلِ ورودی | میکروفن/ارسال ---- */
+.dz-chat-composer {
+	flex: none; display: flex; align-items: center; gap: .35rem;
+	padding: .6rem .7rem calc(.6rem + env(safe-area-inset-bottom, 0rem));
+	background: var(--color-dz-surface);
+	border-block-start: var(--border-dz-hairline) solid var(--color-dz-border);
+}
+.dz-chat-attach, .dz-chat-voice, .dz-chat-send {
+	inline-size: 2.7rem; block-size: 2.7rem; flex: none; border: 0; cursor: pointer;
+	display: grid; place-items: center; border-radius: var(--radius-dz-pill);
+	transition: background var(--duration-dz-fast) ease, color var(--duration-dz-fast) ease, transform var(--duration-dz-fast) ease;
+}
+.dz-chat-attach, .dz-chat-voice {
+	background: transparent; color: var(--color-dz-text-faint); font-size: 1.55rem;
+}
+.dz-chat-attach:hover, .dz-chat-voice:hover { color: var(--color-dz-primary); }
+.dz-chat-input-wrap {
+	flex: 1; min-inline-size: 0; display: flex; align-items: center; min-block-size: 2.8rem;
+	background: var(--color-dz-surface-soft); border-radius: var(--radius-dz-pill); padding-inline: 1.1rem;
+}
+.dz-chat-input {
+	flex: 1; min-inline-size: 0; border: 0; background: transparent; text-align: start;
+	padding-block: .8rem; font: inherit; font-size: .95rem; color: var(--color-dz-text); outline: none;
+}
+.dz-chat-input::placeholder { color: var(--color-dz-text-faint); }
+.dz-chat-send {
+	display: none; background: var(--color-dz-primary); color: var(--color-dz-text-inverse); font-size: 1.2rem;
+}
+.dz-chat-send:hover { background: var(--color-dz-primary-hover); }
+.dz-chat-send:active { transform: scale(.92); }
+/* تعویضِ ویس/ارسال بر اساسِ پُربودنِ فیلد (بدون JS). */
+.dz-chat-composer:has(.dz-chat-input:not(:placeholder-shown)) .dz-chat-voice { display: none; }
+.dz-chat-composer:has(.dz-chat-input:not(:placeholder-shown)) .dz-chat-send { display: grid; }

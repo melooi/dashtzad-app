@@ -1,0 +1,19 @@
+/* =============================================================================
+ * PDP scope helpers — preview parity for the design state engine.
+ * The .dz-pdp-page base (font/background/reset) lives in app.css, scoped so it
+ * never leaks to the site header/footer. This file only adds the data-when
+ * state engine the design markup relies on (theme renders one resolved state;
+ * here we lock the page to data-state="available").
+ * ========================================================================== */
+.dz-pdp [data-when] { display: none; }
+.dz-pdp[data-state="available"]    [data-when~="available"],
+.dz-pdp[data-state="unavailable"]  [data-when~="unavailable"],
+.dz-pdp[data-state="special"]      [data-when~="special"],
+.dz-pdp[data-state="bestseller"]   [data-when~="bestseller"],
+.dz-pdp[data-state="new"]          [data-when~="new"],
+.dz-pdp[data-state="discounted"]   [data-when~="discounted"],
+.dz-pdp[data-state="contact"]      [data-when~="contact"],
+.dz-pdp[data-state="discontinued"] [data-when~="discontinued"] { display: var(--when-display, block); }
+.dz-when-flex  { --when-display: flex; }
+.dz-when-iflex { --when-display: inline-flex; }
+.dz-when-grid  { --when-display: grid; }

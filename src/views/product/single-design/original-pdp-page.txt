@@ -1,0 +1,305 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { Star } from "lucide-react";
+import { prisma } from "@/lib/prisma";
+import { ProductCard } from "@/components/storefront/product-card/ProductCard";
+import { StoreContainer } from "@/components/storefront/StoreContainer";
+import { StoreSection } from "@/components/storefront/StoreSection";
+import { StoreBreadcrumbs } from "@/components/storefront/StoreBreadcrumbs";
+import { StoreTrustBand } from "@/components/storefront/StoreTrustBand";
+import { MARKETING_BADGE_LABELS } from "@/lib/admin/product-variant";
+import { ProductGallery } from "@/views/product/ProductGallery";
+import { ProductPurchaseBox, type PdpVariant } from "@/views/product/ProductPurchaseBox";
+import { ShareButton } from "@/views/product/ShareButton";
+import { RecordView } from "@/views/account/RecordView";
+import { StructuredData } from "@/components/StructuredData";
+import { RichTextRenderer } from "@/components/storefront/RichTextRenderer";
+import { productJsonLd, breadcrumbSchema } from "@/lib/jsonld";
+import { buildEntityMetadata } from "@/lib/seo/meta";
+import { stripHtmlForMeta } from "@/lib/seo/text";
+import { toProductCardData } from "@/lib/storefront/product-card";
+import { toPersianNumbers } from "@/lib/price";
+import { formatJalali } from "@/lib/date";
+
+export const dynamic = "force-dynamic";
+
+async function getProduct(slug: string) {
+  return prisma.product.findUnique({
+    where: { slug },
+    include: {
+      images: { orderBy: { sortOrder: "asc" } },
+      category: true,
+      variants: {
+        where: { isActive: true },
+        orderBy: { sortOrder: "asc" },
+        select: {
+          id: true,
+          sku: true,
+          price_rial: true,
+          offPrice_rial: true,
+          stock: true,
+          isActive: true,
+          marketingBadge: true,
+          weightPresetId: true,
+          packagingOptionId: true,
+          weight: { select: { title: true } },
+          packaging: { select: { title: true } },
+        },
+      },
+      reviews: {
+        where: { status: "APPROVED" },
+        orderBy: { createdAt: "desc" },
+        include: { user: { select: { name: true } } },
+      },
+    },
+  });
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await prisma.product.findUnique({
+    where: { slug },
+    select: { id: true, title: true, description: true, images: { take: 1, select: { url: true } } },
+  });
+  if (!product) return { title: "محصول یافت نشد", robots: { index: false, follow: true } };
+  return buildEntityMetadata("PRODUCT", product.id, {
+    title: product.title,
+    description: stripHtmlForMeta(product.description),
+    path: `/products/${slug}`,
+    image: product.images[0]?.url,
+    type: "product",
+  });
+}
+
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const product = await getProduct(slug);
+  if (!product) notFound();
+
+  const related = await prisma.product.findMany({
+    where: { categoryId: product.categoryId, isActive: true, id: { not: product.id } },
+    take: 4,
+    include: {
+      images: { orderBy: { sortOrder: "asc" }, take: 1 },
+      category: { select: { title: true } },
+      variants: {
+        where: { isActive: true },
+        select: {
+          price_rial: true,
+          offPrice_rial: true,
+          stock: true,
+          marketingBadge: true,
+          weight: { select: { title: true } },
+          packaging: { select: { title: true } },
+        },
+      },
+    },
+  });
+
+  const hasReviews = product.numReviews > 0;
+
+  // Serializable variant projection for the (client) purchase box.
+  const pdpVariants: PdpVariant[] = product.variants.map((v) => ({
+    id: v.id,
+    sku: v.sku,
+    price_rial: v.price_rial,
+    offPrice_rial: v.offPrice_rial,
+    stock: v.stock,
+    weightId: v.weightPresetId,
+    weightTitle: v.weight?.title ?? null,
+    packagingId: v.packagingOptionId,
+    packagingTitle: v.packaging?.title ?? null,
+  }));
+
+  // Representative marketing badge from the first variant that has one (real).
+  const heroBadge = product.variants.find((v) => v.marketingBadge)?.marketingBadge ?? null;
+
+  return (
+    <StoreContainer as="main" className="py-8 md:py-10 text-store-text">
+      <RecordView slug={product.slug} />
+      <StructuredData
+        data={[
+          productJsonLd({
+            title: product.title,
+            slug: product.slug,
+            description: stripHtmlForMeta(product.description),
+            brand: product.brand,
+            category: product.category?.title,
+            priceRial: product.price_rial,
+            offPriceRial: product.offPrice_rial,
+            countInStock: product.countInStock,
+            isActive: product.isActive,
+            images: product.images.map((i) => i.url),
+            // Real approved reviews only — never fabricated.
+            approvedReviewCount: product.reviews.length,
+            rating: product.rating,
+            variants: product.variants.map((v) => ({
+              sku: v.sku,
+              priceRial: v.price_rial,
+              offPriceRial: v.offPrice_rial,
+              stock: v.stock,
+              isActive: v.isActive,
+              weightTitle: v.weight?.title ?? null,
+              packagingTitle: v.packaging?.title ?? null,
+            })),
+          }),
+          breadcrumbSchema([
+            { name: "خانه", url: "/" },
+            { name: "محصولات", url: "/products" },
+            ...(product.category ? [{ name: product.category.title, url: `/products?cat=${product.category.slug}` }] : []),
+            { name: product.title, url: `/products/${product.slug}` },
+          ]),
+        ]}
+      />
+
+      <StoreBreadcrumbs
+        items={[
+          { name: "خانه", href: "/" },
+          { name: "محصولات", href: "/products" },
+          ...(product.category
+            ? [{ name: product.category.title, href: `/products?cat=${product.category.slug}` }]
+            : []),
+          { name: product.title },
+        ]}
+      />
+
+      {/* Hero */}
+      <div className="mt-5 grid gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className="lg:sticky lg:top-24 lg:self-start">
+          <ProductGallery images={product.images} title={product.title} />
+        </div>
+
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2.5">
+            <div className="flex flex-wrap items-center gap-2">
+              {product.category && (
+                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-store-primary">
+                  <span className="size-1.5 rounded-full bg-store-primary" aria-hidden />
+                  {product.category.title}
+                </span>
+              )}
+              {heroBadge && (
+                <span className="inline-flex items-center rounded-full bg-store-clay-soft px-2.5 py-1 text-xs font-bold text-store-clay-deep">
+                  {MARKETING_BADGE_LABELS[heroBadge]}
+                </span>
+              )}
+            </div>
+            <h1 className="font-heading text-3xl font-bold leading-tight text-store-text md:text-4xl">
+              {product.title}
+            </h1>
+            <div className="flex flex-wrap items-center gap-4 text-sm text-store-text-muted">
+              {product.brand && <span>برند: {product.brand}</span>}
+              {/* Rating shown ONLY when real approved reviews exist. */}
+              {hasReviews && (
+                <span className="flex items-center gap-1">
+                  <Star className="size-4 fill-store-gold text-store-gold" aria-hidden />
+                  {toPersianNumbers(product.rating.toFixed(1))}
+                  <span className="text-store-text-faint">({toPersianNumbers(product.numReviews)} نظر)</span>
+                </span>
+              )}
+            </div>
+          </div>
+
+          {product.description && (
+            <p className="line-clamp-3 leading-7 text-store-text-muted">
+              {stripHtmlForMeta(product.description)}
+            </p>
+          )}
+
+          {/* Purchase panel — a distinct premium buying surface */}
+          <div className="rounded-2xl border border-store-primary/20 bg-store-surface p-5 shadow-store-card ring-1 ring-store-primary-soft/40">
+            <ProductPurchaseBox
+              product={{
+                id: product.id,
+                title: product.title,
+                slug: product.slug,
+                image: product.images[0]?.url ?? null,
+                price_rial: product.price_rial,
+                offPrice_rial: product.offPrice_rial,
+                countInStock: product.countInStock,
+              }}
+              variants={pdpVariants}
+            />
+
+            {/* Secondary actions */}
+            <div className="mt-4 flex items-center gap-2 border-t border-store-border pt-4">
+              <ShareButton title={product.title} />
+            </div>
+          </div>
+
+          {product.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {product.tags.map((t) => (
+                <span key={t} className="rounded-full bg-store-surface-soft px-3 py-1 text-xs text-store-text-muted">
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Trust band — full width, warm, real Dashtzad promises (static, not data) */}
+      <StoreTrustBand className="mt-10" />
+
+      {/* Description — admin-authored rich text, sanitized before render. */}
+      {product.description && (
+        <StoreSection title="معرفی محصول" contained={false} className="mt-14">
+          <RichTextRenderer value={product.description} className="max-w-3xl" />
+        </StoreSection>
+      )}
+
+      {/* Product story (داستان محصول) — only when real story data exists. */}
+      {product.story && (
+        <StoreSection title="داستان محصول" contained={false} className="mt-12">
+          <div className="rounded-2xl border border-store-border bg-store-surface p-6">
+            <RichTextRenderer value={product.story} className="max-w-3xl" />
+          </div>
+        </StoreSection>
+      )}
+
+      {/* Reviews — real approved reviews only */}
+      <StoreSection title="نظرات کاربران" contained={false} className="mt-12">
+        {product.reviews.length === 0 ? (
+          <p className="text-sm text-store-text-faint">هنوز نظری برای این محصول ثبت نشده است.</p>
+        ) : (
+          <ul className="flex max-w-3xl flex-col gap-4">
+            {product.reviews.map((r) => (
+              <li key={r.id} className="rounded-xl border border-store-border bg-store-surface p-4">
+                <div className="mb-1 flex items-center justify-between">
+                  <span className="font-medium text-store-text">{r.user.name ?? "کاربر"}</span>
+                  <span className="flex items-center gap-1 text-sm text-store-gold-deep">
+                    <Star className="size-4 fill-store-gold text-store-gold" aria-hidden />
+                    {toPersianNumbers(r.rating)}
+                  </span>
+                </div>
+                {r.title && <p className="font-medium text-store-text-muted">{r.title}</p>}
+                <p className="text-sm text-store-text-muted">{r.text}</p>
+                <span className="mt-1 block text-xs text-store-text-faint">{formatJalali(r.createdAt)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </StoreSection>
+
+      {/* Related */}
+      {related.length > 0 && (
+        <StoreSection title="محصولات مشابه" contained={false} className="mt-12 mb-4">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {related.map((p) => (
+              <ProductCard key={p.id} product={toProductCardData(p)} variant="compact" />
+            ))}
+          </div>
+        </StoreSection>
+      )}
+    </StoreContainer>
+  );
+}

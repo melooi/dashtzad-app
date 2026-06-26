@@ -1,0 +1,94 @@
+/* =============================================================================
+ * Dashtzad — Home page (components/home/*)
+ * فقط توکن‌های رسمیِ dz. بدونِ hex خام. بدونِ px (به‌جز hairline که rem است).
+ * کلاس‌ها BEM با پیشوندِ dz-home-*. فقط روی is_front_page() لود می‌شود.
+ * ========================================================================== */
+
+.dz-home { display: flex; flex-direction: column; gap: clamp(2.5rem, 6vw, 4.5rem); padding-block: clamp(1.5rem, 4vw, 3rem) clamp(3rem, 7vw, 5rem); }
+.dz-home .dz-wrap { inline-size: 100%; max-inline-size: 75rem; margin-inline: auto; padding-inline: clamp(0.9rem, 4vw, 1.5rem); }
+
+/* ---------- سرفصلِ بخش‌ها ---------- */
+.dz-home-sec__head { margin-block-end: clamp(1rem, 2.5vw, 1.75rem); }
+.dz-home-sec__head--row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--spacing-dz-4); flex-wrap: wrap; }
+.dz-home-sec__kicker { display: inline-block; font-size: 0.8rem; font-weight: 700; color: var(--color-dz-primary); margin-block-end: var(--spacing-dz-1); }
+.dz-home-sec__title { font-family: var(--font-dz-display); font-size: clamp(1.35rem, 1rem + 1.5vw, 1.9rem); font-weight: 800; color: var(--color-dz-text); }
+
+/* ---------- هیرو ---------- */
+.dz-home-hero { background: var(--color-dz-primary-soft); border-block-end: var(--border-dz-thin) solid var(--color-dz-border); }
+.dz-home-hero__inner { padding-block: clamp(2.5rem, 7vw, 5rem); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--spacing-dz-4); }
+.dz-home-hero__kicker { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 700; font-size: 0.9rem; color: var(--color-dz-primary-hover); background: var(--color-dz-surface); padding: 0.4em 1em; border-radius: var(--radius-dz-pill); box-shadow: var(--shadow-dz-xs); }
+.dz-home-hero__title { font-family: var(--font-dz-display); font-weight: 800; font-size: clamp(1.9rem, 1.2rem + 3.5vw, 3.25rem); line-height: 1.25; color: var(--color-dz-primary-deepest); max-inline-size: 22ch; text-wrap: balance; }
+.dz-home-hero__lead { max-inline-size: 52ch; font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem); line-height: var(--leading-dz-normal); color: var(--color-dz-text-muted); }
+.dz-home-hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-dz-3); margin-block-start: var(--spacing-dz-2); }
+.dz-home-hero__chips { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-dz-2); margin-block-start: var(--spacing-dz-2); }
+.dz-home-hero__chip { font-size: 0.82rem; font-weight: 600; color: var(--color-dz-primary-hover); background: var(--color-dz-surface); border: var(--border-dz-thin) solid var(--color-dz-border); border-radius: var(--radius-dz-pill); padding: 0.35em 0.95em; }
+
+/* ---------- ریلِ دسته‌ها ---------- */
+.dz-home-cats__rail { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(9rem, 1fr); gap: var(--spacing-dz-3); overflow-x: auto; scrollbar-width: none; padding-block-end: var(--spacing-dz-2); }
+.dz-home-cats__rail::-webkit-scrollbar { display: none; }
+@media (min-width: 48rem) { .dz-home-cats__rail { grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 64rem) { .dz-home-cats__rail { grid-template-columns: repeat(8, 1fr); } }
+.dz-home-cat { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-dz-2); padding: var(--spacing-dz-4) var(--spacing-dz-2); background: var(--color-dz-surface); border: var(--border-dz-thin) solid var(--color-dz-border); border-radius: var(--radius-dz-lg); text-align: center; transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
+.dz-home-cat:hover { border-color: var(--color-dz-primary); transform: translateY(-0.2rem); box-shadow: var(--shadow-dz-card); }
+.dz-home-cat__media { inline-size: 3.75rem; block-size: 3.75rem; display: grid; place-items: center; border-radius: var(--radius-dz-pill); background: var(--color-dz-primary-soft); color: var(--color-dz-primary-hover); overflow: hidden; }
+.dz-home-cat__media img { inline-size: 100%; block-size: 100%; object-fit: cover; }
+.dz-home-cat__media i { font-size: 1.4rem; }
+.dz-home-cat__name { font-weight: 700; font-size: 0.9rem; color: var(--color-dz-text); }
+.dz-home-cat__count { font-size: 0.72rem; color: var(--color-dz-text-faint); }
+
+/* ---------- ریل‌های محصول ---------- */
+.dz-home-products__rail { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(14rem, 15rem); gap: var(--spacing-dz-4); overflow-x: auto; scrollbar-width: none; padding-block-end: var(--spacing-dz-2); }
+.dz-home-products__rail::-webkit-scrollbar { display: none; }
+.dz-home-products__cell { min-inline-size: 0; }
+
+/* ---------- روایتِ برند ---------- */
+.dz-home-story__inner { background: var(--color-dz-surface-warm); border: var(--border-dz-thin) solid var(--color-dz-border); border-radius: var(--radius-dz-xl); padding: clamp(1.5rem, 4vw, 2.75rem); display: grid; gap: clamp(1.5rem, 4vw, 2.5rem); }
+@media (min-width: 56rem) { .dz-home-story__inner { grid-template-columns: 1fr 1.3fr; align-items: center; } }
+.dz-home-story__title { font-family: var(--font-dz-display); font-weight: 800; font-size: clamp(1.4rem, 1rem + 1.6vw, 2rem); color: var(--color-dz-text); }
+.dz-home-story__lead { margin-block-start: var(--spacing-dz-3); color: var(--color-dz-text-muted); line-height: var(--leading-dz-normal); }
+.dz-home-story__link { display: inline-flex; align-items: center; gap: 0.4em; margin-block-start: var(--spacing-dz-4); font-weight: 700; color: var(--color-dz-primary); }
+.dz-home-story__link:hover { color: var(--color-dz-primary-hover); }
+.dz-home-story__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-dz-3); }
+.dz-home-story__pillar { display: flex; flex-direction: column; gap: var(--spacing-dz-1); padding: var(--spacing-dz-4); background: var(--color-dz-surface); border-radius: var(--radius-dz-lg); border: var(--border-dz-thin) solid var(--color-dz-border); }
+.dz-home-story__ic { inline-size: 2.6rem; block-size: 2.6rem; display: grid; place-items: center; border-radius: var(--radius-dz-md); background: var(--color-dz-primary-soft); color: var(--color-dz-primary-hover); font-size: 1.2rem; }
+.dz-home-story__pt { font-weight: 800; color: var(--color-dz-text); }
+.dz-home-story__px { font-size: 0.85rem; color: var(--color-dz-text-muted); line-height: 1.7; }
+
+/* ---------- کالکشن‌ها ---------- */
+.dz-home-collections__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-dz-3); }
+@media (min-width: 56rem) { .dz-home-collections__grid { grid-template-columns: repeat(5, 1fr); } }
+.dz-home-coll { display: flex; flex-direction: column; gap: var(--spacing-dz-1); padding: var(--spacing-dz-5) var(--spacing-dz-4); background: var(--color-dz-surface); border: var(--border-dz-thin) solid var(--color-dz-border); border-radius: var(--radius-dz-lg); transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
+.dz-home-coll:hover { border-color: var(--color-dz-primary); transform: translateY(-0.2rem); box-shadow: var(--shadow-dz-card); }
+.dz-home-coll__ic { inline-size: 2.8rem; block-size: 2.8rem; display: grid; place-items: center; border-radius: var(--radius-dz-md); background: var(--color-dz-amber-soft); color: var(--color-dz-gold-deep); font-size: 1.25rem; margin-block-end: var(--spacing-dz-1); }
+.dz-home-coll__t { font-family: var(--font-dz-display); font-weight: 700; color: var(--color-dz-text); }
+.dz-home-coll__d { font-size: 0.82rem; color: var(--color-dz-text-muted); }
+.dz-home-coll__go { margin-block-start: var(--spacing-dz-2); font-size: 0.8rem; font-weight: 700; color: var(--color-dz-primary); display: inline-flex; align-items: center; gap: 0.3em; }
+
+/* ---------- پیش‌نمایشِ دستورها ---------- */
+.dz-home-recipes__cta { display: inline-flex; align-items: center; gap: 0.4em; font-weight: 700; color: var(--color-dz-primary); background: var(--color-dz-primary-soft); padding: 0.55em 1.1em; border-radius: var(--radius-dz-pill); }
+.dz-home-recipes__cta:hover { background: var(--color-dz-primary); color: var(--color-dz-text-inverse); }
+.dz-home-recipes__grid { display: grid; grid-template-columns: 1fr; gap: var(--spacing-dz-4); }
+@media (min-width: 48rem) { .dz-home-recipes__grid { grid-template-columns: repeat(3, 1fr); } }
+.dz-home-recipe { display: flex; flex-direction: column; gap: var(--spacing-dz-2); background: var(--color-dz-surface); border: var(--border-dz-thin) solid var(--color-dz-border); border-radius: var(--radius-dz-lg); overflow: hidden; transition: border-color .15s ease, box-shadow .15s ease; }
+.dz-home-recipe:hover { border-color: var(--color-dz-primary); box-shadow: var(--shadow-dz-card); }
+.dz-home-recipe__media { aspect-ratio: 16 / 10; display: grid; place-items: center; background: var(--color-dz-surface-soft); color: var(--color-dz-text-faint); overflow: hidden; }
+.dz-home-recipe__media img { inline-size: 100%; block-size: 100%; object-fit: cover; }
+.dz-home-recipe__media i { font-size: 2rem; }
+.dz-home-recipe__t { font-weight: 700; color: var(--color-dz-text); padding: 0 var(--spacing-dz-4) var(--spacing-dz-4); line-height: 1.5; }
+.dz-home-recipes__empty { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-dz-3); text-align: center; padding: clamp(1.5rem, 4vw, 2.5rem); background: var(--color-dz-surface-warm); border: var(--border-dz-thin) solid var(--color-dz-border); border-radius: var(--radius-dz-xl); color: var(--color-dz-text-muted); }
+.dz-home-recipes__empty i { font-size: 2rem; color: var(--color-dz-primary); }
+
+/* ---------- نوارِ اعتماد ---------- */
+.dz-home-trust__grid { display: grid; grid-template-columns: 1fr; gap: var(--spacing-dz-3); }
+@media (min-width: 40rem) { .dz-home-trust__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .dz-home-trust__grid { grid-template-columns: repeat(5, 1fr); } }
+.dz-home-trust__item { display: flex; align-items: flex-start; gap: var(--spacing-dz-3); padding: var(--spacing-dz-4); background: var(--color-dz-surface); border: var(--border-dz-thin) solid var(--color-dz-border); border-radius: var(--radius-dz-lg); }
+.dz-home-trust__ic { flex: 0 0 auto; inline-size: 2.6rem; block-size: 2.6rem; display: grid; place-items: center; border-radius: var(--radius-dz-md); background: var(--color-dz-primary-soft); color: var(--color-dz-primary-hover); font-size: 1.2rem; }
+.dz-home-trust__t { display: block; font-weight: 800; font-size: 0.9rem; color: var(--color-dz-text); }
+.dz-home-trust__x { display: block; font-size: 0.8rem; color: var(--color-dz-text-muted); line-height: 1.6; }
+
+/* ---------- فراخوانِ پایانی ---------- */
+.dz-home-cta__card { text-align: center; background: var(--color-dz-primary-deep); color: var(--color-dz-text-inverse); border-radius: var(--radius-dz-xl); padding: clamp(2rem, 5vw, 3.5rem); display: flex; flex-direction: column; align-items: center; gap: var(--spacing-dz-3); }
+.dz-home-cta__title { font-family: var(--font-dz-display); font-weight: 800; font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.25rem); color: var(--color-dz-text-inverse); }
+.dz-home-cta__text { max-inline-size: 46ch; color: var(--color-dz-primary-soft); line-height: var(--leading-dz-normal); }
+.dz-home-cta__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-dz-3); margin-block-start: var(--spacing-dz-2); }
