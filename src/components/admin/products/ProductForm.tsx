@@ -4,7 +4,6 @@ import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ImageIcon } from "lucide-react";
 import {
   productFormSchema,
   productPreviewBase,
@@ -30,6 +29,7 @@ import { AdminFormError } from "@/components/admin/ui/AdminFormError";
 import { AdminSuccessNotice } from "@/components/admin/ui/AdminSuccessNotice";
 import { AdminDangerZone } from "@/components/admin/ui/AdminDangerZone";
 import { VariantMatrix, type WeightOpt, type PackagingOpt, type ExistingVariant } from "@/components/admin/products/VariantMatrix";
+import { ProductImageManager, type ImageItem } from "@/components/admin/products/ProductImageManager";
 import { SeoPanel } from "@/components/admin/seo/SeoPanel";
 import type { SeoMetaInput } from "@/lib/admin/seo";
 import { createProduct, updateProduct, deleteProduct } from "@/app/admin/collections/products/actions";
@@ -58,6 +58,7 @@ export function ProductForm({
   categories,
   variantData,
   seo,
+  initialImages = [],
 }: {
   mode: "create" | "edit";
   productId?: string;
@@ -65,6 +66,7 @@ export function ProductForm({
   categories: { id: string; title: string }[];
   variantData?: VariantData;
   seo?: ProductSeo;
+  initialImages?: ImageItem[];
 }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -204,11 +206,14 @@ export function ProductForm({
           <AdminRichTextField name="story" label="روایت محصول (Story)" placeholder="داستان و ریشه‌ی این محصول…" minHeight={180} />
         </AdminFormSection>
 
-        <AdminFormSection id="image" title="تصویر">
-          <div className="flex items-center gap-3 rounded-xl border border-dashed border-dz-primary-200 bg-dz-primary-50/30 p-5 text-sm text-dz-primary-500 dark:border-dz-night-border dark:bg-white/2 dark:text-dz-night-muted">
-            <ImageIcon className="size-6 shrink-0 text-dz-primary-300 dark:text-dz-night-faint" />
-            مدیریت رسانه و آپلود تصویر در گام بعدی (Media) اضافه می‌شود.
-          </div>
+        <AdminFormSection id="image" title="تصاویر محصول" description="تصاویر را از کتابخانه‌ی رسانه انتخاب کنید. اولین تصویر به‌عنوان تصویر شاخص نمایش داده می‌شود.">
+          {mode === "edit" && productId ? (
+            <ProductImageManager productId={productId} initialImages={initialImages} />
+          ) : (
+            <p className="rounded-xl border border-dashed border-dz-primary-200 p-5 text-center text-sm text-dz-primary-400 dark:border-dz-night-border dark:text-dz-night-faint">
+              ابتدا محصول را ذخیره کنید تا بتوانید تصاویر اضافه کنید.
+            </p>
+          )}
         </AdminFormSection>
 
         <AdminSubmitBar

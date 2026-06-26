@@ -203,3 +203,34 @@ export async function quickAddProducts(rows: unknown): Promise<QuickAddResult[]>
   revalidatePath(LIST);
   return results;
 }
+
+// ---- Product images ----
+
+export async function addProductImageAction(
+  productId: string,
+  url: string,
+  alt?: string,
+): Promise<ActionResult> {
+  await requireAdmin();
+  if (!productId || !url) return { ok: false, error: "داده ناقص است." };
+  const maxOrder = await prisma.productImage.aggregate({
+    where: { productId },
+    _max: { sortOrder: true },
+  });
+  await prisma.productImage.create({
+    data: { productId, url, alt: alt ?? null, sortOrder: (maxOrder._max.sortOrder ?? -1) + 1 },
+  });
+  revalidatePath(`${LIST}/${productId}`);
+  return { ok: true, id: productId };
+}
+
+export async function removeProductImageAction(
+  imageId: string,
+  productId: string,
+): Promise<ActionResult> {
+  await requireAdmin();
+  if (!imageId || !productId) return { ok: false, error: "داده ناقص است." };
+  await prisma.productImage.delete({ where: { id: imageId } });
+  revalidatePath(`${LIST}/${productId}`);
+  return { ok: true, id: productId };
+}

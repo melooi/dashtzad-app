@@ -5,6 +5,7 @@ import { BASE_UNIT_LABELS, PACKAGING_TYPE_LABELS } from "@/lib/admin/products";
 import { formatToman, toPersianNumbers, toPersianNumbersWithComma, rialToToman } from "@/lib/price";
 import { formatJalali } from "@/lib/date";
 import { AdminPageHeader } from "@/components/admin/ui/AdminPageHeader";
+import { AdminTablePagination } from "@/components/admin/ui/AdminTablePagination";
 import {
   ProductPricingTable,
   type ProductPriceRow,
@@ -16,17 +17,28 @@ import {
 
 export const dynamic = "force-dynamic";
 
+const PER_PAGE = 50;
+
 function capacityLabel(grams: number): string {
   const n = Number.isInteger(grams) ? toPersianNumbersWithComma(grams) : toPersianNumbers(grams);
   return `${n} گرم`;
 }
 
-export default async function PricingPage() {
+export default async function PricingPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
   await requireAdmin();
+  const sp = await searchParams;
+  const page = Math.max(1, parseInt(sp.page ?? "1", 10) || 1);
+  const skip = (page - 1) * PER_PAGE;
 
-  const [products, packagings, variantCount, lockedCount] = await Promise.all([
+  const [products, totalProducts, packagings, variantCount, lockedCount] = await Promise.all([
     prisma.product.findMany({
       orderBy: { updatedAt: "desc" },
+      skip,
+      take: PER_PAGE,
       include: {
         variants: {
           orderBy: { sortOrder: "asc" },
@@ -37,6 +49,7 @@ export default async function PricingPage() {
         },
       },
     }),
+    prisma.product.count(),
     prisma.packagingOption.findMany({ orderBy: { sortOrder: "asc" } }),
     prisma.productVariant.count(),
     prisma.productVariant.count({ where: { isPriceLocked: true } }),
@@ -87,7 +100,7 @@ export default async function PricingPage() {
   }));
 
   const stats = [
-    { label: "محصولات", value: products.length, icon: Package },
+    { label: "محصولات", value: totalProducts, icon: Package },
     { label: "مدل‌های فروش", value: variantCount, icon: Layers },
     { label: "قیمت‌های قفل‌شده (دستی)", value: lockedCount, icon: Lock },
     { label: "گزینه‌های بسته‌بندی", value: packagings.length, icon: Boxes },
@@ -130,6 +143,14 @@ export default async function PricingPage() {
         </p>
       </div>
       <ProductPricingTable rows={productRows} />
+      {totalProducts > PER_PAGE && (
+        <AdminTablePagination
+          page={page}
+          perPage={PER_PAGE}
+          total={totalProducts}
+          basePath="/admin/collections/pricing"
+        />
+      )}
 
       <h2 className="mt-8 mb-2 font-heading text-base font-bold text-dz-primary-800 dark:text-dz-night-fg">
         هزینه‌ی بسته‌بندی‌ها

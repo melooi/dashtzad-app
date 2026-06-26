@@ -86,7 +86,7 @@ export const ADMIN_NAV: NavGroup[] = [
     items: [
       { label: "مقاله‌های مجله", href: "/admin/content/articles", icon: FileText },
       { label: "پرونده‌ها", href: "/admin/content/case-files", icon: Library },
-      { label: "دستور پخت‌ها", href: "/admin/collections/recipes", icon: ChefHat },
+      { label: "دستور پخت‌ها", href: "/admin/content/articles?type=RECIPE", icon: ChefHat },
       { label: "امتیازهای دستور پخت", href: "/admin/content/recipe-ratings", icon: Star },
       { label: "پیشنهادهای دستور پخت", href: "/admin/content/recipe-suggestions", icon: Lightbulb },
       { label: "دیدگاه‌های نوشته‌ها", href: "/admin/collections/comments", icon: MessageSquare },
@@ -161,7 +161,6 @@ export const COLLECTION_LABELS: Record<string, string> = {
   users: "کاربران",
   reviews: "نقدهای محصول",
   posts: "نوشته‌ها",
-  recipes: "دستور پخت‌ها",
   comments: "دیدگاه‌های نوشته‌ها",
   faqs: "سوالات متداول",
   menus: "منوها",
