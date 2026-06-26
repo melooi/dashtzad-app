@@ -56,6 +56,7 @@ type CardProductRow = {
 
 export function toAccountCard(p: CardProductRow): AccountProductCard {
   const card = toProductCardData({
+    id: p.id,
     slug: p.slug,
     title: p.title,
     price_rial: p.price_rial,

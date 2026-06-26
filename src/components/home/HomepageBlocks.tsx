@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@/generated/prisma/client";
 import { ProductCard } from "@/components/ProductCard";
 import { PostCard } from "@/components/PostCard";
+import { cardInclude, toProductCardData, isVariableProduct } from "@/lib/storefront/product-card";
 import { getFaqGroupItems } from "@/lib/site-data";
 import { StructuredData } from "@/components/StructuredData";
 import { faqPageSchema } from "@/lib/jsonld";
@@ -74,7 +75,7 @@ async function renderBlock(block: HomepageBlock, key: number): Promise<React.Rea
     const mode = str(block.mode) || "LATEST";
     const limit = num(block.limit, 4);
     const ids = arr<string>(block.productIds);
-    const include = { images: { orderBy: { sortOrder: "asc" as const }, take: 1 } };
+    const include = cardInclude;
     let products: Prisma.ProductGetPayload<{ include: typeof include }>[] = [];
     if (mode === "MANUAL" && ids.length) {
       products = await prisma.product.findMany({ where: { id: { in: ids }, isActive: true }, include });
@@ -90,7 +91,12 @@ async function renderBlock(block: HomepageBlock, key: number): Promise<React.Rea
           {products.map((p) => (
             <ProductCard
               key={p.id}
-              product={{ slug: p.slug, title: p.title, price_rial: p.price_rial, offPrice_rial: p.offPrice_rial, image: p.images[0]?.url ?? null }}
+              product={toProductCardData(p)}
+              quickAdd={
+                !isVariableProduct(p) && p.countInStock > 0
+                  ? { productId: p.id, priceRial: p.offPrice_rial ?? p.price_rial, basePriceRial: p.price_rial }
+                  : null
+              }
             />
           ))}
         </div>

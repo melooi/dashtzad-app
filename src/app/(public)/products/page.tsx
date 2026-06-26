@@ -8,7 +8,7 @@ import { StorePageHero } from "@/components/storefront/StorePageHero";
 import { StoreTrustBand } from "@/components/storefront/StoreTrustBand";
 import { Pagination } from "@/components/Pagination";
 import { buildMetadata } from "@/lib/seo";
-import { toProductCardData, isVariableProduct } from "@/lib/storefront/product-card";
+import { cardInclude, toProductCardData, isVariableProduct } from "@/lib/storefront/product-card";
 import { toPersianNumbers } from "@/lib/price";
 
 export const dynamic = "force-dynamic";
@@ -26,25 +26,6 @@ const SORTS = [
   { key: "price-asc", label: "ارزان‌ترین" },
   { key: "price-desc", label: "گران‌ترین" },
 ];
-
-const cardInclude = {
-  images: { orderBy: { sortOrder: "asc" as const }, take: 1 },
-  category: { select: { title: true } },
-  variants: {
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" as const },
-    select: {
-      id: true,
-      gramValue: true,
-      price_rial: true,
-      offPrice_rial: true,
-      stock: true,
-      marketingBadge: true,
-      weight: { select: { id: true, title: true, gramValue: true } },
-      packaging: { select: { id: true, title: true } },
-    },
-  },
-} satisfies Prisma.ProductInclude;
 
 type SP = { [k: string]: string | string[] | undefined };
 
