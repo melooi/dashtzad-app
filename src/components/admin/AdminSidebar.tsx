@@ -194,7 +194,7 @@ export function AdminSidebar({
         </button>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-5">{ADMIN_NAV.map(renderGroup)}</nav>
+      <nav className="flex-1 overflow-y-auto px-3 py-5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-dz-primary-100 hover:[&::-webkit-scrollbar-thumb]:bg-dz-primary-200 dark:[&::-webkit-scrollbar-thumb]:bg-dz-night-border dark:hover:[&::-webkit-scrollbar-thumb]:bg-dz-night-line">{ADMIN_NAV.map(renderGroup)}</nav>
 
       <div className="border-t border-dz-primary-50 px-5 py-3 dark:border-dz-night-line">
         <p className="font-heading text-[11px] text-dz-primary-300 dark:text-dz-night-faint">دشت‌زاد · مواد غذایی ایرانی</p>

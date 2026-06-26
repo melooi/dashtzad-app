@@ -1,4 +1,4 @@
-import { Package, FolderTree, FileText, ShoppingCart, Users, MessageSquare, Star, Headset, MessagesSquare, ImageOff, AlertTriangle, Inbox } from "lucide-react";
+import { Package, FolderTree, FileText, ShoppingCart, Users, MessageSquare, Star, Headset, ImageOff, AlertTriangle, Inbox } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { DashboardCard } from "@/components/admin/DashboardCard";
 
@@ -13,7 +13,6 @@ export default async function DashboardPage() {
     users,
     pendingComments,
     pendingReviews,
-    openChats,
     newChats,
     ordersToFulfill,
     productsNoImage,
@@ -28,7 +27,6 @@ export default async function DashboardPage() {
     prisma.user.count(),
     prisma.postComment.count({ where: { status: "PENDING" } }),
     prisma.productReview.count({ where: { status: "PENDING" } }),
-    prisma.conversation.count({ where: { status: { in: ["NEW", "OPEN", "PENDING"] } } }),
     prisma.conversation.count({ where: { status: "NEW" } }),
     // --- action-oriented, all from real data ---
     prisma.order.count({ where: { status: { in: ["PAID", "PROCESSING"] } } }),
@@ -68,15 +66,14 @@ export default async function DashboardPage() {
           <DashboardCard label="دسته‌بندی‌ها" value={categories} icon={FolderTree} href="/admin/collections/categories" />
           <DashboardCard label="نوشته‌ها" value={posts} icon={FileText} href="/admin/collections/posts" />
           <DashboardCard label="سفارش‌ها" value={orders} icon={ShoppingCart} href="/admin/collections/orders" />
-          <DashboardCard label="کاربران" value={users} icon={Users} href="/admin/collections/users" />
-          <DashboardCard label="گفت‌وگوهای باز" value={openChats} icon={MessagesSquare} href="/admin/chat" />
+          <DashboardCard label="کاربران" value={users} icon={Users} href="/admin/customers" />
         </div>
       </section>
 
       <section>
         <h2 className="mb-3 text-xs font-bold text-dz-primary-400 dark:text-dz-night-faint">در انتظار رسیدگی</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <DashboardCard label="گفت‌وگوهای جدید" value={newChats} icon={Headset} href="/admin/chat" highlight />
+          <DashboardCard label="گفت‌وگوهای جدید چت" value={newChats} icon={Headset} href="/admin/chat" highlight />
           <DashboardCard label="نظرات در انتظار" value={pendingComments} icon={MessageSquare} href="/admin/collections/comments" highlight />
           <DashboardCard label="نقدهای در انتظار" value={pendingReviews} icon={Star} href="/admin/collections/reviews" highlight />
         </div>

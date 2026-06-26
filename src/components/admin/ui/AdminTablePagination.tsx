@@ -30,8 +30,15 @@ export function AdminTablePagination({
     return `${basePath}?${params.toString()}`;
   };
 
-  const linkClass =
-    "focus-ring rounded-lg border border-dz-primary-200 dark:border-dz-night-border p-2 text-dz-primary-700 dark:text-dz-night-fg transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5 aria-disabled:pointer-events-none aria-disabled:opacity-40";
+  const baseClass =
+    "focus-ring rounded-lg border p-2 transition-colors";
+  const activeClass =
+    "border-dz-primary-200 dark:border-dz-night-border text-dz-primary-700 dark:text-dz-night-fg hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5";
+  const disabledClass =
+    "border-dz-primary-100 dark:border-dz-night-border text-dz-primary-300 dark:text-dz-night-faint cursor-not-allowed select-none";
+
+  const prevDisabled = page <= 1;
+  const nextDisabled = page >= totalPages;
 
   return (
     <div className="mt-4 flex flex-col items-center justify-between gap-3 sm:flex-row">
@@ -39,20 +46,29 @@ export function AdminTablePagination({
         نمایش {toPersianNumbers(from)} تا {toPersianNumbers(to)} از {toPersianNumbers(total)}
       </p>
       <div className="flex items-center gap-2">
-        <Link href={href(page - 1)} aria-disabled={page <= 1} className={linkClass} aria-label="قبلی">
-          <ChevronRight className="size-4" />
-        </Link>
+        {prevDisabled ? (
+          <span className={`${baseClass} ${disabledClass}`} aria-disabled="true" aria-label="قبلی">
+            <ChevronRight className="size-4" />
+          </span>
+        ) : (
+          <Link href={href(page - 1)} className={`${baseClass} ${activeClass}`} aria-label="قبلی">
+            <ChevronRight className="size-4" />
+          </Link>
+        )}
+
         <span className="rounded-lg bg-dz-primary-50 dark:bg-white/5 px-3 py-1.5 text-xs text-dz-primary-600 dark:text-dz-primary-300">
           صفحه {toPersianNumbers(page)} از {toPersianNumbers(totalPages)}
         </span>
-        <Link
-          href={href(page + 1)}
-          aria-disabled={page >= totalPages}
-          className={linkClass}
-          aria-label="بعدی"
-        >
-          <ChevronLeft className="size-4" />
-        </Link>
+
+        {nextDisabled ? (
+          <span className={`${baseClass} ${disabledClass}`} aria-disabled="true" aria-label="بعدی">
+            <ChevronLeft className="size-4" />
+          </span>
+        ) : (
+          <Link href={href(page + 1)} className={`${baseClass} ${activeClass}`} aria-label="بعدی">
+            <ChevronLeft className="size-4" />
+          </Link>
+        )}
       </div>
     </div>
   );

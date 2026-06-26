@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { toPersianNumbers } from "@/lib/price";
 
@@ -49,6 +50,9 @@ export function DashboardCard({
         <span className="ms-auto shrink-0 rounded-full bg-dz-warning/15 px-2 py-0.5 text-[10px] font-bold text-dz-warning dark:text-dz-warning-300">
           نیازمند رسیدگی
         </span>
+      )}
+      {href && !flagged && (
+        <ChevronLeft className="ms-auto size-4 shrink-0 text-dz-primary-300 transition-colors group-hover:text-dz-primary-500 dark:text-dz-night-faint dark:group-hover:text-dz-primary-300" />
       )}
     </div>
   );

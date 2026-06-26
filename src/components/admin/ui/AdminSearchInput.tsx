@@ -42,6 +42,8 @@ export function AdminSearchInput({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
+        aria-label={placeholder}
+        type="search"
         className="w-full rounded-xl border border-dz-primary-200 dark:border-dz-night-border bg-white dark:bg-dz-night-elevated py-2.5 pr-9 pl-9 text-sm text-dz-primary-900 dark:text-dz-night-fg shadow-xs outline-none transition-[color,box-shadow,border-color] placeholder:text-dz-primary-300 dark:placeholder:text-dz-night-faint hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 focus:border-dz-primary-500 focus:ring-3 focus:ring-dz-primary-500/15"
       />
       {value && (

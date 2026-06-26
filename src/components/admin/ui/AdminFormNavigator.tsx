@@ -68,7 +68,7 @@ export function AdminFormNavigator({
               <a
                 href={`#${it.id}`}
                 onClick={(e) => handleClick(e, it.id)}
-                aria-current={active ? "true" : undefined}
+                aria-current={active ? "location" : undefined}
                 className={`-ms-px block border-s-2 px-3 py-1.5 text-sm transition-colors ${
                   active
                     ? danger

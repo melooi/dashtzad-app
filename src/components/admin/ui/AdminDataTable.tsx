@@ -24,6 +24,7 @@ export function AdminDataTable<T>({
   onToggleRow,
   onToggleAll,
   empty,
+  minWidth = "720px",
 }: {
   columns: TableColumn<T>[];
   rows: T[];
@@ -33,6 +34,8 @@ export function AdminDataTable<T>({
   onToggleRow?: (id: string) => void;
   onToggleAll?: (checked: boolean) => void;
   empty?: ReactNode;
+  /** Minimum table width before horizontal scroll kicks in. Defaults to 720px. */
+  minWidth?: string;
 }) {
   const allChecked = selectable && rows.length > 0 && rows.every((r) => selectedIds?.has(getRowId(r)));
 
@@ -42,7 +45,7 @@ export function AdminDataTable<T>({
 
   return (
     <div className="overflow-x-auto rounded-2xl border border-dz-primary-100 dark:border-dz-night-border bg-white dark:bg-dz-night-card shadow-xs">
-      <table className="w-full min-w-[720px] border-collapse text-sm">
+      <table className="w-full border-collapse text-sm" style={{ minWidth }}>
         <thead>
           <tr className="border-b border-dz-primary-100 dark:border-dz-night-border bg-dz-primary-50/60 dark:bg-white/5 text-xs font-medium text-dz-primary-500 dark:text-dz-night-muted">
             {selectable && (

@@ -46,12 +46,18 @@ export function AdminSubmitBar({
     }
   };
 
-  const dotClass = hasErrors ? "bg-dz-error" : dirty ? "bg-dz-warning" : "bg-dz-success";
+  // dirty=undefined means the parent hasn't wired it up; treat as "unknown".
+  const isDirty = dirty === true;
+  const isSaved = dirty === false;
+
+  const dotClass = hasErrors ? "bg-dz-error" : isDirty ? "bg-dz-warning" : isSaved ? "bg-dz-success" : "bg-dz-primary-200";
   const statusText = hasErrors
     ? `${toPersianNumbers(errorCount)} خطا مانع ذخیره شده است.`
-    : dirty
+    : isDirty
       ? "تغییرات ذخیره‌نشده دارید."
-      : "همه‌ی تغییرات ذخیره شده است.";
+      : isSaved
+        ? "همه‌ی تغییرات ذخیره شده است."
+        : "";
   const statusColor = hasErrors
     ? "text-dz-error dark:text-dz-error-300"
     : "text-dz-primary-400 dark:text-dz-night-faint";
@@ -82,11 +88,11 @@ export function AdminSubmitBar({
           >
             {cancelLabel}
           </Link>
-        ) : onCancel ? (
+        ) : onCancel && isDirty ? (
           <button
             type="button"
             onClick={onCancel}
-            disabled={!dirty || submitting}
+            disabled={submitting}
             className="focus-ring rounded-xl border border-dz-primary-200 dark:border-dz-night-border px-4 py-2.5 text-sm text-dz-primary-700 dark:text-dz-night-fg transition-colors hover:border-dz-primary-300 dark:hover:border-dz-primary-500/50 hover:bg-dz-primary-50 dark:hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {cancelLabel}
@@ -94,7 +100,7 @@ export function AdminSubmitBar({
         ) : null}
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || (isSaved && !hasErrors)}
           className="focus-ring inline-flex items-center gap-2 rounded-xl bg-dz-primary-600 px-5 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-dz-primary-700 active:bg-dz-primary-800 disabled:cursor-not-allowed disabled:bg-dz-primary-300 dark:disabled:bg-dz-primary-800"
         >
           {submitting ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
