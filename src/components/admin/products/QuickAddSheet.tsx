@@ -78,9 +78,11 @@ export function QuickAddSheet({
   const [showAll, setShowAll] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
   const rowsRef = useRef(rows);
-  rowsRef.current = rows;
   const undo = useRef<Row[][]>([]);
   const pendingFocus = useRef<{ r: number; c: number } | null>(null);
+
+  // Keep rowsRef in sync so event-handler callbacks always see the latest rows.
+  useEffect(() => { rowsRef.current = rows; }, [rows]);
 
   const pushUndo = () => {
     undo.current.push(rowsRef.current.map((r) => ({ ...r })));

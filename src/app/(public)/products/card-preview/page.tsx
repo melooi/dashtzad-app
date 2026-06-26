@@ -278,7 +278,7 @@ export default function CardPreviewPage() {
 
           {/* default */}
           <div className="mb-8">
-            <p className="mb-3 font-mono text-xs text-store-text-faint">variant="default" — گرید اصلی</p>
+            <p className="mb-3 font-mono text-xs text-store-text-faint">{`variant="default" — گرید اصلی`}</p>
             <div className="grid max-w-xs grid-cols-1">
               <ProductCard product={DEMO[0]} variant="default" quickAdd={demoQuickAdd(DEMO[0])} />
             </div>
@@ -286,7 +286,7 @@ export default function CardPreviewPage() {
 
           {/* compact */}
           <div className="mb-8">
-            <p className="mb-3 font-mono text-xs text-store-text-faint">variant="compact" — فشرده‌تر</p>
+            <p className="mb-3 font-mono text-xs text-store-text-faint">{`variant="compact" — فشرده‌تر`}</p>
             <div className="grid max-w-xs grid-cols-1">
               <ProductCard product={DEMO[1]} variant="compact" quickAdd={demoQuickAdd(DEMO[1])} />
             </div>
@@ -294,7 +294,7 @@ export default function CardPreviewPage() {
 
           {/* featured */}
           <div className="mb-8">
-            <p className="mb-3 font-mono text-xs text-store-text-faint">variant="featured" — بزرگ و ویژه</p>
+            <p className="mb-3 font-mono text-xs text-store-text-faint">{`variant="featured" — بزرگ و ویژه`}</p>
             <div className="grid max-w-sm grid-cols-1">
               <ProductCard product={DEMO[3]} variant="featured" quickAdd={demoQuickAdd(DEMO[3])} />
             </div>
@@ -302,7 +302,7 @@ export default function CardPreviewPage() {
 
           {/* list */}
           <div className="mb-8">
-            <p className="mb-3 font-mono text-xs text-store-text-faint">variant="list" — افقی</p>
+            <p className="mb-3 font-mono text-xs text-store-text-faint">{`variant="list" — افقی`}</p>
             <div className="flex max-w-lg flex-col gap-3">
               <ProductCard product={DEMO[0]} variant="list" quickAdd={demoQuickAdd(DEMO[0])} />
               <ProductCard product={DEMO[1]} variant="list" quickAdd={demoQuickAdd(DEMO[1])} />
@@ -311,7 +311,7 @@ export default function CardPreviewPage() {
 
           {/* mini */}
           <div className="mb-8">
-            <p className="mb-3 font-mono text-xs text-store-text-faint">variant="mini" — کوچک (سایدبار)</p>
+            <p className="mb-3 font-mono text-xs text-store-text-faint">{`variant="mini" — کوچک (سایدبار)`}</p>
             <div className="grid max-w-[10rem] grid-cols-1">
               <ProductCard product={DEMO[6]} variant="mini" />
             </div>

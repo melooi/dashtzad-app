@@ -22,7 +22,7 @@ export function RecipeLikeButton({
   // Reflect an anonymous like across reloads (logged-in state comes from the server).
   useEffect(() => {
     if (initialLiked) return;
-    if (localStorage.getItem(`dz_lk_${postId}`) === "1") setLiked(true);
+    if (localStorage.getItem(`dz_lk_${postId}`) === "1") queueMicrotask(() => setLiked(true));
   }, [postId, initialLiked]);
 
   const toggle = async () => {

@@ -60,8 +60,7 @@ export function RecipeRating({
     if (initialUserValue != null) return;
     const stored = Number(localStorage.getItem(`dz_rt_${postId}`));
     if (stored >= 1 && stored <= 5) {
-      setUserValue(stored);
-      setPending(true);
+      queueMicrotask(() => { setUserValue(stored); setPending(true); });
     }
   }, [postId, initialUserValue]);
 

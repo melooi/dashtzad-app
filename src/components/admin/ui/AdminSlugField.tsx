@@ -46,11 +46,7 @@ export function AdminSlugField({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [source]);
 
-  const reg = register(name, {
-    onChange: () => {
-      touched.current = true;
-    },
-  });
+  const reg = register(name);
 
   const regenerate = () => {
     touched.current = false;
@@ -63,7 +59,13 @@ export function AdminSlugField({
   return (
     <AdminField label={label} htmlFor={name} error={error} hint={hint} required={required}>
       <div className="flex gap-2">
-        <input id={name} dir="ltr" className={`${fieldClass(error)} font-mono`} {...reg} />
+        <input
+          id={name}
+          dir="ltr"
+          className={`${fieldClass(error)} font-mono`}
+          {...reg}
+          onChange={(e) => { touched.current = true; void reg.onChange(e); }}
+        />
         <button
           type="button"
           onClick={regenerate}

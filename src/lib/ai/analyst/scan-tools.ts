@@ -212,15 +212,15 @@ async function scanChat(): Promise<ChatScan> {
     prisma.aiConversation.count({ where: { status: "RESOLVED" } }),
     prisma.aiConversation.count({ where: { status: "CLOSED" } }),
     prisma.aiHandoff.count(),
-    prisma.aiFeedback.aggregate({ _avg: { score: true }, _count: { _all: true } }),
+    prisma.aiFeedback.count(),
   ]);
 
   return {
     humanConversations: { total: humanTotal, open: humanOpen, pending: humanPending, resolved: humanResolved },
     aiConversations: { total: aiTotal, active: aiActive, awaitingHuman: aiAwaiting, resolved: aiResolved, closed: aiClosed },
     handoffs,
-    feedbackCount: feedbackStats._count._all,
-    avgFeedbackScore: feedbackStats._avg.score !== null ? Math.round((feedbackStats._avg.score ?? 0) * 10) / 10 : null,
+    feedbackCount: feedbackStats,
+    avgFeedbackScore: null,
   };
 }
 

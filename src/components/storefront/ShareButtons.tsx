@@ -12,7 +12,7 @@ export function ShareButtons({ title }: { title: string }) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    setUrl(window.location.href);
+    queueMicrotask(() => setUrl(window.location.href));
   }, []);
 
   const enc = encodeURIComponent;

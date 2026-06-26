@@ -39,8 +39,9 @@ export function MediaPickerDialog({
   useEffect(() => {
     if (!open) return;
     let active = true;
-    setLoading(true);
     const handle = setTimeout(async () => {
+      if (!active) return;
+      setLoading(true);
       const rows = await searchMedia({
         q: q.trim() || undefined,
         usage: scopeUsage ? usage : undefined,
@@ -59,9 +60,12 @@ export function MediaPickerDialog({
   // Reset transient state on close.
   useEffect(() => {
     if (!open) {
-      setSelected(null);
-      setMultiSelected([]);
-      setQ("");
+      const t = setTimeout(() => {
+        setSelected(null);
+        setMultiSelected([]);
+        setQ("");
+      }, 0);
+      return () => clearTimeout(t);
     }
   }, [open]);
 

@@ -4,7 +4,7 @@
 // Run: tsx prisma/seed-pdp.ts
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient, Prisma } from "../src/generated/prisma/client";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
@@ -469,7 +469,7 @@ async function main() {
 
     // ---- variants: weights × {base packaging, gift box} ----
     await prisma.productVariant.deleteMany({ where: { productId: product.id } });
-    const variantData: any[] = [];
+    const variantData: Prisma.ProductVariantCreateManyInput[] = [];
     cfg.weightTitles.forEach((wt, wi) => {
       const wp = weightPresets.find((w) => w.title === wt);
       if (!wp) return;
@@ -558,7 +558,7 @@ async function main() {
       where: { id: product.id },
       data: {
         latinTitle: cfg.latinTitle,
-        pdpContent: cfg.content as any,
+        pdpContent: cfg.content as Prisma.InputJsonValue,
         rating: Math.round(avg * 10) / 10,
         numReviews: picked.length,
       },

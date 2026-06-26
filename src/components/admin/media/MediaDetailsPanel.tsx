@@ -1,7 +1,7 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import {
   X,
   Copy,
@@ -20,22 +20,33 @@ import { formatBytes, mimeLabel, MEDIA_USAGE_OPTIONS } from "@/lib/media/shared"
 import { updateMediaMeta, deleteMediaAsset } from "@/lib/admin/media-actions";
 import type { MediaUsage } from "@/generated/prisma/client";
 
-export function MediaDetailsPanel({
-  asset,
-  onClose,
-  onUpdated,
-  onDeleted,
-}: {
+type MediaDetailsPanelProps = {
   asset: MediaAssetDTO | null;
   onClose: () => void;
   onUpdated: (asset: MediaAssetDTO) => void;
   onDeleted: (id: string) => void;
-}) {
-  const [alt, setAlt] = useState("");
-  const [title, setTitle] = useState("");
-  const [caption, setCaption] = useState("");
-  const [usage, setUsage] = useState<MediaUsage | "">("");
-  const [tags, setTags] = useState<string[]>([]);
+};
+
+type MediaDetailsPanelInnerProps = Omit<MediaDetailsPanelProps, "asset"> & { asset: MediaAssetDTO };
+
+/** Wrapper that remounts the inner panel whenever the selected asset changes,
+ *  so form state is always fresh — no reset effect needed. */
+export function MediaDetailsPanel(props: MediaDetailsPanelProps) {
+  if (!props.asset) return null;
+  return <MediaDetailsPanelInner key={props.asset.id} {...props} asset={props.asset} />;
+}
+
+function MediaDetailsPanelInner({
+  asset,
+  onClose,
+  onUpdated,
+  onDeleted,
+}: MediaDetailsPanelInnerProps) {
+  const [alt, setAlt] = useState(asset.alt ?? "");
+  const [title, setTitle] = useState(asset.title ?? "");
+  const [caption, setCaption] = useState(asset.caption ?? "");
+  const [usage, setUsage] = useState<MediaUsage | "">(asset.usage ?? "");
+  const [tags, setTags] = useState<string[]>(asset.tags ?? []);
   const [tagDraft, setTagDraft] = useState("");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -43,22 +54,6 @@ export function MediaDetailsPanel({
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pending, startTransition] = useTransition();
   const [deleting, startDelete] = useTransition();
-
-  // Reset the form whenever a different asset is opened.
-  useEffect(() => {
-    if (!asset) return;
-    setAlt(asset.alt ?? "");
-    setTitle(asset.title ?? "");
-    setCaption(asset.caption ?? "");
-    setUsage(asset.usage ?? "");
-    setTags(asset.tags ?? []);
-    setTagDraft("");
-    setError(null);
-    setSaved(false);
-    setCopied(false);
-  }, [asset]);
-
-  if (!asset) return null;
 
   const copyUrl = async () => {
     try {

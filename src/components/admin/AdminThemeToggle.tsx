@@ -31,8 +31,8 @@ export function AdminThemeToggle() {
 
   useEffect(() => {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
-    setMode(isThemeMode(stored) ? stored : "system");
-    setMounted(true);
+    const next = isThemeMode(stored) ? stored : "system";
+    queueMicrotask(() => { setMode(next); setMounted(true); });
   }, []);
 
   // Keep "system" mode in sync with OS-level changes while mounted.

@@ -124,9 +124,8 @@
     if (copyBtn) copyBtn.addEventListener('click', function () {
       var code = ($('discountCode') || {}).textContent || '';
       if (navigator.clipboard) navigator.clipboard.writeText(code).catch(function () {});
-      var self = this;
-      self.innerHTML = '<i class="ri-check-line"></i> کپی شد';
-      setTimeout(function () { self.innerHTML = '<i class="ri-file-copy-line"></i> کپی'; }, 1600);
+      copyBtn.innerHTML = '<i class="ri-check-line"></i> کپی شد';
+      setTimeout(function () { copyBtn.innerHTML = '<i class="ri-file-copy-line"></i> کپی'; }, 1600);
     });
   })();
 
