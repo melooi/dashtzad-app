@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "claude:map": "node .claude/token-infra/scripts/generate-repo-map.mjs",
+    "claude:pack": "node .claude/token-infra/scripts/pack-task-context.mjs",
+    "claude:log": "node .claude/token-infra/scripts/summarize-log.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
