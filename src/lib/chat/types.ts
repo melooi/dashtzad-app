@@ -12,6 +12,12 @@ export type ChatFallbackLink = { label: string; href: string; icon: string };
 export type ChatFaqItem = { question: string; answer: string };
 export type ChatAttachment = { url: string; name: string; mime: string; size: number } | null;
 export type CannedReply = { title: string; shortcut: string; body: string };
+export type AiConvInsight = {
+  topic: string;
+  sentiment: "angry" | "upset" | "neutral" | "happy";
+  summary: string;
+  suggestions: string[];
+};
 export type Department = { id: string; name: string; color: string | null };
 export type OperatorPresence = { id: string; name: string; online: boolean };
 
@@ -67,6 +73,29 @@ export type ConversationView = {
 
 // ---- admin-facing shapes ----
 
+export type CustomerTier = "new" | "reg" | "loyal" | "whole";
+
+export function getCustomerTier(orderCount: number): CustomerTier {
+  if (orderCount === 0) return "new";
+  if (orderCount <= 2) return "reg";
+  if (orderCount <= 9) return "loyal";
+  return "whole";
+}
+
+export const TIER_LABEL: Record<CustomerTier, string> = {
+  new: "تازه",
+  reg: "معمولی",
+  loyal: "وفادار",
+  whole: "عمده",
+};
+
+export const TIER_CLS: Record<CustomerTier, string> = {
+  new: "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400",
+  reg: "bg-dz-primary-50 text-dz-primary-500 dark:bg-white/5 dark:text-dz-night-muted",
+  loyal: "bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-400",
+  whole: "bg-purple-50 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400",
+};
+
 export type AdminConversationListItem = {
   id: string;
   status: ConversationStatus;
@@ -82,6 +111,7 @@ export type AdminConversationListItem = {
   departmentId: string | null;
   departmentName: string | null;
   rating: number | null;
+  orderCount: number;
 };
 
 export type AdminMessageView = MessageView & { authorName: string | null; isInternalNote: boolean };

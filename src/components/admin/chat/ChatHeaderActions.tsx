@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Settings, Building2 } from "lucide-react";
+import { Settings, Building2, Zap } from "lucide-react";
 
 const cls =
   "focus-ring inline-flex items-center gap-2 rounded-xl border border-dz-primary-200 px-4 py-2.5 text-sm font-medium text-dz-primary-700 transition-colors hover:bg-dz-primary-50 dark:border-dz-night-border dark:text-dz-night-fg dark:hover:bg-white/5";
@@ -8,6 +8,10 @@ const cls =
 export function ChatHeaderActions() {
   return (
     <div className="flex items-center gap-2">
+      <Link href="/admin/chat/canned-replies" className={cls}>
+        <Zap className="size-4" aria-hidden />
+        پیام‌های آماده
+      </Link>
       <Link href="/admin/chat/departments" className={cls}>
         <Building2 className="size-4" aria-hidden />
         دپارتمان‌ها

@@ -18,9 +18,11 @@ import {
   deleteDepartment,
   cleanBody,
 } from "@/lib/chat/service";
-import { suggestOperatorReply } from "@/lib/chat/ai";
+import { suggestOperatorReply, suggestConvInsights } from "@/lib/chat/ai";
+import { getChatSettings, writeGlobal } from "@/lib/admin/global-service";
+import { chatSettingsSchema } from "@/lib/admin/globals";
 import type { ConversationStatus } from "@/generated/prisma/enums";
-import type { ChatAttachment } from "@/lib/chat/types";
+import type { ChatAttachment, CannedReply, AiConvInsight } from "@/lib/chat/types";
 
 export type AdminChatResult = { ok: true } | { ok: false; error: string };
 export type AiReplyResult = { ok: true; draft: string } | { ok: false; error: string };
@@ -112,6 +114,13 @@ export async function suggestReplyAction(conversationId: string): Promise<AiRepl
   return suggestOperatorReply(conversationId);
 }
 
+export type AiInsightActionResult = ({ ok: true } & AiConvInsight) | { ok: false; error: string };
+
+export async function getAiInsightAction(conversationId: string): Promise<AiInsightActionResult> {
+  await requireAdmin();
+  return suggestConvInsights(conversationId);
+}
+
 // ---- department management ----
 
 export async function createDepartmentAction(input: {
@@ -145,5 +154,19 @@ export async function deleteDepartmentAction(id: string): Promise<AdminChatResul
   await deleteDepartment(id);
   revalidatePath("/admin/chat/departments");
   revalidate();
+  return { ok: true };
+}
+
+// ---- canned replies management ----
+
+export async function saveCannedRepliesAction(replies: CannedReply[]): Promise<AdminChatResult> {
+  await requireAdmin();
+  const settings = await getChatSettings();
+  const parsed = chatSettingsSchema.safeParse({ ...settings, cannedReplies: replies });
+  if (!parsed.success) return { ok: false, error: "داده‌های پیام‌های آماده نامعتبر است." };
+  await writeGlobal("chatSettings", parsed.data);
+  revalidatePath("/admin/chat");
+  revalidatePath("/admin/chat/canned-replies");
+  revalidatePath("/admin/chat/settings");
   return { ok: true };
 }

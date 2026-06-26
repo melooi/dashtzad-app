@@ -1,10 +1,15 @@
+import Script from "next/script";
 import { THEME_INIT_SCRIPT } from "@/lib/admin/theme";
 
-/**
- * Renders the synchronous theme-init script. Placed at the very top of the admin
- * layout so the warm dark/light theme is applied before admin chrome paints —
- * preventing a flash on full page loads. Admin-scoped only.
- */
+// In React 19 / Next.js 16, <script dangerouslySetInnerHTML> inside a component
+// is not executed on the client. next/script beforeInteractive bypasses this
+// restriction and still runs before first paint (prevents dark-mode flash).
 export function AdminThemeScript() {
-  return <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />;
+  return (
+    <Script
+      id="admin-theme-init"
+      strategy="beforeInteractive"
+      dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }}
+    />
+  );
 }

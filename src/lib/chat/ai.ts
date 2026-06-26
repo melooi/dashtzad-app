@@ -6,6 +6,7 @@
 
 import { getChatSettings } from "@/lib/admin/global-service";
 import { getAdminConversation } from "@/lib/chat/service";
+import type { AiConvInsight } from "@/lib/chat/types";
 
 const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
@@ -140,6 +141,88 @@ async function callGoogle(apiKey: string, model: string, system: string, userMsg
   const text = extractGoogle(data);
   return text ? { ok: true, draft: text } : { ok: false, error: "پاسخی تولید نشد." };
 }
+
+// ---- conversation insights -------------------------------------------------
+
+export type AiInsightResult = ({ ok: true } & AiConvInsight) | { ok: false; error: string };
+
+const SENTIMENTS = ["angry", "upset", "neutral", "happy"] as const;
+type Sentiment = (typeof SENTIMENTS)[number];
+
+function parseSentiment(s: unknown): Sentiment {
+  if (typeof s === "string" && (SENTIMENTS as readonly string[]).includes(s)) return s as Sentiment;
+  return "neutral";
+}
+
+function tryParseInsight(text: string): AiInsightResult {
+  try {
+    const clean = text.trim().replace(/^```(?:json)?\s*/m, "").replace(/```\s*$/m, "").trim();
+    const json = JSON.parse(clean) as Record<string, unknown>;
+    return {
+      ok: true,
+      topic: typeof json.topic === "string" ? json.topic : "نامشخص",
+      sentiment: parseSentiment(json.sentiment),
+      summary: typeof json.summary === "string" ? json.summary : "",
+      suggestions: Array.isArray(json.suggestions)
+        ? (json.suggestions as unknown[]).slice(0, 3).map(String)
+        : [],
+    };
+  } catch {
+    return { ok: false, error: "تجزیهٔ پاسخ دستیار ناموفق بود." };
+  }
+}
+
+export async function suggestConvInsights(conversationId: string): Promise<AiInsightResult> {
+  const settings = await getChatSettings();
+  if (!settings.aiCopilotEnabled) return { ok: false, error: "دستیار هوش مصنوعی غیرفعال است." };
+
+  const provider = providerForModel(settings.aiModel);
+  const apiKey = apiKeyForProvider(provider);
+  if (!apiKey) return { ok: false, error: `کلید ${PROVIDER_LABEL[provider]} تنظیم نشده است.` };
+
+  const conv = await getAdminConversation(conversationId);
+  if (!conv) return { ok: false, error: "گفت‌وگو یافت نشد." };
+
+  const transcript = conv.messages
+    .filter((m) => !m.isInternalNote && m.body.trim())
+    .slice(-15)
+    .map((m) => {
+      const who = m.role === "VISITOR" ? "مشتری" : m.role === "OPERATOR" ? "پشتیبان" : "سیستم";
+      return `${who}: ${m.body.trim()}`;
+    })
+    .join("\n");
+
+  const system =
+    "تو دستیار تحلیل گفت‌وگو برای تیم پشتیبانی فروشگاه «دشت‌زاد» (مواد غذایی پرمیوم ایرانی) هستی. خروجی فقط JSON خالص باشد — بدون هیچ توضیح، markdown یا متن اضافه.";
+  const userMsg = [
+    `گفت‌وگوی مشتری:\n${transcript || "(هنوز پیامی نیست)"}`,
+    "",
+    'خروجی JSON با این قالب دقیق (sentiment باید یکی از "angry","upset","neutral","happy" باشد):',
+    JSON.stringify(
+      {
+        topic: "موضوع اصلی (۱-۳ کلمه فارسی)",
+        sentiment: "angry|upset|neutral|happy",
+        summary: "خلاصهٔ ۱-۲ جمله‌ای فارسی",
+        suggestions: ["پاسخ کوتاه فارسی ۱", "پاسخ کوتاه فارسی ۲", "پاسخ کوتاه فارسی ۳"],
+      },
+      null,
+      2,
+    ),
+  ].join("\n");
+
+  try {
+    let raw: AiSuggestResult;
+    if (provider === "openai") raw = await callOpenAI(apiKey, settings.aiModel, system, userMsg);
+    else if (provider === "google") raw = await callGoogle(apiKey, settings.aiModel, system, userMsg);
+    else raw = await callAnthropic(apiKey, settings.aiModel, system, userMsg);
+    if (!raw.ok) return raw;
+    return tryParseInsight(raw.draft);
+  } catch {
+    return { ok: false, error: "خطا در ارتباط با سرویس هوش مصنوعی." };
+  }
+}
+
+// ---- draft reply -----------------------------------------------------------
 
 export async function suggestOperatorReply(conversationId: string): Promise<AiSuggestResult> {
   const settings = await getChatSettings();

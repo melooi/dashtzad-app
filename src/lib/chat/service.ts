@@ -246,7 +246,7 @@ export async function listAdminConversations(
     orderBy: { lastMessageAt: "desc" },
     take: 200,
     include: {
-      user: { select: { name: true, phoneNumber: true } },
+      user: { select: { name: true, phoneNumber: true, _count: { select: { orders: true } } } },
       assignedTo: { select: { name: true } },
       department: { select: { name: true } },
     },
@@ -266,6 +266,7 @@ export async function listAdminConversations(
     departmentId: c.departmentId,
     departmentName: c.department?.name ?? null,
     rating: c.rating ?? null,
+    orderCount: c.user?._count?.orders ?? 0,
   }));
 }
 
