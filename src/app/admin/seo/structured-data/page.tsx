@@ -19,7 +19,7 @@ const TYPES: Row[] = [
 
 export default async function SeoStructuredDataPage() {
   const sample = await prisma.product.findFirst({
-    where: { isActive: true },
+    where: { isActive: true, deletedAt: null },
     orderBy: { createdAt: "desc" },
     select: { slug: true },
   });

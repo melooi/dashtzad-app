@@ -27,6 +27,7 @@ export default async function EditCategoryPage({
 
   const [allCategories, seoMeta, seoDefaults] = await Promise.all([
     prisma.category.findMany({
+      where: { deletedAt: null },
       select: { id: true, title: true, type: true, parentId: true },
       orderBy: { title: "asc" },
     }),

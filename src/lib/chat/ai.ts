@@ -1,5 +1,6 @@
 import { getChatSettings } from "@/lib/admin/global-service";
 import { getAdminConversation } from "./service";
+import { prisma } from "@/lib/prisma";
 import type { ConversationSentiment, ConversationAiPriority, AiNextAction } from "./types";
 
 // ---- provider helpers ----
@@ -193,5 +194,39 @@ export async function analyzeConversation(conversationId: string): Promise<Analy
     return { ok: true, analysis: parsed };
   } catch (e) {
     return { ok: false, error: String(e) };
+  }
+}
+
+// ---- chatbot auto-reply ----
+
+export async function generateChatbotReply(publicToken: string): Promise<string | null> {
+  const settings = await getChatSettings();
+  if (!settings.aiChatbotEnabled) return null;
+  const provider = providerForModel(settings.aiModel);
+  if (!isAiConfigured(provider)) return null;
+
+  const conv = await prisma.conversation.findUnique({
+    where: { publicToken },
+    include: { messages: { orderBy: { createdAt: "asc" }, take: 20 } },
+  });
+  if (!conv) return null;
+
+  const history = conv.messages
+    .filter((m) => !m.isInternalNote && m.body)
+    .map((m) => `${m.senderRole === "VISITOR" ? "مشتری" : "دستیار"}: ${m.body}`)
+    .join("\n");
+
+  const system = [
+    `تو دستیار هوشمند فروشگاه آنلاین «${settings.botName ?? "دشت‌زاد"}» هستی.`,
+    "فروشگاه محصولات غذایی ایرانی: عسل طبیعی، آجیل، خشکبار، ادویه و محصولات ارگانیک.",
+    "پاسخ‌هایت را به فارسی، صمیمی و مختصر بده. اگر سؤال خارج از حوزه فروشگاه است، مؤدبانه هدایت کن.",
+    settings.aiContext ? `اطلاعات اضافی: ${settings.aiContext}` : "",
+  ].filter(Boolean).join("\n");
+
+  try {
+    const reply = await callAi(provider, settings.aiModel, system, `تاریخچه مکالمه:\n${history}\n\nپاسخ دستیار:`);
+    return reply.trim() || null;
+  } catch {
+    return null;
   }
 }

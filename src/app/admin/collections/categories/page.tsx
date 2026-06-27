@@ -56,15 +56,15 @@ export default async function CategoriesListPage({
   let pageRows: Array<CategoryWithCounts & { depth: number }> = [];
 
   if (useTree) {
-    const all = await prisma.category.findMany({ where, include: INCLUDE });
+    const all = await prisma.category.findMany({ where: { ...where, deletedAt: null }, include: INCLUDE });
     const ordered = orderTree(all, (a, b) => a.title.localeCompare(b.title, "fa"));
     total = ordered.length;
     pageRows = ordered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
   } else {
     const orderBy = sort === "title" ? { title: "asc" as const } : { updatedAt: "desc" as const };
-    total = await prisma.category.count({ where });
+    total = await prisma.category.count({ where: { ...where, deletedAt: null } });
     const list = await prisma.category.findMany({
-      where,
+      where: { ...where, deletedAt: null },
       include: INCLUDE,
       orderBy,
       skip: (page - 1) * PER_PAGE,

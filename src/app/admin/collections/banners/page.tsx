@@ -50,7 +50,7 @@ export default async function BannersListPage({
       : {}),
   };
 
-  const list = await prisma.banner.findMany({ where, orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }] });
+  const list = await prisma.banner.findMany({ where: { ...where, deletedAt: null }, orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }] });
   const rows: Row[] = list.map((b) => ({
     id: b.id,
     title: b.title,

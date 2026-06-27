@@ -10,7 +10,6 @@ import {
   ChevronLeft,
   Bot,
   Activity,
-  Plug,
   type LucideIcon,
 } from "lucide-react";
 import { requireAdmin } from "@/lib/auth/guards";
@@ -65,9 +64,9 @@ function SettingCard({ item }: { item: SettingLink }) {
         </div>
         <div className="min-w-0">
           <div className="font-heading text-base font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">{item.label}</div>
-          <div className="mt-0.5 truncate text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">{item.description}</div>
+          <div className="mt-0.5 truncate text-sm text-dz-a-fg-muted dark:text-dz-a-night-muted">{item.description}</div>
         </div>
-        <ChevronLeft className="ms-auto size-5 shrink-0 text-dz-a-primary-300 transition-transform group-hover:-translate-x-0.5 dark:text-dz-a-night-muted" />
+        <ChevronLeft className="ms-auto size-5 shrink-0 text-dz-a-fg-ghost transition-transform group-hover:-translate-x-0.5 dark:text-dz-a-night-muted" />
       </div>
     </Link>
   );
@@ -81,8 +80,10 @@ export default async function SettingsPage() {
     provider === "openai" ? "OPENAI_API_KEY" : provider === "google" ? "GOOGLE_API_KEY" : "ANTHROPIC_API_KEY";
   const aiKey = isAiConfigured(provider);
   const aiConnected = aiKey && chat.aiCopilotEnabled;
-  const integrations = getIntegrationStatuses();
-  const configStatus = await getIntegrationConfigStatus();
+  const [integrations, configStatus] = await Promise.all([
+    getIntegrationStatuses(),
+    getIntegrationConfigStatus(),
+  ]);
   const aiStatus = !aiKey
     ? { tone: "muted", text: `متصل نیست — کلید ${providerKeyName} برای مدل ${chat.aiModel} تنظیم نشده است.` }
     : !chat.aiCopilotEnabled
@@ -102,7 +103,7 @@ export default async function SettingsPage() {
         <h2 className="mb-1 font-heading text-base font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
           رنگ پنل مدیریت
         </h2>
-        <p className="mb-4 text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">
+        <p className="mb-4 text-sm text-dz-a-fg-muted dark:text-dz-a-night-muted">
           پالت رنگی پنل را انتخاب کنید. این انتخاب فقط برای مرورگر شما ذخیره می‌شود.
         </p>
         <AdminAccentPicker />
@@ -128,7 +129,7 @@ export default async function SettingsPage() {
               {aiConnected ? "فعال" : aiStatus.tone === "warn" ? "غیرفعال" : "متصل نیست"}
             </span>
           </div>
-          <p className="mt-1 text-sm text-dz-a-primary-500 dark:text-dz-a-night-muted">{aiStatus.text}</p>
+          <p className="mt-1 text-sm text-dz-a-fg-muted dark:text-dz-a-night-muted">{aiStatus.text}</p>
         </div>
         <Link
           href="/admin/chat/settings"
@@ -152,10 +153,7 @@ export default async function SettingsPage() {
 
         {/* Integration status */}
         <section>
-          <h2 className="mb-1 flex items-center gap-2 font-heading text-sm font-bold text-dz-a-primary-600 dark:text-dz-a-night-muted">
-            <Plug className="size-4" /> وضعیت اتصال‌ها
-          </h2>
-          <p className="mb-3 text-xs text-dz-a-primary-400 dark:text-dz-a-night-faint">
+          <p className="mb-4 text-xs text-dz-a-fg-faint dark:text-dz-a-night-faint">
             فقط وضعیت پیکربندی (روی سرور) نمایش داده می‌شود؛ هیچ کلید یا مقدار محرمانه‌ای نشان داده نمی‌شود.
           </p>
           <IntegrationStatusList integrations={integrations} configStatus={configStatus} />

@@ -114,6 +114,7 @@ export async function getChatPublicConfig(): Promise<ChatPublicConfig> {
     proactiveMessage: s.proactiveMessage,
     preChatMode: s.preChatMode,
     soundEnabled: s.soundEnabled,
+    aiChatbotEnabled: s.aiChatbotEnabled && !!process.env.OPENAI_API_KEY,
   };
 }
 
@@ -408,6 +409,31 @@ export async function updateConversationAi(
       aiAnalyzedAt: new Date(),
     },
   });
+}
+
+export async function appendBotMessage(
+  publicToken: string,
+  body: string,
+): Promise<void> {
+  const clean = cleanBody(body);
+  if (!clean) return;
+  const conv = await prisma.conversation.findUnique({ where: { publicToken } });
+  if (!conv) return;
+  await prisma.$transaction([
+    prisma.chatMessage.create({
+      data: { conversationId: conv.id, senderRole: "OPERATOR", body: clean, authorId: null, isInternalNote: false },
+    }),
+    prisma.conversation.update({
+      where: { id: conv.id },
+      data: {
+        lastMessageAt: new Date(),
+        lastMessagePreview: previewFor(clean, null),
+        lastSenderRole: "OPERATOR",
+        unreadForVisitor: { increment: 1 },
+        unreadForAdmin: 0,
+      },
+    }),
+  ]);
 }
 
 export async function appendOperatorMessage(

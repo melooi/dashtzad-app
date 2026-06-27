@@ -18,7 +18,7 @@ export const metadata = buildMetadata({
 
 export default async function CaseFilesPage() {
   const series = await prisma.contentSeries.findMany({
-    where: { status: "PUBLISHED" },
+    where: { status: "PUBLISHED", deletedAt: null },
     orderBy: { sortOrder: "asc" },
     select: {
       slug: true,

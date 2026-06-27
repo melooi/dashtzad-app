@@ -11,6 +11,8 @@ import {
   ShoppingBag,
   ListChecks,
   ArrowLeftRight,
+  AlertTriangle,
+  Zap,
 } from "lucide-react";
 
 const TABS = [
@@ -22,6 +24,8 @@ const TABS = [
   { href: "/admin/seo/merchant", label: "فید محصولات", icon: ShoppingBag },
   { href: "/admin/seo/checklist", label: "چک‌لیست", icon: ListChecks },
   { href: "/admin/collections/redirects", label: "ریدایرکت‌ها", icon: ArrowLeftRight },
+  { href: "/admin/seo/404-monitor", label: "مانیتور ۴۰۴", icon: AlertTriangle },
+  { href: "/admin/seo/indexnow", label: "IndexNow", icon: Zap },
 ];
 
 export function SeoNav() {

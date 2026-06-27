@@ -1,6 +1,6 @@
 // Small shared presentational atoms for account-panel sections (store-* system).
 import type { ReactNode } from "react";
-import { Loader2, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import type { Tone } from "./nav";
 
 const TONE_PILL: Record<Tone, string> = {
@@ -18,10 +18,93 @@ export function TonePill({ tone, children }: { tone: Tone; children: ReactNode }
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Skeleton atoms                                                       */
+/* ------------------------------------------------------------------ */
+
+function Bone({ className = "" }: { className?: string }) {
+  return <div className={`animate-pulse rounded-xl bg-store-border ${className}`} />;
+}
+
+/** Skeleton for order cards (OrdersSection, DashboardSection) */
+export function SkeletonOrderCard() {
+  return (
+    <div className="rounded-2xl border border-store-border bg-store-surface p-4 shadow-store-xs md:p-5">
+      <div className="flex items-center gap-3 border-b border-store-border pb-3">
+        <Bone className="h-4 w-28" />
+        <Bone className="h-4 w-16" />
+        <Bone className="ms-auto h-6 w-20 rounded-full" />
+      </div>
+      <div className="flex items-center gap-4 pt-3">
+        <div className="flex">
+          {[0, 1, 2].map((i) => (
+            <Bone key={i} className={`size-12 rounded-xl ${i > 0 ? "-mr-3" : ""}`} />
+          ))}
+        </div>
+        <Bone className="h-4 w-16 flex-1" />
+        <Bone className="h-6 w-24" />
+        <Bone className="h-9 w-28 rounded-xl" />
+      </div>
+    </div>
+  );
+}
+
+/** Skeleton for product grid cards (Wishlist, Recent) */
+export function SkeletonProductGrid({ count = 4 }: { count?: number }) {
+  return (
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="rounded-2xl border border-store-border bg-store-surface p-3">
+          <Bone className="mb-3 h-36 w-full rounded-xl" />
+          <Bone className="mb-2 h-4 w-3/4" />
+          <Bone className="h-4 w-1/2" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Skeleton for simple list rows (addresses, messages, reviews) */
+export function SkeletonList({ rows = 3 }: { rows?: number }) {
+  return (
+    <div className="flex flex-col gap-3">
+      {Array.from({ length: rows }).map((_, i) => (
+        <div key={i} className="rounded-2xl border border-store-border bg-store-surface p-4 shadow-store-xs">
+          <div className="flex items-start gap-3">
+            <Bone className="size-10 shrink-0 rounded-xl" />
+            <div className="flex-1 space-y-2">
+              <Bone className="h-4 w-1/2" />
+              <Bone className="h-3 w-3/4" />
+              <Bone className="h-3 w-1/3" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Dashboard stat tiles skeleton */
+export function SkeletonStats() {
+  return (
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="rounded-2xl border border-store-border bg-store-surface p-3 md:p-4">
+          <Bone className="mb-3 size-10 rounded-xl" />
+          <Bone className="mb-2 h-7 w-12" />
+          <Bone className="h-3 w-16" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
 export function PanelLoading({ label = "در حال بارگذاری…" }: { label?: string }) {
   return (
     <div className="flex items-center justify-center gap-2 py-16 text-sm text-store-text-faint">
-      <Loader2 className="size-4 animate-spin" />
+      <div className="size-4 animate-spin rounded-full border-2 border-store-border border-t-store-primary" />
       {label}
     </div>
   );

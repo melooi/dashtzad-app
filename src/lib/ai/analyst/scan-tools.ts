@@ -84,13 +84,13 @@ export interface ScanSnapshot {
 async function scanInventory(): Promise<InventoryScan> {
   const [total, active, inactive, noImages, variantsTotal, variantsOutOfStock, productsNoActiveVariants] =
     await Promise.all([
-      prisma.product.count(),
-      prisma.product.count({ where: { isActive: true } }),
-      prisma.product.count({ where: { isActive: false } }),
-      prisma.product.count({ where: { images: { none: {} } } }),
+      prisma.product.count({ where: { deletedAt: null } }),
+      prisma.product.count({ where: { isActive: true, deletedAt: null } }),
+      prisma.product.count({ where: { isActive: false, deletedAt: null } }),
+      prisma.product.count({ where: { images: { none: {} }, deletedAt: null } }),
       prisma.productVariant.count(),
       prisma.productVariant.count({ where: { stock: 0, isActive: true } }),
-      prisma.product.count({ where: { variants: { none: { isActive: true } } } }),
+      prisma.product.count({ where: { variants: { none: { isActive: true } }, deletedAt: null } }),
     ]);
 
   return {
@@ -175,10 +175,10 @@ async function scanCustomers(): Promise<CustomersScan> {
 async function scanContent(): Promise<ContentScan> {
   const [published, draft, faqGroups, faqItems, recipeSuggestions, pendingComments, pendingReviews] =
     await Promise.all([
-      prisma.post.count({ where: { status: "PUBLISHED" } }),
-      prisma.post.count({ where: { status: "DRAFT" } }),
-      prisma.fAQGroup.count({ where: { isActive: true } }),
-      prisma.fAQItem.count({ where: { isActive: true } }),
+      prisma.post.count({ where: { status: "PUBLISHED", deletedAt: null } }),
+      prisma.post.count({ where: { status: "DRAFT", deletedAt: null } }),
+      prisma.fAQGroup.count({ where: { isActive: true, deletedAt: null } }),
+      prisma.fAQItem.count({ where: { isActive: true, deletedAt: null } }),
       prisma.recipeSuggestion.count({ where: { status: "PENDING" } }),
       prisma.postComment.count({ where: { status: "PENDING" } }),
       prisma.productReview.count({ where: { status: "PENDING" } }),
@@ -232,10 +232,10 @@ async function scanPricing(): Promise<PricingScan> {
     avgProduct,
     variantAgg,
   ] = await Promise.all([
-    prisma.product.count({ where: { price_rial: 0 } }),
+    prisma.product.count({ where: { price_rial: 0, deletedAt: null } }),
     prisma.productVariant.count({ where: { price_rial: 0, isActive: true } }),
-    prisma.product.count({ where: { discountPercent: { gt: 0 } } }),
-    prisma.product.aggregate({ _avg: { price_rial: true }, where: { isActive: true } }),
+    prisma.product.count({ where: { discountPercent: { gt: 0 }, deletedAt: null } }),
+    prisma.product.aggregate({ _avg: { price_rial: true }, where: { isActive: true, deletedAt: null } }),
     prisma.productVariant.aggregate({
       _min: { price_rial: true },
       _max: { price_rial: true },

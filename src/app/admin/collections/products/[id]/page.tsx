@@ -8,6 +8,7 @@ import { getSeoMetaForForm } from "@/lib/admin/seo-service";
 import { getSeoDefaults } from "@/lib/admin/global-service";
 import { AdminPageHeader } from "@/components/admin/ui/AdminPageHeader";
 import { ProductForm } from "@/components/admin/products/ProductForm";
+import { HesabfaProductButton } from "@/components/admin/hesabfa/HesabfaProductButton";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
   if (!product) notFound();
 
   const [categories, weightPresets, packagingOptions, seoMeta, seoDefaults] = await Promise.all([
-    prisma.category.findMany({ where: { type: "PRODUCT" }, select: { id: true, title: true }, orderBy: { title: "asc" } }),
+    prisma.category.findMany({ where: { type: "PRODUCT", deletedAt: null }, select: { id: true, title: true }, orderBy: { title: "asc" } }),
     prisma.weightPreset.findMany({ where: { isActive: true }, select: { id: true, title: true, gramValue: true, compatibility: true }, orderBy: { sortOrder: "asc" } }),
     prisma.packagingOption.findMany({ where: { isActive: true }, select: { id: true, title: true, type: true, cost_rial: true, compatibility: true }, orderBy: { sortOrder: "asc" } }),
     getSeoMetaForForm("PRODUCT", id),
@@ -61,6 +62,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
           { label: productsCollection.label, href: productsCollection.route },
           { label: product.title },
         ]}
+        actions={<HesabfaProductButton productId={product.id} initialCode={product.hesabfaCode} />}
       />
       <ProductForm
         mode="edit"

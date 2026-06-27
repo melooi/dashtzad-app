@@ -85,6 +85,7 @@ export type PdpContent = {
 };
 
 export type PdpData = {
+  id: string;
   slug: string;
   title: string;
   latinTitle: string | null;
@@ -305,7 +306,7 @@ export async function getPdpData(slug: string): Promise<PdpData | null> {
 
   const [related, questions] = await Promise.all([
     prisma.product.findMany({
-      where: { categoryId: product.categoryId, isActive: true, id: { not: product.id } },
+      where: { categoryId: product.categoryId, isActive: true, deletedAt: null, id: { not: product.id } },
       take: 6,
       include: {
         images: { orderBy: { sortOrder: "asc" }, take: 1 },
@@ -338,6 +339,7 @@ export async function getPdpData(slug: string): Promise<PdpData | null> {
   const hasReviews = product.reviews.length > 0;
 
   return {
+    id: product.id,
     slug: product.slug,
     title: product.title,
     latinTitle: product.latinTitle,
@@ -345,7 +347,7 @@ export async function getPdpData(slug: string): Promise<PdpData | null> {
     brand: product.brand,
     categoryTitle: product.category?.title ?? null,
     categorySlug: product.category?.slug ?? null,
-    code: variants[0]?.sku ?? product.slug.toUpperCase(),
+    code: product.hesabfaCode ?? variants[0]?.sku ?? product.slug.toUpperCase(),
     ratingShown: hasReviews ? Number(product.rating.toFixed(1)) : null,
     numReviews: product.numReviews,
     questionCount: questions.length,

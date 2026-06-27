@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function QuickAddPage() {
   await requireAdmin();
   const [categories, weights, packagings] = await Promise.all([
-    prisma.category.findMany({ where: { type: "PRODUCT" }, select: { id: true, title: true, parent: { select: { title: true } } }, orderBy: { title: "asc" } }),
+    prisma.category.findMany({ where: { type: "PRODUCT", deletedAt: null }, select: { id: true, title: true, parent: { select: { title: true } } }, orderBy: { title: "asc" } }),
     prisma.weightPreset.findMany({ where: { isActive: true }, select: { id: true, title: true, gramValue: true, compatibility: true }, orderBy: { sortOrder: "asc" } }),
     prisma.packagingOption.findMany({ where: { isActive: true }, select: { id: true, title: true, compatibility: true }, orderBy: { sortOrder: "asc" } }),
   ]);

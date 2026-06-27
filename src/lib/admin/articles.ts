@@ -68,7 +68,8 @@ export const articleFormSchema = z
     articleType: z.enum(ARTICLE_TYPE_KEYS),
     status: z.enum(["DRAFT", "PUBLISHED"]),
     accessType: z.enum(["FREE", "PREMIUM"]),
-    categoryId: z.string().min(1, "دسته‌بندی را انتخاب کنید."),
+    categoryId: z.string().min(1, "دسته‌بندی اصلی را انتخاب کنید."),
+    additionalCategoryIds: z.array(z.string()).max(10).optional().transform((v) => v ?? []),
     authorId: z.string().min(1, "نویسنده را انتخاب کنید."),
     tags: z
       .string()
@@ -138,6 +139,7 @@ export const emptyArticleForm: ArticleFormInput = {
   status: "DRAFT",
   accessType: "FREE",
   categoryId: "",
+  additionalCategoryIds: [],
   authorId: "",
   tags: "",
   coverImage: "",
@@ -169,6 +171,7 @@ export function toArticleData(v: ArticleFormValues) {
     tags: v.tags,
     authorId: v.authorId,
     categoryId: v.categoryId,
+    additionalCategoryIds: v.additionalCategoryIds ?? [],
     articleType: v.articleType,
     subtitle: v.subtitle,
     typeMeta: filterTypeMeta(v.articleType, v.typeMeta),
@@ -194,6 +197,7 @@ type PostLike = {
   tags: string[];
   authorId: string;
   categoryId: string;
+  additionalCategoryIds: string[];
   articleType: string | null;
   subtitle: string | null;
   typeMeta: unknown;
@@ -229,6 +233,7 @@ export function postToArticleForm(p: PostLike): ArticleFormInput {
     status: p.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT",
     accessType: p.type === "PREMIUM" ? "PREMIUM" : "FREE",
     categoryId: p.categoryId,
+    additionalCategoryIds: p.additionalCategoryIds ?? [],
     authorId: p.authorId,
     tags: p.tags.join("، "),
     coverImage: p.coverImage,

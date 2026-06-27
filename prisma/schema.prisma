@@ -128,6 +128,7 @@ model Category {
   iconLg       String?
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
+  deletedAt    DateTime?
   parent       Category?    @relation("CategoryTree", fields: [parentId], references: [id])
   children     Category[]   @relation("CategoryTree")
   posts        Post[]
@@ -136,6 +137,7 @@ model Category {
   @@index([slug])
   @@index([type])
   @@index([parentId])
+  @@index([deletedAt])
 }
 
 model Product {
@@ -163,6 +165,8 @@ model Product {
   saleMode           SaleMode            @default(AUTO)
   latinTitle         String?
   pdpContent         Json?
+  hesabfaCode        String?             @unique
+  deletedAt          DateTime?
   cartItems          CartItem[]
   orderItems         OrderItem[]
   category           Category            @relation(fields: [categoryId], references: [id])
@@ -176,6 +180,7 @@ model Product {
   @@index([slug])
   @@index([categoryId])
   @@index([isActive])
+  @@index([deletedAt])
 }
 
 model ProductImage {
@@ -376,11 +381,13 @@ model Coupon {
   perUserLimit     Int?
   startsAt         DateTime?
   title            String?
+  deletedAt        DateTime?
   carts            Cart[]
   orders           Order[]
 
   @@index([code])
   @@index([expiresAt])
+  @@index([deletedAt])
 }
 
 model Post {
@@ -393,10 +400,11 @@ model Post {
   text              String
   coverImage        String
   readingTime       Int
-  tags              String[]
-  viewCount         Int                @default(0)
-  authorId          String
-  categoryId        String
+  tags                  String[]
+  additionalCategoryIds String[]
+  viewCount             Int                @default(0)
+  authorId              String
+  categoryId            String
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   adminNote         String?
@@ -410,6 +418,7 @@ model Post {
   subtitle          String?
   typeMeta          Json?
   recipeMeta        Json?
+  deletedAt         DateTime?
   author            User               @relation(fields: [authorId], references: [id])
   category          Category           @relation(fields: [categoryId], references: [id])
   series            ContentSeries?     @relation(fields: [seriesId], references: [id])
@@ -425,6 +434,7 @@ model Post {
   @@index([categoryId])
   @@index([articleType])
   @@index([seriesId])
+  @@index([deletedAt])
 }
 
 model ContentSeries {
@@ -440,10 +450,12 @@ model ContentSeries {
   sortOrder  Int        @default(0)
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
+  deletedAt  DateTime?
   posts      Post[]
 
   @@index([slug])
   @@index([status])
+  @@index([deletedAt])
 }
 
 model PostComment {
@@ -581,10 +593,12 @@ model Menu {
   sortOrder Int          @default(0)
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
+  deletedAt DateTime?
   items     MenuItem[]
 
   @@index([slug])
   @@index([location])
+  @@index([deletedAt])
 }
 
 model MenuItem {
@@ -600,6 +614,7 @@ model MenuItem {
   sortOrder      Int          @default(0)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+  deletedAt      DateTime?
   badge          String?
   description    String?
   desktopVisible Boolean      @default(true)
@@ -610,6 +625,7 @@ model MenuItem {
 
   @@index([menuId])
   @@index([parentId])
+  @@index([deletedAt])
 }
 
 model Banner {
@@ -629,10 +645,12 @@ model Banner {
   sortOrder      Int             @default(0)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
+  deletedAt      DateTime?
 
   @@index([placement])
   @@index([isActive])
   @@index([slug])
+  @@index([deletedAt])
 }
 
 model FAQGroup {
@@ -645,10 +663,12 @@ model FAQGroup {
   sortOrder   Int          @default(0)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
   items       FAQItem[]
 
   @@index([placement])
   @@index([slug])
+  @@index([deletedAt])
 }
 
 model FAQItem {
@@ -660,9 +680,11 @@ model FAQItem {
   sortOrder Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deletedAt DateTime?
   group     FAQGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
 
   @@index([groupId])
+  @@index([deletedAt])
 }
 
 model Redirect {
@@ -676,6 +698,21 @@ model Redirect {
 
   @@index([source])
   @@index([isActive])
+}
+
+/// Log of URLs that returned 404. Upserted on each hit.
+model Error404Log {
+  id         String   @id @default(uuid())
+  path       String   @unique
+  referer    String?
+  hitCount   Int      @default(1)
+  firstSeenAt DateTime @default(now())
+  lastSeenAt  DateTime @updatedAt
+  isResolved Boolean  @default(false)
+
+  @@index([lastSeenAt])
+  @@index([isResolved])
+  @@map("error_404_logs")
 }
 
 model SeoMeta {
@@ -722,12 +759,14 @@ model MediaAsset {
   uploadedById String?
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
+  deletedAt    DateTime?
   uploadedBy   User?        @relation(fields: [uploadedById], references: [id])
 
   @@index([mimeType])
   @@index([storage])
   @@index([usage])
   @@index([createdAt])
+  @@index([deletedAt])
 }
 
 model Conversation {

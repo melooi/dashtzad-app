@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CallButton } from "@/components/admin/CallButton";
 import {
   Phone,
   Mail,
@@ -71,6 +72,7 @@ export default async function Customer360Page({ params }: { params: Promise<{ id
             <div className="grid gap-3 text-sm text-dz-a-primary-700 sm:grid-cols-2 dark:text-dz-a-night-muted">
               <span className="flex items-center gap-2" dir="ltr">
                 <Phone className="size-4 text-dz-a-primary-400" /> {toPersianNumbers(profile.phoneNumber)}
+                <CallButton num={profile.phoneNumber} name={profile.name ?? ""} size="xs" />
               </span>
               <span className="flex items-center gap-2">
                 <Mail className="size-4 text-dz-a-primary-400" /> {profile.email || "—"}

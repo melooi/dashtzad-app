@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Heart, Store } from "lucide-react";
 import { SectionHead } from "../SectionHead";
 import { ProductGrid } from "../ProductGrid";
-import { PanelEmpty, PanelError, PanelLoading } from "../ui";
+import { PanelEmpty, PanelError, SkeletonProductGrid } from "../ui";
 import { jsonGet, jsonSend } from "../fetcher";
 import { removeFavSlug } from "../useFav";
 import { useToast } from "../Toast";
@@ -35,7 +35,7 @@ export function WishlistSection() {
     <div>
       <SectionHead title="علاقه‌مندی‌ها" sub="محصولاتی که برای خرید بعدی نشان کرده‌ای" />
       {q.isLoading ? (
-        <PanelLoading />
+        <SkeletonProductGrid />
       ) : q.isError ? (
         <PanelError onRetry={() => q.refetch()} />
       ) : items.length === 0 ? (

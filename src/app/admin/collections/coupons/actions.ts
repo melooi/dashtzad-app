@@ -90,7 +90,7 @@ export async function deleteCoupon(id: string): Promise<ActionResult> {
   const blockReason = await couponDeleteBlockReason(id);
   if (blockReason) return { ok: false, error: blockReason };
 
-  await prisma.coupon.delete({ where: { id } });
+  await prisma.coupon.update({ where: { id }, data: { deletedAt: new Date(), isActive: false } });
   revalidatePath(LIST_PATH);
   return { ok: true, id };
 }

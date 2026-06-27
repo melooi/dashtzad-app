@@ -57,13 +57,13 @@ export default async function HomePage() {
 async function DefaultHome() {
   const [products, posts] = await Promise.all([
     prisma.product.findMany({
-      where: { isActive: true },
+      where: { isActive: true, deletedAt: null },
       orderBy: { createdAt: "desc" },
       take: 4,
       include: cardInclude,
     }),
     prisma.post.findMany({
-      where: { status: "PUBLISHED" },
+      where: { status: "PUBLISHED", deletedAt: null },
       orderBy: { createdAt: "desc" },
       take: 2,
       include: { author: { select: { name: true } } },

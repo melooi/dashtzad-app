@@ -7,10 +7,12 @@ import { getChatSettings } from "@/lib/admin/global-service";
 import {
   createVisitorConversation,
   appendVisitorMessage,
+  appendBotMessage,
   getConversationByToken,
   rateConversation,
   cleanBody,
 } from "@/lib/chat/service";
+import { generateChatbotReply } from "@/lib/chat/ai";
 import type { ConversationView, ChatAttachment } from "@/lib/chat/types";
 
 export type ChatActionResult =
@@ -51,6 +53,22 @@ export async function sendVisitorMessageAction(input: {
   const conversation = await appendVisitorMessage(input.token, input.body, input.attachment);
   if (!conversation) return { ok: false, error: "ارسال پیام ناموفق بود. دوباره تلاش کنید." };
   return { ok: true, conversation };
+}
+
+/** Called by client after debounce. Generates bot reply if last message is still from visitor. */
+export async function triggerBotReplyAction(token: string): Promise<ChatActionResult> {
+  if (!token) return { ok: false, error: "گفت‌وگو یافت نشد." };
+  const current = await getConversationByToken(token);
+  if (!current) return { ok: false, error: "گفت‌وگو یافت نشد." };
+  const lastMsg = current.messages.at(-1);
+  if (!lastMsg || lastMsg.role !== "VISITOR") return { ok: true, conversation: current };
+  const reply = await generateChatbotReply(token);
+  if (reply) {
+    await appendBotMessage(token, reply);
+    const updated = await getConversationByToken(token, { markVisitorRead: true });
+    if (updated) return { ok: true, conversation: updated };
+  }
+  return { ok: true, conversation: current };
 }
 
 export async function fetchConversationAction(token: string): Promise<ChatActionResult> {

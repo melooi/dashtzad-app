@@ -73,7 +73,7 @@ export async function deleteMenu(id: string): Promise<ActionResult> {
       error: `این منو در ${used.join("، ")} استفاده شده است. ابتدا آن را از تنظیمات مربوطه بردارید.`,
     };
   }
-  await prisma.menu.delete({ where: { id } }); // items cascade
+  await prisma.menu.update({ where: { id }, data: { deletedAt: new Date(), isActive: false } });
   revalidatePath(LIST_PATH);
   return { ok: true, id };
 }
@@ -102,7 +102,7 @@ export async function saveMenuItem(
   if (itemId) {
     await prisma.menuItem.update({ where: { id: itemId }, data: parsed.data });
   } else {
-    const count = await prisma.menuItem.count({ where: { menuId, parentId: parsed.data.parentId } });
+    const count = await prisma.menuItem.count({ where: { menuId, parentId: parsed.data.parentId, deletedAt: null } });
     const created = await prisma.menuItem.create({
       data: { ...parsed.data, menuId, sortOrder: parsed.data.sortOrder || count },
     });
@@ -117,7 +117,7 @@ export async function deleteMenuItem(itemId: string): Promise<ActionResult> {
   await requireAdmin();
   const item = await prisma.menuItem.findUnique({ where: { id: itemId } });
   if (!item) return { ok: false, error: "مورد یافت نشد." };
-  await prisma.menuItem.delete({ where: { id: itemId } }); // children cascade
+  await prisma.menuItem.update({ where: { id: itemId }, data: { deletedAt: new Date(), isActive: false } });
   revalidatePath(`${LIST_PATH}/${item.menuId}`);
   revalidatePath("/");
   return { ok: true, id: itemId };
@@ -130,7 +130,7 @@ export async function moveMenuItem(itemId: string, dir: "up" | "down"): Promise<
   if (!item) return { ok: false, error: "مورد یافت نشد." };
 
   const siblings = await prisma.menuItem.findMany({
-    where: { menuId: item.menuId, parentId: item.parentId },
+    where: { menuId: item.menuId, parentId: item.parentId, deletedAt: null },
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
   });
   const i = siblings.findIndex((x) => x.id === itemId);

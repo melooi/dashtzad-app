@@ -33,7 +33,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const post = await prisma.post.findFirst({
-    where: { slug, status: "PUBLISHED" },
+    where: { slug, status: "PUBLISHED", deletedAt: null },
     select: { id: true, title: true, briefText: true, coverImage: true },
   });
   if (!post) return { title: "نوشته یافت نشد", robots: { index: false, follow: true } };
@@ -106,7 +106,7 @@ function SidebarArticleItem({
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = await prisma.post.findFirst({
-    where: { slug, status: "PUBLISHED" },
+    where: { slug, status: "PUBLISHED", deletedAt: null },
     include: {
       author: { select: { name: true, avatar: true, biography: true } },
       category: { select: { title: true, slug: true } },
@@ -133,16 +133,16 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   const [relatedProductsRaw, relatedArticlesRaw, latestPosts, user] = await Promise.all([
     post.relatedProductIds.length
-      ? prisma.product.findMany({ where: { id: { in: post.relatedProductIds }, isActive: true }, include: variantInclude })
+      ? prisma.product.findMany({ where: { id: { in: post.relatedProductIds }, isActive: true, deletedAt: null }, include: variantInclude })
       : Promise.resolve([]),
     post.relatedPostIds.length
       ? prisma.post.findMany({
-          where: { id: { in: post.relatedPostIds }, status: "PUBLISHED" },
+          where: { id: { in: post.relatedPostIds }, status: "PUBLISHED", deletedAt: null },
           select: { id: true, slug: true, title: true, briefText: true, coverImage: true, readingTime: true, articleType: true },
         })
       : Promise.resolve([]),
     prisma.post.findMany({
-      where: { status: "PUBLISHED", id: { not: post.id } },
+      where: { status: "PUBLISHED", id: { not: post.id }, deletedAt: null },
       orderBy: { createdAt: "desc" },
       take: 5,
       select: { id: true, slug: true, title: true, coverImage: true, readingTime: true },
@@ -181,6 +181,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       ? await prisma.product.findMany({
           where: {
             isActive: true,
+            deletedAt: null,
             OR: [{ tags: { hasSome: post.tags } }, ...post.tags.map((t) => ({ title: { contains: t, mode: "insensitive" as const } }))],
           },
           include: variantInclude,
@@ -191,7 +192,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       sidebarProducts = tagMatched;
       productsLabel = "محصولات مرتبط";
     } else {
-      sidebarProducts = await prisma.product.findMany({ where: { isActive: true }, orderBy: { createdAt: "desc" }, include: variantInclude, take: 8 });
+      sidebarProducts = await prisma.product.findMany({ where: { isActive: true, deletedAt: null }, orderBy: { createdAt: "desc" }, include: variantInclude, take: 8 });
       productsLabel = "پیشنهاد فروشگاه دشت‌زاد";
     }
   }
@@ -199,7 +200,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   let relatedArticles = post.relatedPostIds.map((id) => relatedArticlesRaw.find((p) => p.id === id)).filter(Boolean) as typeof relatedArticlesRaw;
   if (relatedArticles.length === 0) {
     relatedArticles = await prisma.post.findMany({
-      where: { categoryId: post.categoryId, status: "PUBLISHED", id: { not: post.id } },
+      where: { categoryId: post.categoryId, status: "PUBLISHED", id: { not: post.id }, deletedAt: null },
       take: 3,
       orderBy: { publishedAt: "desc" },
       select: { id: true, slug: true, title: true, briefText: true, coverImage: true, readingTime: true, articleType: true },

@@ -5,6 +5,7 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { AdminCommandPalette } from "@/components/admin/AdminCommandPalette";
 import { AdminToastProvider } from "@/components/admin/ui/AdminToast";
+import { VoipProvider } from "@/components/admin/VoipProvider";
 
 const SIDEBAR_KEY = "dz-admin-sidebar";
 
@@ -49,6 +50,7 @@ export function AdminShell({
 
   return (
     <AdminToastProvider>
+      <VoipProvider>
       <div className="flex h-screen overflow-hidden bg-dz-a-canvas dark:bg-dz-a-night">
         {/* Backdrop — mobile/tablet only, sits beneath the drawer (z-50). */}
         {drawerOpen && (
@@ -76,6 +78,7 @@ export function AdminShell({
 
         <AdminCommandPalette />
       </div>
+      </VoipProvider>
     </AdminToastProvider>
   );
 }

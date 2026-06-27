@@ -4,6 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
+import { notifyIndexNow } from "@/lib/seo/indexnow";
 import { convertTomanToRial } from "@/lib/admin/product-pricing";
 import { generateVariantSku, ensureUniqueSku, type PackagingTypeKey } from "@/lib/admin/product-variant";
 import {
@@ -58,6 +59,7 @@ export async function createProduct(raw: ProductFormInput): Promise<ActionResult
     },
   });
   revalidatePath(LIST);
+  if (v.isActive) notifyIndexNow(`/products/${created.slug}`);
   return { ok: true, id: created.id };
 }
 
@@ -96,6 +98,7 @@ export async function updateProduct(id: string, raw: ProductFormInput): Promise<
   });
   revalidatePath(LIST);
   revalidatePath(`${LIST}/${id}`);
+  if (v.isActive) notifyIndexNow(`/products/${v.slug}`);
   return { ok: true, id };
 }
 
@@ -103,7 +106,7 @@ export async function deleteProduct(id: string): Promise<ActionResult> {
   await requireAdmin();
   const reason = await productDeleteBlockReason(id);
   if (reason) return { ok: false, error: reason };
-  await prisma.product.delete({ where: { id } }); // variants cascade
+  await prisma.product.update({ where: { id }, data: { deletedAt: new Date(), isActive: false } });
   revalidatePath(LIST);
   return { ok: true, id };
 }

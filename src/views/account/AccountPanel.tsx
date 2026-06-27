@@ -103,6 +103,7 @@ export function AccountPanel({ user: initialUser }: { user: AccountProfile }) {
             onNavigate={navigate}
             onLogout={logout}
             counts={counts}
+            creditRial={overview.data?.creditRial}
           />
           <div className="min-w-0">{content}</div>
         </div>

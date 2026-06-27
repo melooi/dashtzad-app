@@ -20,6 +20,8 @@ const bodySchema = z
       .min(1),
     addressId: z.string().uuid().optional(),
     address: addressSchema.optional(),
+    shippingRial: z.number().int().nonnegative().optional(),
+    note: z.string().max(600).optional(),
   })
   .refine((d) => d.addressId || d.address, {
     message: "آدرس لازم است.",
@@ -36,11 +38,11 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "ورودی نامعتبر است." }, { status: 400 });
   }
-  const { items, addressId, address } = parsed.data;
+  const { items, addressId, address, shippingRial = 0, note } = parsed.data;
 
   // Re-fetch products from DB — never trust client-supplied prices.
   const products = await prisma.product.findMany({
-    where: { id: { in: items.map((i) => i.productId) }, isActive: true },
+    where: { id: { in: items.map((i) => i.productId) }, isActive: true, deletedAt: null },
   });
   const byId = new Map(products.map((p) => [p.id, p]));
   if (items.some((i) => !byId.has(i.productId))) {
@@ -86,8 +88,9 @@ export async function POST(req: Request) {
           status: "PENDING",
           subtotal_rial: totals.subtotalRial,
           discount_rial: totals.discountRial,
-          shipping_rial: 0,
-          total_rial: totals.totalRial,
+          shipping_rial: shippingRial,
+          total_rial: totals.totalRial + shippingRial,
+          note: note ?? null,
           // c) items
           items: {
             create: lines.map((l) => ({

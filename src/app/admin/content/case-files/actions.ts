@@ -47,8 +47,7 @@ export async function updateCaseFile(id: string, raw: SeriesFormInput): Promise<
 
 export async function deleteCaseFile(id: string): Promise<ActionResult> {
   await requireAdmin();
-  // Posts referencing this series have their seriesId set null (optional relation).
-  await prisma.contentSeries.delete({ where: { id } });
+  await prisma.contentSeries.update({ where: { id }, data: { deletedAt: new Date() } });
   revalidatePath(LIST);
   revalidatePath("/blog/case-files");
   return { ok: true, id };

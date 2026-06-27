@@ -3,17 +3,9 @@ import { notFound } from "next/navigation";
 import { getPdpData } from "@/views/product/single-design/pdp-data";
 import { buildPdpMarkup, galleryPayload } from "@/views/product/single-design/pdp-markup";
 import { SingleProductDesign } from "@/views/product/single-design/SingleProductDesign";
-
-/**
- * Site product page — the design PDP wired to real product data.
- *
- * Core fields (title, code, category, weights/packaging + prices, gallery,
- * related, reviews, Q&A) come from the database and are editable in the existing
- * admin. The richer marketing blocks (taste profile, nutrition, care, per-product
- * FAQ) still render the design's static content and get their own data + admin in
- * follow-up steps. The previous data-wired page is preserved at
- * src/views/product/single-design/original-pdp-page.txt.
- */
+import { StructuredData } from "@/components/StructuredData";
+import { productJsonLd, breadcrumbSchema } from "@/lib/jsonld";
+import { buildEntityMetadata } from "@/lib/seo/meta";
 
 export const dynamic = "force-dynamic";
 
@@ -30,10 +22,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const data = await getPdpData(slug);
   if (!data) return { title: "محصول یافت نشد", robots: { index: false, follow: true } };
-  return {
-    title: `${data.title} — دشت‌زاد`,
-    description: plainText(data.descriptionHtml),
-  };
+  return buildEntityMetadata("PRODUCT", data.id, {
+    title: data.title,
+    description: plainText(data.descriptionHtml) ?? data.title,
+    path: `/products/${data.slug}`,
+    image: data.images[0]?.url ?? null,
+    type: "product",
+  });
 }
 
 export default async function ProductPage({
@@ -45,5 +40,42 @@ export default async function ProductPage({
   const data = await getPdpData(slug);
   if (!data) notFound();
 
-  return <SingleProductDesign markup={buildPdpMarkup(data)} gallery={galleryPayload(data)} />;
+  // Build breadcrumb items
+  const crumbs = [
+    { name: "خانه", url: "/" },
+    { name: "فروشگاه", url: "/products" },
+    ...(data.categoryTitle && data.categorySlug
+      ? [{ name: data.categoryTitle, url: `/products?cat=${data.categorySlug}` }]
+      : []),
+    { name: data.title, url: `/products/${data.slug}` },
+  ];
+
+  // Derive cheapest active weight for Product schema price
+  const cheapestWeight = data.weights[0];
+  const priceRial = cheapestWeight ? cheapestWeight.priceToman * 10 : 0;
+  const offPriceRial = cheapestWeight?.oldToman ? cheapestWeight.oldToman * 10 : null;
+
+  const ldSchema = [
+    productJsonLd({
+      title: data.title,
+      slug: data.slug,
+      description: plainText(data.descriptionHtml) ?? data.title,
+      brand: data.brand,
+      category: data.categoryTitle,
+      priceRial,
+      offPriceRial,
+      countInStock: data.inStock ? 1 : 0,
+      images: data.images.map((i) => i.url),
+      approvedReviewCount: data.numReviews > 0 ? data.numReviews : undefined,
+      rating: data.ratingShown ?? undefined,
+    }),
+    breadcrumbSchema(crumbs),
+  ];
+
+  return (
+    <>
+      <StructuredData data={ldSchema} />
+      <SingleProductDesign markup={buildPdpMarkup(data)} gallery={galleryPayload(data)} />
+    </>
+  );
 }

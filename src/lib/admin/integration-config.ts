@@ -3,16 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 const DB_KEY = "integrationConfig";
 
-type IntegrationConfig = {
-  zarinpal?: { merchantId?: string };
-  kavenegar?: { apiKey?: string };
-  rahpayam?: { apiKey?: string };
-  "ai-anthropic"?: { apiKey?: string };
-  "ai-openai"?: { apiKey?: string };
-  "ai-google"?: { apiKey?: string };
-  "google-verification"?: { code?: string };
-};
-
+type IntegrationConfig = Record<string, Record<string, string | undefined>>;
 type FieldMap = Record<string, Record<string, string | undefined>>;
 
 async function readConfig(): Promise<IntegrationConfig> {
@@ -33,12 +24,83 @@ async function writeConfig(config: IntegrationConfig): Promise<void> {
 }
 
 const ENV_MAP: FieldMap = {
-  zarinpal: { merchantId: process.env.ZARINPAL_MERCHANT_ID },
-  kavenegar: { apiKey: process.env.KAVENEGAR_API_KEY },
-  rahpayam: { apiKey: process.env.RAHPAYAM_API_KEY },
-  "ai-anthropic": { apiKey: process.env.ANTHROPIC_API_KEY },
+  // هوش مصنوعی
   "ai-openai": { apiKey: process.env.OPENAI_API_KEY },
+  "ai-anthropic": { apiKey: process.env.ANTHROPIC_API_KEY },
   "ai-google": { apiKey: process.env.GOOGLE_API_KEY },
+
+  // سایت و فروشگاه
+  wordpress: {
+    apiUrl: process.env.WORDPRESS_API_URL,
+    username: process.env.WORDPRESS_USERNAME,
+    apiKey: process.env.WORDPRESS_APP_PASSWORD,
+  },
+  woocommerce: {
+    storeUrl: process.env.WOOCOMMERCE_STORE_URL,
+    consumerKey: process.env.WOOCOMMERCE_CONSUMER_KEY,
+    consumerSecret: process.env.WOOCOMMERCE_CONSUMER_SECRET,
+  },
+
+  // پیامک و تماس
+  kavenegar: {
+    apiKey: process.env.KAVENEGAR_API_KEY,
+    sender: process.env.KAVENEGAR_SENDER,
+  },
+  msgway: {
+    apiKey: process.env.MSGWAY_API_KEY,
+    templateId: process.env.MSGWAY_TEMPLATE_ID,
+  },
+
+  // سرویس‌های گوگل
+  "google-custom-search": {
+    apiKey: process.env.GOOGLE_CUSTOM_SEARCH_KEY,
+    cx: process.env.GOOGLE_CUSTOM_SEARCH_CX,
+  },
+  "google-search-console": {
+    code: process.env.GOOGLE_SITE_VERIFICATION,
+    propertyUrl: process.env.GOOGLE_SEARCH_CONSOLE_PROPERTY,
+  },
+  "google-analytics": {
+    propertyId: process.env.GOOGLE_ANALYTICS_PROPERTY_ID,
+    measurementId: process.env.GOOGLE_ANALYTICS_ID,
+  },
+  "google-sheets": {
+    sheetId: process.env.GOOGLE_SHEETS_ID,
+    apiKey: process.env.GOOGLE_SHEETS_API_KEY,
+  },
+
+  // پیام‌رسان و ایمیل
+  "telegram-bot": {
+    botToken: process.env.TELEGRAM_BOT_TOKEN,
+    chatId: process.env.TELEGRAM_CHAT_ID,
+  },
+  "bale-bot": {
+    botToken: process.env.BALE_BOT_TOKEN,
+    chatId: process.env.BALE_CHAT_ID,
+  },
+  "smtp-email": {
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+    fromEmail: process.env.SMTP_FROM_EMAIL,
+    fromName: process.env.SMTP_FROM_NAME,
+  },
+
+  // مالی و سانترال
+  hesabfa: {
+    apiKey:     process.env.HESABFA_API_KEY,
+    loginToken: process.env.HESABFA_LOGIN_TOKEN,
+  },
+  santral: {
+    apiKey:    process.env.SANTRAL_API_KEY,
+    pbxNumber: process.env.SANTRAL_PBX_NUMBER,
+    extension: process.env.SANTRAL_EXTENSION,
+  },
+
+  // legacy (backward compat — not shown in new UI)
+  zarinpal: { merchantId: process.env.ZARINPAL_MERCHANT_ID },
+  rahpayam: { apiKey: process.env.RAHPAYAM_API_KEY },
   "google-verification": { code: process.env.GOOGLE_SITE_VERIFICATION },
 };
 

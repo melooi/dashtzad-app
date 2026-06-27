@@ -28,7 +28,7 @@ export async function addWishlistSlugs(userId: string, slugs: string[]): Promise
   const unique = [...new Set(slugs.map((s) => s.trim()).filter(Boolean))];
   if (unique.length === 0) return 0;
   const products = await prisma.product.findMany({
-    where: { slug: { in: unique } },
+    where: { slug: { in: unique }, deletedAt: null },
     select: { id: true },
   });
   if (products.length === 0) return 0;

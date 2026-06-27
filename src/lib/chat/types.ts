@@ -63,6 +63,7 @@ export type ChatPublicConfig = {
   proactiveMessage: string;
   preChatMode: PreChatMode;
   soundEnabled: boolean;
+  aiChatbotEnabled: boolean;
 };
 
 export type MessageView = {

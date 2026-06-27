@@ -55,10 +55,10 @@ export default async function ProductsPage({
         : { createdAt: "desc" };
 
   const [categories, total, products] = await Promise.all([
-    prisma.category.findMany({ where: { type: "PRODUCT" }, orderBy: { title: "asc" } }),
-    prisma.product.count({ where }),
+    prisma.category.findMany({ where: { type: "PRODUCT", deletedAt: null }, orderBy: { title: "asc" } }),
+    prisma.product.count({ where: { ...where, deletedAt: null } }),
     prisma.product.findMany({
-      where,
+      where: { ...where, deletedAt: null },
       orderBy,
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,

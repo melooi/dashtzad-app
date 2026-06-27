@@ -25,6 +25,7 @@ type Row = {
 export default async function MenusListPage() {
   await requireAdmin();
   const list = await prisma.menu.findMany({
+    where: { deletedAt: null },
     orderBy: [{ sortOrder: "asc" }, { title: "asc" }],
     include: { _count: { select: { items: true } } },
   });

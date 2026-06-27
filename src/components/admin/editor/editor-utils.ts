@@ -8,10 +8,28 @@
 
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
+import { Extension } from "@tiptap/core";
 import { Table, TableRow, TableHeader, TableCell } from "@tiptap/extension-table";
 import { Callout, DashtzadAttributes, DashtzadSpeechQuote } from "./extensions";
 import { DashtzadImage, DashtzadGallery } from "./media-extensions";
 import { DashtzadTimeline, DashtzadFaq, DashtzadCard } from "./structured-extensions";
+
+// Ctrl+Alt+1-6 for H1-H6, Ctrl+Alt+0 for paragraph (mirrors WP / Rank Math shortcuts)
+const DashtzadKeyboardShortcuts = Extension.create({
+  name: "dashtzadKeyboardShortcuts",
+  addKeyboardShortcuts() {
+    return {
+      "Mod-Alt-1": () => this.editor.commands.toggleHeading({ level: 1 }),
+      "Mod-Alt-2": () => this.editor.commands.toggleHeading({ level: 2 }),
+      "Mod-Alt-3": () => this.editor.commands.toggleHeading({ level: 3 }),
+      "Mod-Alt-4": () => this.editor.commands.toggleHeading({ level: 4 }),
+      "Mod-Alt-5": () => this.editor.commands.toggleHeading({ level: 5 }),
+      "Mod-Alt-6": () => this.editor.commands.toggleHeading({ level: 6 }),
+      "Mod-Alt-0": () => this.editor.commands.setParagraph(),
+      "Mod-Shift-Period": () => this.editor.commands.toggleBlockquote(),
+    };
+  },
+});
 
 /** Class applied to the editable surface so it shares the public `.dz-rich` look. */
 export const EDITOR_CONTENT_CLASS = "dz-rich dz-rich--editing";
@@ -54,5 +72,7 @@ export function buildEditorExtensions(placeholder?: string) {
     DashtzadTimeline,
     DashtzadFaq,
     DashtzadCard,
+    // Heading & paragraph keyboard shortcuts (Ctrl/Cmd+Alt+1-6, +0, Shift+.).
+    DashtzadKeyboardShortcuts,
   ];
 }

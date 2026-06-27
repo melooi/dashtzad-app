@@ -6,19 +6,29 @@ import type { NextRequest } from "next/server";
 
 const COOKIE_NAME = process.env.SESSION_COOKIE_NAME || "dz_session";
 
+const PROTECTED = ["/checkout", "/account", "/orders", "/admin"];
+
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const isProtected = PROTECTED.some((p) => pathname.startsWith(p));
+
+  // Always pass pathname so not-found.tsx can look up redirects + log 404s
+  const res = NextResponse.next();
+  res.headers.set("x-pathname", pathname);
+
+  if (!isProtected) return res;
+
   const isAdminPath = pathname.startsWith("/admin");
 
   let user: { id: string; role: string } | null = null;
   const token = req.cookies.get(COOKIE_NAME)?.value;
   if (token) {
     const meUrl = new URL("/api/auth/me", req.url);
-    const res = await fetch(meUrl, {
+    const meRes = await fetch(meUrl, {
       headers: { cookie: req.headers.get("cookie") ?? "" },
     });
-    if (res.ok) {
-      const data = (await res.json()) as { user: { id: string; role: string } | null };
+    if (meRes.ok) {
+      const data = (await meRes.json()) as { user: { id: string; role: string } | null };
       user = data.user;
     }
   }
@@ -35,17 +45,12 @@ export async function proxy(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  return NextResponse.next();
+  return res;
 }
 
-// Only protected paths are matched; everything else (public pages, assets,
-// /api/auth/*, sitemap, robots) passes through untouched.
+// Run on all non-static paths so we can set x-pathname for 404 handling.
 export const config = {
   matcher: [
-    "/checkout",
-    "/checkout/:path*",
-    "/account/:path*",
-    "/orders/:path*",
-    "/admin/:path*",
+    "/((?!_next/static|_next/image|favicon\\.ico|api/|.*\\..*).*)",
   ],
 };

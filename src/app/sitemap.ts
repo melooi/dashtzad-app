@@ -15,7 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const [products, posts, categories, postCategories, series] = await Promise.all([
     prisma.product.findMany({
-      where: { isActive: true },
+      where: { isActive: true, deletedAt: null },
       select: {
         slug: true,
         updatedAt: true,
@@ -23,19 +23,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       },
     }),
     prisma.post.findMany({
-      where: { status: "PUBLISHED" },
+      where: { status: "PUBLISHED", deletedAt: null },
       select: { slug: true, updatedAt: true },
     }),
     prisma.category.findMany({
-      where: { type: "PRODUCT" },
+      where: { type: "PRODUCT", deletedAt: null },
       select: { slug: true, updatedAt: true },
     }),
     prisma.category.findMany({
-      where: { type: "POST" },
+      where: { type: "POST", deletedAt: null },
       select: { slug: true, updatedAt: true },
     }),
     prisma.contentSeries.findMany({
-      where: { status: "PUBLISHED" },
+      where: { status: "PUBLISHED", deletedAt: null },
       select: { slug: true, updatedAt: true },
     }),
   ]);

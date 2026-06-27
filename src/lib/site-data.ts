@@ -106,6 +106,7 @@ export async function getActiveBanners(placement: string): Promise<PublicBanner[
       where: {
         placement: placement as never,
         isActive: true,
+        deletedAt: null,
         AND: [
           { OR: [{ startsAt: null }, { startsAt: { lte: now } }] },
           { OR: [{ endsAt: null }, { endsAt: { gte: now } }] },
@@ -166,52 +167,79 @@ export type MegaCategory = {
   featured: MegaProduct[];
 };
 
-/** Resolve real product categories enriched for the super mega-menu. */
+const FEATURED_PRODUCT_SELECT = {
+  title: true,
+  slug: true,
+  price_rial: true,
+  offPrice_rial: true,
+  images: { orderBy: { sortOrder: "asc" as const }, take: 1, select: { url: true } },
+} as const;
+
+function mapFeatured(p: {
+  title: string; slug: string; price_rial: number; offPrice_rial: number | null;
+  images: { url: string }[];
+}) {
+  const now = p.offPrice_rial ?? p.price_rial;
+  const off =
+    p.offPrice_rial && p.price_rial > 0
+      ? Math.round(((p.price_rial - p.offPrice_rial) / p.price_rial) * 100)
+      : null;
+  return {
+    name: p.title, href: `/products/${p.slug}`, priceRial: now,
+    oldPriceRial: p.offPrice_rial ? p.price_rial : null, offPercent: off,
+    imageUrl: p.images[0]?.url ?? null,
+  };
+}
+
+/** Resolve real product categories enriched for the super mega-menu.
+ *  Products live in subcategories, so counts and featured items are
+ *  aggregated from children as well as direct products. */
 export async function getMegaMenuData(): Promise<MegaCategory[]> {
   try {
     const cats = await prisma.category.findMany({
-      where: { type: "PRODUCT", parentId: null },
+      where: { type: "PRODUCT", parentId: null, deletedAt: null },
       orderBy: { createdAt: "asc" },
       include: {
-        children: { orderBy: { title: "asc" }, select: { title: true, slug: true } },
         _count: { select: { products: true } },
         products: {
           where: { isActive: true },
           orderBy: [{ offPrice_rial: { sort: "desc", nulls: "last" } }, { createdAt: "desc" }],
           take: 2,
+          select: FEATURED_PRODUCT_SELECT,
+        },
+        children: {
+          orderBy: { title: "asc" },
           select: {
             title: true,
             slug: true,
-            price_rial: true,
-            offPrice_rial: true,
-            images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true } },
+            _count: { select: { products: true } },
+            products: {
+              where: { isActive: true },
+              orderBy: [{ offPrice_rial: { sort: "desc", nulls: "last" } }, { createdAt: "desc" }],
+              take: 2,
+              select: FEATURED_PRODUCT_SELECT,
+            },
           },
         },
       },
     });
-    return cats.map((c) => ({
-      id: c.id,
-      name: c.title,
-      href: `/products?cat=${c.slug}`,
-      description: c.description ?? "",
-      count: c._count.products,
-      subs: c.children.map((ch) => ({ label: ch.title, href: `/products?cat=${ch.slug}` })),
-      featured: c.products.map((p) => {
-        const now = p.offPrice_rial ?? p.price_rial;
-        const off =
-          p.offPrice_rial && p.price_rial > 0
-            ? Math.round(((p.price_rial - p.offPrice_rial) / p.price_rial) * 100)
-            : null;
-        return {
-          name: p.title,
-          href: `/products/${p.slug}`,
-          priceRial: now,
-          oldPriceRial: p.offPrice_rial ? p.price_rial : null,
-          offPercent: off,
-          imageUrl: p.images[0]?.url ?? null,
-        };
-      }),
-    }));
+    return cats.map((c) => {
+      const childCount = c.children.reduce((sum, ch) => sum + ch._count.products, 0);
+      const totalCount = c._count.products + childCount;
+      const featured = [
+        ...c.products,
+        ...c.children.flatMap((ch) => ch.products),
+      ].slice(0, 2).map(mapFeatured);
+      return {
+        id: c.id,
+        name: c.title,
+        href: `/products?cat=${c.slug}`,
+        description: c.description ?? "",
+        count: totalCount,
+        subs: c.children.map((ch) => ({ label: ch.title, href: `/products?cat=${ch.slug}` })),
+        featured,
+      };
+    });
   } catch {
     return [];
   }

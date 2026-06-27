@@ -79,7 +79,7 @@ export async function deleteCategory(id: string): Promise<ActionResult> {
   const blockReason = await categoryDeleteBlockReason(id);
   if (blockReason) return { ok: false, error: blockReason };
 
-  await prisma.category.delete({ where: { id } });
+  await prisma.category.update({ where: { id }, data: { deletedAt: new Date() } });
   revalidatePath(LIST_PATH);
   return { ok: true, id };
 }

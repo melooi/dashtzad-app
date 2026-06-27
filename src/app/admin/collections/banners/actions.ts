@@ -65,7 +65,7 @@ export async function updateBanner(id: string, raw: BannerFormInput): Promise<Ac
 
 export async function deleteBanner(id: string): Promise<ActionResult> {
   await requireAdmin();
-  await prisma.banner.delete({ where: { id } });
+  await prisma.banner.update({ where: { id }, data: { deletedAt: new Date(), isActive: false } });
   revalidatePath(LIST_PATH);
   revalidatePath("/");
   return { ok: true, id };

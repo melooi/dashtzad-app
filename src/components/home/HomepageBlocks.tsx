@@ -78,11 +78,11 @@ async function renderBlock(block: HomepageBlock, key: number): Promise<React.Rea
     const include = cardInclude;
     let products: Prisma.ProductGetPayload<{ include: typeof include }>[] = [];
     if (mode === "MANUAL" && ids.length) {
-      products = await prisma.product.findMany({ where: { id: { in: ids }, isActive: true }, include });
+      products = await prisma.product.findMany({ where: { id: { in: ids }, isActive: true, deletedAt: null }, include });
     } else if (mode === "CATEGORY" && str(block.categoryId)) {
-      products = await prisma.product.findMany({ where: { categoryId: str(block.categoryId), isActive: true }, take: limit, orderBy: { createdAt: "desc" }, include });
+      products = await prisma.product.findMany({ where: { categoryId: str(block.categoryId), isActive: true, deletedAt: null }, take: limit, orderBy: { createdAt: "desc" }, include });
     } else {
-      products = await prisma.product.findMany({ where: { isActive: true }, take: limit, orderBy: { createdAt: "desc" }, include });
+      products = await prisma.product.findMany({ where: { isActive: true, deletedAt: null }, take: limit, orderBy: { createdAt: "desc" }, include });
     }
     if (!products.length) return null;
     return (
@@ -107,7 +107,7 @@ async function renderBlock(block: HomepageBlock, key: number): Promise<React.Rea
   if (type === "FeaturedCategories") {
     const ids = arr<string>(block.categoryIds);
     if (!ids.length) return null;
-    const cats = await prisma.category.findMany({ where: { id: { in: ids } } });
+    const cats = await prisma.category.findMany({ where: { id: { in: ids }, deletedAt: null } });
     if (!cats.length) return null;
     return (
       <Section key={key} title={str(block.title) || "دسته‌های منتخب"} subtitle={str(block.subtitle)}>
@@ -218,7 +218,7 @@ async function renderBlock(block: HomepageBlock, key: number): Promise<React.Rea
       str(block.mode) === "CATEGORY" && str(block.categoryId)
         ? { status: "PUBLISHED" as const, categoryId: str(block.categoryId) }
         : { status: "PUBLISHED" as const };
-    const posts = await prisma.post.findMany({ where, take: limit, orderBy: { createdAt: "desc" }, include: { author: { select: { name: true } } } });
+    const posts = await prisma.post.findMany({ where: { ...where, deletedAt: null }, take: limit, orderBy: { createdAt: "desc" }, include: { author: { select: { name: true } } } });
     if (!posts.length) return null;
     return (
       <Section key={key} title={str(block.title) || "از بلاگ"}>

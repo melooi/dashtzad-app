@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MessageSquareText, Send, ChevronRight, Headset } from "lucide-react";
 import { SectionHead } from "../SectionHead";
-import { PanelEmpty, PanelError, PanelLoading, TonePill } from "../ui";
+import { PanelEmpty, PanelError, PanelLoading, SkeletonList, TonePill } from "../ui";
+
 import { CONVERSATION_STATUS } from "../labels";
 import { jsonGet, jsonSend } from "../fetcher";
 import {
@@ -118,7 +119,7 @@ export function MessagesSection() {
     <div>
       <SectionHead title="پیام‌ها" sub="گفتگوهای پشتیبانی تو" />
       {q.isLoading ? (
-        <PanelLoading />
+        <SkeletonList rows={4} />
       ) : q.isError ? (
         <PanelError onRetry={() => q.refetch()} />
       ) : list.length === 0 ? (

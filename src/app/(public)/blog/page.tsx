@@ -40,7 +40,7 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
   const type = typeof sp.type === "string" && TYPE_VALUES.includes(sp.type) ? sp.type : "";
   const isFiltered = Boolean(q || cat || type);
 
-  const categories = await prisma.category.findMany({ where: { type: "POST" }, orderBy: { title: "asc" } });
+  const categories = await prisma.category.findMany({ where: { type: "POST", deletedAt: null }, orderBy: { title: "asc" } });
 
   // ---- Filtered / search mode ----
   if (isFiltered) {
@@ -50,7 +50,7 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
       ...(cat ? { category: { slug: cat } } : {}),
       ...(type ? { articleType: type as Prisma.PostWhereInput["articleType"] } : {}),
     };
-    const posts = await prisma.post.findMany({ where, orderBy: { createdAt: "desc" }, select: CARD_SELECT });
+    const posts = await prisma.post.findMany({ where: { ...where, deletedAt: null }, orderBy: { createdAt: "desc" }, select: CARD_SELECT });
     const heading = type ? articleTypeLabel(type) : cat ? categories.find((c) => c.slug === cat)?.title ?? "دسته" : `نتایج «${q}»`;
 
     return (
@@ -72,8 +72,8 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
 
   // ---- Magazine landing ----
   const [posts, series] = await Promise.all([
-    prisma.post.findMany({ where: { status: "PUBLISHED" }, orderBy: { createdAt: "desc" }, take: 100, select: CARD_SELECT }),
-    prisma.contentSeries.findMany({ where: { status: "PUBLISHED" }, orderBy: { sortOrder: "asc" }, select: { slug: true, title: true, subtitle: true, coverImage: true } }),
+    prisma.post.findMany({ where: { status: "PUBLISHED", deletedAt: null }, orderBy: { createdAt: "desc" }, take: 100, select: CARD_SELECT }),
+    prisma.contentSeries.findMany({ where: { status: "PUBLISHED", deletedAt: null }, orderBy: { sortOrder: "asc" }, select: { slug: true, title: true, subtitle: true, coverImage: true } }),
   ]);
 
   const featured = posts.find((p) => p.coverImage) ?? posts[0] ?? null;

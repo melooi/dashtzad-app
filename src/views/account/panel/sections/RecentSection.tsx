@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { History, Store } from "lucide-react";
 import { SectionHead } from "../SectionHead";
 import { ProductGrid } from "../ProductGrid";
-import { PanelEmpty, PanelError, PanelLoading } from "../ui";
+import { PanelEmpty, PanelError, SkeletonProductGrid } from "../ui";
 import { jsonGet } from "../fetcher";
 import { ACCOUNT_QUERY_KEYS, type AccountProductCard } from "@/lib/account/types";
 
@@ -20,7 +20,7 @@ export function RecentSection() {
     <div>
       <SectionHead title="بازدیدهای اخیر" sub="محصولاتی که اخیراً دیده‌ای" />
       {q.isLoading ? (
-        <PanelLoading />
+        <SkeletonProductGrid />
       ) : q.isError ? (
         <PanelError onRetry={() => q.refetch()} />
       ) : items.length === 0 ? (

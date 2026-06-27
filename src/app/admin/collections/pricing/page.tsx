@@ -36,6 +36,7 @@ export default async function PricingPage({
 
   const [products, totalProducts, packagings, variantCount, lockedCount] = await Promise.all([
     prisma.product.findMany({
+      where: { deletedAt: null },
       orderBy: { updatedAt: "desc" },
       skip,
       take: PER_PAGE,
@@ -49,7 +50,7 @@ export default async function PricingPage({
         },
       },
     }),
-    prisma.product.count(),
+    prisma.product.count({ where: { deletedAt: null } }),
     prisma.packagingOption.findMany({ orderBy: { sortOrder: "asc" } }),
     prisma.productVariant.count(),
     prisma.productVariant.count({ where: { isPriceLocked: true } }),

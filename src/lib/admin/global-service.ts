@@ -119,20 +119,20 @@ export async function loadFieldContext(flags: {
 }): Promise<GlobalFieldContext> {
   const [menus, products, categories, faqGroups] = await Promise.all([
     flags.menus
-      ? prisma.menu.findMany({ orderBy: { title: "asc" }, select: { id: true, title: true } })
+      ? prisma.menu.findMany({ where: { deletedAt: null }, orderBy: { title: "asc" }, select: { id: true, title: true } })
       : Promise.resolve([] as { id: string; title: string }[]),
     flags.products
-      ? prisma.product.findMany({ orderBy: { title: "asc" }, select: { id: true, title: true } })
+      ? prisma.product.findMany({ where: { deletedAt: null }, orderBy: { title: "asc" }, select: { id: true, title: true } })
       : Promise.resolve([] as { id: string; title: string }[]),
     flags.categories
       ? prisma.category.findMany({
-          where: { type: "PRODUCT" },
+          where: { type: "PRODUCT", deletedAt: null },
           orderBy: { title: "asc" },
           select: { id: true, title: true },
         })
       : Promise.resolve([] as { id: string; title: string }[]),
     flags.faqGroups
-      ? prisma.fAQGroup.findMany({ orderBy: { title: "asc" }, select: { id: true, title: true } })
+      ? prisma.fAQGroup.findMany({ where: { deletedAt: null }, orderBy: { title: "asc" }, select: { id: true, title: true } })
       : Promise.resolve([] as { id: string; title: string }[]),
   ]);
   return {

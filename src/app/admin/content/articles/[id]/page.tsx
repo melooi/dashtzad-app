@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { AdminPageHeader } from "@/components/admin/ui/AdminPageHeader";
 import { AdminViewOnSiteButton } from "@/components/admin/ui/AdminViewOnSiteButton";
 import { ArticleForm } from "@/components/admin/content/ArticleForm";
-import { SeoPanel } from "@/components/admin/seo/SeoPanel";
 import { postToArticleForm } from "@/lib/admin/articles";
 import { articleTypeLabel } from "@/lib/admin/article-types";
 import { getSeoMetaForForm } from "@/lib/admin/seo-service";
@@ -20,12 +19,11 @@ export default async function EditArticlePage({ params }: { params: Promise<{ id
   const post = await prisma.post.findUnique({ where: { id } });
   if (!post) notFound();
 
-  const [categories, authors, series, products, posts, seoMeta, seoDefaults] = await Promise.all([
-    prisma.category.findMany({ where: { type: "POST" }, orderBy: { title: "asc" } }),
-    prisma.user.findMany({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" }, select: { id: true, name: true, phoneNumber: true } }),
-    prisma.contentSeries.findMany({ orderBy: { sortOrder: "asc" }, select: { id: true, title: true } }),
-    prisma.product.findMany({ where: { isActive: true }, orderBy: { updatedAt: "desc" }, take: 100, select: { id: true, title: true } }),
-    prisma.post.findMany({ where: { id: { not: id } }, orderBy: { createdAt: "desc" }, take: 200, select: { id: true, title: true, articleType: true } }),
+  const [categories, series, products, posts, seoMeta, seoDefaults] = await Promise.all([
+    prisma.category.findMany({ where: { type: "POST", deletedAt: null }, orderBy: { title: "asc" } }),
+    prisma.contentSeries.findMany({ where: { deletedAt: null }, orderBy: { sortOrder: "asc" }, select: { id: true, title: true } }),
+    prisma.product.findMany({ where: { isActive: true, deletedAt: null }, orderBy: { updatedAt: "desc" }, take: 100, select: { id: true, title: true } }),
+    prisma.post.findMany({ where: { id: { not: id }, deletedAt: null }, orderBy: { createdAt: "desc" }, take: 200, select: { id: true, title: true, articleType: true } }),
     getSeoMetaForForm("POST", id),
     getSeoDefaults(),
   ]);
@@ -54,30 +52,25 @@ export default async function EditArticlePage({ params }: { params: Promise<{ id
         articleId={post.id}
         defaultValues={postToArticleForm(post)}
         categories={categories.map((c) => ({ value: c.id, label: c.title }))}
-        authors={authors.map((a) => ({ value: a.id, label: a.name ?? a.phoneNumber }))}
         series={series.map((s) => ({ value: s.id, label: s.title }))}
         products={products.map((p) => ({ value: p.id, label: p.title }))}
         posts={posts.map((p) => ({ value: p.id, label: p.title, hint: articleTypeLabel(p.articleType) }))}
-      />
-
-      <div className="mx-auto w-full max-w-3xl">
-        <SeoPanel
-          entityType="POST"
-          entityId={post.id}
-          initial={seoMeta}
-          autoSource={{
+        seoPanel={{
+          entityId: post.id,
+          initial: seoMeta,
+          autoSource: {
             title: post.title,
             description: stripHtmlForMeta(post.briefText),
             path: `/blog/${post.slug}`,
             image: post.coverImage || null,
-          }}
-          defaults={{
+          },
+          defaults: {
             titleTemplate: seoDefaults.titleTemplate,
             canonicalBase: seoDefaults.canonicalBase,
             defaultOgImageUrl: seoDefaults.defaultOgImageUrl,
-          }}
-        />
-      </div>
+          },
+        }}
+      />
     </div>
   );
 }

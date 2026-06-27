@@ -7,28 +7,40 @@ import { CategoryForm } from "@/components/admin/categories/CategoryForm";
 
 export const dynamic = "force-dynamic";
 
-export default async function NewCategoryPage() {
+export default async function NewCategoryPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
   await requireAdmin();
+  const sp = await searchParams;
+  const typeDefault = sp.type === "POST" ? "POST" : "PRODUCT";
 
   const allCategories = await prisma.category.findMany({
+    where: { deletedAt: null },
     select: { id: true, title: true, type: true, parentId: true },
     orderBy: { title: "asc" },
   });
 
+  const backHref =
+    typeDefault === "POST"
+      ? "/admin/collections/categories?type=POST"
+      : "/admin/collections/categories?type=PRODUCT";
+
   return (
     <div>
       <AdminPageHeader
-        title="افزودن دسته‌بندی"
-        description="یک دسته‌ی جدید برای محصولات یا نوشته‌ها بسازید."
+        title={typeDefault === "POST" ? "افزودن دسته‌بندی مقالات" : "افزودن دسته‌بندی محصولات"}
+        description="یک دسته‌ی جدید بسازید."
         breadcrumbs={[
           { label: "پنل مدیریت", href: "/admin/dashboard" },
-          { label: categoriesCollection.label, href: categoriesCollection.route },
+          { label: categoriesCollection.label, href: backHref },
           { label: "افزودن" },
         ]}
       />
       <CategoryForm
         mode="create"
-        defaultValues={emptyCategoryForm}
+        defaultValues={{ ...emptyCategoryForm, type: typeDefault }}
         allCategories={allCategories}
       />
     </div>

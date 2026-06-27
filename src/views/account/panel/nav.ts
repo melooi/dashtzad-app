@@ -27,17 +27,17 @@ type IconType = ComponentType<{ className?: string }>;
 
 export type NavItem = { id: ViewId; label: string; icon: IconType; ready: boolean };
 
-// `ready: false` sections render an honest "به‌زودی" placeholder until their
+// `ready: true` sections render an honest "به‌زودی" placeholder until their
 // phase lands (see USER-PANEL-PLAN.md). Order matches the source design.
 export const NAV: NavItem[] = [
   { id: "dashboard", label: "داشبورد", icon: LayoutDashboard, ready: true },
-  { id: "orders", label: "سفارش‌های من", icon: Package, ready: false },
-  { id: "wallet", label: "کیف پول من", icon: Wallet, ready: false },
-  { id: "reviews", label: "دیدگاه‌ها و پرسش‌ها", icon: MessageSquareText, ready: false },
-  { id: "messages", label: "پیام‌ها", icon: Bell, ready: false },
-  { id: "recent", label: "بازدیدهای اخیر", icon: History, ready: false },
-  { id: "addresses", label: "آدرس‌های من", icon: MapPin, ready: false },
-  { id: "wishlist", label: "علاقه‌مندی‌ها", icon: Heart, ready: false },
+  { id: "orders", label: "سفارش‌های من", icon: Package, ready: true },
+  { id: "wallet", label: "کیف پول من", icon: Wallet, ready: true },
+  { id: "reviews", label: "دیدگاه‌ها و پرسش‌ها", icon: MessageSquareText, ready: true },
+  { id: "messages", label: "پیام‌ها", icon: Bell, ready: true },
+  { id: "recent", label: "بازدیدهای اخیر", icon: History, ready: true },
+  { id: "addresses", label: "آدرس‌های من", icon: MapPin, ready: true },
+  { id: "wishlist", label: "علاقه‌مندی‌ها", icon: Heart, ready: true },
   { id: "account", label: "اطلاعات حساب", icon: User, ready: true },
 ];
 

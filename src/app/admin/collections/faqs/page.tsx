@@ -23,6 +23,7 @@ type Row = {
 export default async function FaqsListPage() {
   await requireAdmin();
   const list = await prisma.fAQGroup.findMany({
+    where: { deletedAt: null },
     orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
     include: { _count: { select: { items: true } } },
   });

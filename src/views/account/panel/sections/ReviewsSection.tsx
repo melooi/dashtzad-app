@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { MessageSquareText, Star, Store } from "lucide-react";
 import { SectionHead } from "../SectionHead";
-import { PanelEmpty, PanelError, PanelLoading, Stars, TonePill } from "../ui";
+import { PanelEmpty, PanelError, SkeletonList, Stars, TonePill } from "../ui";
 import { QUESTION_STATUS, REVIEW_STATUS } from "../labels";
 import { jsonGet } from "../fetcher";
 import {
@@ -38,7 +38,7 @@ function ReviewsTab() {
     queryKey: ACCOUNT_QUERY_KEYS.reviews,
     queryFn: () => jsonGet<{ reviews: MyReviewDTO[] }>("/api/account/reviews"),
   });
-  if (q.isLoading) return <PanelLoading />;
+  if (q.isLoading) return <SkeletonList rows={3} />;
   if (q.isError) return <PanelError onRetry={() => q.refetch()} />;
   const reviews = q.data?.reviews ?? [];
   if (reviews.length === 0)
@@ -81,7 +81,7 @@ function QuestionsTab() {
     queryKey: ACCOUNT_QUERY_KEYS.questions,
     queryFn: () => jsonGet<{ questions: MyQuestionDTO[] }>("/api/account/questions"),
   });
-  if (q.isLoading) return <PanelLoading />;
+  if (q.isLoading) return <SkeletonList rows={3} />;
   if (q.isError) return <PanelError onRetry={() => q.refetch()} />;
   const questions = q.data?.questions ?? [];
   if (questions.length === 0)

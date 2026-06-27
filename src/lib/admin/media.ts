@@ -61,6 +61,7 @@ export async function listMediaAssets(query: MediaQuery = {}): Promise<MediaAsse
   const q = query.q?.trim();
   const rows = await prisma.mediaAsset.findMany({
     where: {
+      deletedAt: null,
       ...(query.usage ? { usage: query.usage } : {}),
       ...(query.mime
         ? query.mime.includes("/")
@@ -87,7 +88,7 @@ export async function listMediaAssets(query: MediaQuery = {}): Promise<MediaAsse
 /** Count + total size for the library header summary. */
 export async function getMediaStats(): Promise<{ count: number; totalBytes: number }> {
   const [count, agg] = await Promise.all([
-    prisma.mediaAsset.count(),
+    prisma.mediaAsset.count({ where: { deletedAt: null } }),
     prisma.mediaAsset.aggregate({ _sum: { sizeBytes: true } }),
   ]);
   return { count, totalBytes: agg._sum.sizeBytes ?? 0 };

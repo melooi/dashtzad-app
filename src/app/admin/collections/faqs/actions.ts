@@ -49,7 +49,7 @@ export async function updateFaqGroup(id: string, raw: FaqGroupInput): Promise<Ac
 
 export async function deleteFaqGroup(id: string): Promise<ActionResult> {
   await requireAdmin();
-  await prisma.fAQGroup.delete({ where: { id } }); // items cascade
+  await prisma.fAQGroup.update({ where: { id }, data: { deletedAt: new Date(), isActive: false } });
   revalidatePath(LIST_PATH);
   return { ok: true, id };
 }
@@ -71,7 +71,7 @@ export async function saveFaqItem(
   if (itemId) {
     await prisma.fAQItem.update({ where: { id: itemId }, data: parsed.data });
   } else {
-    const count = await prisma.fAQItem.count({ where: { groupId } });
+    const count = await prisma.fAQItem.count({ where: { groupId, deletedAt: null } });
     const created = await prisma.fAQItem.create({
       data: { ...parsed.data, groupId, sortOrder: parsed.data.sortOrder || count },
     });
@@ -85,7 +85,7 @@ export async function deleteFaqItem(itemId: string): Promise<ActionResult> {
   await requireAdmin();
   const item = await prisma.fAQItem.findUnique({ where: { id: itemId } });
   if (!item) return { ok: false, error: "مورد یافت نشد." };
-  await prisma.fAQItem.delete({ where: { id: itemId } });
+  await prisma.fAQItem.update({ where: { id: itemId }, data: { deletedAt: new Date(), isActive: false } });
   revalidatePath(`${LIST_PATH}/${item.groupId}`);
   return { ok: true, id: itemId };
 }
@@ -97,7 +97,7 @@ export async function moveFaqItem(itemId: string, dir: "up" | "down"): Promise<A
   if (!item) return { ok: false, error: "مورد یافت نشد." };
 
   const items = await prisma.fAQItem.findMany({
-    where: { groupId: item.groupId },
+    where: { groupId: item.groupId, deletedAt: null },
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
   });
   const i = items.findIndex((x) => x.id === itemId);

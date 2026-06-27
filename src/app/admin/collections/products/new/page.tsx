@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export default async function NewProductPage() {
   await requireAdmin();
   const categories = await prisma.category.findMany({
-    where: { type: "PRODUCT" },
+    where: { type: "PRODUCT", deletedAt: null },
     select: { id: true, title: true },
     orderBy: { title: "asc" },
   });

@@ -13,6 +13,7 @@ import {
   Maximize2,
   Link as LinkIcon,
   Unlink,
+  GripVertical,
 } from "lucide-react";
 import { MediaPickerDialog } from "@/components/admin/media/MediaPickerDialog";
 
@@ -23,8 +24,7 @@ const ALIGNS = [
   { key: "wide", label: "تمام‌عرض", Icon: Maximize2 },
 ] as const;
 
-/** In-editor view for a single image block (dz-media--image). All media comes
- * from the Media Library via MediaPickerDialog — never a manual URL. */
+/** In-editor view for a single image block (dz-media--image). */
 export function MediaImageView({ node, updateAttributes, deleteNode, editor }: NodeViewProps) {
   const [pick, setPick] = useState(false);
   const src = typeof node.attrs.src === "string" ? node.attrs.src : "";
@@ -48,7 +48,27 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
       dir="rtl"
     >
       {src ? (
-        <img src={src} alt={alt} />
+        <div className="relative">
+          <img src={src} alt={alt} className="block w-full" />
+
+          {/* Caption overlay — bottom-right of image */}
+          {caption && (
+            <span className="pointer-events-none absolute bottom-0 inset-e-0 m-2 max-w-[70%] rounded-lg bg-black/60 px-2 py-1 text-end text-xs leading-5 text-white backdrop-blur-sm">
+              {caption}
+            </span>
+          )}
+
+          {/* Drag handle — visible on hover in editor */}
+          {editable && (
+            <div
+              data-drag-handle
+              className="absolute inset-s-0 top-1/2 -translate-y-1/2 -translate-x-full cursor-grab rounded-s-lg bg-white/80 px-1 py-2 shadow-sm dark:bg-dz-a-night-elevated/80"
+              title="بکش تا جابه‌جا کنی"
+            >
+              <GripVertical className="size-4 text-dz-a-primary-400" />
+            </div>
+          )}
+        </div>
       ) : (
         <button
           type="button"
@@ -60,10 +80,13 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
         </button>
       )}
 
+      {/* Static figcaption for non-editing mode */}
       {caption && !editable && <figcaption>{caption}</figcaption>}
 
+      {/* Controls — edit mode only */}
       {editable && (
         <div className="dz-media__controls mt-2 flex flex-col gap-2" contentEditable={false}>
+          {/* Toolbar row */}
           <div className="flex flex-wrap items-center gap-1">
             {src && (
               <button
@@ -130,6 +153,8 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
               <Trash2 className="size-3.5" />
             </button>
           </div>
+
+          {/* Alt + Caption inputs */}
           {src && (
             <div className="grid gap-1.5 sm:grid-cols-2">
               <input
@@ -159,7 +184,8 @@ export function MediaImageView({ node, updateAttributes, deleteNode, editor }: N
           updateAttributes({
             mediaId: asset.id,
             src: asset.url,
-            alt: alt || asset.alt || asset.originalName || "",
+            // Don't use filename as alt — let admin enter meaningful alt text
+            alt: alt || asset.alt || "",
             caption: caption || asset.caption || "",
             width: asset.width ?? null,
             height: asset.height ?? null,

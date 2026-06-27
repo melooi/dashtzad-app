@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { User } from "lucide-react";
+import { CallButton } from "@/components/admin/CallButton";
+import { HesabfaInvoiceButton } from "@/components/admin/hesabfa/HesabfaInvoiceButton";
 import { requireAdmin } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
 import { getOrderDetail } from "@/lib/account/orders";
@@ -65,8 +67,9 @@ export default async function AdminOrderDetailPage({
             <div className="font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">
               {meta.user.name ?? "—"}
             </div>
-            <div dir="ltr" className="text-right text-sm text-dz-a-primary-400">
+            <div dir="ltr" className="flex items-center gap-2 text-right text-sm text-dz-a-primary-400">
               {toPersianNumbers(meta.user.phoneNumber)}
+              <CallButton num={meta.user.phoneNumber} name={meta.user.name ?? ""} size="xs" />
             </div>
           </div>
           <Link
@@ -151,6 +154,15 @@ export default async function AdminOrderDetailPage({
               ) : (
                 <p className="text-dz-a-primary-400">ثبت نشده</p>
               )}
+            </div>
+
+            <div className="rounded-2xl border border-dz-a-primary-100 bg-white p-5 text-sm dark:border-dz-a-night-border dark:bg-dz-a-night-card">
+              <h2 className="mb-3 font-bold text-dz-a-primary-800 dark:text-dz-a-night-fg">حسابفا</h2>
+              <HesabfaInvoiceButton
+                orderId={order.id}
+                orderNumber={order.orderNumber}
+                isRefunded={order.status === "REFUNDED"}
+              />
             </div>
           </div>
         </div>

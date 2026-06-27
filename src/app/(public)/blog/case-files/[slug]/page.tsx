@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const series = await prisma.contentSeries.findFirst({ where: { slug, status: "PUBLISHED" }, select: { id: true, title: true, summary: true, subtitle: true, coverImage: true } });
+  const series = await prisma.contentSeries.findFirst({ where: { slug, status: "PUBLISHED", deletedAt: null }, select: { id: true, title: true, summary: true, subtitle: true, coverImage: true } });
   if (!series) return { title: "پرونده یافت نشد", robots: { index: false, follow: true } };
   return buildEntityMetadata("SERIES", series.id, {
     title: `${series.title} | مجله دشت‌زاد`,
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function CaseFileDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const series = await prisma.contentSeries.findFirst({
-    where: { slug, status: "PUBLISHED" },
+    where: { slug, status: "PUBLISHED", deletedAt: null },
     include: {
       posts: {
         where: { status: "PUBLISHED" },

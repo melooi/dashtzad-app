@@ -29,7 +29,7 @@ export default async function CaseFilesListPage({
     : {};
 
   const list = await prisma.contentSeries.findMany({
-    where,
+    where: { ...where, deletedAt: null },
     orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }],
     include: { _count: { select: { posts: true } } },
   });

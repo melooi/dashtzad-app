@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
+import { notifyIndexNow } from "@/lib/seo/indexnow";
 import { ensureUniqueSlug } from "@/lib/admin/slug";
 import { articleFormSchema, toArticleData, type ArticleFormInput } from "@/lib/admin/articles";
 import type { Prisma } from "@/generated/prisma/client";
@@ -30,6 +31,7 @@ export async function createArticle(raw: ArticleFormInput): Promise<ActionResult
     data: { ...data, slug, publishedAt } as Prisma.PostUncheckedCreateInput,
   });
   revalidateArticle(slug);
+  if (parsed.data.status === "PUBLISHED") notifyIndexNow(`/blog/${slug}`);
   return { ok: true, id: created.id };
 }
 
@@ -58,13 +60,14 @@ export async function updateArticle(id: string, raw: ArticleFormInput): Promise<
   revalidateArticle(slug);
   revalidatePath(`${LIST}/${id}`);
   if (existing.slug !== slug) revalidatePath(`/blog/${existing.slug}`);
+  if (parsed.data.status === "PUBLISHED") notifyIndexNow(`/blog/${slug}`);
   return { ok: true, id };
 }
 
 export async function deleteArticle(id: string): Promise<ActionResult> {
   await requireAdmin();
   const existing = await prisma.post.findUnique({ where: { id }, select: { slug: true } });
-  await prisma.post.delete({ where: { id } }); // PostComment cascades on delete
+  await prisma.post.update({ where: { id }, data: { deletedAt: new Date(), status: "DRAFT" } });
   revalidateArticle(existing?.slug);
   return { ok: true, id };
 }

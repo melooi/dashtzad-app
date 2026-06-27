@@ -33,6 +33,11 @@ import {
   Braces,
   Headset,
   AlertTriangle,
+  Receipt,
+  PhoneCall,
+  Tag,
+  TrendingUp,
+  Trash2,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -60,7 +65,7 @@ export const ADMIN_NAV: NavGroup[] = [
     icon: Store,
     items: [
       { label: "محصولات", href: "/admin/collections/products", icon: Package },
-      { label: "دسته‌بندی محصولات", href: "/admin/collections/categories", icon: FolderTree },
+      { label: "دسته‌بندی محصولات", href: "/admin/collections/categories?type=PRODUCT", icon: FolderTree },
       { label: "وزن‌ها و بسته‌بندی‌ها", href: "/admin/collections/weights-packaging", icon: Scale },
       { label: "قیمت‌گذاری", href: "/admin/collections/pricing", icon: Coins },
       { label: "کوپن‌ها", href: "/admin/collections/coupons", icon: Ticket },
@@ -82,14 +87,16 @@ export const ADMIN_NAV: NavGroup[] = [
     title: "محتوا",
     icon: FileText,
     items: [
-      { label: "مقاله‌های مجله", href: "/admin/content/articles", icon: FileText },
-      { label: "پرونده‌ها", href: "/admin/content/case-files", icon: Library },
-      { label: "دستور پخت‌ها", href: "/admin/content/articles?type=RECIPE", icon: ChefHat },
-      { label: "امتیازهای دستور پخت", href: "/admin/content/recipe-ratings", icon: Star },
+      { label: "نوشته‌ها", href: "/admin/content/articles", icon: FileText },
+      { label: "دسته‌بندی مقالات", href: "/admin/collections/categories?type=POST", icon: FolderTree },
+      { label: "برچسب‌ها", href: "/admin/content/tags", icon: Tag },
+      { label: "امتیازها و دیدگاه‌ها", href: "/admin/content/feedback", icon: MessageSquare },
       { label: "پیشنهادهای دستور پخت", href: "/admin/content/recipe-suggestions", icon: Lightbulb },
-      { label: "دیدگاه‌های نوشته‌ها", href: "/admin/collections/comments", icon: MessageSquare },
-      { label: "رسانه", href: "/admin/media", icon: ImageIcon },
     ],
+  },
+  {
+    title: "رسانه",
+    items: [{ label: "رسانه", href: "/admin/media", icon: ImageIcon }],
   },
   {
     title: "تجربه‌ی سایت",
@@ -124,11 +131,24 @@ export const ADMIN_NAV: NavGroup[] = [
     ],
   },
   {
+    title: "مالی و ارتباطات",
+    icon: Receipt,
+    items: [
+      { label: "گزارش‌ها و آمار", href: "/admin/reports", icon: TrendingUp },
+      { label: "حسابفا", href: "/admin/hesabfa", icon: Receipt },
+      { label: "سانترال همکاران", href: "/admin/santral", icon: PhoneCall },
+    ],
+  },
+  {
     title: "تنظیمات سیستم",
     icon: SlidersHorizontal,
     items: [
       { label: "تنظیمات سیستم", href: "/admin/settings", icon: SlidersHorizontal },
     ],
+  },
+  {
+    title: "سطل زباله",
+    items: [{ label: "سطل زباله", href: "/admin/trash", icon: Trash2 }],
   },
 ];
 
@@ -138,7 +158,7 @@ export const ADMIN_NAV: NavGroup[] = [
 // fallback label. weights-packaging / pricing are CP3 placeholders.
 export const COLLECTION_LABELS: Record<string, string> = {
   products: "محصولات",
-  categories: "دسته‌بندی محصولات",
+  categories: "دسته‌بندی‌ها",
   "weights-packaging": "وزن‌ها و بسته‌بندی‌ها",
   pricing: "قیمت‌گذاری",
   coupons: "کوپن‌ها",

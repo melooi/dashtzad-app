@@ -170,6 +170,47 @@
   --color-dz-a-warning-300: #ecc25f;
   --color-dz-a-error-300: #f0908b;
 
+  /* ----------------------------------------------------------
+     Admin semantic text hierarchy — slate, PALETTE-INDEPENDENT.
+     Use these for ALL body text, labels, captions, placeholders.
+     NEVER use dz-a-primary-400/300 for text — breaks on Amber/Rose/Teal.
+     Use dz-a-primary-600+ ONLY for interactive accent elements.
+     ---------------------------------------------------------- */
+  --color-dz-a-fg: #1e293b;        /* primary body text (slate-800) */
+  --color-dz-a-fg-soft: #334155;   /* secondary / subheadings (slate-700) */
+  --color-dz-a-fg-muted: #64748b;  /* captions, descriptions (slate-500) */
+  --color-dz-a-fg-faint: #94a3b8;  /* helper text, footnotes (slate-400) */
+  --color-dz-a-fg-ghost: #cbd5e1;  /* placeholder, idle icons (slate-300) */
+  --color-dz-a-fg-inverse: #ffffff; /* text on solid/dark surfaces */
+
+  /* Admin semantic surfaces */
+  --color-dz-a-surface: #ffffff;
+  --color-dz-a-surface-sunken: #f1f5f9; /* inset / code block bg */
+  --color-dz-a-border: #e2e8f0;         /* default neutral border */
+  --color-dz-a-border-strong: #cbd5e1;  /* emphasized border */
+
+  /* Semantic soft tints — explicit solid values, no /opacity hacks.
+     Use: bg-dz-a-success-tint / border-dz-a-success-ring instead of bg-dz-a-success/10 */
+  --color-dz-a-success-tint: #f0fdf4;
+  --color-dz-a-success-ring: #bbf7d0;
+  --color-dz-a-warning-tint: #fffbeb;
+  --color-dz-a-warning-ring: #fde68a;
+  --color-dz-a-error-tint: #fef2f2;
+  --color-dz-a-error-ring: #fecaca;
+  --color-dz-a-info-tint: #eff6ff;
+  --color-dz-a-info-ring: #bfdbfe;
+
+  /* Dark-mode semantic tints */
+  --color-dz-a-night-success-tint: rgba(31, 157, 87, 0.14);
+  --color-dz-a-night-error-tint: rgba(214, 69, 63, 0.14);
+  --color-dz-a-night-warning-tint: rgba(217, 153, 8, 0.14);
+  --color-dz-a-night-info-tint: rgba(59, 130, 246, 0.14);
+
+  /* Admin shadows — semantic scale for cards, panels, popovers */
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --shadow-card-hover: 0 10px 15px -3px rgb(0 0 0 / 0.10), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --shadow-popover: 0 20px 25px -5px rgb(0 0 0 / 0.10), 0 8px 10px -6px rgb(0 0 0 / 0.08);
+
   /* ============================================================
      STOREFRONT-SCOPED palette (FRONT-CP1.2) — design-export system.
      Additive `store-*` namespace; applied ONLY to product storefront
@@ -508,6 +549,21 @@ h3 {
       0 0 0 2px var(--color-dz-canvas),
       0 0 0 4px color-mix(in srgb, var(--color-dz-primary-500) 55%, transparent);
   }
+}
+
+/* ── Checkout step transition ──────────────────────────────────────── */
+@keyframes co-step-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+@keyframes co-step-back {
+  from { opacity: 0; transform: translateY(-14px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0)     scale(1); }
+}
+@utility animate-co-step-in   { animation: co-step-in  0.38s cubic-bezier(0.16,1,0.3,1); }
+@utility animate-co-step-back { animation: co-step-back 0.38s cubic-bezier(0.16,1,0.3,1); }
+@media (prefers-reduced-motion: reduce) {
+  .animate-co-step-in, .animate-co-step-back { animation: none; }
 }
 
 /* Admin toast entrance — subtle rise + fade (respects reduced-motion below). */

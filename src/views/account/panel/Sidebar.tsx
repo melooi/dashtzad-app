@@ -1,7 +1,8 @@
 "use client";
 
-import { Calendar, LogOut } from "lucide-react";
+import { Calendar, LogOut, Wallet } from "lucide-react";
 import { NAV, type ViewId } from "./nav";
+import { Money } from "./Money";
 import { formatJalali } from "@/lib/date";
 import { toPersianNumbers } from "@/lib/price";
 import type { AccountProfile } from "@/lib/account/types";
@@ -12,12 +13,14 @@ export function Sidebar({
   onNavigate,
   onLogout,
   counts,
+  creditRial,
 }: {
   user: AccountProfile;
   view: ViewId;
   onNavigate: (id: ViewId) => void;
   onLogout: () => void;
   counts: Partial<Record<ViewId, number>>;
+  creditRial?: number;
 }) {
   const initial = user.name?.trim()?.[0] ?? "د";
 
@@ -44,6 +47,25 @@ export function Sidebar({
           عضو از {formatJalali(user.createdAtISO)}
         </div>
 
+        {/* wallet balance quick tile */}
+        {creditRial !== undefined && (
+          <button
+            type="button"
+            onClick={() => onNavigate("wallet")}
+            className="mt-3 flex w-full items-center gap-2.5 rounded-xl border border-store-border bg-store-surface-soft px-3 py-2.5 text-right transition-colors hover:border-store-primary"
+          >
+            <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-store-primary-soft text-store-primary-hover">
+              <Wallet className="size-4" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="text-[11px] text-store-text-faint">اعتبار دشت‌زاد</div>
+              <div className="font-bold text-store-text">
+                <Money rial={creditRial} strong />
+              </div>
+            </div>
+          </button>
+        )}
+
         {/* nav — horizontal scroll on mobile, vertical on desktop */}
         <nav className="mt-4 flex gap-1 overflow-x-auto pb-1 md:flex-col md:overflow-visible md:pb-0">
           {NAV.map((n) => {
@@ -62,7 +84,7 @@ export function Sidebar({
                     : "text-store-text-muted hover:bg-store-surface-soft hover:text-store-text"
                 }`}
               >
-                <Icon className="size-[18px] shrink-0" />
+                <Icon className="size-4.5 shrink-0" />
                 <span className="whitespace-nowrap">{n.label}</span>
                 {count != null && count > 0 && (
                   <span
@@ -86,7 +108,7 @@ export function Sidebar({
             onClick={onLogout}
             className="store-focus flex shrink-0 items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-store-clay-deep transition-colors hover:bg-store-clay-soft md:w-full"
           >
-            <LogOut className="size-[18px] shrink-0" />
+            <LogOut className="size-4.5 shrink-0" />
             <span className="whitespace-nowrap">خروج از حساب</span>
           </button>
         </nav>

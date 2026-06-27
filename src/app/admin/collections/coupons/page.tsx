@@ -57,7 +57,7 @@ export default async function CouponsListPage({
   // Status is a COMPUTED value (isActive + dates + usage), so status filtering
   // and the "active"/"ending" sorts are resolved in memory. Coupons are a
   // low-volume collection, so fetching the filtered set is safe.
-  const all = await prisma.coupon.findMany({ where });
+  const all = await prisma.coupon.findMany({ where: { ...where, deletedAt: null } });
   const now = new Date();
 
   const withStatus = all.map((c) => ({ coupon: c, status: getCouponStatus(c, now) }));

@@ -38,6 +38,15 @@ export type OrderListItem = {
   itemCount: number;
   thumbs: OrderThumb[];
   trackingCode: string | null;
+  reorder: {
+    productId: string;
+    slug: string;
+    title: string;
+    image: string | null;
+    priceRial: number;
+    basePriceRial: number;
+    quantity: number;
+  }[];
 };
 
 export type OrderTimelineStep = {
@@ -176,6 +185,18 @@ export type MyQuestionDTO = {
 
 export type AccountProductCard = StoreProductCardData & { productId: string };
 
+/* -------------------- repeat / frequent purchases ------------------ */
+
+export type RepeatProductItem = {
+  productId: string;
+  slug: string;
+  title: string;
+  image: string | null;
+  priceRial: number;
+  basePriceRial: number;
+  orderCount: number;
+};
+
 /* ----------------------------- overview ---------------------------- */
 
 export type AccountOverview = {
@@ -208,4 +229,5 @@ export const ACCOUNT_QUERY_KEYS = {
   messages: ["account", "messages"] as const,
   reviews: ["account", "reviews"] as const,
   questions: ["account", "questions"] as const,
+  repeatProducts: ["account", "repeat-products"] as const,
 };

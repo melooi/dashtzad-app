@@ -20,9 +20,9 @@ export default async function DashboardPage() {
     newContactMessages,
     lowStockVariants,
   ] = await Promise.all([
-    prisma.product.count(),
-    prisma.category.count(),
-    prisma.post.count(),
+    prisma.product.count({ where: { deletedAt: null } }),
+    prisma.category.count({ where: { deletedAt: null } }),
+    prisma.post.count({ where: { deletedAt: null } }),
     prisma.order.count(),
     prisma.user.count(),
     prisma.postComment.count({ where: { status: "PENDING" } }),
@@ -30,8 +30,8 @@ export default async function DashboardPage() {
     prisma.conversation.count({ where: { status: "NEW" } }),
     // --- action-oriented, all from real data ---
     prisma.order.count({ where: { status: { in: ["PAID", "PROCESSING"] } } }),
-    prisma.product.count({ where: { images: { none: {} } } }),
-    prisma.post.count({ where: { status: "DRAFT" } }),
+    prisma.product.count({ where: { images: { none: {} }, deletedAt: null } }),
+    prisma.post.count({ where: { status: "DRAFT", deletedAt: null } }),
     prisma.contactMessage.count({ where: { status: "NEW" } }),
     prisma.productVariant.count({ where: { isActive: true, stock: { lte: 3 } } }),
   ]);

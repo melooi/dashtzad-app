@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 import {
   Package,
   Truck,
@@ -14,16 +15,75 @@ import {
   Plus,
   Store,
   UserCheck,
+  RotateCcw,
+  CheckCircle2,
+  Circle,
 } from "lucide-react";
 import { StatusPill } from "../StatusPill";
 import { Money } from "../Money";
+import { jsonGet } from "../fetcher";
 import type { ViewId } from "../nav";
 import { toPersianNumbers } from "@/lib/price";
 import { formatJalali } from "@/lib/date";
-import type { AccountOverview, AccountProfile, OrderListItem } from "@/lib/account/types";
+import { ACCOUNT_QUERY_KEYS, type AccountOverview, type AccountProfile, type OrderListItem, type RepeatProductItem } from "@/lib/account/types";
 
 function firstName(name: string | null) {
   return name?.trim().split(/\s+/)[0] || "دوست";
+}
+
+function RepeatPurchases() {
+  const q = useQuery({
+    queryKey: ACCOUNT_QUERY_KEYS.repeatProducts,
+    queryFn: () => jsonGet<{ items: RepeatProductItem[] }>("/api/account/repeat-products"),
+  });
+  const items = q.data?.items ?? [];
+  if (q.isLoading || items.length === 0) return null;
+
+  return (
+    <div className="rounded-2xl border border-store-border bg-store-surface shadow-store-xs">
+      <div className="flex items-center justify-between border-b border-store-border px-5 py-3.5">
+        <span className="flex items-center gap-2 font-bold text-store-text">
+          <RotateCcw className="size-4.5 text-store-primary" />
+          خریدهای پرتکرار شما
+        </span>
+        <Link
+          href="/products"
+          className="flex items-center gap-1 text-sm font-medium text-store-primary hover:text-store-primary-hover"
+        >
+          فروشگاه <ChevronLeft className="size-4" />
+        </Link>
+      </div>
+      <div className="flex gap-3 overflow-x-auto p-4 pb-5">
+        {items.map((p) => (
+          <Link
+            key={p.productId}
+            href={`/products/${p.slug}`}
+            className="group flex w-36 shrink-0 flex-col gap-2 rounded-xl border border-store-border bg-store-surface-soft p-3 transition-colors hover:border-store-primary"
+          >
+            <span className="grid h-28 w-full place-items-center overflow-hidden rounded-lg bg-store-surface">
+              {p.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={p.image} alt={p.title} className="size-full object-contain p-1" />
+              ) : (
+                <Package className="size-7 text-store-text-faint" />
+              )}
+            </span>
+            <p className="line-clamp-2 text-xs font-medium leading-5 text-store-text group-hover:text-store-primary">
+              {p.title}
+            </p>
+            <div className="mt-auto text-sm font-bold text-store-text">
+              <Money rial={p.priceRial} strong />
+            </div>
+            {p.basePriceRial > p.priceRial && (
+              <div className="text-xs text-store-text-faint line-through">
+                <Money rial={p.basePriceRial} />
+              </div>
+            )}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function OrderThumbs({ order }: { order: OrderListItem }) {
@@ -44,6 +104,86 @@ function OrderThumbs({ order }: { order: OrderListItem }) {
           )}
         </span>
       ))}
+    </div>
+  );
+}
+
+function OnboardingChecklist({
+  overview,
+  onNavigate,
+}: {
+  overview: AccountOverview;
+  onNavigate: (id: ViewId) => void;
+}) {
+  const c = overview.counts;
+  const steps: { done: boolean; label: string; cta: string; to: ViewId }[] = [
+    {
+      done: overview.profileCompletion >= 80,
+      label: "تکمیل اطلاعات حساب",
+      cta: "تکمیل کن",
+      to: "account",
+    },
+    {
+      done: c.addresses > 0,
+      label: "ثبت آدرس تحویل",
+      cta: "افزودن آدرس",
+      to: "addresses",
+    },
+    {
+      done: c.orders > 0,
+      label: "اولین خرید از دشت‌زاد",
+      cta: "رفتن به فروشگاه",
+      to: "orders",
+    },
+    {
+      done: c.wishlist > 0,
+      label: "افزودن محصول به علاقه‌مندی‌ها",
+      cta: "مرور محصولات",
+      to: "wishlist",
+    },
+  ];
+  const doneCount = steps.filter((s) => s.done).length;
+  if (doneCount === steps.length) return null;
+
+  return (
+    <div className="rounded-2xl border border-store-border bg-store-surface shadow-store-xs">
+      <div className="flex items-center justify-between border-b border-store-border px-5 py-3.5">
+        <span className="font-bold text-store-text">شروع با دشت‌زاد</span>
+        <span className="text-sm text-store-text-faint">
+          {toPersianNumbers(doneCount)} از {toPersianNumbers(steps.length)} تکمیل شد
+        </span>
+      </div>
+      <div className="h-1.5 bg-store-border">
+        <div
+          className="h-full rounded-full bg-store-primary transition-all"
+          style={{ width: `${(doneCount / steps.length) * 100}%` }}
+        />
+      </div>
+      <ul className="divide-y divide-store-border px-5">
+        {steps.map((s) => (
+          <li key={s.label} className="flex items-center gap-3 py-3.5">
+            {s.done ? (
+              <CheckCircle2 className="size-5 shrink-0 text-store-primary" />
+            ) : (
+              <Circle className="size-5 shrink-0 text-store-border-strong" />
+            )}
+            <span
+              className={`flex-1 text-sm font-medium ${s.done ? "text-store-text-faint line-through" : "text-store-text"}`}
+            >
+              {s.label}
+            </span>
+            {!s.done && (
+              <button
+                type="button"
+                onClick={() => onNavigate(s.to)}
+                className="shrink-0 text-xs font-bold text-store-primary hover:text-store-primary-hover"
+              >
+                {s.cta} ←
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -104,6 +244,9 @@ export function DashboardSection({
           </div>
         )}
       </div>
+
+      {/* onboarding checklist — shown to new users until all 4 steps done */}
+      {overview && <OnboardingChecklist overview={overview} onNavigate={onNavigate} />}
 
       {/* stat tiles */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
@@ -242,6 +385,8 @@ export function DashboardSection({
           </div>
         </div>
       </div>
+
+      <RepeatPurchases />
     </div>
   );
 }

@@ -63,6 +63,17 @@ export async function deleteMediaAsset(id: string): Promise<MediaDeleteResult> {
   const asset = await prisma.mediaAsset.findUnique({ where: { id } });
   if (!asset) return { ok: false, error: "فایل یافت نشد." };
 
+  // Soft delete — file stays on disk until permanently deleted from trash.
+  await prisma.mediaAsset.update({ where: { id }, data: { deletedAt: new Date() } });
+  revalidatePath(MEDIA_PATH);
+  return { ok: true };
+}
+
+export async function permanentlyDeleteMediaAsset(id: string): Promise<MediaDeleteResult> {
+  await requireAdmin();
+  const asset = await prisma.mediaAsset.findUnique({ where: { id } });
+  if (!asset) return { ok: false, error: "فایل یافت نشد." };
+
   await prisma.mediaAsset.delete({ where: { id } });
 
   const fileRes = await removeStoredFile({

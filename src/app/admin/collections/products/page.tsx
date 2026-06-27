@@ -53,9 +53,9 @@ export default async function ProductsListPage({
 
   const orderBy = sort === "title" ? { title: "asc" as const } : { updatedAt: "desc" as const };
   const [total, list, productCategories] = await Promise.all([
-    prisma.product.count({ where }),
-    prisma.product.findMany({ where, include: INCLUDE, orderBy, skip: (page - 1) * PER_PAGE, take: PER_PAGE }),
-    prisma.category.findMany({ where: { type: "PRODUCT" }, select: { id: true, title: true }, orderBy: { title: "asc" } }),
+    prisma.product.count({ where: { ...where, deletedAt: null } }),
+    prisma.product.findMany({ where: { ...where, deletedAt: null }, include: INCLUDE, orderBy, skip: (page - 1) * PER_PAGE, take: PER_PAGE }),
+    prisma.category.findMany({ where: { type: "PRODUCT", deletedAt: null }, select: { id: true, title: true }, orderBy: { title: "asc" } }),
   ]);
 
   const rows: ProductRow[] = list.map((p: ProductWithRels) => {

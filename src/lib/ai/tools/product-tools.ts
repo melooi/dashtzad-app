@@ -31,6 +31,7 @@ const searchProducts: ToolDefinition = {
     const products = await prisma.product.findMany({
       where: {
         isActive: true,
+        deletedAt: null,
         ...(q
           ? {
               OR: [
@@ -114,7 +115,7 @@ const getRelatedProducts: ToolDefinition = {
     const p = await prisma.product.findUnique({ where: { slug }, select: { id: true, categoryId: true } });
     if (!p) return { found: false, products: [] };
     const related = await prisma.product.findMany({
-      where: { categoryId: p.categoryId, isActive: true, id: { not: p.id } },
+      where: { categoryId: p.categoryId, isActive: true, deletedAt: null, id: { not: p.id } },
       include: PRODUCT_CARD_INCLUDE,
       take: clampLimit(limit, 4),
       orderBy: { numReviews: "desc" },
@@ -163,7 +164,7 @@ const compareProducts: ToolDefinition = {
     const { slugs } = args as { slugs: string[] };
     const list = (slugs ?? []).slice(0, 4);
     const products = await prisma.product.findMany({
-      where: { slug: { in: list }, isActive: true },
+      where: { slug: { in: list }, isActive: true, deletedAt: null },
       include: PRODUCT_CARD_INCLUDE,
     });
     return { products: products.map((p) => productToCard(p)) };
@@ -191,6 +192,7 @@ const suggestProductPack: ToolDefinition = {
     const candidates = await prisma.product.findMany({
       where: {
         isActive: true,
+        deletedAt: null,
         countInStock: { gt: 0 },
         ...(category ? { category: { slug: category } } : {}),
       },

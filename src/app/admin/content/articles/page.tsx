@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, Pencil, FileText } from "lucide-react";
+import { Plus, Pencil, FileText, ChefHat, Library } from "lucide-react";
 import { requireAdmin } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@/generated/prisma/client";
@@ -64,7 +64,7 @@ export default async function ArticlesListPage({
           : { createdAt: "desc" };
 
   const list = await prisma.post.findMany({
-    where,
+    where: { ...where, deletedAt: null },
     orderBy,
     include: { author: { select: { name: true } }, category: { select: { title: true } } },
     take: 200,
@@ -109,15 +109,56 @@ export default async function ArticlesListPage({
   return (
     <div>
       <AdminPageHeader
-        title="مقاله‌های مجله"
-        description="مجله‌ی دشت‌زاد — مقاله‌ها بر اساس نوع، دسته و وضعیت."
-        breadcrumbs={[{ label: "پنل مدیریت", href: "/admin/dashboard" }, { label: "مقاله‌های مجله" }]}
-        actions={
-          <Link href="/admin/content/articles/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
-            <Plus className="size-4" /> مقاله‌ی جدید
-          </Link>
-        }
+        title="نوشته‌ها"
+        description="مقاله، دستور پخت و پرونده — بر اساس نوع، دسته و وضعیت."
+        breadcrumbs={[{ label: "پنل مدیریت", href: "/admin/dashboard" }, { label: "نوشته‌ها" }]}
       />
+
+      {/* Quick-create section */}
+      <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <Link
+          href="/admin/content/articles/new?type=TASTE_STORY"
+          className="group flex items-center gap-3 rounded-2xl border border-dz-a-primary-200 bg-white px-4 py-3.5 transition-colors hover:border-dz-a-primary-400 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:hover:border-dz-a-primary-500/50 dark:hover:bg-white/5"
+        >
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-dz-a-primary-100 text-dz-a-primary-600 group-hover:bg-dz-a-primary-200 dark:bg-white/10 dark:text-dz-a-primary-300 dark:group-hover:bg-white/15">
+            <FileText className="size-4" />
+          </span>
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-dz-a-primary-800 dark:text-dz-a-night-fg">مقاله‌ی جدید</p>
+            <p className="truncate text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">مجله، دانستنی، سلامت…</p>
+          </div>
+          <Plus className="ms-auto size-4 shrink-0 text-dz-a-primary-400 group-hover:text-dz-a-primary-600 dark:text-dz-a-night-muted dark:group-hover:text-dz-a-night-fg" />
+        </Link>
+
+        <Link
+          href="/admin/content/articles/new?type=RECIPE"
+          className="group flex items-center gap-3 rounded-2xl border border-dz-a-primary-200 bg-white px-4 py-3.5 transition-colors hover:border-dz-a-primary-400 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:hover:border-dz-a-primary-500/50 dark:hover:bg-white/5"
+        >
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-dz-a-primary-100 text-dz-a-primary-600 group-hover:bg-dz-a-primary-200 dark:bg-white/10 dark:text-dz-a-primary-300 dark:group-hover:bg-white/15">
+            <ChefHat className="size-4" />
+          </span>
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-dz-a-primary-800 dark:text-dz-a-night-fg">دستور پخت جدید</p>
+            <p className="truncate text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">با کارت دستور، مواد و مراحل</p>
+          </div>
+          <Plus className="ms-auto size-4 shrink-0 text-dz-a-primary-400 group-hover:text-dz-a-primary-600 dark:text-dz-a-night-muted dark:group-hover:text-dz-a-night-fg" />
+        </Link>
+
+        <Link
+          href="/admin/content/case-files/new"
+          className="group flex items-center gap-3 rounded-2xl border border-dz-a-primary-200 bg-white px-4 py-3.5 transition-colors hover:border-dz-a-primary-400 hover:bg-dz-a-primary-50 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated dark:hover:border-dz-a-primary-500/50 dark:hover:bg-white/5"
+        >
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-dz-a-primary-100 text-dz-a-primary-600 group-hover:bg-dz-a-primary-200 dark:bg-white/10 dark:text-dz-a-primary-300 dark:group-hover:bg-white/15">
+            <Library className="size-4" />
+          </span>
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-dz-a-primary-800 dark:text-dz-a-night-fg">پرونده‌ی جدید</p>
+            <p className="truncate text-xs text-dz-a-primary-500 dark:text-dz-a-night-muted">مجموعه‌ای از نوشته‌های مرتبط</p>
+          </div>
+          <Plus className="ms-auto size-4 shrink-0 text-dz-a-primary-400 group-hover:text-dz-a-primary-600 dark:text-dz-a-night-muted dark:group-hover:text-dz-a-night-fg" />
+        </Link>
+      </div>
+
       <AdminToolbar>
         <AdminSearchInput placeholder="جستجو بر اساس عنوان یا نامک…" />
         <AdminFilterBar
@@ -136,8 +177,8 @@ export default async function ArticlesListPage({
           <AdminListEmptyState
             mode={Boolean(q || type || status) ? "no-results" : "empty"}
             icon={<FileText className="size-7" />}
-            title="هنوز مقاله‌ای ثبت نشده است"
-            description="اولین مقاله‌ی مجله را بنویسید؛ می‌توانید نوع مقاله، دسته و وضعیت انتشار را مشخص کنید."
+            title="هنوز نوشته‌ای ثبت نشده است"
+            description="اولین نوشته را بسازید؛ می‌توانید نوع (مقاله، دستور پخت، پرونده)، دسته و وضعیت انتشار را مشخص کنید."
             action={
               <Link href="/admin/content/articles/new" className="inline-flex items-center gap-2 rounded-xl bg-dz-a-primary-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-dz-a-primary-700">
                 <Plus className="size-4" /> مقاله‌ی جدید

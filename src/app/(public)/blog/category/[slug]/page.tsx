@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const cat = await prisma.category.findFirst({ where: { slug, type: "POST" }, select: { id: true, title: true, description: true } });
+  const cat = await prisma.category.findFirst({ where: { slug, type: "POST", deletedAt: null }, select: { id: true, title: true, description: true } });
   if (!cat) return { title: "دسته یافت نشد", robots: { index: false, follow: true } };
   return buildEntityMetadata("CATEGORY", cat.id, {
     title: `${cat.title} | مجله دشت‌زاد`,
@@ -25,11 +25,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogCategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const category = await prisma.category.findFirst({ where: { slug, type: "POST" } });
+  const category = await prisma.category.findFirst({ where: { slug, type: "POST", deletedAt: null } });
   if (!category) notFound();
 
   const posts = await prisma.post.findMany({
-    where: { categoryId: category.id, status: "PUBLISHED" },
+    where: { categoryId: category.id, status: "PUBLISHED", deletedAt: null },
     orderBy: { createdAt: "desc" },
     select: { id: true, slug: true, title: true, briefText: true, coverImage: true, readingTime: true, articleType: true },
   });

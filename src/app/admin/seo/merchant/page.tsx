@@ -15,7 +15,7 @@ export default async function SeoMerchantPage() {
 
   // A few real sample items (active products) for context — no fabricated data.
   const samples = await prisma.product.findMany({
-    where: { isActive: true },
+    where: { isActive: true, deletedAt: null },
     take: 5,
     orderBy: { createdAt: "desc" },
     select: {

@@ -17,11 +17,11 @@ export const metadata = buildMetadata({
 export default async function FaqPage() {
   const [groups, contactInfo, page] = await Promise.all([
     prisma.fAQGroup.findMany({
-      where: { isActive: true },
+      where: { isActive: true, deletedAt: null },
       orderBy: { sortOrder: "asc" },
       include: {
         items: {
-          where: { isActive: true },
+          where: { isActive: true, deletedAt: null },
           orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
         },
       },

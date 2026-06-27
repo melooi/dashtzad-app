@@ -31,7 +31,7 @@ export type SeoIssues = {
 export async function getSeoIssues(limit = 60): Promise<SeoIssues> {
   const [products, posts] = await Promise.all([
     prisma.product.findMany({
-      where: { isActive: true },
+      where: { isActive: true, deletedAt: null },
       select: {
         id: true,
         title: true,
@@ -42,7 +42,7 @@ export async function getSeoIssues(limit = 60): Promise<SeoIssues> {
       orderBy: { updatedAt: "desc" },
     }),
     prisma.post.findMany({
-      where: { status: "PUBLISHED" },
+      where: { status: "PUBLISHED", deletedAt: null },
       select: { id: true, title: true, slug: true, coverImage: true, briefText: true },
       orderBy: { updatedAt: "desc" },
     }),

@@ -32,7 +32,8 @@ const searchFaq: ToolDefinition = {
     const items = await prisma.fAQItem.findMany({
       where: {
         isActive: true,
-        group: { isActive: true },
+        deletedAt: null,
+        group: { isActive: true, deletedAt: null },
         ...(q
           ? { OR: [{ question: { contains: q, mode: "insensitive" } }, { answer: { contains: q, mode: "insensitive" } }] }
           : {}),
@@ -95,6 +96,7 @@ const searchBlogPosts: ToolDefinition = {
     const posts = await prisma.post.findMany({
       where: {
         status: "PUBLISHED",
+        deletedAt: null,
         articleType: { not: "RECIPE" },
         ...(q
           ? { OR: [{ title: { contains: q, mode: "insensitive" } }, { briefText: { contains: q, mode: "insensitive" } }, { tags: { has: q } }] }
@@ -124,6 +126,7 @@ const searchRecipes: ToolDefinition = {
     const recipes = await prisma.post.findMany({
       where: {
         status: "PUBLISHED",
+        deletedAt: null,
         articleType: "RECIPE",
         ...(q
           ? { OR: [{ title: { contains: q, mode: "insensitive" } }, { briefText: { contains: q, mode: "insensitive" } }, { tags: { has: q } }] }
@@ -153,6 +156,7 @@ const searchProductGuides: ToolDefinition = {
     const products = await prisma.product.findMany({
       where: {
         isActive: true,
+        deletedAt: null,
         AND: [
           q
             ? {

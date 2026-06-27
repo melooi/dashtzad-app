@@ -9,7 +9,7 @@ export default async function PackagingPage() {
   await requireAdmin();
   const [options, categories] = await Promise.all([
     prisma.packagingOption.findMany({ orderBy: { sortOrder: "asc" } }),
-    prisma.category.findMany({ where: { type: "PRODUCT" }, select: { id: true, title: true, parent: { select: { title: true } } }, orderBy: { title: "asc" } }),
+    prisma.category.findMany({ where: { type: "PRODUCT", deletedAt: null }, select: { id: true, title: true, parent: { select: { title: true } } }, orderBy: { title: "asc" } }),
   ]);
   const compatCategories = categories.map((c) => ({ id: c.id, title: c.title, parentTitle: c.parent?.title ?? null }));
 
