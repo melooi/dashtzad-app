@@ -597,9 +597,17 @@ export const chatSettingsSchema = z.object({
       "claude-opus-4-8",
       "claude-sonnet-4-6",
       "claude-haiku-4-5-20251001",
-      // keep old haiku ID for backward compat
       "claude-haiku-4-5",
-      // OpenAI
+      // OpenAI — GPT-5.5 (GA flagship)
+      "gpt-5.5",
+      // OpenAI — GPT-5 family
+      "gpt-5.2",
+      "gpt-5-mini",
+      "gpt-5-nano",
+      "gpt-5.2-chat-latest",
+      "gpt-4o-realtime-preview",
+      "gpt-4o-mini-realtime-preview",
+      // OpenAI — legacy (backward compat)
       "gpt-4o",
       "gpt-4o-mini",
       "o3",
@@ -608,11 +616,27 @@ export const chatSettingsSchema = z.object({
       "gemini-2.5-pro",
       "gemini-2.5-flash",
       "gemini-2.0-flash",
-      // keep old gemini for backward compat
       "gemini-1.5-pro",
       "gemini-1.5-flash",
     ])
-    .default("gpt-4o"),
+    .default("gpt-5.5"),
+  // Multi-model chatbot: different roles use different model tiers
+  aiChatModel: z.enum([
+    "gpt-5.5", "gpt-5.2", "gpt-5-mini", "gpt-5-nano", "gpt-5.2-chat-latest",
+    "gpt-4o-realtime-preview", "gpt-4o-mini-realtime-preview",
+    "gpt-4o", "gpt-4o-mini", "o3", "o4-mini",
+  ]).default("gpt-5.5"),
+  aiLiteModel: z.enum([
+    "gpt-5.5", "gpt-5.2", "gpt-5-mini", "gpt-5-nano", "gpt-5.2-chat-latest",
+    "gpt-4o", "gpt-4o-mini", "o4-mini",
+  ]).default("gpt-5-mini"),
+  aiAnalystModel: z.enum([
+    "gpt-5.5", "gpt-5.2", "gpt-5-mini", "gpt-5.2-chat-latest",
+    "gpt-4o", "o3", "o4-mini",
+  ]).default("gpt-5.5"),
+  aiVoiceModel: z.enum([
+    "gpt-4o-realtime-preview", "gpt-4o-mini-realtime-preview",
+  ]).default("gpt-4o-mini-realtime-preview"),
   aiContext: text(""),
 
   // AI-CP-B — customer-facing AI chatbot (distinct from the operator copilot
@@ -648,11 +672,18 @@ export const AI_MODEL_OPTIONS = [
   { value: "claude-opus-4-8", label: "Claude Opus 4.8 — دقیق‌ترین (Anthropic)", group: "anthropic" },
   { value: "claude-sonnet-4-6", label: "Claude Sonnet 4.6 — متعادل (Anthropic)", group: "anthropic" },
   { value: "claude-haiku-4-5-20251001", label: "Claude Haiku 4.5 — سریع‌ترین (Anthropic)", group: "anthropic" },
-  // OpenAI
-  { value: "gpt-4o", label: "GPT-4o — دقیق (OpenAI)", group: "openai" },
-  { value: "gpt-4o-mini", label: "GPT-4o mini — سریع و اقتصادی (OpenAI)", group: "openai" },
-  { value: "o3", label: "o3 — استدلال پیشرفته (OpenAI)", group: "openai" },
-  { value: "o4-mini", label: "o4-mini — استدلال سریع (OpenAI)", group: "openai" },
+  // OpenAI — GPT-5.5 (flagship, GA on Responses API)
+  { value: "gpt-5.5", label: "GPT-5.5 — پرچمدار (OpenAI)", group: "openai" },
+  // OpenAI — GPT-5 family
+  { value: "gpt-5.2", label: "GPT-5.2 — حرفه‌ای (OpenAI)", group: "openai" },
+  { value: "gpt-5-mini", label: "GPT-5 mini — متعادل (OpenAI)", group: "openai" },
+  { value: "gpt-5-nano", label: "GPT-5 nano — اقتصادی (OpenAI)", group: "openai" },
+  { value: "gpt-5.2-chat-latest", label: "GPT-5.2 Chat Latest — چت طبیعی (OpenAI)", group: "openai" },
+  { value: "gpt-4o-realtime-preview", label: "GPT Realtime — صوتی و زنده (OpenAI)", group: "openai" },
+  { value: "gpt-4o-mini-realtime-preview", label: "GPT Realtime Mini — صوتی اقتصادی (OpenAI)", group: "openai" },
+  // OpenAI — legacy
+  { value: "gpt-4o", label: "GPT-4o (OpenAI)", group: "openai" },
+  { value: "gpt-4o-mini", label: "GPT-4o mini (OpenAI)", group: "openai" },
   // Google
   { value: "gemini-2.5-pro", label: "Gemini 2.5 Pro — دقیق‌ترین (Google)", group: "google" },
   { value: "gemini-2.5-flash", label: "Gemini 2.5 Flash — سریع (Google)", group: "google" },

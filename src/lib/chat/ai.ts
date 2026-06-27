@@ -7,7 +7,7 @@ import type { ConversationSentiment, ConversationAiPriority, AiNextAction } from
 type AiProvider = "openai" | "anthropic" | "google";
 
 export function providerForModel(model: string): AiProvider {
-  if (/^(gpt|o1|o3|o4)/.test(model)) return "openai";
+  if (/^(gpt|o1|o3|o4|chatgpt)/.test(model)) return "openai";
   if (/^gemini/.test(model)) return "google";
   return "anthropic";
 }

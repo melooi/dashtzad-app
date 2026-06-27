@@ -18,7 +18,7 @@ import { saveAiSettingsAction } from "@/app/admin/chat/settings/ai-actions";
 
 // ─── Model definitions ────────────────────────────────────────────────────────
 
-type ModelBadge = "دقیق‌ترین" | "متعادل" | "سریع" | "اقتصادی" | "استدلال";
+type ModelBadge = "دقیق‌ترین" | "متعادل" | "سریع" | "اقتصادی" | "استدلال" | "صوتی" | "چت طبیعی";
 type ProviderKey = "anthropic" | "openai" | "google";
 
 type ModelDef = {
@@ -34,11 +34,18 @@ const MODEL_DEFS: ModelDef[] = [
   { value: "claude-opus-4-8", name: "Claude Opus 4.8", description: "بهترین کیفیت برای وظایف پیچیده", badge: "دقیق‌ترین", provider: "anthropic" },
   { value: "claude-sonnet-4-6", name: "Claude Sonnet 4.6", description: "تعادل بین کیفیت و سرعت", badge: "متعادل", provider: "anthropic" },
   { value: "claude-haiku-4-5-20251001", name: "Claude Haiku 4.5", description: "پاسخ‌های فوری، ایده‌آل برای حجم بالا", badge: "سریع", provider: "anthropic" },
-  // OpenAI
+  // OpenAI — GPT-5.5 (flagship)
+  { value: "gpt-5.5", name: "GPT-5.5", description: "پرچمدار؛ بهترین کیفیت روی Responses API", badge: "دقیق‌ترین", provider: "openai" },
+  // OpenAI — GPT-5 family
+  { value: "gpt-5.2", name: "GPT-5.2", description: "حرفه‌ای‌ترین؛ فروش، شکایت، مسائل پیچیده", badge: "دقیق‌ترین", provider: "openai" },
+  { value: "gpt-5-mini", name: "GPT-5 mini", description: "سریع و متعادل برای چت روزمره", badge: "متعادل", provider: "openai" },
+  { value: "gpt-5-nano", name: "GPT-5 nano", description: "خیلی ارزان برای FAQ و پیام‌های ساده", badge: "اقتصادی", provider: "openai" },
+  { value: "gpt-5.2-chat-latest", name: "GPT-5.2 Chat Latest", description: "گفت‌وگوی روان و طبیعی‌تر", badge: "چت طبیعی", provider: "openai" },
+  { value: "gpt-4o-realtime-preview", name: "GPT Realtime", description: "مکالمه صوتی real-time", badge: "صوتی", provider: "openai" },
+  { value: "gpt-4o-mini-realtime-preview", name: "GPT Realtime Mini", description: "صوتی اقتصادی برای تعامل ساده", badge: "صوتی", provider: "openai" },
+  // OpenAI — legacy
   { value: "gpt-4o", name: "GPT-4o", description: "قدرتمند و چندوجهی (تصویر + متن)", badge: "دقیق‌ترین", provider: "openai" },
   { value: "gpt-4o-mini", name: "GPT-4o mini", description: "سریع و مقرون‌به‌صرفه", badge: "اقتصادی", provider: "openai" },
-  { value: "o3", name: "o3", description: "استدلال عمیق برای مسائل پیچیده", badge: "استدلال", provider: "openai" },
-  { value: "o4-mini", name: "o4-mini", description: "استدلال سریع با هزینه‌ی پایین", badge: "استدلال", provider: "openai" },
   // Google
   { value: "gemini-2.5-pro", name: "Gemini 2.5 Pro", description: "پیشرفته‌ترین مدل گوگل", badge: "دقیق‌ترین", provider: "google" },
   { value: "gemini-2.5-flash", name: "Gemini 2.5 Flash", description: "سریع با کیفیت بالا", badge: "سریع", provider: "google" },
@@ -51,6 +58,8 @@ const BADGE_COLORS: Record<ModelBadge, string> = {
   "سریع": "bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300",
   "اقتصادی": "bg-amber-100 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300",
   "استدلال": "bg-orange-100 text-orange-700 dark:bg-orange-400/15 dark:text-orange-300",
+  "صوتی": "bg-rose-100 text-rose-700 dark:bg-rose-400/15 dark:text-rose-300",
+  "چت طبیعی": "bg-teal-100 text-teal-700 dark:bg-teal-400/15 dark:text-teal-300",
 };
 
 // ─── Provider definitions ─────────────────────────────────────────────────────
@@ -100,7 +109,16 @@ const AI_FIELDS = [
   "aiChatbotEnabled", "aiChatbotPersona", "aiChatbotWelcome",
   "aiHandoffEnabled", "aiUnavailableMessage", "aiRateLimitPerMinute",
   "aiToolsProduct", "aiToolsOrder", "aiToolsKnowledge", "aiToolsCustomer", "aiToolsSupport",
+  "aiChatModel", "aiLiteModel", "aiAnalystModel", "aiVoiceModel",
 ] as const;
+
+// GPT-5.5 / GPT-5 models for chatbot multi-model selector
+const GPT5_CHAT_MODELS = MODEL_DEFS.filter((m) =>
+  ["gpt-5.5", "gpt-5.2", "gpt-5-mini", "gpt-5-nano", "gpt-5.2-chat-latest"].includes(m.value)
+);
+const GPT5_VOICE_MODELS = MODEL_DEFS.filter((m) =>
+  ["gpt-4o-realtime-preview", "gpt-4o-mini-realtime-preview"].includes(m.value)
+);
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
@@ -435,6 +453,75 @@ export function AiSettingsPanel({ initialData, connectedProviders }: Props) {
                 checked={!!data.aiChatbotEnabled}
                 onChange={(v) => setField("aiChatbotEnabled", v)}
               />
+            </div>
+
+            {/* Multi-model config */}
+            <div className="rounded-xl border border-dz-a-primary-100 bg-dz-a-primary-50/40 p-4 dark:border-dz-a-night-border dark:bg-dz-a-night-elevated">
+              <div className="mb-3 text-sm font-semibold text-dz-a-primary-800 dark:text-dz-a-night-fg">
+                انتخاب مدل برای هر نقش
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {/* default chat model */}
+                <div>
+                  <label className="mb-1 block text-xs font-medium text-dz-a-primary-600 dark:text-dz-a-night-muted">
+                    مدل پیش‌فرض چت مشتری
+                  </label>
+                  <select
+                    value={(data.aiChatModel as string) ?? "gpt-5-mini"}
+                    onChange={(e) => setField("aiChatModel", e.target.value)}
+                    className="w-full rounded-lg border border-dz-a-primary-200 bg-white px-3 py-2 text-sm dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-fg"
+                  >
+                    {GPT5_CHAT_MODELS.map((m) => (
+                      <option key={m.value} value={m.value}>{m.name} — {m.description}</option>
+                    ))}
+                  </select>
+                </div>
+                {/* lite/economy model */}
+                <div>
+                  <label className="mb-1 block text-xs font-medium text-dz-a-primary-600 dark:text-dz-a-night-muted">
+                    مدل FAQ و پیام‌های ساده
+                  </label>
+                  <select
+                    value={(data.aiLiteModel as string) ?? "gpt-5-nano"}
+                    onChange={(e) => setField("aiLiteModel", e.target.value)}
+                    className="w-full rounded-lg border border-dz-a-primary-200 bg-white px-3 py-2 text-sm dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-fg"
+                  >
+                    {GPT5_CHAT_MODELS.map((m) => (
+                      <option key={m.value} value={m.value}>{m.name} — {m.description}</option>
+                    ))}
+                  </select>
+                </div>
+                {/* analyst model */}
+                <div>
+                  <label className="mb-1 block text-xs font-medium text-dz-a-primary-600 dark:text-dz-a-night-muted">
+                    مدل تحلیل ادمین / خلاصه گفتگو
+                  </label>
+                  <select
+                    value={(data.aiAnalystModel as string) ?? "gpt-5.2"}
+                    onChange={(e) => setField("aiAnalystModel", e.target.value)}
+                    className="w-full rounded-lg border border-dz-a-primary-200 bg-white px-3 py-2 text-sm dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-fg"
+                  >
+                    {GPT5_CHAT_MODELS.map((m) => (
+                      <option key={m.value} value={m.value}>{m.name} — {m.description}</option>
+                    ))}
+                  </select>
+                </div>
+                {/* voice model */}
+                <div>
+                  <label className="mb-1 block text-xs font-medium text-dz-a-primary-600 dark:text-dz-a-night-muted">
+                    مدل صوتی (آینده)
+                  </label>
+                  <select
+                    value={(data.aiVoiceModel as string) ?? "gpt-4o-mini-realtime-preview"}
+                    onChange={(e) => setField("aiVoiceModel", e.target.value)}
+                    className="w-full rounded-lg border border-dz-a-primary-200 bg-white px-3 py-2 text-sm dark:border-dz-a-night-border dark:bg-dz-a-night-card dark:text-dz-a-night-fg"
+                  >
+                    {GPT5_VOICE_MODELS.map((m) => (
+                      <option key={m.value} value={m.value}>{m.name} — {m.description}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </div>
 
             {/* Persona */}
